@@ -11,6 +11,8 @@ namespace BuildABot
     {
         [Tooltip("The temperature of the character, equivalent to health.")]
         [SerializeField] private FloatAttributeData temperature;
+        [Tooltip("The temperature that results in the death of the character.")]
+        [SerializeField] private FloatAttributeData maxTemperature;
         [Tooltip("A modifier attribute used in calculating changes to the character's temperature.")]
         [SerializeField] private FloatAttributeData coolingFactor;
         
@@ -18,6 +20,8 @@ namespace BuildABot
         [SerializeField] private FloatAttributeData movementSpeed;
         [Tooltip("The height that the character can jump.")]
         [SerializeField] private FloatAttributeData jumpHeight;
+        [Tooltip("The number of times that a character can jump before having to land.")]
+        [SerializeField] private IntAttributeData maxJumpCount;
         
         [Tooltip("The amount of power behind the character's light attacks.")]
         [SerializeField] private FloatAttributeData lightAttackPower;
@@ -31,6 +35,8 @@ namespace BuildABot
 
         /** The temperature of the character, equivalent to health. */
         public FloatAttributeData Temperature => temperature;
+        /** The temperature that results in the death of the character. */
+        public FloatAttributeData MaxTemperature => maxTemperature;
         /** A modifier attribute used in calculating changes to the character's temperature. */
         public FloatAttributeData CoolingFactor => coolingFactor;
 
@@ -38,6 +44,8 @@ namespace BuildABot
         public FloatAttributeData MovementSpeed => movementSpeed;
         /** The height that the character can jump. */
         public FloatAttributeData JumpHeight => jumpHeight;
+        /** The height that the character can jump. */
+        public IntAttributeData MaxJumpCount => maxJumpCount;
 
         /** The amount of power behind the character's light attacks. */
         public FloatAttributeData LightAttackPower => lightAttackPower;
