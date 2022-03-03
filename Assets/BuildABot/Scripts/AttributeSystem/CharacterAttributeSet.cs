@@ -13,8 +13,13 @@ namespace BuildABot
         [SerializeField] private FloatAttributeData temperature;
         [Tooltip("The temperature that results in the death of the character.")]
         [SerializeField] private FloatAttributeData maxTemperature;
-        [Tooltip("A modifier attribute used in calculating changes to the character's temperature.")]
+        [Tooltip("the rate that the character's temperature changes per second. This can be negative to heat up over time.")]
+        [SerializeField] private FloatAttributeData coolDownRate;
+        
+        [Tooltip("A modifier attribute used in calculating changes to the character's temperature from damage.")]
         [SerializeField] private FloatAttributeData coolingFactor;
+        [Tooltip("The multiplier applied to all incoming reductions to an item's durability.")]
+        [SerializeField] private FloatAttributeData durabilityDegradationRate;
         
         [Tooltip("The character's movement speed.")]
         [SerializeField] private FloatAttributeData movementSpeed;
@@ -37,8 +42,14 @@ namespace BuildABot
         public FloatAttributeData Temperature => temperature;
         /** The temperature that results in the death of the character. */
         public FloatAttributeData MaxTemperature => maxTemperature;
+        /** The amount that the character's temperature changes per second. */
+        public FloatAttributeData CoolDownRate => coolDownRate;
+        
         /** A modifier attribute used in calculating changes to the character's temperature. */
         public FloatAttributeData CoolingFactor => coolingFactor;
+        /** The multiplier applied to all incoming reductions to an item's durability. */
+        public FloatAttributeData DurabilityDegradationRate => durabilityDegradationRate;
+
 
         /** The character's movement speed. */
         public FloatAttributeData MovementSpeed => movementSpeed;
