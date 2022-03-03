@@ -15,11 +15,12 @@ namespace BuildABot
     [Serializable]
     public abstract class AttributeSet
     {
-        /** The names of the attributes in this set.*/
-        private List<string> _attributeNames = new List<string>();
+
+        /** A runtime map of all attribute names to their references in this set. */
+        private Dictionary<string, AttributeDataBase> _attributes = new Dictionary<string, AttributeDataBase>();
 
         /** The names of the attributes held by this set. */
-        public ReadOnlyCollection<string> AttributeNames => _attributeNames.AsReadOnly();
+        public IReadOnlyCollection<string> AttributeNames => _attributes.Keys;
 
         /**
          * Initializes a new AttributeSet object.
@@ -30,23 +31,34 @@ namespace BuildABot
             FieldInfo[] fields = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             
             // Check each field
-            for (int i = 0; i < fields.Length; i++)
+            foreach (FieldInfo field in fields)
             {
                 // Bind the change events to the field if it is attribute data
-                switch (fields[i].GetValue(this))
+                switch (field.GetValue(this))
                 {
                     case AttributeData<float> attribute:
                         BindAttributeChangeEvents(attribute);
-                        _attributeNames.Add(fields[i].Name);
+                        _attributes.Add(field.Name, attribute);
                         break;
                     case AttributeData<int> attribute:
                         BindAttributeChangeEvents(attribute);
-                        _attributeNames.Add(fields[i].Name);
+                        _attributes.Add(field.Name, attribute);
                         break;
                     default:
-                        Debug.LogWarningFormat("AttributeSet types should not contain fields that are not derived from AttributeData<T>: {0}", fields[i].Name);
+                        Debug.LogWarningFormat("AttributeSet types should not contain fields that are not derived from AttributeData<T>: {0}", field.Name);
                         break;
                 }
+            }
+        }
+
+        /**
+         * Initializes this attribute set and its attributes for runtime.
+         */
+        public void Initialize()
+        {
+            foreach (var entry in _attributes)
+            {
+                entry.Value.Initialize();
             }
         }
 
@@ -59,11 +71,8 @@ namespace BuildABot
          */
         public AttributeData<T> GetAttributeData<T>(string name)
         {
-            FieldInfo found = GetType().GetField(name);
-            if (null != found)
-            {
-                return found.GetValue(this) as AttributeData<T>;
-            }
+            bool found = _attributes.TryGetValue(name, out AttributeDataBase attribute);
+            if (found) return attribute as AttributeData<T>;
 
             return null;
         }

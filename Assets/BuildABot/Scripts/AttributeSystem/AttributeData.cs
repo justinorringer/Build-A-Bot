@@ -6,11 +6,32 @@ namespace BuildABot
 {
 
     /**
-     * The base container type used to hold attribute data.
+     * The base class used by all attributes with no contained data. This exists to facilitate storage
+     * of attributes in generic lists and to provide a base implementation and interface for non-datatype-specific
+     * behaviors.
+     */
+    [Serializable]
+    public abstract class AttributeDataBase
+    {
+        
+        /** The data type stored by this attribute. */
+        public abstract Type DataType { get; }
+
+        /**
+         * Initializes this attribute for runtime.
+         */
+        public virtual void Initialize()
+        {
+            
+        }
+    }
+
+    /**
+     * The type specific container used to hold attribute data.
      * <typeparam name="T">The type of dat stored in this attribute.</typeparam>
      */
     [Serializable]
-    public abstract class AttributeData<T>
+    public abstract class AttributeData<T> : AttributeDataBase
     {
         [SerializeField] private T defaultValue;
 
@@ -26,6 +47,8 @@ namespace BuildABot
         [SerializeField] private UnityEvent<T> onPreValueChange;
         [Tooltip("An event triggered after modifying the current value of this attribute. Provides the new current value.")]
         [SerializeField] private UnityEvent<T> onPostValueChange;
+
+        public override Type DataType => typeof(T);
 
         /** The default value assigned to this attribute. */
         public T DefaultValue => defaultValue;
@@ -60,6 +83,16 @@ namespace BuildABot
         protected AttributeData(T defaultValue)
         {
             this.defaultValue = defaultValue;
+        }
+
+        /**
+         * Initializes this attribute for runtime.
+         */
+        public override void Initialize()
+        {
+            base.Initialize();
+            _baseValue = defaultValue;
+            _currentValue = defaultValue;
         }
 
         /**
@@ -111,7 +144,7 @@ namespace BuildABot
      * An attribute that uses a float value.
      */
     [Serializable]
-    public class FloatAttributeData : AttributeData<float>
+    public sealed class FloatAttributeData : AttributeData<float>
     {
         /**
          * Constructs a new FloatAttributeData with a default value of 0.
@@ -134,7 +167,7 @@ namespace BuildABot
      * An attribute that uses an integer value.
      */
     [Serializable]
-    public class IntAttributeData : AttributeData<int>
+    public sealed class IntAttributeData : AttributeData<int>
     {
         /**
          * Constructs a new IntAttributeData with a default value of 0.
