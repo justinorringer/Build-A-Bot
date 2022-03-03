@@ -13,13 +13,10 @@ namespace BuildABot
         // Magnitude of force applied to character when double jumping
         [SerializeField] private float doubleJumpForce = 12;
 
-        // THis object's rigidbody
+        // This object's rigidbody
         private Rigidbody2D _rigidbody;
 
-        // Whether the player has pressed space to activate a jump (used for telling physics calculations in FixedUpdate about inputs read in Update)
-        private bool _jumping = false;
-
-        //
+        // Number of double jumps the player can do
         private int _maxJumps = 2;
         // Whether the player has already spent their double jump
         private int _numJumps;
@@ -41,56 +38,49 @@ namespace BuildABot
             _yDist = GetComponent<Collider2D>().bounds.extents.y;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-            // If A or left arrow is pressed, move left
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            {
-                transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
-            }
-            // If D or right arrow is pressed, move right
-            else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
-                transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
-            }
-
-            // If space is pressed, FixedUpdate will determine if they are allowed to jump on this frame
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                _jumping = true;
-            }
-        }
-
-        private void FixedUpdate()
-        {
-            // If jump input was read in Update, determine if a jump is permitted
-            if (_jumping)
-            {
-                // If the player is on the ground, a jump is permitted
-                if (_isGrounded)
-                {
-                    _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                }
-                else if (_doubleJumpEnabled && _numJumps > 0)
-                {
-                    _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
-                    _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                    _numJumps--;
-                }
-
-                _jumping = false;
-            }
-        }
-
         void OnCollisionEnter2D(Collision2D collision)
         {
             checkGrounded();
         }
 
-        private void OnCollisionExit2D(Collision2D collision)
+        void OnCollisionExit2D(Collision2D collision)
         {
             checkGrounded();
+        }
+
+        public void moveLeft()
+        {
+            transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
+        }
+
+        public void moveRight()
+        {
+            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+        }
+
+        public void moveUp()
+        {
+            transform.Translate(Vector2.up * moveSpeed * Time.deltaTime);
+        }
+        
+        public void moveDown()
+        {
+            transform.Translate(Vector2.down * moveSpeed * Time.deltaTime);
+        }
+
+        public void startJump()
+        {
+            // If the player is on the ground, a jump is permitted
+            if (_isGrounded)
+            {
+                _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            }
+            else if (_doubleJumpEnabled && _numJumps > 0)
+            {
+                _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
+                _rigidbody.AddForce(Vector2.up * doubleJumpForce, ForceMode2D.Impulse);
+                _numJumps--;
+            }
         }
 
         private void checkGrounded()
