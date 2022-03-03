@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using UnityEngine;
 
@@ -13,6 +15,11 @@ namespace BuildABot
     [Serializable]
     public abstract class AttributeSet
     {
+        /** The names of the attributes in this set.*/
+        private List<string> _attributeNames = new List<string>();
+
+        /** The names of the attributes held by this set. */
+        public ReadOnlyCollection<string> AttributeNames => _attributeNames.AsReadOnly();
 
         /**
          * Initializes a new AttributeSet object.
@@ -30,15 +37,35 @@ namespace BuildABot
                 {
                     case AttributeData<float> attribute:
                         BindAttributeChangeEvents(attribute);
+                        _attributeNames.Add(fields[i].Name);
                         break;
                     case AttributeData<int> attribute:
                         BindAttributeChangeEvents(attribute);
+                        _attributeNames.Add(fields[i].Name);
                         break;
                     default:
                         Debug.LogWarningFormat("AttributeSet types should not contain fields that are not derived from AttributeData<T>: {0}", fields[i].Name);
                         break;
                 }
             }
+        }
+
+        /**
+         * Gets the attribute data associated with the provided name and data type. If an attribute with the
+         * provided name is not found or the type is invalid null will be returned.
+         * <typeparam name="T">The expected type of data stored in the attribute, generally float or int.</typeparam>
+         * <param name="name">The name of the attribute to get.</param>
+         * <returns>The attribute data if found, otherwise null.</returns>
+         */
+        public AttributeData<T> GetAttributeData<T>(string name)
+        {
+            FieldInfo found = GetType().GetField(name);
+            if (null != found)
+            {
+                return found.GetValue(this) as AttributeData<T>;
+            }
+
+            return null;
         }
 
         /**
