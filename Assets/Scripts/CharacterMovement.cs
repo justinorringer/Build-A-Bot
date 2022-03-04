@@ -34,7 +34,7 @@ namespace BuildABot
         public bool IsGrounded => _isGrounded;
 
         // Start is called before the first frame update
-        void Start()
+        public void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _yDist = GetComponent<Collider2D>().bounds.extents.y + 0.1f;
