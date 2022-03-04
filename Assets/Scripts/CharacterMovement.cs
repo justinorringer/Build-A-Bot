@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BuildABot
 {
-    public class CharacterController : MonoBehaviour
+    public class CharacterMovement : MonoBehaviour
     {
         // Speed at which the character moves
         [SerializeField] private float moveSpeed = 5;
@@ -15,6 +15,8 @@ namespace BuildABot
 
         // This object's rigidbody
         private Rigidbody2D _rigidbody;
+
+        private bool _jumping = false;
 
         // Number of double jumps the player can do
         private int _maxJumps = 2;
@@ -48,27 +50,27 @@ namespace BuildABot
             checkGrounded();
         }
 
-        public void moveLeft()
+        public void MoveLeft()
         {
             transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
         }
 
-        public void moveRight()
+        public void MoveRight()
         {
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
 
-        public void moveUp()
+        public void MoveUp()
         {
             transform.Translate(Vector2.up * moveSpeed * Time.deltaTime);
         }
         
-        public void moveDown()
+        public void MoveDown()
         {
             transform.Translate(Vector2.down * moveSpeed * Time.deltaTime);
         }
 
-        public void startJump()
+        public void StartJump()
         {
             // If the player is on the ground, a jump is permitted
             if (_isGrounded)
@@ -81,11 +83,13 @@ namespace BuildABot
                 _rigidbody.AddForce(Vector2.up * doubleJumpForce, ForceMode2D.Impulse);
                 _numJumps--;
             }
+            //_jumping = true;
         }
 
-        private void checkGrounded()
+        void checkGrounded()
         {
             _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, _yDist + 0.1f);
+
             if (_isGrounded)
             {
                 _numJumps = _maxJumps;

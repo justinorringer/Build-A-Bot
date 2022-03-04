@@ -243,9 +243,9 @@ GameObject:
   - component: {fileID: 879139632}
   - component: {fileID: 879139631}
   - component: {fileID: 879139630}
-  - component: {fileID: 879139628}
   - component: {fileID: 879139629}
   - component: {fileID: 879139633}
+  - component: {fileID: 879139628}
   m_Layer: 2
   m_Name: Bipy
   m_TagString: Untagged
@@ -262,7 +262,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 879139627}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e78555c4b88d0924296c1c7eda42a51d, type: 3}
+  m_Script: {fileID: 11500000, guid: eab9da2ab2731b64cb86a1b0aa677da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
