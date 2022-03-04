@@ -37,7 +37,7 @@ namespace BuildABot
         void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _yDist = GetComponent<Collider2D>().bounds.extents.y;
+            _yDist = GetComponent<Collider2D>().bounds.extents.y + 0.1f;
         }
 
         void OnCollisionEnter2D(Collision2D collision)
@@ -88,7 +88,7 @@ namespace BuildABot
 
         void checkGrounded()
         {
-            _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, _yDist + 0.1f);
+            _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, _yDist);
 
             if (_isGrounded)
             {
