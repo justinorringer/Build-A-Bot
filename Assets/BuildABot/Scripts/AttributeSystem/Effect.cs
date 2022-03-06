@@ -20,7 +20,7 @@ namespace BuildABot
     /**
      * An effect that can be applied to an attribute set to modify its attribute values.
      */
-    [CreateAssetMenu(fileName = "NewEffect", menuName = "Build-A-Bot/Effect", order = 0)]
+    [CreateAssetMenu(fileName = "NewEffect", menuName = "Build-A-Bot/Effect", order = 3)]
     public class Effect : ScriptableObject
     {
         [Tooltip("The name of this effect displayed in game.")]
