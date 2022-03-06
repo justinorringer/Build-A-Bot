@@ -7,9 +7,9 @@ namespace BuildABot
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerMovement : CharacterMovement
     {
-        
+
         // Start is called before the first frame update
-        new public void Start()
+        protected override void Start()
         {
             base.Start();
         }
