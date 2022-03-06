@@ -146,8 +146,9 @@ namespace BuildABot
         /**
          * Applies the given effect to this AttributeSet.
          * <param name="effect">The effect to apply.</param>
+         * <param name="context">The context used for duration based effect removal.</param>
          */
-        public void ApplyEffect(Effect effect)
+        public void ApplyEffect(Effect effect, MonoBehaviour context)
         {
             Dictionary<AttributeData<float>, float> floatCurrentSnapshot = new Dictionary<AttributeData<float>, float>();
             Dictionary<AttributeData<int>, int> intCurrentSnapshot = new Dictionary<AttributeData<int>, int>();
@@ -161,8 +162,7 @@ namespace BuildABot
             if (effect.DurationMode == EEffectDurationMode.ForDuration)
             {
                 _activeEffects.Add(effect);
-                // TODO: Get context for removal timer
-                //Utility.DelayedFunction(null, effect.Duration, () => RemoveEffect(effect));
+                Utility.DelayedFunction(context, effect.Duration, () => RemoveEffect(effect));
             }
             
             foreach (var entry in this._attributes)
