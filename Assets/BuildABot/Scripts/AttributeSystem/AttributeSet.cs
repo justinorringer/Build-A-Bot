@@ -138,7 +138,7 @@ namespace BuildABot
          * A callback used to remove a duration based effect after its time has elapsed.
          * <param name="effect">The effect to remove.</param>
          */
-        private void RemoveEffect(Effect effect)
+        public void RemoveEffect(Effect effect)
         {
             _activeEffects.Remove(effect);
         }
