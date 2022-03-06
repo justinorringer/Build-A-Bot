@@ -28,6 +28,9 @@ namespace BuildABot
         [Tooltip("The number of times that a character can jump before having to land.")]
         [SerializeField] private IntAttributeData maxJumpCount;
         
+        [Tooltip("The current knock-back value.")]
+        [SerializeField] private FloatAttributeData knockback;
+
         [Tooltip("The amount of power behind the character's light attacks.")]
         [SerializeField] private FloatAttributeData lightAttackPower;
         [Tooltip("The amount of power behind the character's medium attacks.")]
@@ -57,6 +60,8 @@ namespace BuildABot
         public FloatAttributeData JumpHeight => jumpHeight;
         /** The height that the character can jump. */
         public IntAttributeData MaxJumpCount => maxJumpCount;
+
+        public FloatAttributeData Knockback => knockback;
 
         /** The amount of power behind the character's light attacks. */
         public FloatAttributeData LightAttackPower => lightAttackPower;

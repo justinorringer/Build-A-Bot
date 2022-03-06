@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Reflection;
 using UnityEngine;
 
@@ -15,6 +14,8 @@ namespace BuildABot
     [Serializable]
     public abstract class AttributeSet
     {
+
+        private HashSet<Effect> _activeEffects = new HashSet<Effect>();
 
         /** A runtime map of all attribute names to their references in this set. */
         private Dictionary<string, AttributeDataBase> _attributes = new Dictionary<string, AttributeDataBase>();
@@ -34,19 +35,21 @@ namespace BuildABot
             foreach (FieldInfo field in fields)
             {
                 // Bind the change events to the field if it is attribute data
-                switch (field.GetValue(this))
+                if (field.FieldType == typeof(FloatAttributeData))
                 {
-                    case AttributeData<float> attribute:
-                        BindAttributeChangeEvents(attribute);
-                        _attributes.Add(field.Name, attribute);
-                        break;
-                    case AttributeData<int> attribute:
-                        BindAttributeChangeEvents(attribute);
-                        _attributes.Add(field.Name, attribute);
-                        break;
-                    default:
-                        Debug.LogWarningFormat("AttributeSet types should not contain fields that are not derived from AttributeData<T>: {0}", field.Name);
-                        break;
+                    FloatAttributeData attribute = field.GetValue(this) as FloatAttributeData;
+                    BindAttributeChangeEvents(attribute);
+                    _attributes.Add(field.Name, attribute);
+                }
+                else if (field.FieldType == typeof(IntAttributeData))
+                {
+                    IntAttributeData attribute = field.GetValue(this) as IntAttributeData;
+                    BindAttributeChangeEvents(attribute);
+                    _attributes.Add(field.Name, attribute);
+                }
+                else
+                {
+                    Debug.LogWarningFormat("AttributeSet types should not contain fields that are not derived from AttributeData<T>: {0}", field.Name);
                 }
             }
         }
@@ -58,7 +61,7 @@ namespace BuildABot
         {
             foreach (var entry in _attributes)
             {
-                entry.Value.Initialize();
+                entry.Value.Initialize(this);
             }
         }
 
@@ -129,6 +132,64 @@ namespace BuildABot
         protected virtual void PostAttributeBaseChange<T>(AttributeData<T> attribute, T newValue)
         {
             
+        }
+
+        /**
+         * A callback used to remove a duration based effect after its time has elapsed.
+         * <param name="effect">The effect to remove.</param>
+         */
+        private void RemoveEffect(Effect effect)
+        {
+            _activeEffects.Remove(effect);
+        }
+
+        /**
+         * Applies the given effect to this AttributeSet.
+         * <param name="effect">The effect to apply.</param>
+         */
+        public void ApplyEffect(Effect effect)
+        {
+            Dictionary<AttributeData<float>, float> floatCurrentSnapshot = new Dictionary<AttributeData<float>, float>();
+            Dictionary<AttributeData<int>, int> intCurrentSnapshot = new Dictionary<AttributeData<int>, int>();
+            
+            foreach (var entry in this._attributes)
+            {
+                if (entry.Value is AttributeData<float> floatAttribute) floatCurrentSnapshot.Add(floatAttribute, floatAttribute.CurrentValue);
+                else if (entry.Value is AttributeData<int> intAttribute) intCurrentSnapshot.Add(intAttribute, intAttribute.CurrentValue);
+            }
+
+            if (effect.DurationMode == EEffectDurationMode.ForDuration)
+            {
+                _activeEffects.Add(effect);
+                // TODO: Get context for removal timer
+                //Utility.DelayedFunction(null, effect.Duration, () => RemoveEffect(effect));
+            }
+            
+            foreach (var entry in this._attributes)
+            {
+                if (entry.Value is AttributeData<float> floatAttribute) CalculateModifierStack(floatAttribute, effect, floatCurrentSnapshot);
+                else if (entry.Value is AttributeData<int> intAttribute) CalculateModifierStack(intAttribute, effect, intCurrentSnapshot);
+            }
+        }
+
+        /**
+         * Calculates and applies the modifier stack to the provided attribute from the given effect.
+         * <param name="attribute">The attribute to modify.</param>
+         * <param name="effect">The effect to gather the modifiers from.</param>
+         * <param name="snapshot">The snapshot of all current values in this set before applying this stack.</param>
+         */
+        private void CalculateModifierStack<T>(AttributeData<T> attribute, Effect effect, Dictionary<AttributeData<T>, T> snapshot)
+        {
+            List<AttributeModifier<T>> mods = new List<AttributeModifier<T>>();
+            foreach (AttributeModifierBase mod in effect.Modifiers)
+            {
+                // Gather the mods that apply to the current attribute
+                if (mod is AttributeModifier<T> typedMod && typedMod.Attribute.GetSelectedAttribute(this) == attribute)
+                {
+                    mods.Add(typedMod);
+                }
+            }
+            attribute.ApplyModifiers(mods, effect.DurationMode == EEffectDurationMode.Instant, snapshot);
         }
     }
 }
