@@ -14,55 +14,107 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Test Effect
   description: An Effect used for testing purposes.
+  durationMode: 0
+  duration: 0
   target:
-    value: 
+    value: BuildABot.CharacterAttributeSet, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   modifiers:
   - id: 0
   - id: 1
-  modTest:
-    durationType: 0
-    operationType: 0
-    duration: 0
-    attributeSet:
-      value: 
-    valueProvider:
-      id: 2
-    attribute:
-      attributeIndex: 0
-      options:
-      - '-'
-      valid: 0
+  - id: 2
   references:
     version: 1
     00000000:
       type: {class: FloatAttributeModifier, ns: BuildABot, asm: Assembly-CSharp}
       data:
-        durationType: 0
-        operationType: 0
-        duration: 0
+        operationType: 1
+        valueProviderType: 1
         attributeSet:
-          value: 
+          value: BuildABot.CharacterAttributeSet, Assembly-CSharp, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
         valueProvider:
-          id: 2
-        attribute:
-          attributeIndex: 0
+          id: 3
+        targetAttribute:
+          value: coolDownRate
           options:
-          - '-'
-          valid: 0
+          - coolDownRate
+          - coolingFactor
+          - durabilityDegradationRate
+          - heavyAttackPower
+          - jumpHeight
+          - knockback
+          - lightAttackPower
+          - maxTemperature
+          - mediumAttackPower
+          - movementSpeed
+          - temperature
+          valid: 1
     00000001:
+      type: {class: IntAttributeModifier, ns: BuildABot, asm: Assembly-CSharp}
+      data:
+        operationType: 0
+        valueProviderType: 0
+        attributeSet:
+          value: BuildABot.CharacterAttributeSet, Assembly-CSharp, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        valueProvider:
+          id: 4
+        targetAttribute:
+          value: 
+          options:
+          - inventorySpace
+          - maxJumpCount
+          valid: 1
+    00000002:
       type: {class: FloatAttributeModifier, ns: BuildABot, asm: Assembly-CSharp}
       data:
-        durationType: 1
         operationType: 0
-        duration: 0
+        valueProviderType: 0
         attributeSet:
-          value: 
+          value: BuildABot.CharacterAttributeSet, Assembly-CSharp, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
         valueProvider:
-          id: 2
-        attribute:
-          attributeIndex: 0
+          id: 5
+        targetAttribute:
+          value: 
           options:
-          - '-'
-          valid: 0
-    00000002:
-      type: {class: , ns: , asm: }
+          - coolDownRate
+          - coolingFactor
+          - durabilityDegradationRate
+          - heavyAttackPower
+          - jumpHeight
+          - knockback
+          - lightAttackPower
+          - maxTemperature
+          - mediumAttackPower
+          - movementSpeed
+          - temperature
+          valid: 1
+    00000003:
+      type: {class: FloatAttributeModifierAttributeValueProvider, ns: BuildABot, asm: Assembly-CSharp}
+      data:
+        shouldSnapshot: 1
+        attribute:
+          value: coolingFactor
+          options:
+          - coolDownRate
+          - coolingFactor
+          - durabilityDegradationRate
+          - heavyAttackPower
+          - jumpHeight
+          - knockback
+          - lightAttackPower
+          - maxTemperature
+          - mediumAttackPower
+          - movementSpeed
+          - temperature
+          valid: 1
+    00000004:
+      type: {class: IntAttributeModifierConstantValueProvider, ns: BuildABot, asm: Assembly-CSharp}
+      data:
+        value: 1
+    00000005:
+      type: {class: FloatAttributeModifierConstantValueProvider, ns: BuildABot, asm: Assembly-CSharp}
+      data:
+        value: -0.5

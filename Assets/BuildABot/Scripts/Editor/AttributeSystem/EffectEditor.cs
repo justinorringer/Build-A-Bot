@@ -52,20 +52,22 @@ namespace BuildABot
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-
             EditorGUILayout.PropertyField(serializedObject.FindProperty("displayName"), true);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("description"), true);
-
             serializedObject.ApplyModifiedProperties();
             
             serializedObject.Update();
-            
             SerializedProperty durationModeProperty = serializedObject.FindProperty("durationMode");
 
             EditorGUILayout.PropertyField(durationModeProperty, true);
             if (IsShowingDuration(durationModeProperty)) 
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("duration"), true);
+            serializedObject.ApplyModifiedProperties();
             
+            EditorGUILayout.Space();
+            
+            serializedObject.Update();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("stackingMode"), true);
             serializedObject.ApplyModifiedProperties();
             
             EditorGUILayout.Space();
@@ -92,9 +94,7 @@ namespace BuildABot
             EditorGUILayout.Space();
             
             serializedObject.Update();
-            
             _list.DoLayoutList();
-
             serializedObject.ApplyModifiedProperties();
         }
 
