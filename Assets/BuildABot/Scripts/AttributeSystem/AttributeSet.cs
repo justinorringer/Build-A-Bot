@@ -293,11 +293,56 @@ namespace BuildABot
                     appliedEffects = new List<AppliedEffect>();
                     _appliedEffects.Add(effect, appliedEffects);
                 }
+                
                 // Add the effect data for this call to ApplyEffect
-                appliedEffects.Add(appliedEffect);
+                // How this data is added will depend on the stacking behavior
+                
+                // Handle stacking behaviors
+                switch (effect.StackingMode)
+                {
+                    case EEffectStackingMode.Combine:
+                        // Stack the effects
+                        appliedEffects.Add(appliedEffect);
+                        break;
+                    case EEffectStackingMode.Replace:
+                        // Clear the list of instances and add the new effect
+                        appliedEffects.Clear();
+                        appliedEffects.Add(appliedEffect);
+                        break;
+                    case EEffectStackingMode.Reset:
+                        // Reset the timer on the oldest instance of the effect if one exists, otherwise add
+                        if (appliedEffects.Count == 0) appliedEffects.Add(appliedEffect);
+                        else
+                        {
+                            AppliedEffect oldest = appliedEffects[0];
+                            if (oldest.Effect.DurationMode == EEffectDurationMode.ForDuration)
+                            {
+                                // Reset the timer if the old effect is ForDuration
+                                oldest.TimerContext.StopCoroutine(oldest.Timer);
+                                oldest.Timer = Utility.DelayedFunction(oldest.TimerContext, oldest.Effect.Duration,
+                                    () => RemoveEffect(oldest.Effect));
+                            }
+                        }
+                        break;
+                    case EEffectStackingMode.KeepOriginal:
+                        // Only add the new effect if no other instances exist for the same effect
+                        if (appliedEffects.Count == 0) appliedEffects.Add(appliedEffect);
+                        break;
+                    case EEffectStackingMode.KeepHighestMagnitude:
+                        // Select the effect instance with the highest magnitude
+                        // If equal in magnitude, the newest is chosen
+                        if (appliedEffects.Count == 0) appliedEffects.Add(appliedEffect);
+                        else
+                        {
+                            if (appliedEffects[0].AppliedMagnitude <= magnitude)
+                            {
+                                appliedEffects.Clear();
+                                appliedEffects.Add(appliedEffect);
+                            }
+                        }
+                        break;
+                }
             }
-            
-            // TODO: Handle stacking behaviors
             
             // Calculate the full modifier stack for each attribute
             foreach (var entry in _attributes)
