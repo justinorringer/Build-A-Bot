@@ -69,8 +69,15 @@ namespace BuildABot
          */
         protected AttributeSet()
         {
+            GatherAttributeData();
+        }
+
+        protected void GatherAttributeData()
+        {
             // Get all AttributeData<T> derived fields of this set
             FieldInfo[] fields = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            
+            // TODO: Fix issue with deeper inheritance trees
             
             // Check each field
             foreach (FieldInfo field in fields)
@@ -104,6 +111,7 @@ namespace BuildABot
          */
         public void Initialize()
         {
+            GatherAttributeData();
             foreach (var entry in _attributes)
             {
                 entry.Value.Initialize(this);
@@ -680,5 +688,19 @@ namespace BuildABot
         
 #endregion
         
+#region Object Overrides
+
+        public override string ToString()
+        {
+            string entries = "";
+            foreach (var entry in _attributes)
+            {
+                entries += $"{entry.Key}: []\n";
+            }
+            return $"Attribute Set {GetType().Name}: [\n{entries}]";
+        }
+
+#endregion
+
     }
 }
