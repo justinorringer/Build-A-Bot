@@ -226,6 +226,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7057887081193667413, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_UsedByEffector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7057887081193667413, guid: 8035217b77d522a45a030df799122185, type: 3}
       propertyPath: m_ColliderPaths.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -291,6 +295,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: -5765183769023986340, guid: 8035217b77d522a45a030df799122185, type: 3}
+--- !u!1 &1369972946 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4352250032819736466, guid: 8035217b77d522a45a030df799122185, type: 3}
+  m_PrefabInstance: {fileID: 1369972945}
+  m_PrefabAsset: {fileID: 0}
+--- !u!251 &1369972947
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369972946}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!19719996 &1868098431 stripped
 TilemapCollider2D:
   m_CorrespondingSourceObject: {fileID: 6501210218804322903, guid: 8035217b77d522a45a030df799122185, type: 3}
