@@ -12,13 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 694048b631414181ac67df61d96b4477, type: 3}
   m_Name: IncreaseMaxJump
   m_EditorClassIdentifier: 
-  displayName: 
-  description: 
-  durationMode: 0
-  stackingMode: 0
+  displayName: Increase Max Jump
+  description: Increases the max jumps available to a character.
+  durationMode: 2
+  stackingMode: 1
   duration: 0
   target:
-    value: 
-  modifiers: []
+    value: BuildABot.CharacterAttributeSet, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  modifiers:
+  - id: 0
   references:
     version: 1
+    00000000:
+      type: {class: IntAttributeModifier, ns: BuildABot, asm: Assembly-CSharp}
+      data:
+        operationType: 0
+        valueProviderType: 0
+        attributeSet:
+          value: BuildABot.CharacterAttributeSet, Assembly-CSharp, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        valueProvider:
+          id: 1
+        targetAttribute:
+          value: maxJumpCount
+          options:
+          - inventorySpace
+          - maxJumpCount
+          valid: 1
+    00000001:
+      type: {class: IntAttributeModifierConstantValueProvider, ns: BuildABot, asm: Assembly-CSharp}
+      data:
+        value: 1

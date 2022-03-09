@@ -17,7 +17,7 @@ namespace BuildABot
 
         protected override CharacterAttributeSet SourceAttributes => _player.Attributes;
         
-        protected void Awake()
+        protected override void Awake()
         {
             _player = GetComponent<Player>();
         }

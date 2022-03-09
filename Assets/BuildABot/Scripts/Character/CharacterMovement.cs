@@ -78,10 +78,16 @@ namespace BuildABot
         /** Is the character grounded? */
         public bool IsGrounded => _isGrounded;
 
+        protected virtual void Awake()
+        {
+            
+        }
+
         protected virtual void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
+            
             Bounds bounds = _collider.bounds;
             _extents = new Vector2(bounds.extents.x, bounds.extents.y);
 
@@ -141,7 +147,8 @@ namespace BuildABot
 
         public void MoveToPosition(Vector2 position)
         {
-            Vector2 delta = (position - _rigidbody.position).normalized;
+            Vector2 delta = (position - _rigidbody.position);
+            if (delta.sqrMagnitude > 1.0f) delta.Normalize();
             _horizontalMovementRate = delta.x;
             _verticalMovementRate = delta.y;
         }
