@@ -206,3 +206,93 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1369972945
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -7159057053911541251, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7159057053911541251, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_SortOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7159057053911541251, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_DetectChunkCullingBounds
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7057887081193667413, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7057887081193667413, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_ColliderPaths.Array.data[0].m_Collider
+      value: 
+      objectReference: {fileID: 1868098431}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.75371456
+      objectReference: {fileID: 0}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 14.480984
+      objectReference: {fileID: 0}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6557574045160574144, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4828087786911205789, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4828087786911205789, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_ColliderPaths.Array.data[0].m_Collider
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -4189039575098006236, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_Name
+      value: Lab Build-A-Bot
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: -5765183769023986340, guid: 8035217b77d522a45a030df799122185, type: 3}
+--- !u!19719996 &1868098431 stripped
+TilemapCollider2D:
+  m_CorrespondingSourceObject: {fileID: 6501210218804322903, guid: 8035217b77d522a45a030df799122185, type: 3}
+  m_PrefabInstance: {fileID: 1369972945}
+  m_PrefabAsset: {fileID: 0}
