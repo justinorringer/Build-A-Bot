@@ -26,7 +26,6 @@ namespace BuildABot
         protected void Awake()
         {
             attributes.Initialize();
-            Debug.Log(attributes);
             _playerMovement = GetComponent<PlayerMovement>();
             _playerInput = GetComponent<PlayerInput>();
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -86,6 +87,13 @@ namespace BuildABot
 
             if (IsFlying) _rigidbody.gravityScale = 0;
             else _rigidbody.gravityScale = 2.5f;
+            
+            CheckGrounded();
+            if (_isGrounded)
+            {
+                _jumpCount = 0;
+                _jumpForce = JumpForce;
+            }
         }
 
         protected void FixedUpdate()
@@ -102,13 +110,15 @@ namespace BuildABot
                 case ECharacterMovementMode.Walking:
                     Vector2 velocity = _rigidbody.velocity;
                     targetVelocity = new Vector2(_horizontalMovementRate * movementRate, velocity.y);
-                    _rigidbody.velocity = Vector2.SmoothDamp(velocity, targetVelocity, ref _tempVelocity, 0.05f);
                     break;
                 case ECharacterMovementMode.Flying:
                     targetVelocity = new Vector2(_horizontalMovementRate, _verticalMovementRate) * movementRate;
-                    _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, 0.05f);
+                    break;
+                default:
+                    targetVelocity = _rigidbody.velocity;
                     break;
             }
+            _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, 0.05f);
         }
 
         /**
@@ -126,7 +136,14 @@ namespace BuildABot
          */
         public void MoveVertical(float amount)
         {
-            if (MovementMode == ECharacterMovementMode.Flying) _verticalMovementRate = amount;
+            if (IsFlying) _verticalMovementRate = amount;
+        }
+
+        public void MoveToPosition(Vector2 position)
+        {
+            Vector2 delta = (position - _rigidbody.position).normalized;
+            _horizontalMovementRate = delta.x;
+            _verticalMovementRate = delta.y;
         }
 
         /**
@@ -156,6 +173,16 @@ namespace BuildABot
             }
         }
 
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            CheckGrounded();
+            if (_isGrounded)
+            {
+                _jumpCount = 0;
+                _jumpForce = JumpForce;
+            }
+        }
+
         /**
          * Checks if the player is grounded, and updates isGrounded value accordingly.
          */
@@ -164,12 +191,6 @@ namespace BuildABot
             // Note: Character can only be grounded if in walking mode
             _isGrounded = Physics2D.BoxCast(RootPosition, new Vector2(_extents.x * 2, 0.1f),
                 0, Vector2.down, 0.01f) && IsWalking;
-
-            if (_isGrounded)
-            {
-                _jumpCount = 0;
-                _jumpForce = JumpForce;
-            }
         }
     }
 }
