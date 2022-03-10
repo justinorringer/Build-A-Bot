@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6395454713534124675}
   - component: {fileID: 6395454713534124674}
   - component: {fileID: 6395454713534124673}
-  m_Layer: 2
+  m_Layer: 7
   m_Name: BIPY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
