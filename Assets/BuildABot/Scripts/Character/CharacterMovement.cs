@@ -78,6 +78,9 @@ namespace BuildABot
         /** Is the character grounded? */
         public bool IsGrounded => _isGrounded;
 
+        /** The normalized movement direction of this character. */
+        public Vector2 MovementDirection => _rigidbody.velocity.normalized;
+
         protected virtual void Awake()
         {
             
