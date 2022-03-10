@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BuildABot
 {
     [Serializable]
-    public class TestAttributeSet : AttributeSet
+    public class TestAttributeSet : CharacterAttributeSet
     {
         [SerializeField] private FloatAttributeData test;
 
