@@ -6,10 +6,9 @@ namespace BuildABot
 {
     
     /**
-     * The generic base class for custom property drawers for attribute modifiers.
-     * <typeparam name="T">The underlying data type targeted by the modifier being drawn.</typeparam>
+     * The base class for custom property drawers for attribute modifiers.
      */
-    public abstract class AttributeModifierDrawer<T> : PropertyDrawer
+    public abstract class AttributeModifierDrawer : PropertyDrawer
     {
         
         public override void OnGUI(Rect position, SerializedProperty property,
@@ -96,7 +95,7 @@ namespace BuildABot
      * The custom property drawer for float based attribute modifiers.
      */
     [CustomPropertyDrawer(typeof(FloatAttributeModifier))]
-    public class FloatAttributeModifierDrawer : AttributeModifierDrawer<float>
+    public class FloatAttributeModifierDrawer : AttributeModifierDrawer
     {
         protected override AttributeModifierValueProviderBase CreateValueProvider(
             EAttributeModifierValueProviderType providerType, Type attributeSetTarget)
@@ -119,7 +118,7 @@ namespace BuildABot
      * The custom property drawer for int based attribute modifiers.
      */
     [CustomPropertyDrawer(typeof(IntAttributeModifier))]
-    public class IntAttributeModifierDrawer : AttributeModifierDrawer<int>
+    public class IntAttributeModifierDrawer : AttributeModifierDrawer
     {
         protected override AttributeModifierValueProviderBase CreateValueProvider(
             EAttributeModifierValueProviderType providerType, Type attributeSetTarget)
