@@ -10,7 +10,7 @@ ScriptedImporter:
   script: {fileID: 11500000, guid: aaa16bfc62c086f4fb45da87b6acf9b1, type: 3}
   _jsonFile: {fileID: -164016180542632921, guid: 8035217b77d522a45a030df799122185, type: 3}
   _pixelsPerUnit: 16
-  _atlas: {instanceID: 0}
+  _atlas: {fileID: 4343727234628468602, guid: 5d5555329737c05408e6b4282d6f68d2, type: 2}
   _customLevelPrefab: {instanceID: 0}
   _deparentInRuntime: 0
   _intGridValueColorsVisible: 0
@@ -18,7 +18,7 @@ ScriptedImporter:
   _createBackgroundColor: 1
   _intGridValues:
   - _key: WallGrid_1
-    _asset: {fileID: 11400000, guid: b73ff79e1b696e54cb0633bfb9df6479, type: 2}
+    _asset: {fileID: 11400000, guid: 608aedeab5fb3ac48959b083b4ecd7c1, type: 2}
   _entities: []
   _enumGenerate: 0
   _enumPath: 
