@@ -56,18 +56,22 @@ namespace BuildABot
             EditorGUILayout.PropertyField(serializedObject.FindProperty("description"), true);
             serializedObject.ApplyModifiedProperties();
             
+            EditorGUILayout.Space();
+            
             serializedObject.Update();
             SerializedProperty durationModeProperty = serializedObject.FindProperty("durationMode");
 
             EditorGUILayout.PropertyField(durationModeProperty, true);
+            
             if (IsShowingDuration(durationModeProperty)) 
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("duration"), true);
-            serializedObject.ApplyModifiedProperties();
             
-            EditorGUILayout.Space();
+            if (!IsInstant(durationModeProperty))
+            {
+                EditorGUILayout.Space();
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("stackingMode"), true);
+            }
             
-            serializedObject.Update();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("stackingMode"), true);
             serializedObject.ApplyModifiedProperties();
             
             EditorGUILayout.Space();
@@ -99,14 +103,35 @@ namespace BuildABot
         }
 
         /**
-         * Should this drawer show the duration field?
+         * Gets the duration mode from the provided property.
          * <param name="durationModeProperty">The duration mode property.</param>
+         * <returns>The duration mode value held by the property.</returns>
          */
-        private bool IsShowingDuration(SerializedProperty durationModeProperty)
+        private EEffectDurationMode GetDurationMode(SerializedProperty durationModeProperty)
         {
             Enum.TryParse(durationModeProperty.enumNames[durationModeProperty.enumValueIndex],
                 out EEffectDurationMode durationType);
-            return durationType == EEffectDurationMode.ForDuration;
+            return durationType;
+        }
+
+        /**
+         * Should this drawer show the duration field?
+         * <param name="durationModeProperty">The duration mode property.</param>
+         * <returns>True if the effect has duration.</returns>
+         */
+        private bool IsShowingDuration(SerializedProperty durationModeProperty)
+        {
+            return GetDurationMode(durationModeProperty) == EEffectDurationMode.ForDuration;
+        }
+
+        /**
+         * Is the underlying Effect an Instant effect?
+         * <param name="durationModeProperty">The duration mode property.</param>
+         * <returns>True if the effect is instant.</returns>
+         */
+        private bool IsInstant(SerializedProperty durationModeProperty)
+        {
+            return GetDurationMode(durationModeProperty) == EEffectDurationMode.Instant;
         }
 
         /**

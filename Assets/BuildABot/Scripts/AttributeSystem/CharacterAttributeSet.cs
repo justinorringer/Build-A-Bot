@@ -23,10 +23,12 @@ namespace BuildABot
         
         [Tooltip("The character's movement speed.")]
         [SerializeField] private FloatAttributeData movementSpeed;
-        [Tooltip("The height that the character can jump.")]
-        [SerializeField] private FloatAttributeData jumpHeight;
+        [Tooltip("The force that the character jumps with.")]
+        [SerializeField] private FloatAttributeData jumpForce;
         [Tooltip("The number of times that a character can jump before having to land.")]
         [SerializeField] private IntAttributeData maxJumpCount;
+        [Tooltip("The multiplier applied to jump force after each jump when multi-jumping.")]
+        [SerializeField] private FloatAttributeData jumpForceFalloff;
         
         [Tooltip("The current knock-back value.")]
         [SerializeField] private FloatAttributeData knockback;
@@ -56,10 +58,12 @@ namespace BuildABot
 
         /** The character's movement speed. */
         public FloatAttributeData MovementSpeed => movementSpeed;
-        /** The height that the character can jump. */
-        public FloatAttributeData JumpHeight => jumpHeight;
+        /** The force that the character jumps with. */
+        public FloatAttributeData JumpForce => jumpForce;
         /** The height that the character can jump. */
         public IntAttributeData MaxJumpCount => maxJumpCount;
+        /** The multiplier applied to jump force after each jump when multi-jumping. */
+        public FloatAttributeData JumpForceFalloff => jumpForceFalloff;
 
         public FloatAttributeData Knockback => knockback;
 
