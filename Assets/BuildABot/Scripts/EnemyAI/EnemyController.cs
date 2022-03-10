@@ -5,149 +5,161 @@ using Pathfinding;
 
 namespace BuildABot 
 {
-    [RequireComponent(typeof(Seeker), typeof(Rigidbody2D))]
+
+    /**
+     * The pathing mode used by an AI agent.
+     */
+    public enum EPathingMode
+    {
+        /** The enemy will patrol between waypoints. */
+        Patrolling,
+        /** The enemy will seek a specific topic. */
+        Seeking
+    }
+    
+    /**
+     * The AI controller used to drive enemy behaviors.
+     */
+    [RequireComponent(typeof(Seeker), typeof(Rigidbody2D), typeof(EnemyMovement))]
     public class EnemyController : MonoBehaviour
     {
-        public enum EnemyMode{Patrolling, Seeking}
 
-        [HeaderAttribute("Enemy Behavior Mode")]
-        public EnemyMode enemyMode = EnemyMode.Patrolling;
+        [Header("Enemy Behavior Mode")]
+        [SerializeField] private EPathingMode enemyMode = EPathingMode.Patrolling;
 
-        [HeaderAttribute("Patrolling Information")]
+        [Header("Patrolling Information")]
 
         [Tooltip("List of waypoints for patrolling character behavior")]
-        [SerializeField] List<Waypoint> patrolPoints;
+        [SerializeField] private List<Waypoint> patrolPoints;
 
-        [Tooltip("Speed at which enemy will patrol")]
-        [SerializeField] float patrolSpeed = 200f;
+        [Tooltip("The tolerance value used to determine how close the enemy must get to a patrol point.")]
+        [SerializeField] private float nextPatrolPointDistance = 1f;
 
-        [SerializeField] float nextPatrolPointDistance = 1f;
+        /** The current patrol point target index. */
+        private int _currentPatrolPoint;
 
-        int currentPatrolPoint = 0;
+        /** The field of view component used for vision based detection. */
+        private FieldOfView _fov;
 
-        [SerializeField] FieldOfView fov;
-
-        [HeaderAttribute("Seeking Information")]
+        [Header("Seeking Information")]
 
         [Tooltip("The target for the enemy to seek")]
-        [SerializeField] Transform target;
+        [SerializeField] private Transform target;
 
-        [Tooltip("Speed at which the enemy moves")]
-        [SerializeField] float speed = 200f;
 
         [Tooltip("How close an enemy needs to be to a waypoint to move on to the next one")]
-        [SerializeField] float nextWaypointDistance = 3f;
+        [SerializeField] private float nextWaypointDistance = 3f;
 
-        //The path that the enemy will be following
-        Path path;
-        //Index of the enemy's current waypoint along the path
-        int currentWaypoint = 0;
-        //Boolean value for whether or not the enemy has reached the end of its path
-        bool reachedEndOfPath = false;
+        /** The path that the enemy will be following. */
+        private Path _path;
+        /** Index of the enemy's current waypoint along the path. */
+        private int _currentWaypoint;
+        /** Boolean value for whether or not the enemy has reached the end of its path. */
+        private bool _reachedEndOfPath;
 
         [Tooltip("Interval in seconds to update enemy pathing")]
-        [SerializeField] float pathUpdateInterval = 0.5f;
-        
-        //The Seeker component that we are using
-        Seeker seeker;
-        //The enemy's rigidbody
-        Rigidbody2D rb;
+        [SerializeField] private float pathUpdateInterval = 0.5f;
+
+        /** The movement controller used by this enemy. */
+        private EnemyMovement _enemyMovement;
+        /** The Seeker component that we are using */
+        private Seeker _seeker;
+        /** The enemy's rigidbody */
+        private Rigidbody2D _rigidbody;
 
         [Tooltip("Reference to the transform with this enemy's graphic elements")]
-        [SerializeField] Transform enemyGFX;
+        [SerializeField] private Transform graphicsTransform;
 
-
-        //Private internal variables used for calculation
-        Vector2 direction;
-        Vector2 force;
-        
+        /** The IEnumerator used by the UpdatePath coroutine. */
+        private IEnumerator _updatePathCoroutine;
 
         void Start()
         {
             //Get component values
-            seeker = GetComponent<Seeker>();
-            rb = GetComponent<Rigidbody2D>();
-            fov = GetComponent<FieldOfView>();
+            _seeker = GetComponent<Seeker>();
+            _rigidbody = GetComponent<Rigidbody2D>();
+            _fov = GetComponent<FieldOfView>();
+            _enemyMovement = GetComponent<EnemyMovement>();
 
-
-            fov.StartLooking();
+            _fov.StartLooking();
         }
 
         void OnPathComplete(Path p)
         {
             if (!p.error)
             {
-                path = p;
-                currentWaypoint = 0;
+                _path = p;
+                _currentWaypoint = 0;
             }
         }
 
         void UpdatePath()
         {
-            if (seeker.IsDone())
-                seeker.StartPath(rb.position, target.position, OnPathComplete);
+            if (_seeker.IsDone())
+                _seeker.StartPath(_rigidbody.position, target.position, OnPathComplete);
         }
 
-        void FixedUpdate()
+        void Update()
         {
             switch(enemyMode)
             {
-                case EnemyMode.Patrolling:
+                case EPathingMode.Patrolling:
                     PatrollingStep();
                     break;
-                case EnemyMode.Seeking:
+                case EPathingMode.Seeking:
                     SeekingStep();
-                    break;
-                default:
                     break;
             }
 
             //Update player direction
             //Values here might need to change depending on which way our sprites face by default
-            if (force.x > 0.01f)
+            if (_enemyMovement.MovementDirection.x > 0.01f)
             {
-                fov.flipx = false;
-                enemyGFX.localScale = new Vector3(1f, 1f, 1f);
-            } else if (force.x < -0.01f)
+                _fov.flipx = false;
+                graphicsTransform.localScale = new Vector3(1f, 1f, 1f);
+            }
+            else if (_enemyMovement.MovementDirection.x < -0.01f)
             {
-                fov.flipx = true;
-                enemyGFX.localScale = new Vector3(-1f, 1f, 1f);
+                _fov.flipx = true;
+                graphicsTransform.localScale = new Vector3(-1f, 1f, 1f);
             }
             
         }
 
         void PatrollingStep()
         {
+            
+            //Check to see if there's a target in our field of view
+            if (_fov.visibleTargets.Count > 0)
+            {
+                //Dumb enemy - chase the first thing it sees
+                target = _fov.visibleTargets[0];
+                _fov.StopLooking();
+                enemyMode = EPathingMode.Seeking;
+                
+                if (_updatePathCoroutine != null) StopCoroutine(_updatePathCoroutine);
+
+                //Start pathing
+                _updatePathCoroutine = Utility.RepeatFunction(this, UpdatePath, pathUpdateInterval);
+                return;
+            }
+            
             //Exit Conditions
             if (patrolPoints.Count <= 0)
                 return;
             
             //Loop if necessary
-            if (currentPatrolPoint >= patrolPoints.Count)
-                currentPatrolPoint = 0;
+            if (_currentPatrolPoint >= patrolPoints.Count)
+                _currentPatrolPoint = 0;
 
             //Move to next waypoint
-            direction = ((Vector2) patrolPoints[currentPatrolPoint].position - rb.position).normalized;
-            force = direction * patrolSpeed * Time.deltaTime;
-            rb.AddForce(force);
+            _enemyMovement.MoveToPosition(patrolPoints[_currentPatrolPoint].position);
 
             //Check to see if we've reached the point where we can move to the next waypoint
-            float distance = Vector2.Distance(rb.position, patrolPoints[currentPatrolPoint].position);
+            float distance = Vector2.Distance(_rigidbody.position, patrolPoints[_currentPatrolPoint].position);
             if (distance < nextPatrolPointDistance)
             {
-                currentPatrolPoint++;
-            }
-            
-            //Check to see if there's a target in our field of view
-            if (fov.visibleTargets.Count > 0)
-            {
-                //Dumb enemy - chase the first thing it sees
-                target = fov.visibleTargets[0];
-                fov.StopLooking();
-                enemyMode = EnemyMode.Seeking;
-
-                //Start pathing
-                InvokeRepeating("UpdatePath", 0f, 0.5f);
+                _currentPatrolPoint++;
             }
 
         }
@@ -155,28 +167,20 @@ namespace BuildABot
         void SeekingStep()
         {
             //Exit conditions
-            if (path == null)
+            if (_path == null)
                 return;
-            
-            if (currentWaypoint >= path.vectorPath.Count)
-            {
-                reachedEndOfPath = true;
-                return;
-            } else 
-            {
-                reachedEndOfPath = false;
-            }
+
+            _reachedEndOfPath = _currentWaypoint >= _path.vectorPath.Count;
+            if (_reachedEndOfPath) return;
 
             //Move to next waypoint
-            direction = ((Vector2) path.vectorPath[currentWaypoint] - rb.position).normalized;
-            force = direction * speed * Time.deltaTime;
-            rb.AddForce(force);
+            _enemyMovement.MoveToPosition(_path.vectorPath[_currentWaypoint]);
 
             //Check to see if we've reached the point where we can move to the next waypoint
-            float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+            float distance = Vector2.Distance(_rigidbody.position, _path.vectorPath[_currentWaypoint]);
             if (distance < nextWaypointDistance)
             {
-                currentWaypoint++;
+                _currentWaypoint++;
             }
         }
     }

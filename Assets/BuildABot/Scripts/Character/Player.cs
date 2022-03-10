@@ -4,9 +4,9 @@ namespace BuildABot
 {
     
     /**
-     * the core data and logic associated with the Player character.
+     * The core data and logic associated with the Player character.
      */
-    [RequireComponent(typeof(PlayerMovement))]
+    [RequireComponent(typeof(PlayerMovement), typeof(PlayerInput))]
     public class Player : MonoBehaviour
     {
         
