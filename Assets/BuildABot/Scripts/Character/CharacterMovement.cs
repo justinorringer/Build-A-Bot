@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace BuildABot
@@ -179,11 +180,10 @@ namespace BuildABot
                 _jumpForce *= JumpForceFalloff; // Apply the force falloff
             }
         }
-
-        private void OnCollisionEnter2D(Collision2D other)
+        
+        private void OnCollisionStay2D(Collision2D other)
         {
-            CheckGrounded();
-            if (_isGrounded)
+            if (_isGrounded && _jumpCount > 0 && MovementDirection.y <= 0f)
             {
                 _jumpCount = 0;
                 _jumpForce = JumpForce;
@@ -197,7 +197,8 @@ namespace BuildABot
         {
             // Note: Character can only be grounded if in walking mode
             _isGrounded = Physics2D.BoxCast(RootPosition, new Vector2(_extents.x * 2, 0.1f),
-                0, Vector2.down, 0.01f) && IsWalking;
+                0, Vector2.down, 0.01f, 
+                Physics2D.AllLayers & ~LayerMask.GetMask("Player")) && IsWalking;
         }
     }
 }
