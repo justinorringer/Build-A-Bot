@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,11 +5,10 @@ namespace BuildABot
 {
     
     /**
-     * The generic version of the attribute selector property drawer. To be used in editor, a concrete version with the
+     * The base implementation of the attribute selector property drawer. To be used in editor, a concrete version with the
      * CustomPropertyDrawer attribute must be used.
-     * <typeparam name="T">The type of attribute being selected.</typeparam>
      */
-    public abstract class AttributeSelectorDrawer<T> : PropertyDrawer
+    public abstract class AttributeSelectorDrawer : PropertyDrawer
     {
 
         /** The index used to track the current value. */
@@ -47,24 +45,19 @@ namespace BuildABot
             
             EditorGUI.EndProperty();
         }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return base.GetPropertyHeight(property, label);
-        }
     }
     
     /**
      * The attribute selector drawer for float attribute selectors.
      */
     [CustomPropertyDrawer(typeof(FloatAttributeSelector))]
-    public class FloatAttributeSelectorDrawer : AttributeSelectorDrawer<float> {}
+    public class FloatAttributeSelectorDrawer : AttributeSelectorDrawer {}
     
     /**
      * The attribute selector drawer for int attribute selectors.
      */
     [CustomPropertyDrawer(typeof(IntAttributeSelector))]
-    public class IntAttributeSelectorDrawer : AttributeSelectorDrawer<int> {}
+    public class IntAttributeSelectorDrawer : AttributeSelectorDrawer {}
     
     /**
      * The property drawer for AttributeSetSelector instances.
@@ -81,9 +74,9 @@ namespace BuildABot
             SerializedProperty valueProperty = property.FindPropertyRelative("value");
 
             if (!(fieldInfo.FieldType.GetProperty("Options")?.GetValue(null) is string[] options))
-                options = new string [] { "-" };
+                options = new [] { "-" };
             if (!(fieldInfo.FieldType.GetProperty("NiceOptions")?.GetValue(null) is string[] optionsNice))
-                optionsNice = new string [] { "-" };
+                optionsNice = new [] { "-" };
             
             int optionCount = options.Length;
             string currentValue = valueProperty.stringValue;
@@ -106,11 +99,6 @@ namespace BuildABot
             }
             
             EditorGUI.EndProperty();
-        }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return base.GetPropertyHeight(property, label);
         }
     }
 }

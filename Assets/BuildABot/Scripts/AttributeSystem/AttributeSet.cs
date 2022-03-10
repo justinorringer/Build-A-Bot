@@ -69,34 +69,46 @@ namespace BuildABot
          */
         protected AttributeSet()
         {
-            // Get all AttributeData<T> derived fields of this set
-            FieldInfo[] fields = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            
-            // Check each field
-            foreach (FieldInfo field in fields)
+            GatherAttributeData();
+        }
+
+        protected void GatherAttributeData()
+        {
+            // Walk up the inheritance hierarchy
+            Type target = GetType();
+            do
             {
-                // Bind the change events to the field if it is attribute data
-                if (field.FieldType == typeof(FloatAttributeData))
+                // Get all AttributeData<T> derived fields of this set
+                FieldInfo[] fields = target.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            
+                // Check each field
+                foreach (FieldInfo field in fields)
                 {
-                    FloatAttributeData attribute = field.GetValue(this) as FloatAttributeData;
-                    if (attribute == null) continue;
-                    BindAttributeChangeEvents(attribute);
-                    _attributes.Add(field.Name, attribute);
-                    _appliedFloatModifiers.Add(attribute, new LinkedList<AppliedModifier<float>>());
+                    // Bind the change events to the field if it is attribute data
+                    if (field.FieldType == typeof(FloatAttributeData))
+                    {
+                        FloatAttributeData attribute = field.GetValue(this) as FloatAttributeData;
+                        if (attribute == null) continue;
+                        BindAttributeChangeEvents(attribute);
+                        _attributes.Add(field.Name, attribute);
+                        _appliedFloatModifiers.Add(attribute, new LinkedList<AppliedModifier<float>>());
+                    }
+                    else if (field.FieldType == typeof(IntAttributeData))
+                    {
+                        IntAttributeData attribute = field.GetValue(this) as IntAttributeData;
+                        if (attribute == null) continue;
+                        BindAttributeChangeEvents(attribute);
+                        _attributes.Add(field.Name, attribute);
+                        _appliedIntModifiers.Add(attribute, new LinkedList<AppliedModifier<int>>());
+                    }
+                    else
+                    {
+                        Debug.LogWarningFormat("AttributeSet types should not contain fields that are not derived from AttributeData<T>: {0}", field.Name);
+                    }
                 }
-                else if (field.FieldType == typeof(IntAttributeData))
-                {
-                    IntAttributeData attribute = field.GetValue(this) as IntAttributeData;
-                    if (attribute == null) continue;
-                    BindAttributeChangeEvents(attribute);
-                    _attributes.Add(field.Name, attribute);
-                    _appliedIntModifiers.Add(attribute, new LinkedList<AppliedModifier<int>>());
-                }
-                else
-                {
-                    Debug.LogWarningFormat("AttributeSet types should not contain fields that are not derived from AttributeData<T>: {0}", field.Name);
-                }
-            }
+                
+                target = target.BaseType;
+            } while (target != typeof(AttributeSet) && null != target);
         }
 
         /**
@@ -104,6 +116,7 @@ namespace BuildABot
          */
         public void Initialize()
         {
+            GatherAttributeData();
             foreach (var entry in _attributes)
             {
                 entry.Value.Initialize(this);
@@ -680,5 +693,19 @@ namespace BuildABot
         
 #endregion
         
+#region Object Overrides
+
+        public override string ToString()
+        {
+            string entries = "";
+            foreach (var entry in _attributes)
+            {
+                entries += $"{entry.Key}: []\n";
+            }
+            return $"Attribute Set {GetType().Name}: [\n{entries}]";
+        }
+
+#endregion
+
     }
 }

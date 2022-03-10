@@ -16,7 +16,7 @@ namespace BuildABot
     {
 
         /** The underlying value of this selector. */
-        [SerializeField] private string value;
+        [SerializeField] private string value = "";
         /** The options available to this selector. */
         [SerializeField] private string[] options;
         /** Is this selector valid? */
@@ -66,20 +66,28 @@ namespace BuildABot
         {
             if (null != attributeSetType && attributeSetType.IsSubclassOf(typeof(AttributeSet)) && attributeSetType != typeof(AttributeSet))
             {
-                // Get all AttributeDataBase derived fields of the attribute set type
-                FieldInfo[] fields = attributeSetType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                    .OrderBy(field => field.Name).ToArray(); // Sort by name to ensure order
 
                 List<string> choices = new List<string>();
-            
-                // Check each field
-                foreach (FieldInfo field in fields)
+
+                Type target = attributeSetType;
+                do
                 {
-                    if (field.FieldType.IsSubclassOf(typeof(AttributeData<T>)))
+                    
+                    // Get all AttributeDataBase derived fields of the attribute set type
+                    FieldInfo[] fields = target.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                        .OrderBy(field => field.Name).ToArray(); // Sort by name to ensure order
+            
+                    // Check each field
+                    foreach (FieldInfo field in fields)
                     {
-                        choices.Add(field.Name);
+                        if (field.FieldType.IsSubclassOf(typeof(AttributeData<T>)))
+                        {
+                            choices.Add(field.Name);
+                        }
                     }
-                }
+                
+                    target = target.BaseType;
+                } while (target != typeof(AttributeSet) && null != target);
 
                 options = choices.ToArray();
                 valid = true;
@@ -112,7 +120,7 @@ namespace BuildABot
     public class AttributeSetSelector
     {
         /** The underlying value of this selector. */
-        [SerializeField] private string value;
+        [SerializeField] private string value = "";
 
         /** Gets the type selected by this object. */
         public Type SelectedType => Type.GetType(value);
