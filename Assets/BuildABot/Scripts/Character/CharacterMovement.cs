@@ -79,6 +79,12 @@ namespace BuildABot
         /** The normalized movement direction of this character. */
         public Vector2 MovementDirection => _rigidbody.velocity.normalized;
 
+        /** Which direction the character is currently facing */
+        private Vector2 _facing = Vector2.right;
+
+        /** Which direction is the character currently facing? */
+        public Vector2 Facing => _facing;
+
         protected virtual void Awake()
         {
             
@@ -126,6 +132,11 @@ namespace BuildABot
                     break;
             }
             _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, 0.05f);
+
+            // Update the direction the character is facing if it has changed
+            Vector2 dir = MovementDirection;
+            if (dir.x != 0.0f && dir.x != _facing.x) 
+                _facing = dir.x > 0f ? Vector2.right : Vector2.left;
         }
 
         /**
