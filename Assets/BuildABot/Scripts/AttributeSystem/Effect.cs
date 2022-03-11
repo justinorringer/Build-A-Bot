@@ -44,7 +44,7 @@ namespace BuildABot
         [Tooltip("The name of this effect displayed in game.")]
         [SerializeField] private string displayName;
         [Tooltip("The description of this effect displayed in game.")]
-        [Multiline]
+        [TextArea]
         [SerializeField] private string description;
         
         [Tooltip("The duration mode of this effect.")]

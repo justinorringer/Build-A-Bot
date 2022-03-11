@@ -11,9 +11,6 @@ namespace BuildABot
     public abstract class AttributeSelectorDrawer : PropertyDrawer
     {
 
-        /** The index used to track the current value. */
-        private int _index;
-        
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             SerializedProperty valueProperty = property.FindPropertyRelative("value");
@@ -21,14 +18,16 @@ namespace BuildABot
 
             int optionCount = optionsProperty.arraySize;
 
+            int index = 0;
+
             string currentValue = valueProperty.stringValue;
             
             string[] options = new string[optionCount];
             string[] optionsNice = new string[optionCount];
             for (int i = 0; i < optionCount; i++)
             {
-                if (options[i] == currentValue) _index = i;
                 options[i] = optionsProperty.GetArrayElementAtIndex(i).stringValue;
+                if (options[i] == currentValue) index = i;
                 optionsNice[i] = ObjectNames.NicifyVariableName(options[i]);
             }
             
@@ -36,11 +35,11 @@ namespace BuildABot
 
             EditorGUI.BeginChangeCheck();
 
-            _index = EditorGUI.Popup(position, label.text, _index, optionsNice);
+            index = EditorGUI.Popup(position, label.text, index, optionsNice);
             
             if (EditorGUI.EndChangeCheck())
             {
-                valueProperty.stringValue = options[_index];
+                valueProperty.stringValue = options[index];
             }
             
             EditorGUI.EndProperty();
