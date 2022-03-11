@@ -6,8 +6,11 @@ namespace BuildABot
 {
     public class PlayerAttack : MonoBehaviour
     {
-        /** Size of the attack */
+        /** Size of the attack box */
         [SerializeField] private Vector2 attackSize;
+
+        /** Distance the attack travels */
+        [SerializeField] private float attackDist;
 
         /** Duration of attack in milliseconds */
         [SerializeField] private int attackDuration;
@@ -37,12 +40,12 @@ namespace BuildABot
             for (int i = 0; i < attackDuration; i++)
             {
                 Vector2 position = transform.position;
-                RaycastHit2D hitInfo = Physics2D.BoxCast(position + (_offset * _playerMovement.Facing), attackSize, 0, _playerMovement.Facing, 10.0f);
-                Debug.DrawRay(position + (_offset * _playerMovement.Facing), _playerMovement.Facing, Color.red, 10.0f);
+                RaycastHit2D hitInfo = Physics2D.BoxCast(position + (_offset * _playerMovement.Facing), attackSize, 0, _playerMovement.Facing, attackDist, Physics2D.AllLayers & ~LayerMask.GetMask("Player"));
+                Debug.DrawRay(position + (_offset * _playerMovement.Facing), _playerMovement.Facing * attackDist, Color.red, 1.0f);
                 if (hitInfo) {
                     GameObject hitObj = hitInfo.collider.gameObject;
 
-                    if(hitObj.tag.Equals("Enemy"))
+                    if(hitObj.layer.Equals("Enemy"))
                     {
                         // TODO do damage to the enemy using attribute system
                     }

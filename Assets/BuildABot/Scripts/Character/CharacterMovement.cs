@@ -134,7 +134,7 @@ namespace BuildABot
             _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, 0.05f);
 
             // Update the direction the character is facing if it has changed
-            Vector2 dir = MovementDirection;
+            Vector2 dir = targetVelocity.normalized;
             if (dir.x != 0.0f && dir.x != _facing.x) 
                 _facing = dir.x > 0f ? Vector2.right : Vector2.left;
         }
