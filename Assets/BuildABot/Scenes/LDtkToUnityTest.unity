@@ -123,6 +123,30 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &72489906 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4352250032819736466, guid: 8035217b77d522a45a030df799122185, type: 3}
+  m_PrefabInstance: {fileID: 1266447731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!251 &72489911
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72489906}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1001 &1266447731
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +154,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7057887081193667413, guid: 8035217b77d522a45a030df799122185, type: 3}
+      propertyPath: m_UsedByEffector
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -7057887081193667413, guid: 8035217b77d522a45a030df799122185, type: 3}
       propertyPath: m_ColliderPaths.Array.size
       value: 1
