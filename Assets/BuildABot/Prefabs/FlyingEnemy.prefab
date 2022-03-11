@@ -303,7 +303,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.35
 --- !u!114 &2516541654574296488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMode: 0
   patrolPoints: []
-  nextPatrolPointDistance: 1
+  nextPatrolPointDistance: 0.5
   target: {fileID: 0}
   nextWaypointDistance: 3
   pathUpdateInterval: 0.5
