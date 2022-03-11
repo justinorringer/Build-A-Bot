@@ -10,25 +10,25 @@ namespace BuildABot
     public class CharacterAttributeSet : AttributeSet
     {
         [Tooltip("The temperature of the character, equivalent to health.")]
-        [SerializeField] private FloatAttributeData temperature = new FloatAttributeData(50);
+        [SerializeField] private FloatAttributeData temperature;
         [Tooltip("The temperature that results in the death of the character.")]
-        [SerializeField] private FloatAttributeData maxTemperature = new FloatAttributeData(80);
+        [SerializeField] private FloatAttributeData maxTemperature;
         [Tooltip("the rate that the character's temperature changes per second. This can be negative to heat up over time.")]
         [SerializeField] private FloatAttributeData coolDownRate;
         
         [Tooltip("A modifier attribute used in calculating changes to the character's temperature from damage.")]
-        [SerializeField] private FloatAttributeData coolingFactor = new FloatAttributeData(1);
+        [SerializeField] private FloatAttributeData coolingFactor;
         [Tooltip("The multiplier applied to all incoming reductions to an item's durability.")]
-        [SerializeField] private FloatAttributeData durabilityDegradationRate = new FloatAttributeData(1);
+        [SerializeField] private FloatAttributeData durabilityDegradationRate;
         
         [Tooltip("The character's movement speed.")]
-        [SerializeField] private FloatAttributeData movementSpeed = new FloatAttributeData(30);
+        [SerializeField] private FloatAttributeData movementSpeed;
         [Tooltip("The force that the character jumps with.")]
-        [SerializeField] private FloatAttributeData jumpForce = new FloatAttributeData(12);
+        [SerializeField] private FloatAttributeData jumpForce;
         [Tooltip("The number of times that a character can jump before having to land.")]
-        [SerializeField] private IntAttributeData maxJumpCount = new IntAttributeData(1);
+        [SerializeField] private IntAttributeData maxJumpCount;
         [Tooltip("The multiplier applied to jump force after each jump when multi-jumping.")]
-        [SerializeField] private FloatAttributeData jumpForceFalloff = new FloatAttributeData(1);
+        [SerializeField] private FloatAttributeData jumpForceFalloff;
         
         [Tooltip("The current knock-back value.")]
         [SerializeField] private FloatAttributeData knockback;
@@ -41,7 +41,7 @@ namespace BuildABot
         [SerializeField] private FloatAttributeData heavyAttackPower;
         
         [Tooltip("The number of slots available in the player's inventory.")]
-        [SerializeField] private IntAttributeData inventorySpace = new IntAttributeData(10);
+        [SerializeField] private IntAttributeData inventorySpace;
 
         /** The temperature of the character, equivalent to health. */
         public FloatAttributeData Temperature => temperature;
