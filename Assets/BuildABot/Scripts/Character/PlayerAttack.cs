@@ -21,6 +21,13 @@ namespace BuildABot
         /** Player's movement component */
         private PlayerMovement _playerMovement;
 
+        /** Effect applied when an attack hits */
+        [SerializeField] Effect damageEffect;
+
+        /** Magnitude of damage done */
+        [Min(0.0f)]
+        [SerializeField] float damageValue = 1.0f;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -40,15 +47,17 @@ namespace BuildABot
             for (int i = 0; i < attackDuration; i++)
             {
                 Vector2 position = transform.position;
-                RaycastHit2D hitInfo = Physics2D.BoxCast(position + (_offset * _playerMovement.Facing), attackSize, 0, _playerMovement.Facing, attackDist, Physics2D.AllLayers & ~LayerMask.GetMask("Player"));
+                RaycastHit2D hitInfo = Physics2D.BoxCast(position + (_offset * _playerMovement.Facing), attackSize, 0, _playerMovement.Facing, attackDist, LayerMask.GetMask("Enemy"));
                 Debug.DrawRay(position + (_offset * _playerMovement.Facing), _playerMovement.Facing * attackDist, Color.red, 1.0f);
                 if (hitInfo) {
                     GameObject hitObj = hitInfo.collider.gameObject;
 
-                    if(hitObj.layer.Equals("Enemy"))
+                    Enemy enemy = hitObj.GetComponent<Enemy>();
+                    if (enemy != null && damageEffect != null)
                     {
-                        // TODO do damage to the enemy using attribute system
+                        enemy.Attributes.ApplyEffect(damageEffect, enemy, damageValue);
                     }
+                    
                 }
                 yield return new WaitForSeconds(.001f);
             }
