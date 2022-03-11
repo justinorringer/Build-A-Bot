@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 609926857222936976}
   - component: {fileID: 609926857222936977}
   - component: {fileID: 609926857222936978}
+  - component: {fileID: 878766306424404202}
   m_Layer: 7
   m_Name: BIPY
   m_TagString: Untagged
@@ -370,6 +371,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &878766306424404202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609926857222936980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4524fb54588e6e142acea720ad6d6c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackSize: {x: 0.5, y: 1.5}
+  attackDist: 1
+  attackDuration: 100
+  damageEffect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
+  damageValue: 1
 --- !u!1 &5544799569382080600
 GameObject:
   m_ObjectHideFlags: 0

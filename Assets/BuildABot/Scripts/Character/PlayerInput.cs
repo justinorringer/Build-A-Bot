@@ -5,6 +5,7 @@ namespace BuildABot
     public class PlayerInput : MonoBehaviour
     {
         private PlayerMovement _controller;
+        private PlayerAttack _attack;
 
         public bool InputEnabled { get; set; } = true;
         
@@ -12,6 +13,7 @@ namespace BuildABot
         void Start()
         {
             _controller = GetComponent<PlayerMovement>();
+            _attack = GetComponent<PlayerAttack>();
         }
 
         // Update is called once per frame
@@ -26,6 +28,11 @@ namespace BuildABot
                 if (Input.GetButtonDown("Jump"))
                 {
                     _controller.Jump();
+                }
+
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    StartCoroutine(_attack.Attack());
                 }
             }
         }
