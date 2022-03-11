@@ -67,9 +67,6 @@ namespace BuildABot
         /** The enemy's rigidbody */
         private Rigidbody2D _rigidbody;
 
-        [Tooltip("Reference to the transform with this enemy's graphic elements")]
-        [SerializeField] private Transform graphicsTransform;
-
         /** The IEnumerator used by the UpdatePath coroutine. */
         private IEnumerator _updatePathCoroutine;
 
@@ -116,12 +113,10 @@ namespace BuildABot
             if (_enemyMovement.MovementDirection.x > 0.01f)
             {
                 _fov.flipx = false;
-                graphicsTransform.localScale = new Vector3(1f, 1f, 1f);
             }
             else if (_enemyMovement.MovementDirection.x < -0.01f)
             {
                 _fov.flipx = true;
-                graphicsTransform.localScale = new Vector3(-1f, 1f, 1f);
             }
             
         }

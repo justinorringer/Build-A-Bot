@@ -8,10 +8,11 @@ namespace BuildABot {
         [SerializeField] private Player bipy;
         [SerializeField] private TextMeshProUGUI temperature;
 
-        void Awake()
+        void Start()
         {
             UpdateTemperature();
         }
+        
         public void UpdateTemperature()
         {
             temperature.text = $"Temp: {bipy.Attributes.Temperature.CurrentValue}";

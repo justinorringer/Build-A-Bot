@@ -51,6 +51,9 @@ namespace BuildABot
         /** This object's collider 2d */
         private Collider2D _collider;
 
+        /** The sprite renderer used by this object. */
+        private SpriteRenderer _sprite;
+
         /** How many jumps has the character attempted? */
         private int _jumpCount;
         /** The current jump force available to this character. */
@@ -94,6 +97,7 @@ namespace BuildABot
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
+            _sprite = GetComponent<SpriteRenderer>();
             
             Bounds bounds = _collider.bounds;
             _extents = new Vector2(bounds.extents.x, bounds.extents.y);
@@ -102,11 +106,8 @@ namespace BuildABot
             else _rigidbody.gravityScale = 2.5f;
             
             CheckGrounded();
-            if (_isGrounded)
-            {
-                _jumpCount = 0;
-                _jumpForce = JumpForce;
-            }
+            _jumpCount = 0;
+            _jumpForce = JumpForce;
         }
 
         protected void FixedUpdate()
@@ -135,8 +136,12 @@ namespace BuildABot
 
             // Update the direction the character is facing if it has changed
             Vector2 dir = targetVelocity.normalized;
-            if (dir.x != 0.0f && dir.x != _facing.x) 
-                _facing = dir.x > 0f ? Vector2.right : Vector2.left;
+            if (dir.x != 0.0f)
+            {
+                bool isRight = dir.x > 0.0f;
+                _facing = isRight ? Vector2.right : Vector2.left;
+                _sprite.flipX = !isRight;
+            }
         }
 
         /**
