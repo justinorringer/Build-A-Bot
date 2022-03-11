@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b45f968a9541d59476994b0b63f39a, type: 3}
   m_Name: TestLootTable
   m_EditorClassIdentifier: 
-  entries: []
+  entries:
+  - item: {fileID: 11400000, guid: ef587b2946e1c82429bfa44b0cffb07c, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 3
+    averageDurability: 1
+    durabilityDeviation: 0
