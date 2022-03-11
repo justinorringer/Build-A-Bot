@@ -57,7 +57,8 @@ namespace BuildABot
                     {
                         enemy.Attributes.ApplyEffect(damageEffect, enemy, damageValue);
                     }
-                    
+
+                    yield break;
                 }
                 yield return new WaitForSeconds(.001f);
             }
