@@ -266,7 +266,7 @@ namespace BuildABot
                 
                 if (target.Timer != null) target.TimerContext.StopCoroutine(target.Timer); // Stop the removal timer if appropriate
 
-                HashSet<AttributeDataBase> dirtyAttributes = new HashSet<AttributeDataBase>();
+                List<AttributeDataBase> dirtyAttributes = new List<AttributeDataBase>();
                 
                 // Remove all modifiers applied by the oldest effect instance
                 foreach (LinkedListNode<AppliedModifier<float>> entry in target.FloatModifiers)
@@ -289,25 +289,10 @@ namespace BuildABot
                 // Remove the first entry
                 list.RemoveFirst();
 
-                if (recalculateModifiers)
-                {
-                    // Recalculate the dirty attributes stacks
-                    foreach (AttributeDataBase attribute in dirtyAttributes)
-                    {
-                        if (attribute is FloatAttributeData floatAttribute)
-                        {
-                            RecalculateFloatModifierStack(floatAttribute, out float addValue, out float multiplyValue, out float divideValue, out float replacement);
-                            floatAttribute.CurrentValue = ((replacement + addValue) * multiplyValue) / divideValue;
-                        }
-                        else if (attribute is IntAttributeData intAttribute)
-                        {
-                            RecalculateIntModifierStack(intAttribute, out int addValue, out int multiplyValue, out int divideValue, out int replacement);
-                            intAttribute.CurrentValue = ((replacement + addValue) * multiplyValue) / divideValue;
-                        }
-                    }
-                }
+                // Recalculate the dirty attributes stacks
+                if (recalculateModifiers) RecalculateDirtyAttributes(dirtyAttributes);
                 
-                return true; // Check if any more entries remain
+                return true;
             }
             
             return false;
@@ -336,7 +321,7 @@ namespace BuildABot
                 
                 if (target.Timer != null) target.TimerContext.StopCoroutine(target.Timer); // Stop the removal timer if appropriate
 
-                HashSet<AttributeDataBase> dirtyAttributes = new HashSet<AttributeDataBase>();
+                List<AttributeDataBase> dirtyAttributes = new List<AttributeDataBase>();
                 
                 // Remove all modifiers applied by the oldest effect instance
                 foreach (LinkedListNode<AppliedModifier<float>> entry in target.FloatModifiers)
@@ -359,25 +344,10 @@ namespace BuildABot
                 // Remove the target entry
                 list.Remove(handleImpl.Node);
 
-                if (recalculateModifiers)
-                {
-                    // Recalculate the dirty attributes stacks
-                    foreach (AttributeDataBase attribute in dirtyAttributes)
-                    {
-                        if (attribute is FloatAttributeData floatAttribute)
-                        {
-                            RecalculateFloatModifierStack(floatAttribute, out float addValue, out float multiplyValue, out float divideValue, out float replacement);
-                            floatAttribute.CurrentValue = ((replacement + addValue) * multiplyValue) / divideValue;
-                        }
-                        else if (attribute is IntAttributeData intAttribute)
-                        {
-                            RecalculateIntModifierStack(intAttribute, out int addValue, out int multiplyValue, out int divideValue, out int replacement);
-                            intAttribute.CurrentValue = ((replacement + addValue) * multiplyValue) / divideValue;
-                        }
-                    }
-                }
+                // Recalculate the dirty attributes stacks
+                if (recalculateModifiers) RecalculateDirtyAttributes(dirtyAttributes);
                 
-                return true; // Check if any more entries remain
+                return true;
             }
             
             return false;
@@ -512,11 +482,8 @@ namespace BuildABot
         {
             
             // Calculate the base modifier stack
-            RecalculateFloatModifierStack(attribute, out float tempAdd, out float tempMultiply, out float tempDivide, out float latestCurrentReplacement);
+            bool hasCurrentOverride = RecalculateFloatModifierStack(attribute, out float tempAdd, out float tempMultiply, out float tempDivide, out float currentReplacement);
             
-            // Handle new effect
-            float baseValue = attribute.BaseValue;
-
             // Apply modifiers from new effect
             if (appliedEffect.Effect.DurationMode == EEffectDurationMode.Instant)
             {
@@ -525,7 +492,7 @@ namespace BuildABot
                 float baseMultiply = 1;
                 float baseDivide = 1;
 
-                float latestBaseReplacement = baseValue;
+                float latestBaseReplacement = attribute.BaseValue;
                 
                 // Permanent change to base value
                 
@@ -559,10 +526,8 @@ namespace BuildABot
                     }
                 }
             
-                // Update the values
-
+                // Update the base value
                 attribute.BaseValue = ((latestBaseReplacement + baseAdd) * baseMultiply) / baseDivide;
-                attribute.CurrentValue = ((attribute.BaseValue + tempAdd) * tempMultiply) / tempDivide; // TODO: Handle current value replacement modifiers
             }
             else
             {
@@ -583,34 +548,37 @@ namespace BuildABot
                         LinkedListNode<AppliedModifier<float>> m = new LinkedListNode<AppliedModifier<float>>(am);
                         _appliedFloatModifiers[attribute].AddLast(m);
                         mods.Add(m);
-                
-                        switch (modifier.OperationType)
+
+                        if (!hasCurrentOverride)
                         {
-                            case EAttributeModifierOperationType.Add:
-                                tempAdd += value;
-                                break;
-                            case EAttributeModifierOperationType.Multiply:
-                                tempMultiply += value - 1;
-                                break;
-                            case EAttributeModifierOperationType.Divide:
-                                tempDivide += value - 1;
-                                break;
-                            case EAttributeModifierOperationType.Replace:
-                                // Clear any mods to current value already applied
-                                tempAdd = 0;
-                                tempMultiply = 1;
-                                tempDivide = 1;
-                                // Update the replacement cache
-                                latestCurrentReplacement = value;
-                                break;
+                            switch (modifier.OperationType)
+                            {
+                                case EAttributeModifierOperationType.Add:
+                                    tempAdd += value;
+                                    break;
+                                case EAttributeModifierOperationType.Multiply:
+                                    tempMultiply += value - 1;
+                                    break;
+                                case EAttributeModifierOperationType.Divide:
+                                    tempDivide += value - 1;
+                                    break;
+                                case EAttributeModifierOperationType.Replace:
+                                    // Clear any mods to current value already applied
+                                    tempAdd = 0;
+                                    tempMultiply = 1;
+                                    tempDivide = 1;
+                                    // Update the replacement cache
+                                    currentReplacement = value;
+                                    hasCurrentOverride = true;
+                                    break;
+                            }
                         }
                     }
                 }
-            
-                // Update the values
-
-                attribute.CurrentValue = ((latestCurrentReplacement + tempAdd) * tempMultiply) / tempDivide;
             }
+            
+            // Update the current value
+            attribute.CurrentValue = hasCurrentOverride ? currentReplacement : ((attribute.BaseValue + tempAdd) * tempMultiply) / tempDivide;
         }
         
         /**
@@ -623,22 +591,18 @@ namespace BuildABot
         private void CalculateIntModifierStack(AttributeData<int> attribute, AppliedEffect appliedEffect, Dictionary<AttributeData<int>, int> snapshot, float magnitude)
         {
             // Calculate the base modifier stack
-            RecalculateIntModifierStack(attribute, out int tempAdd, out int tempMultiply, out int tempDivide, out int latestCurrentReplacement);
+            bool hasCurrentOverride = RecalculateIntModifierStack(attribute, out int tempAdd, out int tempMultiply, out int tempDivide, out int currentReplacement);
             
-            // Handle new effect
-            
-            int baseValue = attribute.BaseValue;
-
-            int baseAdd = 0;
-            int baseMultiply = 1;
-            int baseDivide = 1;
-
-            int latestBaseReplacement = baseValue;
-
             // Apply modifiers from new effect
             if (appliedEffect.Effect.DurationMode == EEffectDurationMode.Instant)
             {
                 // Permanent change to base value
+
+                int baseAdd = 0;
+                int baseMultiply = 1;
+                int baseDivide = 1;
+
+                int latestBaseReplacement = attribute.BaseValue;
                 
                 foreach (AttributeModifierBase mod in appliedEffect.Effect.Modifiers)
                 {
@@ -669,6 +633,9 @@ namespace BuildABot
                         }
                     }
                 }
+            
+                // Update the base value
+                attribute.BaseValue = ((latestBaseReplacement + baseAdd) * baseMultiply) / baseDivide;
             }
             else
             {
@@ -689,35 +656,37 @@ namespace BuildABot
                         LinkedListNode<AppliedModifier<int>> m = new LinkedListNode<AppliedModifier<int>>(am);
                         _appliedIntModifiers[attribute].AddLast(m);
                         mods.Add(m);
-                
-                        switch (modifier.OperationType)
+
+                        if (!hasCurrentOverride)
                         {
-                            case EAttributeModifierOperationType.Add:
-                                tempAdd += value;
-                                break;
-                            case EAttributeModifierOperationType.Multiply:
-                                tempMultiply += value - 1;
-                                break;
-                            case EAttributeModifierOperationType.Divide:
-                                tempDivide += value - 1;
-                                break;
-                            case EAttributeModifierOperationType.Replace:
-                                // Clear any mods to current value already applied
-                                tempAdd = 0;
-                                tempMultiply = 1;
-                                tempDivide = 1;
-                                // Update the replacement cache
-                                latestCurrentReplacement = value;
-                                break;
+                            switch (modifier.OperationType)
+                            {
+                                case EAttributeModifierOperationType.Add:
+                                    tempAdd += value;
+                                    break;
+                                case EAttributeModifierOperationType.Multiply:
+                                    tempMultiply += value - 1;
+                                    break;
+                                case EAttributeModifierOperationType.Divide:
+                                    tempDivide += value - 1;
+                                    break;
+                                case EAttributeModifierOperationType.Replace:
+                                    // Clear any mods to current value already applied
+                                    tempAdd = 0;
+                                    tempMultiply = 1;
+                                    tempDivide = 1;
+                                    // Update the replacement cache
+                                    currentReplacement = value;
+                                    hasCurrentOverride = true;
+                                    break;
+                            }
                         }
                     }
                 }
             }
             
-            // Update the values
-
-            attribute.BaseValue = ((latestBaseReplacement + baseAdd) * baseMultiply) / baseDivide;
-            attribute.CurrentValue = ((latestCurrentReplacement + tempAdd) * tempMultiply) / tempDivide;
+            // Update the current value
+            attribute.CurrentValue = hasCurrentOverride ? currentReplacement : ((attribute.BaseValue + tempAdd) * tempMultiply) / tempDivide;
         }
 
         /**
@@ -727,17 +696,16 @@ namespace BuildABot
          * <param name="multiplyValue">The multiplier term of the attribute value.</param>
          * <param name="divideValue">The divisor term of the attribute value.</param>
          * <param name="replacement">The replacement term of the attribute value.</param>
+         * <returns>True if the stack is overriden by a modifier.</returns>
          */
-        private void RecalculateFloatModifierStack(AttributeData<float> attribute, out float addValue, out float multiplyValue,
+        private bool RecalculateFloatModifierStack(AttributeData<float> attribute, out float addValue, out float multiplyValue,
             out float divideValue, out float replacement)
         {
-            float baseValue = attribute.BaseValue;
-
             addValue = 0;
             multiplyValue = 1;
             divideValue = 1;
 
-            replacement = baseValue;
+            replacement = attribute.BaseValue;
             
             foreach (AppliedModifier<float> appliedMod in _appliedFloatModifiers[attribute])
             {
@@ -761,9 +729,11 @@ namespace BuildABot
                         divideValue = 1;
                         // Update the replacement cache
                         replacement = value;
-                        break;
+                        return true;
                 }
             }
+
+            return false;
         }
         
         /**
@@ -773,17 +743,16 @@ namespace BuildABot
          * <param name="multiplyValue">The multiplier term of the attribute value.</param>
          * <param name="divideValue">The divisor term of the attribute value.</param>
          * <param name="replacement">The replacement term of the attribute value.</param>
+         * <returns>True if the stack is overriden by a modifier.</returns>
          */
-        private void RecalculateIntModifierStack(AttributeData<int> attribute, out int addValue, out int multiplyValue,
+        private bool RecalculateIntModifierStack(AttributeData<int> attribute, out int addValue, out int multiplyValue,
             out int divideValue, out int replacement)
         {
-            int baseValue = attribute.BaseValue;
-
             addValue = 0;
             multiplyValue = 1;
             divideValue = 1;
 
-            replacement = baseValue;
+            replacement = attribute.BaseValue;
             
             foreach (AppliedModifier<int> appliedMod in _appliedIntModifiers[attribute])
             {
@@ -807,7 +776,30 @@ namespace BuildABot
                         divideValue = 1;
                         // Update the replacement cache
                         replacement = value;
-                        break;
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        /**
+         * Recalculates the modifier stacks and current values for the provided list of dirty attributes.
+         * <param name="dirtyAttributes">The list of attributes to recalculate.</param>
+         */
+        private void RecalculateDirtyAttributes(List<AttributeDataBase> dirtyAttributes)
+        {
+            foreach (AttributeDataBase attribute in dirtyAttributes)
+            {
+                if (attribute is FloatAttributeData floatAttribute)
+                {
+                    bool hasReplacement = RecalculateFloatModifierStack(floatAttribute, out float addValue, out float multiplyValue, out float divideValue, out float replacement);
+                    floatAttribute.CurrentValue = hasReplacement ? replacement : ((floatAttribute.BaseValue + addValue) * multiplyValue) / divideValue;
+                }
+                else if (attribute is IntAttributeData intAttribute)
+                {
+                    bool hasReplacement = RecalculateIntModifierStack(intAttribute, out int addValue, out int multiplyValue, out int divideValue, out int replacement);
+                    intAttribute.CurrentValue = hasReplacement ? replacement : ((intAttribute.BaseValue + addValue) * multiplyValue) / divideValue;
                 }
             }
         }
