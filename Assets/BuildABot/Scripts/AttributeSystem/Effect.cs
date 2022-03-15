@@ -106,7 +106,6 @@ namespace BuildABot
          */
         public static string ApplyDescriptionPlaceholders(Effect effect, float magnitude = 1f, bool useRichText = true)
         {
-            string result = effect.description;
             Dictionary<string, string> tokens = new Dictionary<string, string>
             {
                 { "{DURATION}", effect.duration.ToString(CultureInfo.InvariantCulture) },
@@ -154,12 +153,7 @@ namespace BuildABot
                 }
             }
             // Replace tokens
-            foreach (var entry in tokens)
-            {
-                result = result.Replace(entry.Key, entry.Value);
-            }
-
-            return result;
+            return effect.description.ReplaceTokens(tokens);
         }
     }
 }
