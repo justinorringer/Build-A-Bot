@@ -24,6 +24,12 @@ namespace BuildABot
 
         /** The underlying data type of the attributes targeted by this selector. */
         public Type DataType => typeof(T);
+
+        /** The name of the attribute targeted by this selector. May be empty. */
+        public string SelectedAttributeName => value;
+
+        /** The friendly name of the selected attribute. */
+        public string SelectedAttributeNameFriendly => ObjectNames.NicifyVariableName(value);
         
         protected AttributeSelector()
         {

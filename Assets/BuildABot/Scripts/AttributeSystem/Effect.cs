@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 namespace BuildABot
@@ -88,5 +89,77 @@ namespace BuildABot
 
         /** The duration this effect will be applied for if applicable. */
         public float Duration => EEffectDurationMode.ForDuration == durationMode ? duration : 0;
+
+        /**
+         * Replaces valid placeholder tokens in an effect's description with the correct value.
+         * <remarks>
+         * The following are always valid tokens: {DURATION}, {NAME}, {MODIFIER_OPERATION[i]}, {MODIFIER_TARGET[i]},
+         * {MODIFIER_TARGET_LOWER[i]} where i is the index of a modifier in the Effect.
+         *
+         * Additionally, the following modifiers are available for modifier indices with constant value providers:
+         * {MODIFIER_VALUE[i]}, {MODIFIER_VALUE_NO_MAG[i]}, and {MODIFIER_VALUE_BASE_MAG_ONLY[i]}
+         * </remarks>
+         * <param name="effect">The effect whose description is being displayed.</param>
+         * <param name="magnitude">The magnitude to apply to the effect. Defaults to 1f.</param>
+         * <param name="useRichText">Should rich text tags be automatically applied to the result? Defaults to false.</param>
+         * <returns>The version of the effect's description with all placeholders replaced with their true values.</returns>
+         */
+        public static string ApplyDescriptionPlaceholders(Effect effect, float magnitude = 1f, bool useRichText = true)
+        {
+            string result = effect.description;
+            Dictionary<string, string> tokens = new Dictionary<string, string>
+            {
+                { "{DURATION}", effect.duration.ToString(CultureInfo.InvariantCulture) },
+                { "{NAME}", effect.displayName }
+            };
+            for (int i = 0; i < effect.modifiers.Count; i++)
+            {
+                AttributeModifierBase mod = effect.modifiers[i];
+                tokens.Add($"{{MODIFIER_OPERATION[{i}]}}", mod.OperationType.ToString());
+
+                AttributeModifier<float> floatMod = mod as AttributeModifier<float>;
+                AttributeModifier<int> intMod = mod as AttributeModifier<int>;
+                bool isFloat = floatMod != null;
+                bool isInt = intMod != null;
+
+                string targetStr =
+                    (isFloat
+                        ? floatMod.Attribute.SelectedAttributeNameFriendly
+                        : intMod?.Attribute.SelectedAttributeNameFriendly)
+                    ?? (useRichText ? "<b>[invalid modifier]</b>" : "[invalid modifier]");
+                
+                tokens.Add($"{{MODIFIER_TARGET_LOWER[{i}]}}", targetStr.ToLower());
+                tokens.Add($"{{MODIFIER_TARGET[{i}]}}", targetStr);
+                
+                switch (mod.ValueProviderType)
+                {
+                    case EAttributeModifierValueProviderType.Constant:
+                        float floatValue = isFloat ? floatMod.GetModifierValue(null, null) : 0;
+                        float intValue = isInt ? intMod.GetModifierValue(null, null) : 0;
+                        tokens.Add($"{{MODIFIER_VALUE[{i}]}}",
+                            useRichText ?
+                            $"<b>{(isFloat ? (floatValue * magnitude * effect.baseMagnitude) : ((int)(intValue * magnitude * effect.baseMagnitude)))}</b>" :
+                            $"{(isFloat ? (floatValue * magnitude * effect.baseMagnitude) : ((int)(intValue * magnitude * effect.baseMagnitude)))}");
+                        tokens.Add($"{{MODIFIER_VALUE_BASE_MAG_ONLY[{i}]}}",
+                            useRichText ?
+                                $"<b>{(isFloat ? (floatValue * effect.baseMagnitude) : ((int)(intValue * effect.baseMagnitude)))}</b>" :
+                                $"{(isFloat ? (floatValue * effect.baseMagnitude) : ((int)(intValue * effect.baseMagnitude)))}");
+                        tokens.Add($"{{MODIFIER_VALUE_NO_MAG[{i}]}}",
+                            useRichText ?
+                                $"<b>{(isFloat ? floatValue : intValue)}</b>" :
+                                $"{(isFloat ? floatValue : intValue)}");
+                        break;
+                    case EAttributeModifierValueProviderType.Attribute:
+                        break;
+                }
+            }
+            // Replace tokens
+            foreach (var entry in tokens)
+            {
+                result = result.Replace(entry.Key, entry.Value);
+            }
+
+            return result;
+        }
     }
 }
