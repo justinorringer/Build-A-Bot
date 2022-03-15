@@ -51,7 +51,7 @@ namespace BuildABot
         [Tooltip("The duration mode of this effect.")]
         [SerializeField] private EEffectDurationMode durationMode;
         
-        [Tooltip("[CURRENTLY UNUSED] The stacking mode of this effect.")]
+        [Tooltip("The stacking mode of this effect.")]
         [SerializeField] private EEffectStackingMode stackingMode;
 
         [Tooltip("The time that this effect will stay active for if using the ForDuration duration mode.")]
