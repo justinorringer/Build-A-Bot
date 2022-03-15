@@ -60,6 +60,9 @@ namespace BuildABot
         /** The attribute set type targeted by this effect. */
         [SerializeField] private AttributeSetSelector target;
 
+        [Tooltip("The default magnitude to use when applying instances of this effect. This will be multiplied with any magnitude specified at application time.")]
+        [SerializeField] private float baseMagnitude = 1f;
+
         /** The internal list of modifiers used by this effect. */
         [SerializeReference] private List<AttributeModifierBase> modifiers;
 
@@ -76,6 +79,9 @@ namespace BuildABot
 
         /** The stacking mode used by this effect. */
         public EEffectStackingMode StackingMode => stackingMode;
+
+        /** The base magnitude applied to all applications of this effect. */
+        public float BaseMagnitude => baseMagnitude;
 
         /** The list of modifiers used by this effect. */
         public List<AttributeModifierBase> Modifiers => modifiers;

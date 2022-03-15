@@ -534,7 +534,7 @@ namespace BuildABot
                     // Gather the mods that apply to the current attribute
                     if (mod is AttributeModifier<float> modifier && modifier.Attribute.GetSelectedAttribute(this) == attribute)
                     {
-                        float value = modifier.GetModifierValue(this, snapshot) * magnitude;
+                        float value = modifier.GetModifierValue(this, snapshot) * magnitude * appliedEffect.Effect.BaseMagnitude;
                 
                         switch (modifier.OperationType)
                         {
@@ -573,7 +573,7 @@ namespace BuildABot
                     // Gather the mods that apply to the current attribute
                     if (mod is AttributeModifier<float> modifier && modifier.Attribute.GetSelectedAttribute(this) == attribute)
                     {
-                        float value = modifier.GetModifierValue(this, snapshot) * magnitude;
+                        float value = modifier.GetModifierValue(this, snapshot) * magnitude * appliedEffect.Effect.BaseMagnitude;
 
                         // Cache the mod in the mod list
                         AppliedModifier<float> am = new AppliedModifier<float>
@@ -626,8 +626,6 @@ namespace BuildABot
             RecalculateIntModifierStack(attribute, out int tempAdd, out int tempMultiply, out int tempDivide, out int latestCurrentReplacement);
             
             // Handle new effect
-
-            bool isPermanent = appliedEffect.Effect.DurationMode == EEffectDurationMode.Instant;
             
             int baseValue = attribute.BaseValue;
 
@@ -638,7 +636,7 @@ namespace BuildABot
             int latestBaseReplacement = baseValue;
 
             // Apply modifiers from new effect
-            if (isPermanent)
+            if (appliedEffect.Effect.DurationMode == EEffectDurationMode.Instant)
             {
                 // Permanent change to base value
                 
@@ -647,7 +645,7 @@ namespace BuildABot
                     // Gather the mods that apply to the current attribute
                     if (mod is AttributeModifier<int> modifier && modifier.Attribute.GetSelectedAttribute(this) == attribute)
                     {
-                        int value = (int)(modifier.GetModifierValue(this, snapshot) * magnitude);
+                        int value = (int)(modifier.GetModifierValue(this, snapshot) * magnitude * appliedEffect.Effect.BaseMagnitude);
                 
                         switch (modifier.OperationType)
                         {
@@ -681,7 +679,7 @@ namespace BuildABot
                     // Gather the mods that apply to the current attribute
                     if (mod is AttributeModifier<int> modifier && modifier.Attribute.GetSelectedAttribute(this) == attribute)
                     {
-                        int value = (int)(modifier.GetModifierValue(this, snapshot) * magnitude);
+                        int value = (int)(modifier.GetModifierValue(this, snapshot) * magnitude * appliedEffect.Effect.BaseMagnitude);
 
                         // Cache the mod in the mod list
                         AppliedModifier<int> am = new AppliedModifier<int>
