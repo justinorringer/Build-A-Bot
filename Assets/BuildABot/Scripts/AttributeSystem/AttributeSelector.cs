@@ -131,8 +131,6 @@ namespace BuildABot
         /** Gets the type selected by this object. */
         public Type SelectedType => Type.GetType(value);
 
-        public string UnderlyingValue => value;
-
         public AttributeSetSelector()
         {
             
