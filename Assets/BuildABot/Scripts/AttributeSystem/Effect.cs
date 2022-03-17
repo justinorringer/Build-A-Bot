@@ -59,7 +59,7 @@ namespace BuildABot
         [SerializeField] private float duration;
 
         /** The attribute set type targeted by this effect. */
-        [SerializeField] private AttributeSetSelector target;
+        [SerializeField] private AttributeSetSelector target = AttributeSetSelector.FromType<CharacterAttributeSet>();
 
         [Tooltip("The default magnitude to use when applying instances of this effect. This will be multiplied with any magnitude specified at application time.")]
         [SerializeField] private float baseMagnitude = 1f;
