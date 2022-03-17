@@ -66,6 +66,12 @@ namespace BuildABot
 
         /** The internal list of modifiers used by this effect. */
         [SerializeReference] private List<AttributeModifierBase> modifiers;
+        
+        [Header("Advanced")]
+        
+        [Tooltip("Should this effect be hidden from the list of active effects in game?")]
+        [SerializeField] private bool hideInGame = false;
+        
 
         /** The name of this effect displayed in game. */
         public string DisplayName => displayName;
@@ -89,6 +95,9 @@ namespace BuildABot
 
         /** The duration this effect will be applied for if applicable. */
         public float Duration => EEffectDurationMode.ForDuration == durationMode ? duration : 0;
+
+        /** Should this effect be hidden from the in game active effect list? */
+        public bool HideInGame => hideInGame;
 
         /**
          * Replaces valid placeholder tokens in an effect's description with the correct value.

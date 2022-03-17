@@ -23,6 +23,7 @@ MonoBehaviour:
   baseMagnitude: 1
   modifiers:
   - id: 0
+  hideInGame: 0
   references:
     version: 1
     00000000:

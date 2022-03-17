@@ -104,6 +104,11 @@ namespace BuildABot
             serializedObject.Update();
             _list.DoLayoutList();
             serializedObject.ApplyModifiedProperties();
+            
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("hideInGame"), true);
+            
+            serializedObject.ApplyModifiedProperties();
+            
         }
 
         /**

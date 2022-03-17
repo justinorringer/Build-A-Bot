@@ -20,8 +20,10 @@ MonoBehaviour:
   target:
     value: BuildABot.CharacterAttributeSet, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  baseMagnitude: 1
   modifiers:
   - id: 0
+  hideInGame: 1
   references:
     version: 1
     00000000:

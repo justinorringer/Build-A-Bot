@@ -15,14 +15,17 @@ MonoBehaviour:
   displayName: Test Effect
   description: An Effect used for testing purposes.
   durationMode: 0
+  stackingMode: 0
   duration: 0
   target:
     value: BuildABot.CharacterAttributeSet, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  baseMagnitude: 1
   modifiers:
   - id: 0
   - id: 1
   - id: 2
+  hideInGame: 1
   references:
     version: 1
     00000000:
@@ -110,6 +113,7 @@ MonoBehaviour:
           - movementSpeed
           - temperature
           valid: 1
+        coefficient: 1
     00000004:
       type: {class: IntAttributeModifierConstantValueProvider, ns: BuildABot, asm: Assembly-CSharp}
       data:
