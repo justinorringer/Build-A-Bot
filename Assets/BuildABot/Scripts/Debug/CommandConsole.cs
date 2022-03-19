@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace BuildABot
 {
@@ -124,7 +125,7 @@ namespace BuildABot
                     Description = "toggles the live fps display on screen",
                     Usage = "fps",
                     ValidateArgs = args => ExpectArgCount(args, 0),
-                    Action = (console, args) => {}
+                    Action = (console, args) => console.debugDisplay.ToggleFPS()
                 }
             },
             { // Print player stats
@@ -140,15 +141,45 @@ namespace BuildABot
                     Description = "prints all of the player's active effects to the console",
                     Usage = "player.effects",
                     ValidateArgs = args => ExpectArgCount(args, 0),
-                    Action = (console, args) => {}
+                    Action = (console, args) =>
+                    {
+                        Debug.LogWarning("player.effects has not yet been implemented");
+                        //console.player.Attributes.GetActiveEffects();
+                    }
                 }
             },
             { // Print player active effects
                 "player.setStat", new CommandProperties {
-                    Description = "prints all of the player's active effects to the console",
+                    Description = "sets the specified player attribute to the provided value",
                     Usage = "player.setStat {attributeName} {value}",
                     ValidateArgs = args => ExpectArgCount(args, 2),
-                    Action = (console, args) => {}
+                    Action = (console, args) =>
+                    {
+                        AttributeSet playerAttributes = console.player.Attributes;
+                        AttributeDataBase attribute = playerAttributes.GetAttributeData(args[1]);
+                        if (attribute.DataType == typeof(float))
+                        {
+                            ((AttributeData<float>)attribute).BaseValue = float.Parse(args[2]);
+                        }
+                        else
+                        {
+                            ((AttributeData<int>)attribute).BaseValue = int.Parse(args[2]);
+                        }
+                    }
+                }
+            },
+            {
+                "fly", new CommandProperties {
+                    Description = "toggles fly mode for the player",
+                    Usage = "fly",
+                    ValidateArgs = args => ExpectArgCount(args, 0),
+                    Action = (console, args) =>
+                    {
+                        ECharacterMovementMode mode = console.player.PlayerMovement.MovementMode;
+                        console.player.PlayerMovement.ChangeMovementMode(mode == ECharacterMovementMode.Flying ?
+                            ECharacterMovementMode.Walking : ECharacterMovementMode.Flying);
+                        Debug.LogFormat("Fly mode {0}", console.player.PlayerMovement.IsFlying ? "enabled" : "disabled");
+                    }
                 }
             }
         };
@@ -157,12 +188,14 @@ namespace BuildABot
         {
             inputField.onSubmit.AddListener(ExecuteInput);
             Application.logMessageReceived += HandleMessage;
+            player.PlayerInput.InputEnabled = false;
         }
 
         public void OnDisable()
         {
             inputField.onSubmit.RemoveListener(ExecuteInput);
             Application.logMessageReceived -= HandleMessage;
+            player.PlayerInput.InputEnabled = true;
         }
 
         private void HandleMessage(string message, string trace, LogType type)
@@ -173,20 +206,23 @@ namespace BuildABot
                     consoleText.text += $"{message}\n";
                     break;
                 case LogType.Warning:
-                    consoleText.text += $"Warning: <color=yellow>{message}</color>\n";
+                    consoleText.text += $"<color=yellow>Warning: {message}</color>\n";
                     break;
                 case LogType.Error:
-                    consoleText.text += $"Error: <color=red>{message}</color>\n";
+                    consoleText.text += $"<color=red>Error: {message}</color>\n";
                     break;
                 case LogType.Exception:
-                    consoleText.text += $"Exception: <color=red>{message}</color>\n";
+                    consoleText.text += $"<color=red>Exception: {message}</color>\n";
                     break;
                 case LogType.Assert:
-                    consoleText.text += $"Assert: <color=red>{message}</color>\n";
+                    consoleText.text += $"<color=red>Assert: {message}</color>\n";
                     break;
             }
         }
 
+        /**
+         * Executes the provided command input if it is valid.
+         */
         private void ExecuteInput(string value)
         {
             // Skip empty inputs
@@ -204,6 +240,7 @@ namespace BuildABot
 
             // TODO: store previous commands in list, access with up and down keys
             ClearInput();
+            Focus();
         }
 
         /**
@@ -219,7 +256,8 @@ namespace BuildABot
          */
         public void Focus()
         {
-            inputField.Select();
+            //EventSystem.current.SetSelectedGameObject(inputField.gameObject);
+            inputField.OnSelect(null);
         }
 
     }

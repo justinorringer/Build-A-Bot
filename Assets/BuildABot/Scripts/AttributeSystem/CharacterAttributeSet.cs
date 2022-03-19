@@ -13,7 +13,7 @@ namespace BuildABot
         [SerializeField] private FloatAttributeData temperature;
         [Tooltip("The temperature that results in the death of the character.")]
         [SerializeField] private FloatAttributeData maxTemperature;
-        [Tooltip("the rate that the character's temperature changes per second. This can be negative to heat up over time.")]
+        [Tooltip("The rate that the character's temperature changes per second. This can be negative to heat up over time.")]
         [SerializeField] private FloatAttributeData coolDownRate;
         
         [Tooltip("A modifier attribute used in calculating changes to the character's temperature from damage.")]

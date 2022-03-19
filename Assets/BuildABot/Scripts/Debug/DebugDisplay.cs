@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace BuildABot
@@ -7,6 +8,8 @@ namespace BuildABot
      */
     public class DebugDisplay : MonoBehaviour
     {
+        [Header("Command Console")]
+        
         [Tooltip("Does this debug display allow the user to summon the command console?")]
         [SerializeField] private bool allowCommandConsole = true;
 
@@ -15,9 +18,14 @@ namespace BuildABot
 
         [Tooltip("A reference to the child command console of this debug display.")]
         [SerializeField] private CommandConsole console;
-
+        
         /** should the console be shown? */
         private bool _showConsole;
+
+        [Header("Data Displays")]
+        
+        [Tooltip("A reference to the debug display for FPS.")]
+        [SerializeField] private TMP_Text fpsDisplay;
 
         protected void Update()
         {
@@ -33,6 +41,21 @@ namespace BuildABot
                     console.Focus();
                 }
             }
+
+            if (fpsDisplay.enabled)
+            {
+                fpsDisplay.text = $"FPS: {1.0f / Time.deltaTime}";
+            }
+        }
+
+        /**
+         * Toggles the FPS display on screen.
+         */
+        public void ToggleFPS()
+        {
+            bool show = !fpsDisplay.enabled;
+            fpsDisplay.enabled = show;
+            Debug.LogFormat("FPS display {0}", show ? "enabled" : "disabled");
         }
     }
 }
