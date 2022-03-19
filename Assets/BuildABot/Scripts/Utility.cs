@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -143,6 +144,24 @@ namespace BuildABot
             }
 
             if (null != onFinish) onFinish();
+        }
+
+        /**
+         * Replaces any instance of the key values of the provided token dictionary in this string with the key's
+         * corresponding value.
+         * <remarks>This is an extension method for the string type.</remarks>
+         * <param name="source">The string to replace the tokens of.</param>
+         * <param name="tokens">The tokens to replace mapped to the replacement value.</param>
+         * <returns>The updated string value with all tokens replaced.</returns>
+         */
+        public static string ReplaceTokens(this string source, Dictionary<string, string> tokens)
+        {
+            string result = source;
+            foreach (var entry in tokens)
+            {
+                result = result.Replace(entry.Key, entry.Value);
+            }
+            return result;
         }
     }
 }

@@ -265,8 +265,15 @@ namespace BuildABot
             AttributeData<T> attribute = Attribute.GetSelectedAttribute(target);
             T result = attribute.CurrentValue;
             if (shouldSnapshot) snapshot.TryGetValue(attribute, out result);
-            return result;
+            return ApplyConstants(result);
         }
+
+        /**
+         * Applies any coefficients and other constants to the attribute value before returning it to the caller.
+         * <param name="current">The current attribute value with no modification.</param>
+         * <returns>The modified attribute value.</returns>
+         */
+        protected abstract T ApplyConstants(T current);
     }
 
     /**
@@ -278,8 +285,16 @@ namespace BuildABot
     {
         [Tooltip("The attribute to get the value of.")]
         [SerializeField] private FloatAttributeSelector attribute = new FloatAttributeSelector();
+        
+        [Tooltip("The coefficient to apply to the attribute before using its value.")]
+        [SerializeField] private float coefficient = 1f;
 
         public override AttributeSelector<float> Attribute => attribute;
+
+        protected override float ApplyConstants(float current)
+        {
+            return current * coefficient;
+        }
     }
 
     /**
@@ -291,8 +306,16 @@ namespace BuildABot
     {
         [Tooltip("The attribute to get the value of.")]
         [SerializeField] private IntAttributeSelector attribute = new IntAttributeSelector();
+        
+        [Tooltip("The coefficient to apply to the attribute before using its value.")]
+        [SerializeField] private int coefficient = 1;
 
         public override AttributeSelector<int> Attribute => attribute;
+
+        protected override int ApplyConstants(int current)
+        {
+            return current * coefficient;
+        }
     }
     
 #endregion
