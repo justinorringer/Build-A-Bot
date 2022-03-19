@@ -24,6 +24,12 @@ namespace BuildABot
 
         /** The underlying data type of the attributes targeted by this selector. */
         public Type DataType => typeof(T);
+
+        /** The name of the attribute targeted by this selector. May be empty. */
+        public string SelectedAttributeName => value;
+
+        /** The friendly name of the selected attribute. */
+        public string SelectedAttributeNameFriendly => ObjectNames.NicifyVariableName(SelectedAttributeName);
         
         protected AttributeSelector()
         {
@@ -140,19 +146,28 @@ namespace BuildABot
                 throw new ArgumentException(
                     "AttributeSetSelector objects can only contain references to AttributeSet types.",
                     nameof(attributeSetType));
-            value = attributeSetType.Name;
+            value = attributeSetType.AssemblyQualifiedName;
         }
 
         /**
          * Constructs a new AttributeSetSelector from a given value.
-         * <param name="value">the underlying value to generate from.</param>
+         * <param name="value">The underlying value to generate from. This should be an Assembly-Qualified type name.</param>
          * <returns>The newly created selector.</returns>
          */
         public static AttributeSetSelector FromValue(string value)
         {
-            AttributeSetSelector result = new AttributeSetSelector();
-            result.value = value;
+            AttributeSetSelector result = new AttributeSetSelector {value = value};
             return result;
+        }
+
+        /**
+         * Constructs a new AttributeSetSelector from a compile time type.
+         * <typeparam name="T">The AttributeSet derived type to target.</typeparam>
+         * <returns>The newly created selector.</returns>
+         */
+        public static AttributeSetSelector FromType<T>() where T : AttributeSet
+        {
+            return new AttributeSetSelector(typeof(T));
         }
 
     #if UNITY_EDITOR

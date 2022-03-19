@@ -64,37 +64,55 @@ namespace BuildABot
     [CustomPropertyDrawer(typeof(AttributeSetSelector))]
     public class AttributeSetSelectorDrawer : PropertyDrawer
     {
-
-        /** The index used to track the current value. */
-        private int _index;
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             SerializedProperty valueProperty = property.FindPropertyRelative("value");
 
-            if (!(fieldInfo.FieldType.GetProperty("Options")?.GetValue(null) is string[] options))
-                options = new [] { "-" };
-            if (!(fieldInfo.FieldType.GetProperty("NiceOptions")?.GetValue(null) is string[] optionsNice))
-                optionsNice = new [] { "-" };
+            string currentValue = valueProperty.stringValue;
+            bool isInvalid = string.IsNullOrEmpty(currentValue);
+
+            string[] options = fieldInfo.FieldType.GetProperty("Options")?.GetValue(null) as string[];
+            string[] optionsNice = fieldInfo.FieldType.GetProperty("NiceOptions")?.GetValue(null) as string[];
+            
+            if (null == options) options = new string[0];
+            if (null == optionsNice) optionsNice = new string[0];
+
+            if (isInvalid)
+            {
+                string[] optionsWithInvalid = new string[options.Length + 1];
+                optionsWithInvalid[0] = "-";
+                string[] optionsNiceWithInvalid = new string[optionsNice.Length + 1];
+                optionsNiceWithInvalid[0] = "-";
+                for (int i = 0; i < options.Length; i++)
+                {
+                    optionsWithInvalid[i + 1] = options[i];
+                    optionsNiceWithInvalid[i + 1] = optionsNice[i];
+                }
+
+                options = optionsWithInvalid;
+                optionsNice = optionsNiceWithInvalid;
+            }
             
             int optionCount = options.Length;
-            string currentValue = valueProperty.stringValue;
+
+            int index = 0;
             
             // Get the current value index
             for (int i = 0; i < optionCount; i++)
             {
-                if (options[i] == currentValue) _index = i;
+                if (options[i] == currentValue) index = i;
             }
             
             EditorGUI.BeginProperty(position, label, property);
 
             EditorGUI.BeginChangeCheck();
 
-            _index = EditorGUI.Popup(position, label.text, _index, optionsNice);
+            index = EditorGUI.Popup(position, label.text, index, optionsNice);
             
             if (EditorGUI.EndChangeCheck())
             {
-                valueProperty.stringValue = options[_index];
+                valueProperty.stringValue = options[index];
             }
             
             EditorGUI.EndProperty();

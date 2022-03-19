@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 694048b631414181ac67df61d96b4477, type: 3}
-  m_Name: Damage
+  m_Name: InstantKill
   m_EditorClassIdentifier: 
-  displayName: Damage
-  description: Damages a character by raising their temperature.
+  displayName: Instant Kill
+  description: Instantly kills a character by maxing out their temperature.
   durationMode: 0
   stackingMode: 0
   duration: 0
@@ -23,14 +23,14 @@ MonoBehaviour:
   baseMagnitude: 1
   modifiers:
   - id: 0
-  hideInGame: 1
+  hideInGame: 0
   references:
     version: 1
     00000000:
       type: {class: FloatAttributeModifier, ns: BuildABot, asm: Assembly-CSharp}
       data:
-        operationType: 0
-        valueProviderType: 0
+        operationType: 3
+        valueProviderType: 1
         attributeSet:
           value: BuildABot.CharacterAttributeSet, Assembly-CSharp, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
@@ -53,6 +53,23 @@ MonoBehaviour:
           - temperature
           valid: 1
     00000001:
-      type: {class: FloatAttributeModifierConstantValueProvider, ns: BuildABot, asm: Assembly-CSharp}
+      type: {class: FloatAttributeModifierAttributeValueProvider, ns: BuildABot, asm: Assembly-CSharp}
       data:
-        value: 1
+        shouldSnapshot: 0
+        attribute:
+          value: maxTemperature
+          options:
+          - coolDownRate
+          - coolingFactor
+          - durabilityDegradationRate
+          - heavyAttackPower
+          - jumpForce
+          - jumpForceFalloff
+          - knockback
+          - lightAttackPower
+          - maxTemperature
+          - mediumAttackPower
+          - movementSpeed
+          - temperature
+          valid: 1
+        coefficient: 1
