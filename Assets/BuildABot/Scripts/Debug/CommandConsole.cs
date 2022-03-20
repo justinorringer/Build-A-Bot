@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace BuildABot
 {
@@ -19,20 +18,25 @@ namespace BuildABot
         [SerializeField] private Player player;
 
         [Header("UI")]
+        
         [Tooltip("The input field used for this command line.")]
         [SerializeField] private TMP_InputField inputField;
 
         [Tooltip("The text area used by the console.")]
         [SerializeField] private TMP_Text consoleText;
+
+        /** The cache of entries that have been used for the command line during the current program execution. */
+        private List<string> _entries = new List<string>();
+        
+
+        /** A function that can be used to validate input arguments. */
+        public delegate bool ValidateArgsFunc(string[] args);
         
         /**
          * The properties and data associated with a specific command.
          */
         private struct CommandProperties
         {
-
-            /** A function that can be used to validate input arguments. */
-            public delegate bool ValidateArgsFunc(string[] args);
             
             /** The description of this command displayed by the help option. */
             public string Description;
@@ -184,6 +188,55 @@ namespace BuildABot
             }
         };
 
+        /**
+         * Registers a command to the global command registry at runtime. Calling this function with an already registered
+         * command name will overwrite the existing command's behavior.
+         * <param name="command">The command string to register.</param>
+         * <param name="description">The description of the command displayed when getting help for the command.</param>
+         * <param name="usage">A string displayed in help menus to show the format expected for the command.</param>
+         * <param name="action">The action executed by the command when run. Takes a reference to the command console instance and the string arguments.</param>
+         * <param name="expectedArgCount">The number of arguments expected for the command by default during input validation.</param>
+         * <param name="argCountOptions">Alternative argument count options used for input validation.</param>
+         */
+        public void RegisterRuntimeCommand(string command, string description, string usage,
+            Action<CommandConsole, string[]> action, int expectedArgCount, params int[] argCountOptions)
+        {
+            RegisterRuntimeCommand(command, new CommandProperties
+            {
+                Description = description, Usage = usage,
+                ValidateArgs = args => ExpectArgCount(args, expectedArgCount, argCountOptions),
+                Action = action
+            });
+        }
+
+        /**
+         * Registers a command to the global command registry at runtime. Calling this function with an already registered
+         * command name will overwrite the existing command's behavior.
+         * <param name="command">The command string to register.</param>
+         * <param name="description">The description of the command displayed when getting help for the command.</param>
+         * <param name="usage">A string displayed in help menus to show the format expected for the command.</param>
+         * <param name="action">The action executed by the command when run. Takes a reference to the command console instance and the string arguments.</param>
+         * <param name="argValidationFunc">The validation function used to verify that the entered command arguments are valid.</param>
+         */
+        public void RegisterRuntimeCommand(string command, string description, string usage,
+            Action<CommandConsole, string[]> action, ValidateArgsFunc argValidationFunc)
+        {
+            RegisterRuntimeCommand(command, new CommandProperties
+            {
+                Description = description, Usage = usage, ValidateArgs = argValidationFunc, Action = action
+            });
+        }
+
+        /**
+         * Registers a command to the global command registry at runtime.
+         * <param name="command">The command string to register.</param>
+         * <param name="properties">The properties of the command.</param>
+         */
+        private void RegisterRuntimeCommand(string command, CommandProperties properties)
+        {
+            Commands.Add(command, properties);
+        }
+
         public void OnEnable()
         {
             inputField.onSubmit.AddListener(ExecuteInput);
@@ -198,6 +251,12 @@ namespace BuildABot
             player.PlayerInput.InputEnabled = true;
         }
 
+        /**
+         * Handles printing debug messages to the console.
+         * <param name="message">The message to display.</param>
+         * <param name="trace">The associated stack trace.</param>
+         * <param name="type">The logging type used for the message.</param>
+         */
         private void HandleMessage(string message, string trace, LogType type)
         {
             switch (type)
@@ -222,6 +281,7 @@ namespace BuildABot
 
         /**
          * Executes the provided command input if it is valid.
+         * <param name="value">The input value to process.</param>
          */
         private void ExecuteInput(string value)
         {
