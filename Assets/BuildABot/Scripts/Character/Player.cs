@@ -22,6 +22,11 @@ namespace BuildABot
         private PlayerMovement _playerMovement;
         /** The player input component used by this player. */
         private PlayerInput _playerInput;
+
+        /** The player movement controller used by this player. */
+        public PlayerMovement PlayerMovement => _playerMovement;
+        /** The player input component used by this player. */
+        public PlayerInput PlayerInput => _playerInput;
         
 #region Follow Mouse Debug tool
 

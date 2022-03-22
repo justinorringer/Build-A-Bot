@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -165,6 +166,20 @@ namespace BuildABot
         {
             bool found = _attributes.TryGetValue(name, out AttributeDataBase attribute);
             if (found) return attribute as AttributeData<T>;
+
+            return null;
+        }
+
+        /**
+         * Gets the attribute data associated with the provided name and data type. If an attribute with the
+         * provided name is not found null will be returned.
+         * <param name="name">The name of the attribute to get.</param>
+         * <returns>The attribute data if found, otherwise null.</returns>
+         */
+        public AttributeDataBase GetAttributeData(string name)
+        {
+            bool found = _attributes.TryGetValue(name, out AttributeDataBase attribute);
+            if (found) return attribute;
 
             return null;
         }
@@ -813,7 +828,7 @@ namespace BuildABot
             string entries = "";
             foreach (var entry in _attributes)
             {
-                entries += $"{entry.Key}: []\n";
+                entries += $"    {entry.Key}: {entry.Value}\n";
             }
             return $"Attribute Set {GetType().Name}: [\n{entries}]";
         }

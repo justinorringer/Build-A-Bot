@@ -94,6 +94,11 @@ namespace BuildABot
             _currentValue = defaultValue;
         }
 
+        public override string ToString()
+        {
+            return $"Base: {_baseValue}, Current: {_currentValue}";
+        }
+
         /**
          * Adds a new listener for the OnPreValueChange event.
          * <param name="listener">The listener to add.</param>
