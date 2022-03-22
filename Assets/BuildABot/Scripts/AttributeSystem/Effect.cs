@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
@@ -70,7 +71,7 @@ namespace BuildABot
         [Header("Advanced")]
         
         [Tooltip("Should this effect be hidden from the list of active effects in game?")]
-        [SerializeField] private bool hideInGame = false;
+        [SerializeField] private bool hideInGame;
         
 
         /** The name of this effect displayed in game. */
@@ -164,5 +165,17 @@ namespace BuildABot
             // Replace tokens
             return effect.description.ReplaceTokens(tokens);
         }
+    }
+
+    /**
+     * An instance of an effect with an unique magnitude.
+     */
+    [Serializable]
+    public struct EffectInstance
+    {
+        /** The effect referenced by this instance. */
+        public Effect effect;
+        /** Tha magnitude of this instance. */
+        public float magnitude;
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuildABot
@@ -9,5 +10,11 @@ namespace BuildABot
     public class RepairToolItem : StackableItem
     {
         public override EItemType Type => EItemType.RepairTool;
+
+        [Tooltip("The list of effects applied by this repair tool when used.")]
+        [SerializeField] private List<EffectInstance> effects = new List<EffectInstance>();
+
+        /** The effects applied by this item. */
+        public List<EffectInstance> Effects => effects;
     }
 }

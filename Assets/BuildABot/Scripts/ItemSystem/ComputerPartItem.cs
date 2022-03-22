@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BuildABot
@@ -52,10 +53,19 @@ namespace BuildABot
         [Tooltip("The amount that this item protects the user from overheating while equipped. A negative value will cause the user to overheat more easily.")]
         [SerializeField] private float coolingFactor = 0.0f;
 
+        [Tooltip("The list of effects provided by this item when equipped.")]
+        [SerializeField] private List<EffectInstance> effects = new List<EffectInstance>();
+
+        /** The type of part that this item is. */
+        public EComputerPartType PartType => partType;
+        
         /** The maximum durability of instances of this item (read-only). */
         public int MaxDurability => maxDurability;
         
         /** The cooling or heating impact of this item when equipped (read-only). */
         public float CoolingFactor => coolingFactor;
+
+        /** The effects used by this item. */
+        public List<EffectInstance> Effects => effects;
     }
 }
