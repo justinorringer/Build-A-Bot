@@ -35,7 +35,7 @@ namespace BuildABot{
         {
             looking = true;
             StartCoroutine("FindTargetsWithDelay", visionDelay);
-            Debug.Log("Started Looking");
+            //Debug.Log("Started Looking");
         }
 
         /**
@@ -50,7 +50,7 @@ namespace BuildABot{
 
         IEnumerator FindTargetsWithDelay(float delay)
         {
-            Debug.Log("Started Coroutine");
+            //Debug.Log("Started Coroutine");
             while(looking)
             {
                 yield return new WaitForSeconds(delay);
@@ -63,7 +63,7 @@ namespace BuildABot{
             visibleTargets.Clear();
             Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, targetMask);
 
-            Debug.LogFormat("Number of objects in view: {0}", targetsInViewRadius.Length);
+            //Debug.LogFormat("Number of objects in view: {0}", targetsInViewRadius.Length);
 
             for (int i = 0; i < targetsInViewRadius.Length; i++) {
                 Transform target = targetsInViewRadius [i].transform;
@@ -72,7 +72,7 @@ namespace BuildABot{
                 Vector3 angleToUse = flipx ? transform.right * -1 : transform.right;
 
                 if (Vector2.Angle (angleToUse, dirToTarget) < viewAngle / 2) {
-                    Debug.Log("Angle looks good");
+                    //Debug.Log("Angle looks good");
                     float dstToTarget = Vector2.Distance (transform.position, target.position);
 
                     if (!Physics2D.Raycast (transform.position, dirToTarget, dstToTarget, obstacleMask)) {
