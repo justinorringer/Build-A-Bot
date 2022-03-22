@@ -26,7 +26,12 @@ namespace BuildABot
         [SerializeField] private TMP_Text consoleText;
 
         /** The cache of entries that have been used for the command line during the current program execution. */
-        private List<string> _entries = new List<string>();
+        private readonly List<string> _entries = new List<string>();
+
+        /** The index of the current input entry. */
+        private int _activeEntryIndex;
+        /** A cache of the latest entry value (not submitted) used when selecting previous inputs. */
+        private string _latestInputCache = "";
         
 
         /** A function that can be used to validate input arguments. */
@@ -87,7 +92,7 @@ namespace BuildABot
          */
         private static void PrintCommandHelp(string command, CommandProperties properties)
         {
-            Debug.LogFormat("<b><i>{0}</i></b>\n    {1}\n    <i>Usage:</i> {2}\n", command, properties.Description, properties.Usage);
+            Debug.LogFormat("<b><i>{0}</i></b>\n    {1}\n    <i>Usage:</i> {2}", command, properties.Description, properties.Usage);
         }
         
         /** The dictionary of all commands available to the game by default. */
@@ -298,7 +303,9 @@ namespace BuildABot
             }
             else Debug.LogErrorFormat("Invalid command: '{0}'", value);
 
-            // TODO: store previous commands in list, access with up and down keys
+            _entries.Add(value);
+            _activeEntryIndex = _entries.Count;
+            
             ClearInput();
             Focus();
         }
@@ -316,9 +323,35 @@ namespace BuildABot
          */
         public void Focus()
         {
-            //EventSystem.current.SetSelectedGameObject(inputField.gameObject);
             inputField.OnSelect(null);
         }
 
+        private void Update()
+        {
+            // Handle moving up and down through old inputs
+            if (inputField.isFocused && _entries.Count > 0)
+            {
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    if (_activeEntryIndex == _entries.Count) _latestInputCache = inputField.text;
+                    _activeEntryIndex--;
+                    if (_activeEntryIndex < 0) _activeEntryIndex = 0;
+                    inputField.text = _entries[_activeEntryIndex];
+                    inputField.caretPosition = inputField.text.Length;
+                }
+
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    _activeEntryIndex++;
+                    if (_activeEntryIndex > _entries.Count) _activeEntryIndex = _entries.Count;
+                    else
+                    {
+                        inputField.text = _activeEntryIndex == _entries.Count ?
+                            _latestInputCache : _entries[_activeEntryIndex];
+                        inputField.caretPosition = inputField.text.Length;
+                    }
+                }
+            }
+        }
     }
 }
