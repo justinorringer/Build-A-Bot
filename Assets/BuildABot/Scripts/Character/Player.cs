@@ -7,27 +7,19 @@ namespace BuildABot
      * The core data and logic associated with the Player character.
      */
     [RequireComponent(typeof(PlayerMovement), typeof(PlayerInput))]
-    public class Player : MonoBehaviour
+    public class Player : Character
     {
-        
-        // TODO: Create a character base class? Coordinate with Enemy and NPC development
-
-        [Tooltip("The attributes available to this player.")]
-        [SerializeField] private CharacterAttributeSet attributes;
-
-        /** The attribute set used by this character. */
-        public CharacterAttributeSet Attributes => attributes;
 
         /** The player movement component used by this player. */
         private PlayerMovement _playerMovement;
         /** The player input component used by this player. */
         private PlayerInput _playerInput;
 
-        /** The player movement controller used by this player. */
-        public PlayerMovement PlayerMovement => _playerMovement;
         /** The player input component used by this player. */
         public PlayerInput PlayerInput => _playerInput;
-        
+
+        public override CharacterMovement CharacterMovement => _playerMovement;
+
 #region Follow Mouse Debug tool
 
         [Header("Debug")]
@@ -38,9 +30,10 @@ namespace BuildABot
         
 #endregion
 
-        protected void Awake()
+        protected override void Awake()
         {
-            attributes.Initialize();
+            base.Awake();
+            Attributes.Initialize();
         }
         
         

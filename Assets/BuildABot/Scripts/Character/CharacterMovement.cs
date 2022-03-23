@@ -87,6 +87,9 @@ namespace BuildABot
         /** Which direction is the character currently facing? */
         public Vector2 Facing => _facing;
 
+        /** Can this character move? */
+        public bool CanMove { get; set; } = true;
+
         protected virtual void Awake()
         {
             
@@ -114,22 +117,26 @@ namespace BuildABot
             // Check grounded state each frame
             CheckGrounded();
 
-            float movementRate = MovementSpeed * Time.fixedDeltaTime * 10.0f;
-
             // Move using velocity based on the cached movement rates
-            Vector2 targetVelocity;
-            switch (MovementMode)
+            Vector2 targetVelocity = Vector2.zero;
+
+            if (CanMove)
             {
-                case ECharacterMovementMode.Walking:
-                    Vector2 velocity = _rigidbody.velocity;
-                    targetVelocity = new Vector2(_horizontalMovementRate * movementRate, velocity.y);
-                    break;
-                case ECharacterMovementMode.Flying:
-                    targetVelocity = new Vector2(_horizontalMovementRate, _verticalMovementRate) * movementRate;
-                    break;
-                default:
-                    targetVelocity = _rigidbody.velocity;
-                    break;
+
+                float movementRate = MovementSpeed * Time.fixedDeltaTime * 10.0f;
+                switch (MovementMode)
+                {
+                    case ECharacterMovementMode.Walking:
+                        Vector2 velocity = _rigidbody.velocity;
+                        targetVelocity = new Vector2(_horizontalMovementRate * movementRate, velocity.y);
+                        break;
+                    case ECharacterMovementMode.Flying:
+                        targetVelocity = new Vector2(_horizontalMovementRate, _verticalMovementRate) * movementRate;
+                        break;
+                    default:
+                        targetVelocity = _rigidbody.velocity;
+                        break;
+                }
             }
             _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, 0.05f);
 

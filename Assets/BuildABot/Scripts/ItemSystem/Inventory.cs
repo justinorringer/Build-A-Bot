@@ -25,7 +25,7 @@ namespace BuildABot
     public class Inventory : MonoBehaviour
     {
 
-        /** the runtime collection of entries inside of this inventory. */
+        /** The runtime collection of entries inside of this inventory. */
         private readonly List<InventoryEntry> _entries = new List<InventoryEntry>();
         
         [Tooltip("The maximum number of entries that can be stored in this inventory.")]
@@ -50,6 +50,16 @@ namespace BuildABot
         
         /** Gets the number of item slots available in this inventory. */
         public int MaxSlots => maxSlots;
+
+        /**
+         * Updates the number of slots available in this inventory.
+         * <param name="slots">The new number of slots that this inventory can hold.</param>
+         */
+        public void UpdateSlotCount(int slots)
+        {
+            Debug.Assert(slots > 0, "An inventory must have at least one slot.");
+            maxSlots = slots;
+        }
 
         /**
          * Checks whether or not this inventory contains at least the provided quantity of the specified item.

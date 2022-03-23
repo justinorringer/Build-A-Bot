@@ -184,10 +184,10 @@ namespace BuildABot
                     ValidateArgs = args => ExpectArgCount(args, 0),
                     Action = (console, args) =>
                     {
-                        ECharacterMovementMode mode = console.player.PlayerMovement.MovementMode;
-                        console.player.PlayerMovement.ChangeMovementMode(mode == ECharacterMovementMode.Flying ?
+                        ECharacterMovementMode mode = console.player.CharacterMovement.MovementMode;
+                        console.player.CharacterMovement.ChangeMovementMode(mode == ECharacterMovementMode.Flying ?
                             ECharacterMovementMode.Walking : ECharacterMovementMode.Flying);
-                        Debug.LogFormat("Fly mode {0}", console.player.PlayerMovement.IsFlying ? "enabled" : "disabled");
+                        Debug.LogFormat("Fly mode {0}", console.player.CharacterMovement.IsFlying ? "enabled" : "disabled");
                     }
                 }
             }
@@ -242,14 +242,14 @@ namespace BuildABot
             Commands.Add(command, properties);
         }
 
-        public void OnEnable()
+        private void OnEnable()
         {
             inputField.onSubmit.AddListener(ExecuteInput);
             Application.logMessageReceived += HandleMessage;
             player.PlayerInput.InputEnabled = false;
         }
 
-        public void OnDisable()
+        private void OnDisable()
         {
             inputField.onSubmit.RemoveListener(ExecuteInput);
             Application.logMessageReceived -= HandleMessage;
