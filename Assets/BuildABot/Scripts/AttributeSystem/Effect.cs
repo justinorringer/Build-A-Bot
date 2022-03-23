@@ -176,6 +176,7 @@ namespace BuildABot
         /** The effect referenced by this instance. */
         public Effect effect;
         /** Tha magnitude of this instance. */
+        [Min(0.0f)]
         public float magnitude;
     }
 }
