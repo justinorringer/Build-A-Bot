@@ -7,7 +7,7 @@ namespace BuildABot
     /**
      * The types of computer parts that can be equipped by the player.
      */
-    public enum EComputerPartType
+    public enum EComputerPartSlot
     {
         CPU,
         Motherboard,
@@ -44,7 +44,7 @@ namespace BuildABot
         public override EItemType Type => EItemType.ComputerPart;
 
         [Tooltip("The type computer part that this item represents.")]
-        [SerializeField] private EComputerPartType partType;
+        [SerializeField] private EComputerPartSlot partType;
         
         [Tooltip("The max durability available to instances of this item.")]
         [Min(1)]
@@ -57,7 +57,7 @@ namespace BuildABot
         [SerializeField] private List<EffectInstance> effects = new List<EffectInstance>();
 
         /** The type of part that this item is. */
-        public EComputerPartType PartType => partType;
+        public EComputerPartSlot PartType => partType;
         
         /** The maximum durability of instances of this item (read-only). */
         public int MaxDurability => maxDurability;

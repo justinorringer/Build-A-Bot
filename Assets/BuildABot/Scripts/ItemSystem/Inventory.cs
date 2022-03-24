@@ -17,6 +17,26 @@ namespace BuildABot
         
         /** The stack count of this entry if it is a stack. */
         public abstract int Count { get; }
+
+        /** Can this item entry be equipped? */
+        public virtual bool CanEquip => false;
+
+        /** Is this entry currently equipped? */
+        private bool _equipped = false;
+
+        /** Is this entry currently equipped? */
+        public bool Equipped
+        {
+            get => _equipped;
+            set
+            {
+                if (CanEquip) _equipped = value;
+                else
+                {
+                    Debug.LogWarning("Cannot equip an item that is not marked CanEquip.");
+                }
+            }
+        }
     }
     
     /**
