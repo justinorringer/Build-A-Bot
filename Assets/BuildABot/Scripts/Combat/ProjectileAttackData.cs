@@ -11,7 +11,7 @@ namespace BuildABot
 
         public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action<float> onProgress = null, Action onComplete = null)
         {
-            if (!allowMovement) instigator.Character.CharacterMovement.CanMove = false;
+            if (!AllowMovement) instigator.Character.CharacterMovement.CanMove = false;
             return null;
         }
     }

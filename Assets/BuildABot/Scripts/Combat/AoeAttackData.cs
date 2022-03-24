@@ -6,6 +6,9 @@ using UnityEngine;
 namespace BuildABot
 {
 
+    /**
+     * The available shapes of AOE attacks.
+     */
     public enum EAoeAttackShape
     {
         Box,
@@ -46,9 +49,33 @@ namespace BuildABot
         [Min(1)]
         [SerializeField] private int raycastRate = 10;
 
+        /** The shape of the attack box. */
+        public EAoeAttackShape Shape => shape;
+
+        /** Is the size of this attack relative to the bounds of the attacking character? */
+        public bool UseRelativeRadius => useRelativeRadius;
+
+        /** The maximum radius of the attack area. */
+        public float Radius => radius;
+
+        /** The curve that the attack area will follow over time. */
+        public AnimationCurve AreaOverTime => areaOverTime;
+
+        /** The maximum angle used if this attack uses a cone area. */
+        public float Angle => angle;
+
+        /** The curve that the attack area will follow over time. */
+        public AnimationCurve AngleOverTime => angleOverTime;
+
+        /** The duration of this attack in seconds. */
+        public float Duration => duration;
+
+        /** The number of times to raycast the attack per second. */
+        public int RaycastRate => raycastRate;
+
         public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action<float> onProgress = null, Action onComplete = null)
         {
-            if (!allowMovement) instigator.Character.CharacterMovement.CanMove = false;
+            if (!AllowMovement) instigator.Character.CharacterMovement.CanMove = false;
             
             HashSet<Character> hitLookup = new HashSet<Character>();
             float progress = 0f;
@@ -58,8 +85,8 @@ namespace BuildABot
             return Utility.RepeatFunction(instigator, () =>
             {
                 Vector2 position = instigator.Character.transform.position;
-                position += (offsetInLookDirection ? instigator.Character.CharacterMovement.Facing : Vector2.one) *
-                            offset * new Vector2(offsetXCurve.Evaluate(progress), offsetYCurve.Evaluate(progress));
+                position += (OffsetInLookDirection ? instigator.Character.CharacterMovement.Facing : Vector2.one) *
+                            Offset * new Vector2(OffsetXCurve.Evaluate(progress), OffsetYCurve.Evaluate(progress));
 
                 float trueRadius = radius;
                 
@@ -68,7 +95,7 @@ namespace BuildABot
                 {
                     case EAoeAttackShape.Box:
                 
-                        Vector2 trueSize = useRelativeSize ? instigator.Character.Bounds * size : size;
+                        Vector2 trueSize = UseRelativeSize ? instigator.Character.Bounds * Size : Size;
                         trueSize *= areaOverTime.Evaluate(progress);
                         
                         hitColliders = Physics2D.OverlapBoxAll(
@@ -114,11 +141,11 @@ namespace BuildABot
 
                     // Get the other character hit
                     Character other = hitObj.GetComponent<Character>();
-                    if ((canHitSelf || other != instigator.Character) &&
+                    if ((CanHitSelf || other != instigator.Character) &&
                         null != other &&
-                        (allowMultiHit || !hitLookup.Contains(other)))
+                        (AllowMultiHit || !hitLookup.Contains(other)))
                     {
-                        foreach (EffectInstance instance in effects)
+                        foreach (EffectInstance instance in Effects)
                         {
                             other.Attributes.ApplyEffect(instance, other);
                         }
@@ -132,7 +159,7 @@ namespace BuildABot
                 
             }, interval, (int) (raycastRate * duration), () =>
             {
-                if (!allowMovement) instigator.Character.CharacterMovement.CanMove = true;
+                if (!AllowMovement) instigator.Character.CharacterMovement.CanMove = true;
                 onComplete?.Invoke();
             });
         }
