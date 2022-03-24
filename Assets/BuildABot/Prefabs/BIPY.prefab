@@ -78,10 +78,11 @@ GameObject:
   - component: {fileID: 609926857222936973}
   - component: {fileID: 609926857222936974}
   - component: {fileID: 609926857222936979}
+  - component: {fileID: 878766306424404202}
+  - component: {fileID: 6929657910909737951}
   - component: {fileID: 609926857222936976}
   - component: {fileID: 609926857222936977}
   - component: {fileID: 609926857222936978}
-  - component: {fileID: 878766306424404202}
   m_Layer: 7
   m_Name: BIPY
   m_TagString: Untagged
@@ -122,6 +123,9 @@ MonoBehaviour:
   attributes:
     temperature:
       defaultValue: 40
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -148,6 +152,9 @@ MonoBehaviour:
             m_CallState: 2
     maxTemperature:
       defaultValue: 80
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -162,6 +169,9 @@ MonoBehaviour:
           m_Calls: []
     coolDownRate:
       defaultValue: 0.1
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -176,6 +186,9 @@ MonoBehaviour:
           m_Calls: []
     coolingFactor:
       defaultValue: 1
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -190,6 +203,9 @@ MonoBehaviour:
           m_Calls: []
     durabilityDegradationRate:
       defaultValue: 1
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -204,6 +220,9 @@ MonoBehaviour:
           m_Calls: []
     movementSpeed:
       defaultValue: 30
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -218,6 +237,9 @@ MonoBehaviour:
           m_Calls: []
     jumpForce:
       defaultValue: 12
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -232,6 +254,9 @@ MonoBehaviour:
           m_Calls: []
     maxJumpCount:
       defaultValue: 2
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -246,6 +271,9 @@ MonoBehaviour:
           m_Calls: []
     jumpForceFalloff:
       defaultValue: 1
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -260,6 +288,9 @@ MonoBehaviour:
           m_Calls: []
     knockback:
       defaultValue: 0
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -274,6 +305,9 @@ MonoBehaviour:
           m_Calls: []
     lightAttackPower:
       defaultValue: 0
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -288,6 +322,9 @@ MonoBehaviour:
           m_Calls: []
     mediumAttackPower:
       defaultValue: 0
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -302,6 +339,9 @@ MonoBehaviour:
           m_Calls: []
     heavyAttackPower:
       defaultValue: 0
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -316,6 +356,21 @@ MonoBehaviour:
           m_Calls: []
     inventorySpace:
       defaultValue: 10
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6929657910909737951}
+            m_TargetAssemblyTypeName: BuildABot.Inventory, Assembly-CSharp
+            m_MethodName: UpdateSlotCount
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       onPreBaseValueChange:
         m_PersistentCalls:
           m_Calls: []
@@ -327,7 +382,22 @@ MonoBehaviour:
           m_Calls: []
       onPostValueChange:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 6929657910909737951}
+            m_TargetAssemblyTypeName: BuildABot.Inventory, Assembly-CSharp
+            m_MethodName: UpdateSlotCount
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
   useFollowMouseTool: 0
 --- !u!114 &609926857222936974
 MonoBehaviour:
@@ -354,6 +424,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementMode: 0
+--- !u!114 &878766306424404202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609926857222936980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4524fb54588e6e142acea720ad6d6c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeAttackSize: {x: 32, y: 32}
+  attackDist: 1
+  attackDuration: 100
+  effects:
+  - effect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
+    magnitude: 1
+  storedAttack: {fileID: 11400000, guid: c16e5b7605b9026448da7e17e607dd37, type: 2}
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!114 &6929657910909737951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609926857222936980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede77a81c5124183a87ddb64c9b8fe56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSlots: 10
+  onItemAdded:
+    m_PersistentCalls:
+      m_Calls: []
+  onItemRemoved:
+    m_PersistentCalls:
+      m_Calls: []
+  onEntryAdded:
+    m_PersistentCalls:
+      m_Calls: []
+  onEntryRemoved:
+    m_PersistentCalls:
+      m_Calls: []
+  onEntryModified:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &609926857222936976
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -452,23 +572,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &878766306424404202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609926857222936980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4524fb54588e6e142acea720ad6d6c1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackSize: {x: 0.5, y: 1.5}
-  attackDist: 1
-  attackDuration: 100
-  damageEffect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
-  damageValue: 1
 --- !u!1 &5544799569382080600
 GameObject:
   m_ObjectHideFlags: 0

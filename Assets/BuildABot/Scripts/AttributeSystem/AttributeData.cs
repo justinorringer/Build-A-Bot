@@ -40,6 +40,9 @@ namespace BuildABot
         private T _baseValue;
         private T _currentValue;
         
+        [Tooltip("An event triggered when this attribute is initialized. Provides the default value used.")]
+        [SerializeField] private UnityEvent<T> onInitialize;
+        
         [Tooltip("An event triggered before modifying the base value of this attribute. Provides the new base value.")]
         [SerializeField] private UnityEvent<T> onPreBaseValueChange;
         [Tooltip("An event triggered before modifying the base value of this attribute. Provides the new base value.")]
@@ -92,12 +95,24 @@ namespace BuildABot
             base.Initialize(owner);
             _baseValue = defaultValue;
             _currentValue = defaultValue;
+            onInitialize.Invoke(defaultValue);
         }
 
         public override string ToString()
         {
             return $"Base: {_baseValue}, Current: {_currentValue}";
         }
+
+        /**
+         * Adds a new listener for the OnInitialize event.
+         * <param name="listener">The listener to add.</param>
+         */
+        public void AddOnInitializeListener(UnityAction<T> listener) => onInitialize.AddListener(listener);
+        /**
+         * Removes a listener from the OnInitialize event.
+         * <param name="listener">The listener to remove.</param>
+         */
+        public void RemoveOnInitializeListener(UnityAction<T> listener) => onInitialize.RemoveListener(listener);
 
         /**
          * Adds a new listener for the OnPreValueChange event.

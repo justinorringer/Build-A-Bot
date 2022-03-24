@@ -163,5 +163,16 @@ namespace BuildABot
             }
             return result;
         }
+
+        /**
+         * Rotates this vector by the provided angle in degrees.
+         * <param name="vector">The vector to rotate.</param>
+         * <param name="angle">The angle in degrees to rotate by.</param>
+         * <returns>The rotated vector.</returns>
+         */
+        public static Vector2 Rotate(this Vector2 vector, float angle)
+        {
+            return Quaternion.Euler(0, 0, angle) * vector;
+        }
     }
 }
