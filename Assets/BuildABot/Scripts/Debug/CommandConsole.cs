@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 
@@ -178,6 +179,42 @@ namespace BuildABot
                 }
             },
             {
+                "player.giveItem", new CommandProperties {
+                    Description = "gives the player an instance of the specified item from the Assets/BuildABot/Resources/Items folder",
+                    Usage = "player.giveItem {itemName} [count = 1]",
+                    ValidateArgs = args => ExpectArgCount(args, 1, 2),
+                    Action = (console, args) =>
+                    {
+                        int count = 1;
+                        if (args.Length == 3)
+                        {
+                            if (!int.TryParse(args[2], out count) || count < 1)
+                            {
+                                Debug.LogErrorFormat("Invalid count argument '{0}': Expected a positive integer.", args[2]);
+                                return;
+                            }
+                        }
+
+                        Item target = Resources.Load<Item>($"Items/{args[1]}");
+                        if (target == null)
+                        {
+                            Debug.LogErrorFormat("Invalid Item: Item '{0}' not found. Ensure that the item is stored in Assets/BuildABot/Resources/Items.", args[1]);
+                            return;
+                        }
+
+                        // Attempt to add the item
+                        if (console.player.Inventory.TryAddItem(target, count))
+                        {
+                            Debug.LogFormat("{0} instance{1} of item '{2}' successfully added to player inventory", count, count > 1 ? "s" : "", args[1]);
+                        }
+                        else
+                        {
+                            Debug.LogWarningFormat("Failed to add item {0} to the player's inventory.", args[1]);
+                        }
+                    }
+                }
+            },
+            {
                 "fly", new CommandProperties {
                     Description = "toggles fly mode for the player",
                     Usage = "fly",
@@ -285,6 +322,45 @@ namespace BuildABot
         }
 
         /**
+         * Parses the provided command string into tokens
+         * <param name="value">The command value to parse.</param>
+         * <returns>The array of tokens taken from the command.</returns>
+         */
+        private static string[] ParseCommand(string value)
+        {
+            List<string> tokens = new List<string>();
+            StringBuilder currentToken = new StringBuilder();
+            bool isWithinQuotes = false;
+            for (int i = 0; i < value.Length; i++)
+            {
+                char c = value[i];
+                
+                // Handle entering/exiting quotes
+                if (c == '"') isWithinQuotes = !isWithinQuotes;
+                // Handle spaces outside of quotes
+                else if (!isWithinQuotes && c == ' ')
+                {
+                    // Add the token
+                    tokens.Add(currentToken.ToString());
+                    currentToken.Clear();
+                }
+                else
+                {
+                    // Update the current token if inside of quotes or at a non-space character outside of quotes
+                    currentToken.Append(c);
+                }
+                
+            }
+            // Add any pending tokens
+            tokens.Add(currentToken.ToString());
+            currentToken.Clear();
+
+            if (isWithinQuotes) Debug.LogError("Invalid command: missing closing quotation");
+
+            return tokens.ToArray();
+        }
+
+        /**
          * Executes the provided command input if it is valid.
          * <param name="value">The input value to process.</param>
          */
@@ -293,7 +369,7 @@ namespace BuildABot
             // Skip empty inputs
             if (string.IsNullOrWhiteSpace(value)) return;
             // Get the command any any provided arguments
-            string[] args = value.Split(' ');
+            string[] args = ParseCommand(value);
             string command = args[0];
             if (Commands.TryGetValue(command, out CommandProperties data))
             {

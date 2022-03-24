@@ -183,25 +183,52 @@ namespace BuildABot
         /**
          * Tries to add the provided amount of a stackable item to this inventory.
          * <param name="item">The item to add.</param>
-         * <param name="count">The amount to add.</param>
+         * <param name="count">The amount to add. Defaults to 1.</param>
          * <returns>True if the operation was fully successful, false otherwise.</returns>
          */
-        public bool TryAddItem(StackableItem item, int count)
+        public bool TryAddItem(StackableItem item, int count = 1)
         {
-            return TryAddEntry(new ItemStack(item, count), out int overflow);
+            return TryAddEntry(new ItemStack(item, count), out _);
         }
 
         /**
-         * Tries to add one instance of the provided item to this inventory.
+         * Tries to add the provided number of instances of the specified item to this inventory.
+         * Note that for non-stackable item types multiple instances will be generated.
          * <param name="item">The item to add.</param>
+         * <param name="count">The amount to add.</param>
+         * <param name="overflow">The amount that could not fit in the inventory.</param>
          * <returns>True if the operation was successful.</returns>
          */
-        public bool TryAddItem(Item item)
+        public bool TryAddItem(Item item, int count, out int overflow)
         {
-            if (item is StackableItem s) return TryAddItem(s, 1, out int o1);
-            if (item is ComputerPartItem c) return TryAddEntry(new ComputerPartInstance(c), out int o2);
-            if (item is KeyItem k) return TryAddEntry(new KeyItemEntry(k), out int o2);
+            if (item is StackableItem s) return TryAddItem(s, count, out overflow);
+            if (item is ComputerPartItem c)
+            {
+                bool success = count > 0;
+                for (int i = 0; i < count; i++)
+                {
+                    success &= TryAddEntry(new ComputerPartInstance(c), out overflow);
+                    if (overflow > 0) return success;
+                }
+                overflow = 0;
+                return success;
+            }
+            if (item is KeyItem k) return TryAddEntry(new KeyItemEntry(k), out overflow);
+            
+            overflow = 0;
             return false;
+        }
+
+        /**
+         * Tries to add the provided number of instances of the specified item to this inventory.
+         * Note that for non-stackable item types multiple instances will be generated.
+         * <param name="item">The item to add.</param>
+         * <param name="count">The amount to add. Defaults to 1.</param>
+         * <returns>True if the operation was successful.</returns>
+         */
+        public bool TryAddItem(Item item, int count = 1)
+        {
+            return TryAddItem(item, count, out _);
         }
         
         // TODO: Add searching for specific entry by Item for removal
@@ -227,7 +254,7 @@ namespace BuildABot
                     if (result && stack.Count == 0) RemoveEntryByIndex(index, true);
                     else if (result) onEntryModified.Invoke(_entries[index], index);
                 }
-                else if (_entries[index] is ComputerPartInstance c || _entries[index] is KeyItemEntry k) // Handle non-stackable items
+                else if (_entries[index] is ComputerPartInstance || _entries[index] is KeyItemEntry) // Handle non-stackable items
                 {
                     result = count == 1;
                     // Only remove the entry if the request was valid
