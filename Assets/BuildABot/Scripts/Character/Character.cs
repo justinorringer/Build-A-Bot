@@ -28,6 +28,9 @@ namespace BuildABot
         
         /** The bounding size of this character. */
         public Vector2 Bounds { get; private set; }
+        
+        /** The inventory of this character. */
+        public Inventory Inventory { get; private set; }
 
         public virtual void Kill()
         {
@@ -39,6 +42,7 @@ namespace BuildABot
         {
             Collider = GetComponent<Collider2D>();
             Bounds = Collider.bounds.size;
+            Inventory = GetComponent<Inventory>();
         }
 
         protected virtual void OnEnable()
