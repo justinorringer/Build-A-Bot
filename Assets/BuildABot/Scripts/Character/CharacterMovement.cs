@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace BuildABot
@@ -87,6 +88,9 @@ namespace BuildABot
         /** Which direction is the character currently facing? */
         public Vector2 Facing => _facing;
 
+        /** The original assigned gravity scale of the rigidbody */
+        private float _originalGravity;
+
         protected virtual void Awake()
         {
             
@@ -107,6 +111,8 @@ namespace BuildABot
             CheckGrounded();
             _jumpCount = 0;
             _jumpForce = JumpForce;
+
+            _originalGravity = _rigidbody.gravityScale;
         }
 
         protected void FixedUpdate()
@@ -193,7 +199,39 @@ namespace BuildABot
                 _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse); // Add the impulse
                 _jumpCount++; // Update the jump count
                 _jumpForce *= JumpForceFalloff; // Apply the force falloff
+                StopCoroutine(JumpPhysics()); // Stop jump coroutine of any previous jumps
+                StartCoroutine(JumpPhysics()); // Start a new jump coroutine
             }
+        }
+
+        /**
+         * Handles any changes to jump physics during the jump
+         */
+        private IEnumerator JumpPhysics()
+        {
+            // Make sure gravity scale is set to original value in case it had been changed by a different jump
+            _rigidbody.gravityScale = _originalGravity;
+
+            // The period of the time before the top of the arc (the top of the arc is represented by the moment y velocity = 0)
+            while (_rigidbody.velocity.y > 0)
+            {
+                yield return null;
+            }
+
+            // Change the gravity scale at the peak of the jump for the specified number of seconds
+            _rigidbody.gravityScale = _originalGravity * 0.5f;
+            yield return new WaitForSeconds(0.1f);
+
+            // Change the gravity scale on the downaward arc of the jump
+            _rigidbody.gravityScale = _originalGravity * 1.5f;
+
+            while(_rigidbody.velocity.y < 0)
+            {
+                yield return null;
+            }
+
+            // Reset gravity scale to original value
+            _rigidbody.gravityScale = _originalGravity;
         }
         
         private void OnCollisionStay2D(Collision2D other)
