@@ -29,7 +29,7 @@ namespace BuildABot
         /** The bounding size of this character. */
         public Vector2 Bounds { get; private set; }
 
-        public void Kill()
+        public virtual void Kill()
         {
             onDeath.Invoke();
             Destroy(gameObject);

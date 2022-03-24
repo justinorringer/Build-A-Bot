@@ -53,7 +53,7 @@ namespace BuildABot
             HashSet<Character> hitLookup = new HashSet<Character>();
             float progress = 0f;
             float interval = 1f / raycastRate;
-            float progressInterval = duration == 0f ? 0f : interval / duration;
+            float progressInterval = duration == 0f ? 1f : interval / duration;
             
             return Utility.RepeatFunction(instigator, () =>
             {
@@ -76,6 +76,7 @@ namespace BuildABot
                             trueSize,
                             0,
                             instigator.TargetLayers);
+                        DebugUtility.DrawBox2D(position, trueSize, 0, 0, Color.red, duration * (1 - progress));
                         break;
                     case EAoeAttackShape.Circle:
                 
@@ -85,6 +86,8 @@ namespace BuildABot
                         hitColliders = Physics2D.OverlapCircleAll(
                             position ,
                             trueRadius, instigator.TargetLayers);
+                        
+                        DebugUtility.DrawCircle2D(position, trueRadius, 0, 16, Color.red, duration * (1 - progress));
                         break;
                     case EAoeAttackShape.Cone:
                 
@@ -97,7 +100,7 @@ namespace BuildABot
                             position,
                             trueRadius, instigator.TargetLayers);
                         
-                        
+                        DebugUtility.DrawCircle2D(position, trueRadius, 0, 16, Color.red, duration * (1 - progress));
                         
                         break;
                     default:

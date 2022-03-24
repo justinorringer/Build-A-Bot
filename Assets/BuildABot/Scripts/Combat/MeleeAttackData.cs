@@ -46,16 +46,19 @@ namespace BuildABot
                             offset * new Vector2(offsetXCurve.Evaluate(progress), offsetYCurve.Evaluate(progress));
                 
                 Vector2 trueSize = useRelativeSize ? instigator.Character.Bounds * size : size;
+                float dist = useRelativeDistance ? distance * instigator.Character.Bounds.x : distance;
                 
                 RaycastHit2D[] hitInfoAll = Physics2D.BoxCastAll(
                     position,
                     trueSize,
                     0,
                     instigator.Character.CharacterMovement.Facing,
-                    useRelativeDistance ? distance * instigator.Character.Bounds.x : distance,
+                    dist,
                     instigator.TargetLayers);
-                Debug.DrawLine(position, position + instigator.Character.CharacterMovement.Facing *
-                    (useRelativeDistance ? distance * instigator.Character.Bounds.x : distance), Color.red, 30);
+                
+                DebugUtility.DrawBoxCast2D(position, trueSize, 0.0f, 
+                    instigator.Character.CharacterMovement.Facing,
+                    dist, Color.red, duration * (1 - progress));
 
                 foreach (RaycastHit2D hitInfo in hitInfoAll)
                 {
