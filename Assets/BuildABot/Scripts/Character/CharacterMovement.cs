@@ -100,6 +100,11 @@ namespace BuildABot
         /** Gravity scale multiplier of the jump during the downward arc */
         [SerializeField] private float downArcGravity;
 
+        /** Time it takes for the player to reach their max speed when they start moving */
+        [SerializeField] private float accelerationTime = 0.05f;
+        /** Time it takes for the player to reach zero speed when they stop moving */
+        [SerializeField] private float decelerationTime = 0.05f;
+
         protected virtual void Awake()
         {
             
@@ -146,7 +151,8 @@ namespace BuildABot
                     targetVelocity = _rigidbody.velocity;
                     break;
             }
-            _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, 0.05f);
+            float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
+            _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
 
             // Update the direction the character is facing if it has changed
             Vector2 dir = targetVelocity.normalized;

@@ -358,6 +358,8 @@ MonoBehaviour:
   jumpPeakGravity: 0.5
   jumpPeakDuration: 0.1
   downArcGravity: 1.5
+  accelerationTime: 0.5
+  decelerationTime: 0.05
 --- !u!212 &609926857222936976
 SpriteRenderer:
   m_ObjectHideFlags: 0

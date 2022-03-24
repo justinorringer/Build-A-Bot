@@ -608,6 +608,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -4.2
       objectReference: {fileID: 0}
+    - target: {fileID: 609926857222936979, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
+      propertyPath: jumpPeakGravity
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 6395454713534124679, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_Name
       value: BIPY
@@ -654,6 +658,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6395454713534124700, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9138115173127316324, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
