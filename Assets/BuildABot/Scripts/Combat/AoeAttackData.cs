@@ -46,7 +46,7 @@ namespace BuildABot
         [Min(1)]
         [SerializeField] private int raycastRate = 10;
 
-        public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action onComplete = null)
+        public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action<float> onProgress = null, Action onComplete = null)
         {
             if (!allowMovement) instigator.Character.CharacterMovement.CanMove = false;
             
@@ -128,6 +128,7 @@ namespace BuildABot
                 }
 
                 progress += progressInterval;
+                onProgress?.Invoke(progress);
                 
             }, interval, (int) (raycastRate * duration), () =>
             {

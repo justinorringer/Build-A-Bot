@@ -9,7 +9,7 @@ namespace BuildABot
     public class ProjectileAttackData : AttackData
     {
 
-        public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action onComplete = null)
+        public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action<float> onProgress = null, Action onComplete = null)
         {
             if (!allowMovement) instigator.Character.CharacterMovement.CanMove = false;
             return null;

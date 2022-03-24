@@ -61,18 +61,19 @@ namespace BuildABot
         /**
          * Performs the specified attack.
          * <param name="attack">The attack to execute.</param>
+         * <param name="onProgress">An optional function to call as the attack progresses.</param>
          * <param name="onFinish">An optional function to call when this attack finishes.</param>
          * <param name="onCancel">An optional function to call if this attack is cancelled.</param>
          * <returns>True if the attack could be started.</returns>
          */
-        public bool TryPerformAttack(AttackData attack, Action<List<Character>> onFinish = null, Action<List<Character>> onCancel = null)
+        public bool TryPerformAttack(AttackData attack, Action<float> onProgress = null, Action<List<Character>> onFinish = null, Action<List<Character>> onCancel = null)
         {
             if (null != _currentAttack) return false;
             _currentAttack = attack;
             _currentHits = new List<Character>();
             _currentOnFinish = onFinish;
             _currentOnCancel = onCancel;
-            _currentAttackCoroutine = attack.Execute(this, _currentHits, OnFinishAttack);
+            _currentAttackCoroutine = attack.Execute(this, _currentHits, onProgress, OnFinishAttack);
             return true;
         }
 
