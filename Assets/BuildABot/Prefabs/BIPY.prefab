@@ -354,6 +354,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementMode: 0
+  upArcGravity: 1
+  jumpPeakGravity: 0.5
+  jumpPeakDuration: 0.1
+  downArcGravity: 1.5
 --- !u!212 &609926857222936976
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -670,6 +674,10 @@ PrefabInstance:
     - target: {fileID: 8040543115728387764, guid: fde2f2f4512a8ff4c85dcefbce2ffd4d, type: 3}
       propertyPath: m_SizeDelta.y
       value: -235.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 8040543115728387764, guid: fde2f2f4512a8ff4c85dcefbce2ffd4d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8795247947759923825, guid: fde2f2f4512a8ff4c85dcefbce2ffd4d, type: 3}
       propertyPath: m_AnchorMax.x

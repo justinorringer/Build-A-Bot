@@ -91,6 +91,15 @@ namespace BuildABot
         /** The original assigned gravity scale of the rigidbody */
         private float _originalGravity;
 
+        /** Gravity scale multiplier of the jump during the upward arc */
+        [SerializeField] private float upArcGravity;
+        /** Gravity scale multiplier of the jump during the peak */
+        [SerializeField] private float jumpPeakGravity;
+        /** Duration of the gravity scale at the peak */
+        [SerializeField] private float jumpPeakDuration;
+        /** Gravity scale multiplier of the jump during the downward arc */
+        [SerializeField] private float downArcGravity;
+
         protected virtual void Awake()
         {
             
@@ -210,7 +219,7 @@ namespace BuildABot
         private IEnumerator JumpPhysics()
         {
             // Make sure gravity scale is set to original value in case it had been changed by a different jump
-            _rigidbody.gravityScale = _originalGravity;
+            _rigidbody.gravityScale = _originalGravity * upArcGravity;
 
             // The period of the time before the top of the arc (the top of the arc is represented by the moment y velocity = 0)
             while (_rigidbody.velocity.y > 0)
@@ -219,11 +228,11 @@ namespace BuildABot
             }
 
             // Change the gravity scale at the peak of the jump for the specified number of seconds
-            _rigidbody.gravityScale = _originalGravity * 0.5f;
-            yield return new WaitForSeconds(0.1f);
+            _rigidbody.gravityScale = _originalGravity * jumpPeakGravity;
+            yield return new WaitForSeconds(jumpPeakDuration);
 
             // Change the gravity scale on the downaward arc of the jump
-            _rigidbody.gravityScale = _originalGravity * 1.5f;
+            _rigidbody.gravityScale = _originalGravity * downArcGravity;
 
             while(_rigidbody.velocity.y < 0)
             {
