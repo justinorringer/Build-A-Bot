@@ -54,6 +54,9 @@ namespace BuildABot
         /** The sprite renderer used by this object. */
         private SpriteRenderer _sprite;
 
+        /** The animator used by this object. */
+        private Animator _anim;
+
         /** How many jumps has the character attempted? */
         private int _jumpCount;
         /** The current jump force available to this character. */
@@ -94,6 +97,13 @@ namespace BuildABot
         /** The original assigned gravity scale of the rigidbody */
         private float _originalGravity;
 
+        /** Hash of "running" parameter in the animator, stored for optimization */
+        private int _runningBoolHash;
+        /** Hash of "idle" parameter in the animator, stored for optimization */
+        private int _idleBoolHash;
+        /** Hash of "grounded" parameter in the animator, stored for optimization */
+        private int _groundedBoolHash;
+
         /** Gravity scale multiplier of the jump during the upward arc */
         [SerializeField] private float upArcGravity;
         /** Gravity scale multiplier of the jump during the peak */
@@ -107,7 +117,7 @@ namespace BuildABot
         [SerializeField] private float accelerationTime = 0.05f;
         /** Time it takes for the player to reach zero speed when they stop moving */
         [SerializeField] private float decelerationTime = 0.05f;
-
+        
         /** Can this character move? */
         public bool CanMove { get; set; } = true;
 
@@ -121,7 +131,12 @@ namespace BuildABot
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _sprite = GetComponent<SpriteRenderer>();
-            
+            _anim = GetComponent<Animator>();
+
+            _runningBoolHash = Animator.StringToHash("Running");
+            _idleBoolHash = Animator.StringToHash("Idle");
+            _groundedBoolHash = Animator.StringToHash("Grounded");
+
             Bounds bounds = _collider.bounds;
             _extents = new Vector2(bounds.extents.x, bounds.extents.y);
 
@@ -172,6 +187,11 @@ namespace BuildABot
                 _facing = isRight ? Vector2.right : Vector2.left;
                 _sprite.flipX = !isRight;
             }
+
+            // Tell animator if Bipy is running
+            _anim.SetBool(_runningBoolHash, dir.x != 0.0f && _isGrounded);
+            // Tell animator if Bipy is idle
+            _anim.SetBool(_idleBoolHash, targetVelocity == Vector2.zero);
         }
 
         /**
@@ -282,6 +302,8 @@ namespace BuildABot
             _isGrounded = Physics2D.BoxCast(RootPosition, new Vector2(_extents.x * 2, 0.1f),
                 0, Vector2.down, 0.01f, 
                 Physics2D.AllLayers & ~LayerMask.GetMask("Player")) && IsWalking;
+
+            _anim.SetBool(_groundedBoolHash, _isGrounded);
         }
     }
 }
