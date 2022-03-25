@@ -21,4 +21,6 @@ MonoBehaviour:
   maxDurability: 100
   coolingFactor: 0
   quality: 1
-  effects: []
+  effects:
+  - effect: {fileID: 11400000, guid: 6c8208eacfeb7eb438c471482bca4644, type: 2}
+    magnitude: 2

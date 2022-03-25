@@ -284,6 +284,7 @@ namespace BuildABot
             inputField.onSubmit.AddListener(ExecuteInput);
             Application.logMessageReceived += HandleMessage;
             player.PlayerInput.GameInputEnabled = false;
+            Time.timeScale = 0.0f;
         }
 
         private void OnDisable()
@@ -291,6 +292,7 @@ namespace BuildABot
             inputField.onSubmit.RemoveListener(ExecuteInput);
             Application.logMessageReceived -= HandleMessage;
             player.PlayerInput.GameInputEnabled = true;
+            Time.timeScale = 1.0f;
         }
 
         /**
