@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace BuildABot
@@ -53,6 +54,9 @@ namespace BuildABot
         /** The sprite renderer used by this object. */
         private SpriteRenderer _sprite;
 
+        /** The animator used by this object. */
+        private Animator _anim;
+
         /** How many jumps has the character attempted? */
         private int _jumpCount;
         /** The current jump force available to this character. */
@@ -68,6 +72,9 @@ namespace BuildABot
 
         /** Unused reference for velocity dampening. */
         private Vector2 _tempVelocity = Vector2.zero;
+
+        /** Unused reference for gravity dampening. */
+        private float _tempGravity;
 
         /** Whether the player is currently touching the ground. */
         private bool _isGrounded;
@@ -87,6 +94,30 @@ namespace BuildABot
         /** Which direction is the character currently facing? */
         public Vector2 Facing => _facing;
 
+        /** The original assigned gravity scale of the rigidbody */
+        private float _originalGravity;
+
+        /** Hash of "running" parameter in the animator, stored for optimization */
+        private int _runningBoolHash;
+        /** Hash of "idle" parameter in the animator, stored for optimization */
+        private int _idleBoolHash;
+        /** Hash of "grounded" parameter in the animator, stored for optimization */
+        private int _groundedBoolHash;
+
+        /** Gravity scale multiplier of the jump during the upward arc */
+        [SerializeField] private float upArcGravity;
+        /** Gravity scale multiplier of the jump during the peak */
+        [SerializeField] private float jumpPeakGravity;
+        /** Duration of the gravity scale at the peak */
+        [SerializeField] private float jumpPeakDuration;
+        /** Gravity scale multiplier of the jump during the downward arc */
+        [SerializeField] private float downArcGravity;
+
+        /** Time it takes for the player to reach their max speed when they start moving */
+        [SerializeField] private float accelerationTime = 0.05f;
+        /** Time it takes for the player to reach zero speed when they stop moving */
+        [SerializeField] private float decelerationTime = 0.05f;
+        
         /** Can this character move? */
         public bool CanMove { get; set; } = true;
 
@@ -100,7 +131,12 @@ namespace BuildABot
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _sprite = GetComponent<SpriteRenderer>();
-            
+            _anim = GetComponent<Animator>();
+
+            _runningBoolHash = Animator.StringToHash("Running");
+            _idleBoolHash = Animator.StringToHash("Idle");
+            _groundedBoolHash = Animator.StringToHash("Grounded");
+
             Bounds bounds = _collider.bounds;
             _extents = new Vector2(bounds.extents.x, bounds.extents.y);
 
@@ -110,6 +146,8 @@ namespace BuildABot
             CheckGrounded();
             _jumpCount = 0;
             _jumpForce = JumpForce;
+
+            _originalGravity = _rigidbody.gravityScale;
         }
 
         protected void FixedUpdate()
@@ -138,7 +176,8 @@ namespace BuildABot
                         break;
                 }
             }
-            _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, 0.05f);
+            float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
+            _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
 
             // Update the direction the character is facing if it has changed
             Vector2 dir = targetVelocity.normalized;
@@ -148,6 +187,11 @@ namespace BuildABot
                 _facing = isRight ? Vector2.right : Vector2.left;
                 _sprite.flipX = !isRight;
             }
+
+            // Tell animator if Bipy is running
+            _anim.SetBool(_runningBoolHash, dir.x != 0.0f && _isGrounded);
+            // Tell animator if Bipy is idle
+            _anim.SetBool(_idleBoolHash, targetVelocity == Vector2.zero);
         }
 
         /**
@@ -200,9 +244,46 @@ namespace BuildABot
                 _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse); // Add the impulse
                 _jumpCount++; // Update the jump count
                 _jumpForce *= JumpForceFalloff; // Apply the force falloff
+                StopCoroutine(JumpPhysics()); // Stop jump coroutine of any previous jumps
+                StartCoroutine(JumpPhysics()); // Start a new jump coroutine
             }
         }
+
+        /**
+         * Handles any changes to jump physics during the jump
+         */
+        private IEnumerator JumpPhysics()
+        {
+            // Make sure gravity scale is set to original value in case it had been changed by a different jump
+            setGravity(_originalGravity * upArcGravity);
+
+            // The period of the time before the top of the arc (the top of the arc is represented by the moment y velocity = 0)
+            while (_rigidbody.velocity.y > 0)
+            {
+                yield return null;
+            }
+
+            // Change the gravity scale at the peak of the jump for the specified number of seconds
+            setGravity(_originalGravity * jumpPeakGravity);
+            yield return new WaitForSeconds(jumpPeakDuration);
+
+            // Change the gravity scale on the downaward arc of the jump
+            setGravity(_originalGravity * downArcGravity);
+
+            while(_rigidbody.velocity.y < 0)
+            {
+                yield return null;
+            }
+
+            // Reset gravity scale to original value
+            setGravity(_originalGravity);
+        }
         
+        private void setGravity(float newGravity)
+        {
+            _rigidbody.gravityScale = Mathf.SmoothDamp(_rigidbody.gravityScale, newGravity, ref _tempGravity, 0.05f);
+        }
+
         private void OnCollisionStay2D(Collision2D other)
         {
             if (_isGrounded && _jumpCount > 0 && MovementDirection.y <= 0f)
@@ -221,6 +302,8 @@ namespace BuildABot
             _isGrounded = Physics2D.BoxCast(RootPosition, new Vector2(_extents.x * 2, 0.1f),
                 0, Vector2.down, 0.01f, 
                 Physics2D.AllLayers & ~LayerMask.GetMask("Player")) && IsWalking;
+
+            _anim.SetBool(_groundedBoolHash, _isGrounded);
         }
     }
 }
