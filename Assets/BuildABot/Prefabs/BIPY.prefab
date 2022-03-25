@@ -355,9 +355,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementMode: 0
   upArcGravity: 1
-  jumpPeakGravity: 0.5
+  jumpPeakGravity: 0.01
   jumpPeakDuration: 0.1
-  downArcGravity: 1.5
+  downArcGravity: 1.7
   accelerationTime: 0.05
   decelerationTime: 0.05
 --- !u!212 &609926857222936976
