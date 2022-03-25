@@ -188,10 +188,13 @@ namespace BuildABot
                 _sprite.flipX = !isRight;
             }
 
-            // Tell animator if Bipy is running
-            _anim.SetBool(_runningBoolHash, dir.x != 0.0f && _isGrounded);
-            // Tell animator if Bipy is idle
-            _anim.SetBool(_idleBoolHash, targetVelocity == Vector2.zero);
+            if (_anim.runtimeAnimatorController != null)
+            {
+                // Tell animator if Bipy is running
+                _anim.SetBool(_runningBoolHash, dir.x != 0.0f && _isGrounded);
+                // Tell animator if Bipy is idle
+                _anim.SetBool(_idleBoolHash, targetVelocity == Vector2.zero);
+            }
         }
 
         /**
@@ -303,7 +306,7 @@ namespace BuildABot
                 0, Vector2.down, 0.01f, 
                 Physics2D.AllLayers & ~LayerMask.GetMask("Player")) && IsWalking;
 
-            _anim.SetBool(_groundedBoolHash, _isGrounded);
+            if (_anim.runtimeAnimatorController != null) _anim.SetBool(_groundedBoolHash, _isGrounded);
         }
     }
 }
