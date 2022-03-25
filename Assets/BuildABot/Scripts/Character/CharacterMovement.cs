@@ -70,6 +70,9 @@ namespace BuildABot
         /** Unused reference for velocity dampening. */
         private Vector2 _tempVelocity = Vector2.zero;
 
+        /** Unused reference for gravity dampening. */
+        private float _tempGravity;
+
         /** Whether the player is currently touching the ground. */
         private bool _isGrounded;
 
@@ -225,7 +228,7 @@ namespace BuildABot
         private IEnumerator JumpPhysics()
         {
             // Make sure gravity scale is set to original value in case it had been changed by a different jump
-            _rigidbody.gravityScale = _originalGravity * upArcGravity;
+            setGravity(_originalGravity * upArcGravity);
 
             // The period of the time before the top of the arc (the top of the arc is represented by the moment y velocity = 0)
             while (_rigidbody.velocity.y > 0)
@@ -234,11 +237,11 @@ namespace BuildABot
             }
 
             // Change the gravity scale at the peak of the jump for the specified number of seconds
-            _rigidbody.gravityScale = _originalGravity * jumpPeakGravity;
+            setGravity(_originalGravity * jumpPeakGravity);
             yield return new WaitForSeconds(jumpPeakDuration);
 
             // Change the gravity scale on the downaward arc of the jump
-            _rigidbody.gravityScale = _originalGravity * downArcGravity;
+            setGravity(_originalGravity * downArcGravity);
 
             while(_rigidbody.velocity.y < 0)
             {
@@ -246,9 +249,14 @@ namespace BuildABot
             }
 
             // Reset gravity scale to original value
-            _rigidbody.gravityScale = _originalGravity;
+            setGravity(_originalGravity);
         }
         
+        private void setGravity(float newGravity)
+        {
+            _rigidbody.gravityScale = Mathf.SmoothDamp(_rigidbody.gravityScale, newGravity, ref _tempGravity, 0.05f);
+        }
+
         private void OnCollisionStay2D(Collision2D other)
         {
             if (_isGrounded && _jumpCount > 0 && MovementDirection.y <= 0f)
