@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -245,6 +244,24 @@ namespace BuildABot
         {
             
         }
+
+        /**
+         * Called before an effect is removed from this attribute set.
+         * <param name="effect">The effect about to be removed.</param>
+         */
+        protected virtual void PreRemoveEffect(Effect effect)
+        {
+            
+        }
+
+        /**
+         * Called after an effect is removed from this attribute set.
+         * <param name="effect">The effect about that was removed.</param>
+         */
+        protected virtual void PostRemoveEffect(Effect effect)
+        {
+            
+        }
         
 #endregion
 
@@ -277,6 +294,8 @@ namespace BuildABot
             {
                 if (list.Count == 0) return false; // No active effects
 
+                PreRemoveEffect(effect);
+                
                 AppliedEffect target = list.First.Value;
                 
                 if (target.Timer != null) target.TimerContext.StopCoroutine(target.Timer); // Stop the removal timer if appropriate
@@ -307,6 +326,8 @@ namespace BuildABot
                 // Recalculate the dirty attributes stacks
                 if (recalculateModifiers) RecalculateDirtyAttributes(dirtyAttributes);
                 
+                PostRemoveEffect(effect);
+                
                 return true;
             }
             
@@ -331,6 +352,8 @@ namespace BuildABot
             if (_appliedEffects.TryGetValue(handleImpl.Effect, out LinkedList<AppliedEffect> list))
             {
                 if (list.Count == 0 || handleImpl.Node.List != list) return false; // No active effects or invalid node
+                
+                PreRemoveEffect(handleImpl.Effect);
 
                 AppliedEffect target = handleImpl.Node.Value; // Get the target data
                 
@@ -362,10 +385,23 @@ namespace BuildABot
                 // Recalculate the dirty attributes stacks
                 if (recalculateModifiers) RecalculateDirtyAttributes(dirtyAttributes);
                 
+                PostRemoveEffect(handleImpl.Effect);
+                
                 return true;
             }
             
             return false;
+        }
+
+        /**
+         * Applies the given effect instance to this AttributeSet.
+         * <param name="effect">The effect instance to apply.</param>
+         * <param name="context">The context used for duration based effect removal. Only used with ForDuration effects.</param>
+         * <returns>A handle to the effect instance that was applied.</returns>
+         */
+        public AppliedEffectHandle ApplyEffect(EffectInstance effect, MonoBehaviour context)
+        {
+            return ApplyEffect(effect.effect, context, effect.magnitude);
         }
         
         /**
@@ -377,6 +413,8 @@ namespace BuildABot
          */
         public AppliedEffectHandle ApplyEffect(Effect effect, MonoBehaviour context, float magnitude = 1.0f)
         {
+            PreApplyEffect(effect);
+            
             Dictionary<AttributeData<float>, float> floatCurrentSnapshot = new Dictionary<AttributeData<float>, float>();
             Dictionary<AttributeData<int>, int> intCurrentSnapshot = new Dictionary<AttributeData<int>, int>();
             
@@ -475,9 +513,9 @@ namespace BuildABot
             {
                 appliedEffect.TimerContext = context;
                 appliedEffect.Timer = Utility.DelayedFunction(context, effect.Duration, () => RemoveEffect(handle));
-                // TODO: remove directly using an exact reference to this effects modifier list to avoid incorrect removal order bug
-                // TODO: Return a handle to this specific effect for more exact removal
             }
+            
+            PostApplyEffect(effect);
 
             return handle.Node != null ? handle : null; // Return the handle if the effect was added
         }
@@ -806,16 +844,25 @@ namespace BuildABot
         {
             foreach (AttributeDataBase attribute in dirtyAttributes)
             {
-                if (attribute is FloatAttributeData floatAttribute)
-                {
-                    bool hasReplacement = RecalculateFloatModifierStack(floatAttribute, out float addValue, out float multiplyValue, out float divideValue, out float replacement);
-                    floatAttribute.CurrentValue = hasReplacement ? replacement : ((floatAttribute.BaseValue + addValue) * multiplyValue) / divideValue;
-                }
-                else if (attribute is IntAttributeData intAttribute)
-                {
-                    bool hasReplacement = RecalculateIntModifierStack(intAttribute, out int addValue, out int multiplyValue, out int divideValue, out int replacement);
-                    intAttribute.CurrentValue = hasReplacement ? replacement : ((intAttribute.BaseValue + addValue) * multiplyValue) / divideValue;
-                }
+                RecalculateDirtyAttribute(attribute);
+            }
+        }
+
+        /**
+         * Recalculates the modifier stack and current value for the provided attribute.
+         * <param name="attribute">The attribute to recalculate.</param>
+         */
+        private void RecalculateDirtyAttribute(AttributeDataBase attribute)
+        {
+            if (attribute is FloatAttributeData floatAttribute)
+            {
+                bool hasReplacement = RecalculateFloatModifierStack(floatAttribute, out float addValue, out float multiplyValue, out float divideValue, out float replacement);
+                floatAttribute.CurrentValue = hasReplacement ? replacement : ((floatAttribute.BaseValue + addValue) * multiplyValue) / divideValue;
+            }
+            else if (attribute is IntAttributeData intAttribute)
+            {
+                bool hasReplacement = RecalculateIntModifierStack(intAttribute, out int addValue, out int multiplyValue, out int divideValue, out int replacement);
+                intAttribute.CurrentValue = hasReplacement ? replacement : ((intAttribute.BaseValue + addValue) * multiplyValue) / divideValue;
             }
         }
         

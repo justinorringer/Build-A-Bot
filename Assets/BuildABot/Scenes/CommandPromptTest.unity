@@ -421,6 +421,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BIPY
       objectReference: {fileID: 0}
+    - target: {fileID: 878766306424404202, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
+      propertyPath: storedAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: e0ddff33f159325449ed740abafd02a5, type: 2}
     - target: {fileID: 1568670397975651003, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_IsActive
       value: 1

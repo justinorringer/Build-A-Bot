@@ -87,6 +87,8 @@ namespace BuildABot
 
         public override int Count => 1;
 
+        public override bool CanEquip => true;
+
         /** The current durability of this part. */
         public int Durability => durability;
 

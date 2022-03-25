@@ -20,3 +20,4 @@ MonoBehaviour:
   partType: 5
   maxDurability: 100
   coolingFactor: 0
+  effects: []
