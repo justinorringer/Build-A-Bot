@@ -51,6 +51,10 @@ SpriteAtlas:
     - {fileID: 7649271193749430469, guid: 8035217b77d522a45a030df799122185, type: 3}
     - {fileID: -5504689559175174582, guid: 8035217b77d522a45a030df799122185, type: 3}
     - {fileID: -4175434930086799780, guid: 8035217b77d522a45a030df799122185, type: 3}
+    - {fileID: -8733280946514646600, guid: 8035217b77d522a45a030df799122185, type: 3}
+    - {fileID: 8001072700060802215, guid: 8035217b77d522a45a030df799122185, type: 3}
+    - {fileID: 7219442649603716663, guid: 8035217b77d522a45a030df799122185, type: 3}
+    - {fileID: 662984149613498217, guid: 8035217b77d522a45a030df799122185, type: 3}
     - {fileID: -42442772824022196, guid: 8035217b77d522a45a030df799122185, type: 3}
     - {fileID: 171560257721943506, guid: 8035217b77d522a45a030df799122185, type: 3}
     - {fileID: 7289079218057608347, guid: 8035217b77d522a45a030df799122185, type: 3}
@@ -62,6 +66,7 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 662984149613498217, guid: 8035217b77d522a45a030df799122185, type: 3}
   - {fileID: -42442772824022196, guid: 8035217b77d522a45a030df799122185, type: 3}
   - {fileID: -7198526975684718211, guid: 8035217b77d522a45a030df799122185, type: 3}
   - {fileID: -8631996751053599584, guid: 8035217b77d522a45a030df799122185, type: 3}
@@ -72,11 +77,15 @@ SpriteAtlas:
   - {fileID: -4175434930086799780, guid: 8035217b77d522a45a030df799122185, type: 3}
   - {fileID: 7649271193749430469, guid: 8035217b77d522a45a030df799122185, type: 3}
   - {fileID: -6489866084396080436, guid: 8035217b77d522a45a030df799122185, type: 3}
+  - {fileID: -8733280946514646600, guid: 8035217b77d522a45a030df799122185, type: 3}
   - {fileID: 7289079218057608347, guid: 8035217b77d522a45a030df799122185, type: 3}
   - {fileID: -5022684303634547122, guid: 8035217b77d522a45a030df799122185, type: 3}
   - {fileID: 171560257721943506, guid: 8035217b77d522a45a030df799122185, type: 3}
   - {fileID: -1729117860625403505, guid: 8035217b77d522a45a030df799122185, type: 3}
+  - {fileID: 7219442649603716663, guid: 8035217b77d522a45a030df799122185, type: 3}
+  - {fileID: 8001072700060802215, guid: 8035217b77d522a45a030df799122185, type: 3}
   m_PackedSpriteNamesToIndex:
+  - LabTileMap0.4_x192_y464
   - LabTileMap0.4_x32_y432
   - LabTileMap0.4_x0_y432
   - LabTileMap0.4_x0_y448
@@ -87,10 +96,13 @@ SpriteAtlas:
   - LabTileMap0.4_x16_y464
   - LabTileMap0.4_x16_y432
   - LabTileMap0.4_x48_y464
+  - LabTileMap0.4_x176_y448
   - LabTileMap0.4_x32_y464
   - LabTileMap0.4_x112_y448
   - LabTileMap0.4_x32_y448
   - LabTileMap0.4_x0_y464
+  - LabTileMap0.4_x192_y448
+  - LabTileMap0.4_x176_y464
   m_RenderDataMap: {}
   m_Tag: LabSpriteAtlas
   m_IsVariant: 0
