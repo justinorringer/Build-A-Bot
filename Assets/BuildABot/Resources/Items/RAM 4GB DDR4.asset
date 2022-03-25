@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: 4 GB DDR4
   description: A single stick of 4GB DDR4 RAM.
-  inventorySprite: {fileID: 0}
+  inventorySprite: {fileID: 7721776369159842921, guid: 0196b62ab53d35442b432991793d6355, type: 3}
   overworldSprite: {fileID: 0}
   value: 80
   partType: 5

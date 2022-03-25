@@ -44,7 +44,7 @@ namespace BuildABot
 
             if (fpsDisplay.enabled)
             {
-                fpsDisplay.text = $"FPS: {1.0f / Time.deltaTime}";
+                fpsDisplay.text = $"FPS: {1.0f / Time.unscaledDeltaTime}";
             }
         }
 
