@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Battery
   m_EditorClassIdentifier: 
   displayName: Battery
-  description: A battery found in the world.
+  description: A small battery found in the world.
   inventorySprite: {fileID: -6130828432003204046, guid: 0196b62ab53d35442b432991793d6355, type: 3}
   overworldSprite: {fileID: 0}
   value: 10
