@@ -46,11 +46,19 @@ namespace BuildABot
         /** The current on cancel action. */
         private Action<List<Character>> _currentOnCancel;
 
+        /** The animator used by this object. */
+        private Animator _anim;
+        /** Hash of "running" parameter in the animator, stored for optimization */
+        private int _attackTriggerHash;
+
         // Start is called before the first frame update
         protected void Start()
         {
             _offset = new Vector2(GetComponent<Collider2D>().bounds.extents.x, 0);
             Character = GetComponent<Character>();
+
+            _anim = GetComponent<Animator>();
+            _attackTriggerHash = Animator.StringToHash("Attack");
         }
 
         public void DoStoredAttack()
@@ -74,6 +82,7 @@ namespace BuildABot
             _currentOnFinish = onFinish;
             _currentOnCancel = onCancel;
             _currentAttackCoroutine = attack.Execute(this, _currentHits, onProgress, OnFinishAttack);
+            _anim.SetTrigger(_attackTriggerHash);
             return true;
         }
 
