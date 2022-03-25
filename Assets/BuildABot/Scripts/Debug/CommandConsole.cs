@@ -283,14 +283,14 @@ namespace BuildABot
         {
             inputField.onSubmit.AddListener(ExecuteInput);
             Application.logMessageReceived += HandleMessage;
-            player.PlayerInput.InputEnabled = false;
+            player.PlayerInput.GameInputEnabled = false;
         }
 
         private void OnDisable()
         {
             inputField.onSubmit.RemoveListener(ExecuteInput);
             Application.logMessageReceived -= HandleMessage;
-            player.PlayerInput.InputEnabled = true;
+            player.PlayerInput.GameInputEnabled = true;
         }
 
         /**

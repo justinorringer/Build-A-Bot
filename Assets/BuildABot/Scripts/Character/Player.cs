@@ -11,6 +11,12 @@ namespace BuildABot
     public class Player : Character
     {
 
+        [Tooltip("The HUD UI object controlled by this player instance.")]
+        [SerializeField] private HUD hud;
+
+        [Tooltip("The main menu UI object controlled by this player instance.")]
+        [SerializeField] private MainMenu mainMenu;
+
         /** The player movement component used by this player. */
         private PlayerMovement _playerMovement;
         /** The player input component used by this player. */
@@ -138,7 +144,7 @@ namespace BuildABot
 
             if (useFollowMouseTool)
             {
-                _playerInput.InputEnabled = false;
+                _playerInput.GameInputEnabled = false;
                 _playerMovement.ChangeMovementMode(ECharacterMovementMode.Flying);
                 _mainCamera = Camera.main;
             }
@@ -154,6 +160,20 @@ namespace BuildABot
                 Vector3 worldPos = _mainCamera.ScreenToWorldPoint(mousePos);
                 _target = new Vector2(worldPos.x, worldPos.y);
             }
+        }
+
+        /**
+         * Toggles the main menu for this player.
+         */
+        public void ToggleMenu()
+        {
+            bool active = !mainMenu.gameObject.activeSelf;
+            mainMenu.gameObject.SetActive(active);
+            Cursor.visible = active;
+            hud.gameObject.SetActive(!active); // TODO: Add option to disable HUD
+            Time.timeScale = active ? 0.0f : 1;
+            PlayerInput.GameInputEnabled = !active;
+            // mainMenu.Reset();
         }
 
     }

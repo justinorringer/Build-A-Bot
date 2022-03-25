@@ -85,6 +85,9 @@ namespace BuildABot
         /** The base item used by this instance. */
         public override Item Item => item;
 
+        /** The typed item of this instance. */
+        public ComputerPartItem ComputerPartItem => item;
+
         public override int Count => 1;
 
         public override bool CanEquip => true;
