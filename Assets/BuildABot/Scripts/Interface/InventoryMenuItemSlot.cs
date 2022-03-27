@@ -18,6 +18,12 @@ namespace BuildABot
         
         [Tooltip("The image used to display the item sprite.")]
         [SerializeField] private Image sprite;
+
+        [Tooltip("The unequipped version of the inventory button.")]
+        [SerializeField] private Button unequippedButton;
+
+        [Tooltip("The equipped version of the inventory button.")]
+        [SerializeField] private Button equippedButton;
         
         /** The inventory menu that owns this slot object. */
         public InventoryMenu InventoryMenu { get; set; }
@@ -28,20 +34,29 @@ namespace BuildABot
             get => _entry;
             set
             {
+                if (_entry != null) _entry.RemoveChangeListener(Refresh);
                 _entry = value;
-                Initialize();
+                if (_entry != null) _entry.AddChangeListener(Refresh);
+                Refresh();
             }
         }
 
         /**
-         * Initializes the slot display.
+         * Updates the slot display.
          */
-        private void Initialize()
+        public void Refresh()
         {
             if (Entry != null)
             {
                 sprite.sprite = Entry.Item.InventorySprite;
                 sprite.color = Color.white;
+                
+                unequippedButton.gameObject.SetActive(!Entry.Equipped);
+                equippedButton.gameObject.SetActive(Entry.Equipped);
+
+                unequippedButton.interactable = true;
+                equippedButton.interactable = true;
+                
                 if (Entry is ComputerPartInstance cp)
                 {
                     durabilityBar.gameObject.SetActive(true);
@@ -66,6 +81,12 @@ namespace BuildABot
                 sprite.color = Color.clear;
                 durabilityBar.gameObject.SetActive(false);
                 quantityText.gameObject.SetActive(false);
+                
+                unequippedButton.gameObject.SetActive(true);
+                equippedButton.gameObject.SetActive(false);
+
+                unequippedButton.interactable = false;
+                equippedButton.interactable = false;
             }
         }
 
@@ -74,7 +95,7 @@ namespace BuildABot
          */
         public void ShowInDetailsPanel()
         {
-            InventoryMenu.DetailsPanel.Entry = Entry;
+            InventoryMenu.DetailsPanel.Slot = this;
         }
     }
 }

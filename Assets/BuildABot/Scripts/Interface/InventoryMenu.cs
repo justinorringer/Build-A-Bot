@@ -93,7 +93,7 @@ namespace BuildABot
                 Destroy(slot);
             }
 
-            DetailsPanel.Entry = null;
+            DetailsPanel.Slot = null;
         }
     }
 }

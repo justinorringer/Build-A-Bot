@@ -14,35 +14,35 @@ namespace BuildABot
         /** The inventory menu that owns this object. */
         public InventoryMenu InventoryMenu { get; set; }
 
-        /** The underlying entry data. */
-        private InventoryEntry _entry;
+        /** The underlying selected slot. */
+        private InventoryMenuItemSlot _slot;
         
         /** The entry used by this details panel. */
-        public InventoryEntry Entry
+        public InventoryMenuItemSlot Slot
         {
-            get => _entry;
+            get => _slot;
             set
             {
-                _entry = value;
-                Initialize();
+                _slot = value;
+                Refresh();
             }
         }
 
         /**
          * Populates the details screen with the data of the assigned entry.
          */
-        private void Initialize()
+        public void Refresh()
         {
-            if (Entry == null)
+            if (Slot == null || Slot.Entry == null)
             {
                 gameObject.SetActive(false);
                 return;
             }
             
             gameObject.SetActive(true);
-            itemDetailsTitle.text = Entry.Item.DisplayName;
-            itemDetailsDescription.text = Entry.Item.Description;
-            if (Entry is ComputerPartInstance cp)
+            itemDetailsTitle.text = Slot.Entry.Item.DisplayName;
+            itemDetailsDescription.text = Slot.Entry.Item.Description;
+            if (Slot.Entry is ComputerPartInstance cp)
             {
                 itemDetailsEquipOption.gameObject.SetActive(!cp.Equipped);
                 itemDetailsUnequipOption.gameObject.SetActive(cp.Equipped);
@@ -59,11 +59,12 @@ namespace BuildABot
          */
         public void EquipItem()
         {
-            if (Entry is ComputerPartInstance cp)
+            if (Slot.Entry is ComputerPartInstance cp)
             {
                 InventoryMenu.Player.EquipItem(cp);
                 itemDetailsEquipOption.gameObject.SetActive(false);
                 itemDetailsUnequipOption.gameObject.SetActive(true);
+                Slot.Refresh();
             }
         }
         
@@ -72,11 +73,12 @@ namespace BuildABot
          */
         public void UnequipItem()
         {
-            if (Entry is ComputerPartInstance cp)
+            if (Slot.Entry is ComputerPartInstance cp)
             {
                 InventoryMenu.Player.UnequipItemSlot(cp.ComputerPartItem.PartType);
                 itemDetailsEquipOption.gameObject.SetActive(true);
                 itemDetailsUnequipOption.gameObject.SetActive(false);
+                Slot.Refresh();
             }
         }
     }

@@ -30,12 +30,42 @@ namespace BuildABot
             get => _equipped;
             set
             {
-                if (CanEquip) _equipped = value;
-                else
+                if (CanEquip)
                 {
-                    Debug.LogWarning("Cannot equip an item that is not marked CanEquip.");
+                    _equipped = value;
+                    ApplyChanges();
                 }
+                else Debug.LogWarning("Cannot equip an item that is not marked CanEquip.");
             }
+        }
+
+        /** The event called whenever a change is applied to this entry. */
+        private readonly UnityEvent _onChange = new UnityEvent();
+
+        /**
+         * Handles any changes made to this entry.
+         */
+        protected void ApplyChanges()
+        {
+            _onChange.Invoke();
+        }
+
+        /**
+         * Adds a new listener that will be triggered whenever a change is made to this entry.
+         * <param name="action">The action to perform on change.</param>
+         */
+        public void AddChangeListener(UnityAction action)
+        {
+            _onChange.AddListener(action);
+        }
+
+        /**
+         * Removes the provided listener from receiving change events.
+         * <param name="action">The action remove as a listener.</param>
+         */
+        public void RemoveChangeListener(UnityAction action)
+        {
+            _onChange.RemoveListener(action);
         }
     }
     
