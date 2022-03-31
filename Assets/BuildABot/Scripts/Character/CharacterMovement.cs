@@ -160,7 +160,6 @@ namespace BuildABot
 
             // Move using velocity based on the cached movement rates
             Vector2 targetVelocity = Vector2.zero;
-            //targetVelocity = Vector2.zero;
 
             if (CanMove)
             {
@@ -171,8 +170,9 @@ namespace BuildABot
                     case ECharacterMovementMode.Walking:
                         Vector2 velocity = _rigidbody.velocity;
                         targetVelocity = new Vector2(_horizontalMovementRate * movementRate, velocity.y);
-                        float acceleration = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
-                        _rigidbody.velocity += new Vector2(Mathf.Clamp(_horizontalMovementRate * Time.fixedDeltaTime / acceleration, -movementRate, movementRate), 0);
+                        /*float acceleration = _horizontalMovementRate * Time.fixedDeltaTime /
+                            (_rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime);
+                        _rigidbody.velocity += new Vector2(Mathf.Clamp(acceleration, -movementRate, movementRate), 0);*/
                         break;
                     case ECharacterMovementMode.Flying:
                         targetVelocity = new Vector2(_horizontalMovementRate, _verticalMovementRate) * movementRate;
@@ -182,12 +182,12 @@ namespace BuildABot
                         break;
                 }
             }
-            
+
             float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
 
             if (targetVelocity != _rigidbody.velocity)
             {
-                //StartCoroutine(VelocityDamp(targetVelocity, dampTime));
+                StartCoroutine(VelocityDamp(targetVelocity, dampTime));
             }
             //_rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
 
