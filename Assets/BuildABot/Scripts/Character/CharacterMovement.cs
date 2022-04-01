@@ -23,6 +23,9 @@ namespace BuildABot
 
         [Tooltip("The movement mode used by this character.")]
         [SerializeField] private ECharacterMovementMode movementMode = ECharacterMovementMode.Walking;
+
+        [Tooltip("Should the facing direction of this character's sprite be flipped?")]
+        [SerializeField] private bool flipSprite;
         
         /** The attribute set driving this controller. */
         protected abstract CharacterAttributeSet SourceAttributes { get; }
@@ -97,28 +100,24 @@ namespace BuildABot
         /** Which direction is the character currently facing? */
         public Vector2 Facing => _facing;
 
+        /** The velocity of this character. */
+        public Vector2 Velocity => _rigidbody.velocity;
+
         /** The original assigned gravity scale of the rigidbody */
         private float _originalGravity;
 
-        /** Hash of "running" parameter in the animator, stored for optimization */
-        private int _runningBoolHash;
-        /** Hash of "idle" parameter in the animator, stored for optimization */
-        private int _idleBoolHash;
-        /** Hash of "grounded" parameter in the animator, stored for optimization */
-        private int _groundedBoolHash;
-
-        /** Gravity scale multiplier of the jump during the upward arc */
+        [Tooltip("Gravity scale multiplier of the jump during the upward arc.")]
         [SerializeField] private float upArcGravity;
-        /** Gravity scale multiplier of the jump during the peak */
+        [Tooltip("Gravity scale multiplier of the jump during the peak.")]
         [SerializeField] private float jumpPeakGravity;
-        /** Duration of the gravity scale at the peak */
+        [Tooltip("Duration of the gravity scale at the peak.")]
         [SerializeField] private float jumpPeakDuration;
-        /** Gravity scale multiplier of the jump during the downward arc */
+        [Tooltip("Gravity scale multiplier of the jump during the downward arc.")]
         [SerializeField] private float downArcGravity;
 
-        /** Time it takes for the player to reach their max speed when they start moving */
+        [Tooltip("Time it takes for the player to reach their max speed when they start moving.")]
         [SerializeField] private float accelerationTime = 0.05f;
-        /** Time it takes for the player to reach zero speed when they stop moving */
+        [Tooltip("Time it takes for the player to reach zero speed when they stop moving.")]
         [SerializeField] private float decelerationTime = 0.05f;
 
         /** Can this character move? */
@@ -138,10 +137,6 @@ namespace BuildABot
             _collider = GetComponent<Collider2D>();
             _sprite = GetComponent<SpriteRenderer>();
             _anim = GetComponent<Animator>();
-
-            _runningBoolHash = Animator.StringToHash("Running");
-            _idleBoolHash = Animator.StringToHash("Idle");
-            _groundedBoolHash = Animator.StringToHash("Grounded");
 
             Bounds bounds = _collider.bounds;
             _extents = new Vector2(bounds.extents.x, bounds.extents.y);
@@ -209,23 +204,25 @@ namespace BuildABot
             {
                 bool isRight = dir.x > 0.0f;
                 _facing = isRight ? Vector2.right : Vector2.left;
-                _sprite.flipX = !isRight;
+                _sprite.flipX = flipSprite ? isRight : !isRight;
             }
 
-            if (_anim.runtimeAnimatorController != null)
-            {
-                // Tell animator if Bipy is running
-                _anim.SetBool(_runningBoolHash, dir.x != 0.0f && _isGrounded);
-                // Tell animator if Bipy is idle
-                _anim.SetBool(_idleBoolHash, _rigidbody.velocity == Vector2.zero);
-            }
+            UpdateAnimation(dir);
+        }
+
+        protected virtual void UpdateAnimation(Vector2 direction)
+        {
+            
         }
 
         private IEnumerator VelocityDamp(Vector2 targetVelocity, float dampTime)
         {
             while(targetVelocity != _rigidbody.velocity)
             {
-                _rigidbody.velocity = IsWalking ? new Vector2(Mathf.SmoothDamp(_rigidbody.velocity.x, targetVelocity.x, ref _tempXVelocity, dampTime), _rigidbody.velocity.y) : Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
+                Vector2 currentVelocity = _rigidbody.velocity;
+                _rigidbody.velocity = IsWalking ?
+                    new Vector2(Mathf.SmoothDamp(currentVelocity.x, targetVelocity.x, ref _tempXVelocity, dampTime), currentVelocity.y) :
+                    Vector2.SmoothDamp(currentVelocity, targetVelocity, ref _tempVelocity, dampTime);
                 yield return new WaitForFixedUpdate();
             }
         }
@@ -332,14 +329,12 @@ namespace BuildABot
         /**
          * Checks if the player is grounded, and updates isGrounded value accordingly.
          */
-        private void CheckGrounded()
+        protected virtual void CheckGrounded()
         {
             // Note: Character can only be grounded if in walking mode
             _isGrounded = Physics2D.BoxCast(RootPosition, new Vector2(_extents.x * 2, 0.1f),
                 0, Vector2.down, 0.01f, 
                 Physics2D.AllLayers & ~LayerMask.GetMask("Player")) && IsWalking;
-
-            if (_anim.runtimeAnimatorController != null) _anim.SetBool(_groundedBoolHash, _isGrounded);
         }
     }
 }

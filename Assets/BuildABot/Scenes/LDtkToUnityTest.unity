@@ -271,6 +271,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 609926857222936979, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
+      propertyPath: accelerationTime
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 609926857222936980, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_Name
       value: BIPY

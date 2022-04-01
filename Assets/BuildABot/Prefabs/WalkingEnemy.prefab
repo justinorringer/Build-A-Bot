@@ -565,7 +565,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &929539346526337672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -943,4 +943,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ff2533a75ab4c54d97620482605b8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatBar: {fileID: 2427920774178649076}
+  tempBar: {fileID: 2427920774178649076}
+  enemy: {fileID: 929539346526337686}
