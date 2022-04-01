@@ -71,7 +71,7 @@ namespace BuildABot
                 }
 
                 //Target enemy if in range
-                if (_enemyController.EnemyMode == EPathingMode.Patrolling)
+                if (_enemyController.CanSeek && _enemyController.EnemyMode == EPathingMode.Patrolling)
                 {
                     _enemyController.AddTarget(other.transform);
                 }

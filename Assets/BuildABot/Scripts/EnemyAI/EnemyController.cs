@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-namespace BuildABot 
+namespace BuildABot
 {
 
     /**
@@ -16,7 +16,7 @@ namespace BuildABot
         /** The enemy will seek a specific topic. */
         Seeking
     }
-    
+
     /**
      * The AI controller used to drive enemy behaviors.
      */
@@ -42,6 +42,9 @@ namespace BuildABot
         private FieldOfView _fov;
 
         [Header("Seeking Information")]
+
+        [Tooltip("Enable or Disable seeking for this enemy type")]
+        [SerializeField] private bool canSeek;
 
         [Tooltip("The target for the enemy to seek")]
         [SerializeField] private Transform target;
@@ -70,7 +73,11 @@ namespace BuildABot
         /** The IEnumerator used by the UpdatePath coroutine. */
         private IEnumerator _updatePathCoroutine;
 
+        /** Reference to the enemy's current mode */
         public EPathingMode EnemyMode => enemyMode;
+
+        /** Reference to the enemy's seeking ability */
+        public bool CanSeek => canSeek;
 
         void Start()
         {
@@ -100,7 +107,7 @@ namespace BuildABot
 
         void Update()
         {
-            switch(enemyMode)
+            switch (enemyMode)
             {
                 case EPathingMode.Patrolling:
                     PatrollingStep();
@@ -120,23 +127,23 @@ namespace BuildABot
             {
                 _fov.flipx = true;
             }
-            
+
         }
 
         void PatrollingStep()
         {
-            
+
             //Check to see if there's a target in our field of view
-            if (_fov.visibleTargets.Count > 0)
+            if (canSeek && _fov.visibleTargets.Count > 0)
             {
                 AddTarget(_fov.visibleTargets[0]);
                 return;
             }
-            
+
             //Exit Conditions
             if (patrolPoints.Count <= 0)
                 return;
-            
+
             //Loop if necessary
             if (_currentPatrolPoint >= patrolPoints.Count)
                 _currentPatrolPoint = 0;
@@ -178,7 +185,7 @@ namespace BuildABot
             target = newTarget;
             _fov.StopLooking();
             enemyMode = EPathingMode.Seeking;
-            
+
             if (_updatePathCoroutine != null) StopCoroutine(_updatePathCoroutine);
 
             //Start pathing

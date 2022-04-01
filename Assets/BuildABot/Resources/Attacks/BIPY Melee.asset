@@ -73,5 +73,5 @@ MonoBehaviour:
   canInterrupt: 1
   distance: 1.5
   useRelativeDistance: 1
-  duration: 0.3
+  duration: 0.37
   raycastRate: 30
