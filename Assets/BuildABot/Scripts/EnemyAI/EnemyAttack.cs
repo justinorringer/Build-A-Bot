@@ -17,6 +17,9 @@ namespace BuildABot
         /** Reference to the parent's CombatController component */
         private CombatController _combatController;
 
+        /** Reference to the parent's EnemyController component */
+        private EnemyController _enemyController;
+
         /** Reference to this object's generic Collider2D component */
         private Collider2D _collider;
 
@@ -32,6 +35,7 @@ namespace BuildABot
             _combatController = GetComponentInParent<CombatController>();
             _collider = GetComponent<Collider2D>();
             _enemyMovement = GetComponentInParent<EnemyMovement>();
+            _enemyController = GetComponentInParent<EnemyController>();
         }
 
         void Update()
@@ -64,6 +68,12 @@ namespace BuildABot
                 if (attack is MeleeAttackData melee)
                 {
                     attackGraphics.SetActive(true);
+                }
+
+                //Target enemy if in range
+                if (_enemyController.EnemyMode == EPathingMode.Patrolling)
+                {
+                    _enemyController.AddTarget(other.transform);
                 }
             }
         }

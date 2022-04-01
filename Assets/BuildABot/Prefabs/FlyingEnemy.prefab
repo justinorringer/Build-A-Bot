@@ -55,7 +55,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributes:
     temperature:
-      defaultValue: 70
+      defaultValue: 75
       onInitialize:
         m_PersistentCalls:
           m_Calls: []
@@ -140,7 +140,7 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
     movementSpeed:
-      defaultValue: 15
+      defaultValue: 20
       onInitialize:
         m_PersistentCalls:
           m_Calls: []
@@ -374,7 +374,7 @@ MonoBehaviour:
   patrolPoints: []
   nextPatrolPointDistance: 0.5
   target: {fileID: 0}
-  nextWaypointDistance: 3
+  nextWaypointDistance: 0.5
   pathUpdateInterval: 0.5
 --- !u!50 &2516541654574296491
 Rigidbody2D:
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewRadius: 2.53
-  viewAngle: 80
+  viewAngle: 120
   targetMask:
     serializedVersion: 2
     m_Bits: 128
@@ -460,7 +460,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 61ac40b257b3a994f841856ad38b2b6b, type: 3}
+  m_Sprite: {fileID: 8601748676561354454, guid: baf1b2c13f1c61e4cb251a0bfb3c1d24, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -503,7 +503,7 @@ Animator:
   m_GameObject: {fileID: 2516541654574296534}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 02add78f1275936448335820200005ba, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -121,6 +121,9 @@ namespace BuildABot
         /** Can this character move? */
         public bool CanMove { get; set; } = true;
 
+        /** Reference to this character's animator*/
+        public Animator Animator => _anim;
+
         protected virtual void Awake()
         {
             

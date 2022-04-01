@@ -73,22 +73,22 @@ MonoBehaviour:
   canInterrupt: 1
   shape: 1
   useRelativeRadius: 1
-  radius: 4
+  radius: 5
   areaOverTime:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2.0061657
-      outSlope: 2.0061657
+      inSlope: 6.4457746
+      outSlope: 6.4457746
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.49846327
-      value: 1
+      time: 0.15550673
+      value: 1.0023613
       inSlope: 0.0000027571566
       outSlope: 0.0000027571566
       tangentMode: 0
@@ -96,22 +96,31 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.27704808
     - serializedVersion: 3
-      time: 0.8
-      value: 1
-      inSlope: -0.022601746
-      outSlope: -0.022601746
+      time: 0.21989137
+      value: 1.0023727
+      inSlope: -0.18891147
+      outSlope: -0.18891147
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.18383726
+      outWeight: 0.113146886
+    - serializedVersion: 3
+      time: 0.4543178
+      value: 0.33000895
+      inSlope: -2.263241
+      outSlope: -2.263241
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -5.0000005
-      outSlope: -5.0000005
-      tangentMode: 34
+      inSlope: -0.15759139
+      outSlope: -0.15759139
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.13803005
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -141,5 +150,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  duration: 2
+  duration: 3
   raycastRate: 15

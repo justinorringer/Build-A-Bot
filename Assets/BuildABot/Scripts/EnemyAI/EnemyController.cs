@@ -70,6 +70,8 @@ namespace BuildABot
         /** The IEnumerator used by the UpdatePath coroutine. */
         private IEnumerator _updatePathCoroutine;
 
+        public EPathingMode EnemyMode => enemyMode;
+
         void Start()
         {
             //Get component values
@@ -127,15 +129,7 @@ namespace BuildABot
             //Check to see if there's a target in our field of view
             if (_fov.visibleTargets.Count > 0)
             {
-                //Dumb enemy - chase the first thing it sees
-                target = _fov.visibleTargets[0];
-                _fov.StopLooking();
-                enemyMode = EPathingMode.Seeking;
-                
-                if (_updatePathCoroutine != null) StopCoroutine(_updatePathCoroutine);
-
-                //Start pathing
-                _updatePathCoroutine = Utility.RepeatFunction(this, UpdatePath, pathUpdateInterval);
+                AddTarget(_fov.visibleTargets[0]);
                 return;
             }
             
@@ -156,7 +150,6 @@ namespace BuildABot
             {
                 _currentPatrolPoint++;
             }
-
         }
 
         void SeekingStep()
@@ -177,6 +170,22 @@ namespace BuildABot
             {
                 _currentWaypoint++;
             }
+        }
+
+        public void AddTarget(Transform newTarget)
+        {
+            //Dumb enemy - chase the first thing it sees
+            target = newTarget;
+            _fov.StopLooking();
+            enemyMode = EPathingMode.Seeking;
+            
+            if (_updatePathCoroutine != null) StopCoroutine(_updatePathCoroutine);
+
+            //Start pathing
+            _updatePathCoroutine = Utility.RepeatFunction(this, UpdatePath, pathUpdateInterval);
+
+            //Update animator
+            _enemyMovement.Animator.SetInteger("EnemyState", 1);
         }
     }
 }
