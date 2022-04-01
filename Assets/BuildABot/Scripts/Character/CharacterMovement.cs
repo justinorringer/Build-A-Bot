@@ -73,6 +73,9 @@ namespace BuildABot
         /** Unused reference for velocity dampening. */
         private Vector2 _tempVelocity = Vector2.zero;
 
+        /** Unused reference for velocity dampening. */
+        private float _tempXVelocity;
+
         /** Unused reference for gravity dampening. */
         private float _tempGravity;
 
@@ -117,9 +120,12 @@ namespace BuildABot
         [SerializeField] private float accelerationTime = 0.05f;
         /** Time it takes for the player to reach zero speed when they stop moving */
         [SerializeField] private float decelerationTime = 0.05f;
-        
+
         /** Can this character move? */
         public bool CanMove { get; set; } = true;
+
+        /** Reference to this character's animator*/
+        public Animator Animator => _anim;
 
         protected virtual void Awake()
         {
@@ -167,6 +173,18 @@ namespace BuildABot
                     case ECharacterMovementMode.Walking:
                         Vector2 velocity = _rigidbody.velocity;
                         targetVelocity = new Vector2(_horizontalMovementRate * movementRate, velocity.y);
+                        /*float acceleration = 0.0f;
+                        if (_rigidbody.velocity.magnitude < targetVelocity.magnitude)
+                        {
+                            acceleration = _horizontalMovementRate * movementRate * Time.fixedDeltaTime / accelerationTime;
+                            _rigidbody.velocity = new Vector2(Mathf.Clamp(velocity.x + acceleration, -movementRate, movementRate), velocity.y);
+                        }
+                        else if(_rigidbody.velocity.magnitude > targetVelocity.magnitude)
+                        {
+                            acceleration = movementRate * Time.fixedDeltaTime / decelerationTime * Mathf.Sign(_facing.x);
+                            float newXVelocity = velocity.x + acceleration;
+                            _rigidbody.velocity = new Vector2(Mathf.Sign(newXVelocity) != Mathf.Sign(_facing.x) ? newXVelocity : 0, velocity.y);
+                        }*/
                         break;
                     case ECharacterMovementMode.Flying:
                         targetVelocity = new Vector2(_horizontalMovementRate, _verticalMovementRate) * movementRate;
@@ -176,8 +194,14 @@ namespace BuildABot
                         break;
                 }
             }
+
             float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
-            _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
+
+            if (targetVelocity != _rigidbody.velocity)
+            {
+                StartCoroutine(VelocityDamp(targetVelocity, dampTime));
+            }
+            //_rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
 
             // Update the direction the character is facing if it has changed
             Vector2 dir = targetVelocity.normalized;
@@ -193,7 +217,16 @@ namespace BuildABot
                 // Tell animator if Bipy is running
                 _anim.SetBool(_runningBoolHash, dir.x != 0.0f && _isGrounded);
                 // Tell animator if Bipy is idle
-                _anim.SetBool(_idleBoolHash, targetVelocity == Vector2.zero);
+                _anim.SetBool(_idleBoolHash, _rigidbody.velocity == Vector2.zero);
+            }
+        }
+
+        private IEnumerator VelocityDamp(Vector2 targetVelocity, float dampTime)
+        {
+            while(targetVelocity != _rigidbody.velocity)
+            {
+                _rigidbody.velocity = IsWalking ? new Vector2(Mathf.SmoothDamp(_rigidbody.velocity.x, targetVelocity.x, ref _tempXVelocity, dampTime), _rigidbody.velocity.y) : Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
+                yield return new WaitForFixedUpdate();
             }
         }
 
@@ -258,7 +291,7 @@ namespace BuildABot
         private IEnumerator JumpPhysics()
         {
             // Make sure gravity scale is set to original value in case it had been changed by a different jump
-            setGravity(_originalGravity * upArcGravity);
+            SetGravity(_originalGravity * upArcGravity);
 
             // The period of the time before the top of the arc (the top of the arc is represented by the moment y velocity = 0)
             while (_rigidbody.velocity.y > 0)
@@ -267,11 +300,11 @@ namespace BuildABot
             }
 
             // Change the gravity scale at the peak of the jump for the specified number of seconds
-            setGravity(_originalGravity * jumpPeakGravity);
+            SetGravity(_originalGravity * jumpPeakGravity);
             yield return new WaitForSeconds(jumpPeakDuration);
 
             // Change the gravity scale on the downaward arc of the jump
-            setGravity(_originalGravity * downArcGravity);
+            SetGravity(_originalGravity * downArcGravity);
 
             while(_rigidbody.velocity.y < 0)
             {
@@ -279,10 +312,10 @@ namespace BuildABot
             }
 
             // Reset gravity scale to original value
-            setGravity(_originalGravity);
+            SetGravity(_originalGravity);
         }
         
-        private void setGravity(float newGravity)
+        private void SetGravity(float newGravity)
         {
             _rigidbody.gravityScale = Mathf.SmoothDamp(_rigidbody.gravityScale, newGravity, ref _tempGravity, 0.05f);
         }
