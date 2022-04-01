@@ -432,7 +432,7 @@ MonoBehaviour:
   jumpPeakGravity: 0.8
   jumpPeakDuration: 0.01
   downArcGravity: 1.7
-  accelerationTime: 0.5
+  accelerationTime: 0.3
   decelerationTime: 0.05
 --- !u!114 &878766306424404202
 MonoBehaviour:
