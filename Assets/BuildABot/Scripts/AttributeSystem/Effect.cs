@@ -133,8 +133,8 @@ namespace BuildABot
 
                 string targetStr =
                     (isFloat
-                        ? floatMod.Attribute.SelectedAttributeNameFriendly
-                        : intMod?.Attribute.SelectedAttributeNameFriendly)
+                        ? floatMod.Attribute.SelectedAttributeName
+                        : intMod?.Attribute.SelectedAttributeName)
                     ?? (useRichText ? "<b>[invalid modifier]</b>" : "[invalid modifier]");
                 
                 tokens.Add($"{{MODIFIER_TARGET_LOWER[{i}]}}", targetStr.ToLower());

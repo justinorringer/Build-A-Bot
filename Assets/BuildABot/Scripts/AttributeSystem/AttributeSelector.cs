@@ -28,8 +28,10 @@ namespace BuildABot
         /** The name of the attribute targeted by this selector. May be empty. */
         public string SelectedAttributeName => value;
 
+        #if UNITY_EDITOR
         /** The friendly name of the selected attribute. */
         public string SelectedAttributeNameFriendly => ObjectNames.NicifyVariableName(SelectedAttributeName);
+        #endif
         
         protected AttributeSelector()
         {
