@@ -1,0 +1,85 @@
+using TMPro;
+using UnityEngine;
+
+namespace BuildABot
+{
+    public class InventoryMenuItemDetails : MonoBehaviour
+    {
+        [SerializeField] private TMP_Text itemDetailsTitle;
+        [SerializeField] private TMP_Text itemDetailsDescription;
+        [SerializeField] private GameObject itemDetailsEquipOption;
+        [SerializeField] private GameObject itemDetailsUnequipOption;
+        //[SerializeField] private GameObject itemDetailsDropOption;
+        
+        /** The inventory menu that owns this object. */
+        public InventoryMenu InventoryMenu { get; set; }
+
+        /** The underlying selected slot. */
+        private InventoryMenuItemSlot _slot;
+        
+        /** The entry used by this details panel. */
+        public InventoryMenuItemSlot Slot
+        {
+            get => _slot;
+            set
+            {
+                _slot = value;
+                Refresh();
+            }
+        }
+
+        /**
+         * Populates the details screen with the data of the assigned entry.
+         */
+        public void Refresh()
+        {
+            if (Slot == null || Slot.Entry == null)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+            
+            gameObject.SetActive(true);
+            itemDetailsTitle.text = Slot.Entry.Item.DisplayName;
+            itemDetailsDescription.text = Slot.Entry.Item.Description;
+            if (Slot.Entry is ComputerPartInstance cp)
+            {
+                itemDetailsEquipOption.gameObject.SetActive(!cp.Equipped);
+                itemDetailsUnequipOption.gameObject.SetActive(cp.Equipped);
+            }
+            else
+            {
+                itemDetailsEquipOption.gameObject.SetActive(false);
+                itemDetailsUnequipOption.gameObject.SetActive(false);
+            }
+        }
+
+        /**
+         * Equips the selected item.
+         */
+        public void EquipItem()
+        {
+            if (Slot.Entry is ComputerPartInstance cp)
+            {
+                InventoryMenu.Player.EquipItem(cp);
+                itemDetailsEquipOption.gameObject.SetActive(false);
+                itemDetailsUnequipOption.gameObject.SetActive(true);
+                Slot.Refresh();
+            }
+        }
+        
+        /**
+         * Unequips the selected item.
+         */
+        public void UnequipItem()
+        {
+            if (Slot.Entry is ComputerPartInstance cp)
+            {
+                InventoryMenu.Player.UnequipItemSlot(cp.ComputerPartItem.PartType);
+                itemDetailsEquipOption.gameObject.SetActive(true);
+                itemDetailsUnequipOption.gameObject.SetActive(false);
+                Slot.Refresh();
+            }
+        }
+    }
+}

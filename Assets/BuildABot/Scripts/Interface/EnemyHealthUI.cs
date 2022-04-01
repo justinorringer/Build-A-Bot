@@ -11,10 +11,11 @@ namespace BuildABot
         [Tooltip("Reference to the bar that will grow with the enemy's temperature")]
         [SerializeField] private GameObject tempBar;
 
+        [Tooltip("The enemy that owns this health bar.")]
+        [SerializeField] private Enemy enemy;
+
         /** Rect transform of the temperature bar*/
         private RectTransform _tempBarTransform;
-        /** Reference to the enemy class using this UI */
-        private Enemy _enemy;
         /** Attributes of the associated enemy */
         private CharacterAttributeSet _enemyAttributes;
         /** Cached width value of temperature bar rect transform */
@@ -30,11 +31,11 @@ namespace BuildABot
         {
             //Cache initial values
             _tempBarTransform = tempBar.GetComponent<RectTransform>();
-            _tempBarWidth = _tempBarTransform.sizeDelta.x;
-            _tempBarHeight = _tempBarTransform.sizeDelta.y;
+            Vector2 sizeDelta = _tempBarTransform.sizeDelta;
+            _tempBarWidth = sizeDelta.x;
+            _tempBarHeight = sizeDelta.y;
             _tempBarImage = tempBar.GetComponent<Image>();
-            _enemy = GetComponentInParent<Enemy>();
-            _enemyAttributes = _enemy.Attributes;
+            _enemyAttributes = enemy.Attributes;
         }
 
         void Start()
@@ -47,13 +48,13 @@ namespace BuildABot
         void OnEnable()
         {
             //Subscribe to health change event
-            _enemyAttributes.Temperature.AddPostValueChangeListener(UpdateUI);
+            enemy.Attributes.Temperature.AddPostValueChangeListener(UpdateUI);
         }
 
         void OnDisable()
         {
             //Unsubscribe from health change event
-            _enemyAttributes.Temperature.RemovePostValueChangeListener(UpdateUI);
+            enemy.Attributes.Temperature.RemovePostValueChangeListener(UpdateUI);
         }
 
         private void UpdateUI(float newValue)

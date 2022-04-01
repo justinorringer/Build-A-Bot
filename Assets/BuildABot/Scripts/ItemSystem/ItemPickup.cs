@@ -1,15 +1,23 @@
-using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BuildABot
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class ItemPickup : MonoBehaviour
     {
+        [Tooltip("The item being picked up.")]
         [SerializeField] private Item item;
+        [Tooltip("The count of the item in this pickup.")]
         [SerializeField] private int count = 1;
+        
+        [Tooltip("The sprite renderer used to display the item.")]
         [SerializeField] private SpriteRenderer spriteRenderer;
+        
+        [Tooltip("An event fired when this item is picked up.")]
+        [SerializeField] private UnityEvent<Player> onPickup;
 
+        /** The item being picked up. */
         public Item Item
         {
             get => item;
@@ -20,6 +28,7 @@ namespace BuildABot
             }
         }
 
+        /** The count of the item in this pickup. */
         public int Count
         {
             get => count;
@@ -50,6 +59,7 @@ namespace BuildABot
             {
                 if (player.Inventory.TryAddItem(Item, Count, out int overflow))
                 {
+                    onPickup.Invoke(player);
                     Destroy(gameObject);
                 }
                 else
@@ -59,9 +69,11 @@ namespace BuildABot
             }
         }
 
+    #if UNITY_EDITOR
         private void OnValidate()
         {
             Initialize();
         }
+    #endif
     }
 }

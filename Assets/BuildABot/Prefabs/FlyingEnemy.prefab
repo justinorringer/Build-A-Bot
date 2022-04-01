@@ -189,7 +189,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ff2533a75ab4c54d97620482605b8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatBar: {fileID: 1955818561449426508}
+  tempBar: {fileID: 1955818561449426508}
+  enemy: {fileID: 2516541654574296494}
 --- !u!1 &2516541654574296534
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementMode: 1
+  flipSprite: 1
   upArcGravity: 0
   jumpPeakGravity: 0
   jumpPeakDuration: 0
@@ -654,7 +656,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 8601748676561354454, guid: baf1b2c13f1c61e4cb251a0bfb3c1d24, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}

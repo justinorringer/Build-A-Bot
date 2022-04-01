@@ -48,7 +48,7 @@ namespace BuildABot
 
         /** The animator used by this object. */
         private Animator _anim;
-        /** Hash of "running" parameter in the animator, stored for optimization */
+        /** Hash of "attack" parameter in the animator, stored for optimization */
         private int _attackTriggerHash;
 
         // Start is called before the first frame update
@@ -58,6 +58,7 @@ namespace BuildABot
             Character = GetComponent<Character>();
 
             _anim = GetComponent<Animator>();
+            // TODO: Handle different attacks and supporting multiple animators besides the player
             _attackTriggerHash = Animator.StringToHash("Attack");
         }
 
@@ -82,7 +83,7 @@ namespace BuildABot
             _currentOnFinish = onFinish;
             _currentOnCancel = onCancel;
             _currentAttackCoroutine = attack.Execute(this, _currentHits, onProgress, OnFinishAttack);
-            _anim.SetTrigger(_attackTriggerHash);
+            if (_anim != null && _anim.runtimeAnimatorController != null) _anim.SetTrigger(_attackTriggerHash);
             return true;
         }
 
