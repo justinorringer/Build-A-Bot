@@ -15,7 +15,7 @@ namespace BuildABot
         [Header("Events")]
         
         [Tooltip("A dispatcher called whenever this character is killed.")]
-        [SerializeField] private UnityEvent onDeath;
+        [SerializeField] protected UnityEvent onDeath;
 
         /** The attribute set used by this character. */
         public CharacterAttributeSet Attributes => attributes;

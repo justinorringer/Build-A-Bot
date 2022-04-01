@@ -528,7 +528,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6756141395186281240}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6756141396483091491}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6756141395685478632
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,7 +899,7 @@ Animator:
   m_GameObject: {fileID: 6756141396049484457}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 224eaf3aeaa3ca5468d57128be382260, type: 2}
+  m_Controller: {fileID: 9100000, guid: 430f99d2b7edb7946b68b45433849d7d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1078,7 +1090,13 @@ MonoBehaviour:
   dialogueText: {fileID: 6756141396290920183}
   nameText: {fileID: 8350008545789565577}
   animator: {fileID: 6756141396049484453}
-  dialogueTrigger: {fileID: 0}
+  onBeginDialogue:
+    m_PersistentCalls:
+      m_Calls: []
+  onEndDialogue:
+    m_PersistentCalls:
+      m_Calls: []
+  characterTypingSpeed: 0.05
 --- !u!82 &8350008546642868053
 AudioSource:
   m_ObjectHideFlags: 0

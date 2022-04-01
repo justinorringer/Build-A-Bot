@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace BuildABot
@@ -9,5 +10,15 @@ namespace BuildABot
         
         [Tooltip("The inventory menu component used by this menu.")]
         [SerializeField] private InventoryMenu inventoryMenu;
+
+        [Tooltip("The object that holds the landing options menu.")]
+        [SerializeField] private GameObject landingOptions;
+
+        protected void OnEnable()
+        {
+            // Reset the state
+            inventoryMenu.gameObject.SetActive(false);
+            landingOptions.SetActive(true);
+        }
     }
 }

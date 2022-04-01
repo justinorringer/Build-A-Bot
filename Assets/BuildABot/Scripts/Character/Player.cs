@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BuildABot
 {
@@ -17,6 +19,12 @@ namespace BuildABot
         [Tooltip("The main menu UI object controlled by this player instance.")]
         [SerializeField] private MainMenu mainMenu;
 
+        [Tooltip("The prefab to instance when displaying a help message.")]
+        [SerializeField] private HelpWidget alertPrefab;
+
+        [Tooltip("The display shown on game over.")]
+        [SerializeField] private GameOverDisplay gameOverDisplay;
+
         /** The player movement component used by this player. */
         private PlayerMovement _playerMovement;
         /** The player input component used by this player. */
@@ -26,6 +34,9 @@ namespace BuildABot
         public PlayerInput PlayerInput => _playerInput;
 
         public override CharacterMovement CharacterMovement => _playerMovement;
+
+        /** The HUD used by this player. */
+        public HUD HUD => hud;
 
 #region Item and Equipment Handling
         
@@ -134,6 +145,7 @@ namespace BuildABot
         {
             base.Awake();
             Attributes.Initialize();
+            Cursor.visible = false;
         }
         
         
@@ -162,6 +174,31 @@ namespace BuildABot
             }
         }
 
+        public override void Kill()
+        {
+            onDeath.Invoke();
+            // TODO: Play death animation
+            FinishGame("Game Over");
+        }
+
+        public void FinishGame(string message)
+        {
+            // TODO: Replace with a more graceful implementation for winning
+            SetPaused(true);
+            DisableHUD();
+            mainMenu.gameObject.SetActive(false);
+            StartCoroutine(WaitForGameOver(message));
+        }
+
+        private IEnumerator WaitForGameOver(string message)
+        {
+            gameOverDisplay.Message = message;
+            gameOverDisplay.gameObject.SetActive(true);
+            yield return new WaitUntil(() => gameOverDisplay.IsFinished);
+            // Quit to main menu
+            SceneManager.LoadScene("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
+        }
+
         /**
          * Toggles the main menu for this player.
          */
@@ -171,9 +208,53 @@ namespace BuildABot
             mainMenu.gameObject.SetActive(active);
             Cursor.visible = active;
             hud.gameObject.SetActive(!active); // TODO: Add option to disable HUD
-            Time.timeScale = active ? 0.0f : 1;
-            PlayerInput.GameInputEnabled = !active;
+            SetPaused(active);
             // mainMenu.Reset();
+        }
+
+        public void EnableHUD()
+        {
+            hud.gameObject.SetActive(true);
+        }
+
+        public void DisableHUD()
+        {
+            hud.gameObject.SetActive(false);
+        }
+
+        /**
+         * Sets the game paused state.
+         * TODO: Move pausing behavior to a global game state controller
+         * <param name="paused">true if the game should be paused, false to unpause.</param>
+         */
+        public void SetPaused(bool paused)
+        {
+            Time.timeScale = paused ? 0.0f : 1;
+            PlayerInput.GameInputEnabled = !paused;
+        }
+
+        /**
+         * Show a help menu to the player.
+         * <param name="message">The message to display.</param>
+         */
+        public void ShowHelpMenu(string message)
+        {
+            ShowHelpMenu(message, "Alert");
+        }
+
+        /**
+         * Show a help menu to the player.
+         * <param name="message">The message to display.</param>
+         * <param name="title">The title of the alert. Defaults to Alert.</param>
+         * <param name="acknowledgeMessage">The text to place in the acknowledgement button. Defaults to OK.</param>
+         */
+        public void ShowHelpMenu(string message, string title, string acknowledgeMessage = "OK")
+        {
+            Cursor.visible = true;
+            HelpWidget widget = Instantiate(alertPrefab);
+            widget.Initialize(this, message, title, acknowledgeMessage);
+            SetPaused(true);
+            DisableHUD();
         }
 
     }

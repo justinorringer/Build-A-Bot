@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
 namespace BuildABot {
-    public class Temperature : MonoBehaviour
+    public class TemperatureDisplay : MonoBehaviour
     {
-        [SerializeField] private Player bipy;
+        [SerializeField] private HUD hud;
         [SerializeField] private TextMeshProUGUI temperature;
 
         void Start()
@@ -15,7 +14,7 @@ namespace BuildABot {
         
         public void UpdateTemperature()
         {
-            temperature.text = $"Temp: {bipy.Attributes.Temperature.CurrentValue}";
+            temperature.text = $"Temp: {hud.Player.Attributes.Temperature.CurrentValue}";
         }
     }
 }
