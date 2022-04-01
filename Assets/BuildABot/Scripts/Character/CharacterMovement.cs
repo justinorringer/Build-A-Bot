@@ -170,9 +170,18 @@ namespace BuildABot
                     case ECharacterMovementMode.Walking:
                         Vector2 velocity = _rigidbody.velocity;
                         targetVelocity = new Vector2(_horizontalMovementRate * movementRate, velocity.y);
-                        /*float acceleration = _horizontalMovementRate * Time.fixedDeltaTime /
-                            (_rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime);
-                        _rigidbody.velocity += new Vector2(Mathf.Clamp(acceleration, -movementRate, movementRate), 0);*/
+                        /*float acceleration = 0.0f;
+                        if (_rigidbody.velocity.magnitude < targetVelocity.magnitude)
+                        {
+                            acceleration = _horizontalMovementRate * movementRate * Time.fixedDeltaTime / accelerationTime;
+                            _rigidbody.velocity = new Vector2(Mathf.Clamp(velocity.x + acceleration, -movementRate, movementRate), velocity.y);
+                        }
+                        else if(_rigidbody.velocity.magnitude > targetVelocity.magnitude)
+                        {
+                            acceleration = movementRate * Time.fixedDeltaTime / decelerationTime * Mathf.Sign(_facing.x);
+                            float newXVelocity = velocity.x + acceleration;
+                            _rigidbody.velocity = new Vector2(Mathf.Sign(newXVelocity) != Mathf.Sign(_facing.x) ? newXVelocity : 0, velocity.y);
+                        }*/
                         break;
                     case ECharacterMovementMode.Flying:
                         targetVelocity = new Vector2(_horizontalMovementRate, _verticalMovementRate) * movementRate;
