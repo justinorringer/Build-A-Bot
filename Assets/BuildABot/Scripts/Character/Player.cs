@@ -144,16 +144,20 @@ namespace BuildABot
         protected override void Awake()
         {
             base.Awake();
+            
+            _playerMovement = GetComponent<PlayerMovement>();
+            _playerInput = GetComponent<PlayerInput>();
+            
             Attributes.Initialize();
             Cursor.visible = false;
+            SetPaused(false);
+            EnableHUD();
+            mainMenu.gameObject.SetActive(false);
         }
         
         
         protected void Start()
         {
-            _playerMovement = GetComponent<PlayerMovement>();
-            _playerInput = GetComponent<PlayerInput>();
-
             if (useFollowMouseTool)
             {
                 _playerInput.GameInputEnabled = false;
