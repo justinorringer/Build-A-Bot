@@ -193,7 +193,7 @@ namespace BuildABot
                 // Tell animator if Bipy is running
                 _anim.SetBool(_runningBoolHash, dir.x != 0.0f && _isGrounded);
                 // Tell animator if Bipy is idle
-                _anim.SetBool(_idleBoolHash, targetVelocity == Vector2.zero);
+                _anim.SetBool(_idleBoolHash, _rigidbody.velocity == Vector2.zero);
             }
         }
 
