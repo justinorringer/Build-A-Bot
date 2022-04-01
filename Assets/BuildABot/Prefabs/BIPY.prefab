@@ -433,12 +433,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementMode: 0
+  flipSprite: 0
   upArcGravity: 1
   jumpPeakGravity: 0.8
   jumpPeakDuration: 0.01
   downArcGravity: 1.7
-  accelerationTime: 0.3
-  decelerationTime: 0.05
+  accelerationTime: 0.1
+  decelerationTime: 0.01
 --- !u!114 &878766306424404202
 MonoBehaviour:
   m_ObjectHideFlags: 0
