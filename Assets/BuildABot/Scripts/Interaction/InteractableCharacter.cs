@@ -13,7 +13,7 @@ namespace BuildABot
             if (!CanInteract) return;
             if (instigator.Player.HUD.DialogueDisplay.TryStartDialogue(dialogue, speakerProfile))
             {
-                instigator.Player.PlayerInput.GameInputEnabled = false;
+                instigator.Player.PlayerController.GameInputEnabled = false;
             }
         }
 

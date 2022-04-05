@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BuildABot
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerController : MonoBehaviour
     {
         private Player _player;
         private CombatController _combatController;

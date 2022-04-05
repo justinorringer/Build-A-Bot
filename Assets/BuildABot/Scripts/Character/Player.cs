@@ -9,7 +9,7 @@ namespace BuildABot
     /**
      * The core data and logic associated with the Player character.
      */
-    [RequireComponent(typeof(PlayerMovement), typeof(PlayerInput))]
+    [RequireComponent(typeof(PlayerMovement), typeof(PlayerController))]
     public class Player : Character
     {
 
@@ -28,10 +28,10 @@ namespace BuildABot
         /** The player movement component used by this player. */
         private PlayerMovement _playerMovement;
         /** The player input component used by this player. */
-        private PlayerInput _playerInput;
+        private PlayerController _playerController;
 
         /** The player input component used by this player. */
-        public PlayerInput PlayerInput => _playerInput;
+        public PlayerController PlayerController => _playerController;
 
         public override CharacterMovement CharacterMovement => _playerMovement;
 
@@ -146,7 +146,7 @@ namespace BuildABot
             base.Awake();
             
             _playerMovement = GetComponent<PlayerMovement>();
-            _playerInput = GetComponent<PlayerInput>();
+            _playerController = GetComponent<PlayerController>();
             
             Attributes.Initialize();
             Cursor.visible = false;
@@ -160,7 +160,7 @@ namespace BuildABot
         {
             if (useFollowMouseTool)
             {
-                _playerInput.GameInputEnabled = false;
+                _playerController.GameInputEnabled = false;
                 _playerMovement.ChangeMovementMode(ECharacterMovementMode.Flying);
                 _mainCamera = Camera.main;
             }
@@ -234,7 +234,7 @@ namespace BuildABot
         public void SetPaused(bool paused)
         {
             Time.timeScale = paused ? 0.0f : 1;
-            PlayerInput.GameInputEnabled = !paused;
+            PlayerController.GameInputEnabled = !paused;
         }
 
         /**

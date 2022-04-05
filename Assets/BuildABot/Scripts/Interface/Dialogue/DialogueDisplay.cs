@@ -161,7 +161,7 @@ namespace BuildABot
             // Update UI and sound
             UpdateSpeakerDisplay(speaker);
 
-            player.PlayerInput.GameInputEnabled = false;
+            player.PlayerController.GameInputEnabled = false;
             onBeginDialogue.Invoke(dialogue, speaker);
 
             //Start displaying sentences
@@ -178,7 +178,7 @@ namespace BuildABot
                 _displayTextCoroutine = null;
             }
             
-            player.PlayerInput.GameInputEnabled = true;
+            player.PlayerController.GameInputEnabled = true;
             onEndDialogue.Invoke(_currentlyPlaying, _currentlySpeaking);
             _playing = false;
             //animator.SetBool(_isOpenAnimatorKey, false);

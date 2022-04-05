@@ -5,7 +5,7 @@ namespace BuildABot
     /**
      * The movement controller used by players.
      */
-    [RequireComponent(typeof(PlayerInput), typeof(Player))]
+    [RequireComponent(typeof(PlayerController), typeof(Player))]
     public class PlayerMovement : CharacterMovement
     {
 
