@@ -165,6 +165,23 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
+    baseTemperature:
+      defaultValue: 40
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostValueChange:
+        m_PersistentCalls:
+          m_Calls: []
     maxTemperature:
       defaultValue: 80
       onInitialize:
@@ -410,6 +427,23 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
+    viewDistance:
+      defaultValue: 1
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostValueChange:
+        m_PersistentCalls:
+          m_Calls: []
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -419,6 +453,7 @@ MonoBehaviour:
   gameOverDisplay: {fileID: 8662148064442263802}
   playerMovement: {fileID: 609926857222936979}
   playerController: {fileID: 609926857222936974}
+  currencyWallet: 0
 --- !u!114 &609926857222936974
 MonoBehaviour:
   m_ObjectHideFlags: 0
