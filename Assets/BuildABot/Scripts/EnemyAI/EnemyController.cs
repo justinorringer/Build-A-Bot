@@ -194,6 +194,16 @@ namespace BuildABot
             //Update animator
             _enemyMovement.Animator.SetInteger("EnemyState", 1);
         }
+
+        void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log("Hit Player");
+            if (_enemyMovement.MovementMode == ECharacterMovementMode.Walking && collision.gameObject.CompareTag("Player"))
+            {
+                //Turn around
+                _currentPatrolPoint++;
+            }
+        }
     }
 }
 

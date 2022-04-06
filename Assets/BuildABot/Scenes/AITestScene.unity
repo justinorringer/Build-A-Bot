@@ -209,11 +209,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 609926857222936975, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.65
+      value: 9.88
       objectReference: {fileID: 0}
     - target: {fileID: 609926857222936975, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -16
+      value: -15.67
       objectReference: {fileID: 0}
     - target: {fileID: 609926857222936975, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_LocalPosition.z
@@ -247,9 +247,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 609926857222936977, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 609926857222936980, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_Name
       value: BIPY
+      objectReference: {fileID: 0}
+    - target: {fileID: 609926857222936980, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 9138115173127316324, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -552,6 +560,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 929539346141635763, guid: 19357d80d57764c4ca79391cfc603398, type: 3}
+      propertyPath: knockbackForce
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 929539346526337673, guid: 19357d80d57764c4ca79391cfc603398, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 929539346526337674, guid: 19357d80d57764c4ca79391cfc603398, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -599,6 +615,14 @@ PrefabInstance:
     - target: {fileID: 929539346526337680, guid: 19357d80d57764c4ca79391cfc603398, type: 3}
       propertyPath: m_Name
       value: WalkingEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 929539346526337684, guid: 19357d80d57764c4ca79391cfc603398, type: 3}
+      propertyPath: m_LinearDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 929539346526337684, guid: 19357d80d57764c4ca79391cfc603398, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 929539346526337685, guid: 19357d80d57764c4ca79391cfc603398, type: 3}
       propertyPath: patrolPoints.Array.data[0]

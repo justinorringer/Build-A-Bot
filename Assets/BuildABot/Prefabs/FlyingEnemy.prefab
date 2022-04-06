@@ -487,6 +487,7 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  currencyToDrop: 5
 --- !u!114 &2516541654574296495
 MonoBehaviour:
   m_ObjectHideFlags: 0

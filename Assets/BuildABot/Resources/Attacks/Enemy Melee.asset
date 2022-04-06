@@ -69,9 +69,9 @@ MonoBehaviour:
   size: {x: 1, y: 1}
   canHitSelf: 0
   allowMultiHit: 0
-  allowMovement: 1
+  allowMovement: 0
   canInterrupt: 1
   distance: 1
   useRelativeDistance: 1
-  duration: 1
+  duration: 0.25
   raycastRate: 30

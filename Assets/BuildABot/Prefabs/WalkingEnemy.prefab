@@ -451,6 +451,7 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  currencyToDrop: 3
 --- !u!114 &929539346526337687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,6 +465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementMode: 0
+  flipSprite: 0
   upArcGravity: 0
   jumpPeakGravity: 0
   jumpPeakDuration: 0

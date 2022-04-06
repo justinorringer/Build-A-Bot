@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BuildABot
 {
-    
+
     /**
      * The core data and logic associated with an enemy character.
      */
@@ -15,6 +15,9 @@ namespace BuildABot
         /** The enemy controller used by this enemy. */
         private EnemyController _enemyController;
 
+        /** The amount of currency that this enemy should drop upon death */
+        public int currencyToDrop;
+
         public override CharacterMovement CharacterMovement => _enemyMovement;
 
         /** The enemy controller used by this enemy. */
@@ -25,8 +28,8 @@ namespace BuildABot
             base.Awake();
             Attributes.Initialize();
         }
-        
-        
+
+
         protected void Start()
         {
             _enemyMovement = GetComponent<EnemyMovement>();
