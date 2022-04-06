@@ -334,7 +334,7 @@ namespace BuildABot
         {
             // Note: Character can only be grounded if in walking mode
             _isGrounded = Physics2D.BoxCast(RootPosition, new Vector2(_extents.x * 2, 0.1f),
-                0, Vector2.down, 0.01f, 
+                0, Vector2.down, 0.07f, 
                 Physics2D.AllLayers & ~LayerMask.GetMask("Player")) && IsWalking;
 
             if (_anim.runtimeAnimatorController != null) _anim.SetBool(_groundedBoolHash, _isGrounded);
