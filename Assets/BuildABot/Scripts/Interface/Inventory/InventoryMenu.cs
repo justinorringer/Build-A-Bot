@@ -34,7 +34,7 @@ namespace BuildABot
         [SerializeField] private float paddingRatio = 0.25f;
 
         /** The list of inventory slots spawned at runtime. Cleared on disable. */
-        private List<GameObject> _spawnedSlots;
+        private List<InventoryMenuItemSlot> _spawnedSlots;
 
         /** The details panel used to display item information. */
         public InventoryMenuItemDetails DetailsPanel => detailsPanel;
@@ -74,14 +74,15 @@ namespace BuildABot
                 InventoryMenuItemSlot slot = Instantiate(inventorySlotPrefab, layoutParent);
                 slot.Entry = i < entries.Count ? entries[i] : null;
                 slot.InventoryMenu = this;
-                if (i == 0) slot.Select();
-                _spawnedSlots.Add(slot.gameObject);
+                _spawnedSlots.Add(slot);
             }
+
+            if (_spawnedSlots.Count > 0) _spawnedSlots[0].Select();
         }
 
         protected void OnEnable()
         {
-            _spawnedSlots = new List<GameObject>();
+            _spawnedSlots = new List<InventoryMenuItemSlot>();
             DetailsPanel.InventoryMenu = this;
             GenerateSlots();
             player.PlayerController.InputActions.UI.Back.performed += Input_Back;
@@ -89,9 +90,9 @@ namespace BuildABot
 
         protected void OnDisable()
         {
-            foreach (GameObject slot in _spawnedSlots)
+            foreach (InventoryMenuItemSlot slot in _spawnedSlots)
             {
-                Destroy(slot);
+                Destroy(slot.gameObject);
             }
 
             DetailsPanel.Slot = null;
@@ -103,8 +104,9 @@ namespace BuildABot
         {
             if (DetailsPanel.Slot != null)
             {
-                DetailsPanel.Slot.Select();
+                InventoryMenuItemSlot slot = DetailsPanel.Slot;
                 DetailsPanel.Slot = null; // Exit Detail panel before trying to return to main menu
+                slot.Select();
             }
             else
             {

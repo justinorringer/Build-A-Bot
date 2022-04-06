@@ -395,10 +395,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.17214966
       objectReference: {fileID: 0}
-    - target: {fileID: 4916636691966439832, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
-      propertyPath: targetLayer.m_Bits
-      value: 512
-      objectReference: {fileID: 0}
     - target: {fileID: 5389994389117866208, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4466,8 +4462,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
       propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: You just found a fan! Open your inventory through the pause menu by
-        using the TAB or ESC key.
+      value: You just found a fan! Open your inventory through the menu with the
+        ESC key or with the I key.
       objectReference: {fileID: 0}
     - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
       propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

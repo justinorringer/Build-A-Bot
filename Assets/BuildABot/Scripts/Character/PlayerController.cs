@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,43 @@ namespace BuildABot
         private PlayerInputActions _inputActions;
         /** The player input component used by this object. */
         private PlayerInput _playerInput;
+
+        /**
+         * A state cached used to store information about the enabled action maps in an input actions asset.
+         */
+        public class InputActionsStateCache
+        {
+            /** The cached states. */
+            private Dictionary<InputActionMap, bool> _inputActionsStateCache;
+
+            /**
+             * Constructs a new cache.
+             * <param name="asset">The asset to generate the cache from.</param>
+             */
+            public InputActionsStateCache(InputActionAsset asset)
+            {
+                _inputActionsStateCache = new Dictionary<InputActionMap, bool>();
+                
+                foreach (InputActionMap am in asset.actionMaps)
+                {
+                    _inputActionsStateCache.Add(am, am.enabled);
+                }
+            }
+
+            /**
+             * Applies this cache to the provided asset. This will only be successful if the asset is the same one this
+             * cache was built from.
+             * <param name="asset">The asset to apply this cache to.</param>
+             */
+            public void ApplyToAsset(InputActionAsset asset)
+            {
+                foreach (InputActionMap am in asset.actionMaps)
+                {
+                    if (_inputActionsStateCache.TryGetValue(am, out bool enable) && enable) am.Enable();
+                    else am.Disable();
+                }
+            }
+        }
 
         /** The input actions used for this player controller. */
         public PlayerInputActions InputActions
@@ -110,6 +148,26 @@ namespace BuildABot
                     _player.ToggleMenu();
                 }
             }*/
+        }
+
+        /**
+         * Generates a cache of the current enabled state of all input maps in the input actions data. This state can
+         * be applied by calling RestoreInputActionState(InputActionsStateCache).
+         * <returns>The cached input actions state.</returns>
+         */
+        public InputActionsStateCache CacheInputActionsState()
+        {
+            return new InputActionsStateCache(InputActions.asset);
+        }
+
+        /**
+         * Restores the enabled state for all input maps in the input actions data. This state is saved using the
+         * CacheInputActionsState() method.
+         * <param name="state">The cached state to use when restoring the input actions.</param>
+         */
+        public void RestoreInputActionsState(InputActionsStateCache state)
+        {
+            state.ApplyToAsset(InputActions.asset);
         }
         
         #region Input Handlers

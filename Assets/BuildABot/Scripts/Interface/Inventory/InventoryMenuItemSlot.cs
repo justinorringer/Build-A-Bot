@@ -104,7 +104,7 @@ namespace BuildABot
         public void Select()
         {
             if (Entry != null && Entry.Equipped) equippedButton.Select();
-            unequippedButton.Select();
+            else unequippedButton.Select();
         }
     }
 }

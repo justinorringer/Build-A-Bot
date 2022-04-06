@@ -837,6 +837,7 @@ GameObject:
   - component: {fileID: 526100423}
   - component: {fileID: 526100422}
   - component: {fileID: 526100421}
+  - component: {fileID: 526100424}
   m_Layer: 5
   m_Name: ContinueGameButton
   m_TagString: Untagged
@@ -946,6 +947,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 526100419}
   m_CullTransparentMesh: 1
+--- !u!114 &526100424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526100419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dae7b7c89474c51864acdc12d2e7158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 526100421}
 --- !u!1 &973467889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,6 +1056,7 @@ GameObject:
   - component: {fileID: 978434149}
   - component: {fileID: 978434148}
   - component: {fileID: 978434147}
+  - component: {fileID: 978434151}
   m_Layer: 5
   m_Name: QuitGameButton
   m_TagString: Untagged
@@ -1175,6 +1190,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978434145}
   m_CullTransparentMesh: 1
+--- !u!114 &978434151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978434145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dae7b7c89474c51864acdc12d2e7158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 978434148}
 --- !u!1 &1156975711
 GameObject:
   m_ObjectHideFlags: 0
@@ -1604,6 +1632,7 @@ GameObject:
   - component: {fileID: 1934316336}
   - component: {fileID: 1934316335}
   - component: {fileID: 1934316334}
+  - component: {fileID: 1934316338}
   m_Layer: 5
   m_Name: NewGameButton
   m_TagString: Untagged
@@ -1738,3 +1767,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1934316332}
   m_CullTransparentMesh: 1
+--- !u!114 &1934316338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934316332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dae7b7c89474c51864acdc12d2e7158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1934316335}

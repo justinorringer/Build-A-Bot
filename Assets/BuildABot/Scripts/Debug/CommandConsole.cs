@@ -35,9 +35,8 @@ namespace BuildABot
         /** A cache of the latest entry value (not submitted) used when selecting previous inputs. */
         private string _latestInputCache = "";
 
-        /** the last input mode being used before this console was activated. */
-        private InputActionMap _lastInputMode;
-        
+        /** A cache of the input state that was in use before this console was opened. */
+        private PlayerController.InputActionsStateCache _inputStateCache;
 
         /** A function that can be used to validate input arguments. */
         public delegate bool ValidateArgsFunc(string[] args);
@@ -288,24 +287,27 @@ namespace BuildABot
             inputField.onSubmit.AddListener(ExecuteInput);
             Application.logMessageReceived += HandleMessage;
 
-            _lastInputMode = player.PlayerController.PlayerInput.currentActionMap;
-            _lastInputMode.Disable();
+            _inputStateCache = player.PlayerController.CacheInputActionsState();
+            player.PlayerController.InputActions.Disable();
             player.PlayerController.InputActions.ConsoleUI.Enable();
+            
             player.PlayerController.InputActions.ConsoleUI.CycleEntriesUp.performed += Input_CycleEntriesUp;
             player.PlayerController.InputActions.ConsoleUI.CycleEntriesDown.performed += Input_CycleEntriesDown;
-            Time.timeScale = 0.0f;
+            
+            Time.timeScale = 0.0f; // TODO: Use global pause utility
         }
 
         private void OnDisable()
         {
             inputField.onSubmit.RemoveListener(ExecuteInput);
             Application.logMessageReceived -= HandleMessage;
+            
             player.PlayerController.InputActions.ConsoleUI.CycleEntriesUp.performed -= Input_CycleEntriesUp;
             player.PlayerController.InputActions.ConsoleUI.CycleEntriesDown.performed -= Input_CycleEntriesDown;
-            player.PlayerController.InputActions.ConsoleUI.Disable();
-            _lastInputMode.Enable();
-            _lastInputMode = null;
-            Time.timeScale = 1.0f;
+            
+            player.PlayerController.RestoreInputActionsState(_inputStateCache);
+            
+            Time.timeScale = 1.0f; // TODO: Use global pause utility
         }
 
         /**
