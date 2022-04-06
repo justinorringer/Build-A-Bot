@@ -76,9 +76,6 @@ namespace BuildABot
         /** Unused reference for velocity dampening. */
         private float _tempXVelocity;
 
-        /** Unused reference for gravity dampening. */
-        private float _tempGravity;
-
         /** Whether the player is currently touching the ground. */
         private bool _isGrounded;
 
@@ -121,6 +118,8 @@ namespace BuildABot
         /** Time it takes for the player to reach zero speed when they stop moving */
         [SerializeField] private float decelerationTime = 0.05f;
 
+        [SerializeField] private IEnumerator _jumpFunction;
+
         /** Can this character move? */
         public bool CanMove { get; set; } = true;
 
@@ -151,6 +150,8 @@ namespace BuildABot
             _jumpForce = JumpForce;
 
             _originalGravity = _rigidbody.gravityScale;
+
+            _jumpFunction = JumpPhysics();
         }
 
         protected void FixedUpdate()
@@ -277,8 +278,8 @@ namespace BuildABot
                 _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse); // Add the impulse
                 _jumpCount++; // Update the jump count
                 _jumpForce *= JumpForceFalloff; // Apply the force falloff
-                StopCoroutine(JumpPhysics()); // Stop jump coroutine of any previous jumps
-                StartCoroutine(JumpPhysics()); // Start a new jump coroutine
+                StopCoroutine(_jumpFunction); // Stop jump coroutine of any previous jumps
+                StartCoroutine(_jumpFunction); // Start a new jump coroutine
             }
         }
 
@@ -314,7 +315,7 @@ namespace BuildABot
         
         private void SetGravity(float newGravity)
         {
-            _rigidbody.gravityScale = Mathf.SmoothDamp(_rigidbody.gravityScale, newGravity, ref _tempGravity, 0.05f);
+            _rigidbody.gravityScale = newGravity;
         }
 
         private void OnCollisionStay2D(Collision2D other)
