@@ -41,6 +41,10 @@ namespace BuildABot
         public MainMenu MainMenu => mainMenu;
 
 #region Item and Equipment Handling
+
+        /** The amount of currency owned by this player. */
+        [HideInInspector]
+        [SerializeField] private int currencyWallet;
         
         /**
          * The data stored in a single equipment slot.
