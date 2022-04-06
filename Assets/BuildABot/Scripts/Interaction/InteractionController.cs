@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace BuildABot
 {
@@ -44,9 +45,19 @@ namespace BuildABot
             AllowInteraction = allowInteraction;
         }
 
-        protected void Update()
+        protected void OnEnable()
         {
-            if (_target != null && Input.GetButtonDown("Interact"))
+            player.PlayerController.InputActions.Player.Interact.performed += Input_OnInteract;
+        }
+
+        protected void OnDisable()
+        {
+            player.PlayerController.InputActions.Player.Interact.performed -= Input_OnInteract;
+        }
+
+        private void Input_OnInteract(InputAction.CallbackContext context)
+        {
+            if (_target != null)
             {
                 _target.Interact(this);
                 // TODO: Suppress message here

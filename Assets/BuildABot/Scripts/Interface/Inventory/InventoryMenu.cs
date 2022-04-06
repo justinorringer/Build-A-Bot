@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace BuildABot
@@ -75,6 +74,7 @@ namespace BuildABot
                 InventoryMenuItemSlot slot = Instantiate(inventorySlotPrefab, layoutParent);
                 slot.Entry = i < entries.Count ? entries[i] : null;
                 slot.InventoryMenu = this;
+                if (i == 0) slot.Select();
                 _spawnedSlots.Add(slot.gameObject);
             }
         }
@@ -84,6 +84,7 @@ namespace BuildABot
             _spawnedSlots = new List<GameObject>();
             DetailsPanel.InventoryMenu = this;
             GenerateSlots();
+            player.PlayerController.InputActions.UI.Back.performed += Input_Back;
         }
 
         protected void OnDisable()
@@ -94,6 +95,21 @@ namespace BuildABot
             }
 
             DetailsPanel.Slot = null;
+            
+            player.PlayerController.InputActions.UI.Back.performed -= Input_Back;
+        }
+
+        private void Input_Back(InputAction.CallbackContext context)
+        {
+            if (DetailsPanel.Slot != null)
+            {
+                DetailsPanel.Slot.Select();
+                DetailsPanel.Slot = null; // Exit Detail panel before trying to return to main menu
+            }
+            else
+            {
+                mainMenu.ReturnToLandingPage();
+            }
         }
     }
 }

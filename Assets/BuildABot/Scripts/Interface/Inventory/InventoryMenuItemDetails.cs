@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BuildABot
 {
@@ -7,8 +8,8 @@ namespace BuildABot
     {
         [SerializeField] private TMP_Text itemDetailsTitle;
         [SerializeField] private TMP_Text itemDetailsDescription;
-        [SerializeField] private GameObject itemDetailsEquipOption;
-        [SerializeField] private GameObject itemDetailsUnequipOption;
+        [SerializeField] private Button itemDetailsEquipOption;
+        [SerializeField] private Button itemDetailsUnequipOption;
         //[SerializeField] private GameObject itemDetailsDropOption;
         
         /** The inventory menu that owns this object. */
@@ -65,6 +66,7 @@ namespace BuildABot
                 itemDetailsEquipOption.gameObject.SetActive(false);
                 itemDetailsUnequipOption.gameObject.SetActive(true);
                 Slot.Refresh();
+                itemDetailsUnequipOption.Select();
             }
         }
         
@@ -79,6 +81,7 @@ namespace BuildABot
                 itemDetailsEquipOption.gameObject.SetActive(true);
                 itemDetailsUnequipOption.gameObject.SetActive(false);
                 Slot.Refresh();
+                itemDetailsEquipOption.Select();
             }
         }
     }

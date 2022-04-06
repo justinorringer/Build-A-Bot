@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace BuildABot
 {
@@ -42,7 +43,22 @@ namespace BuildABot
         [SerializeField] private UnityEvent<Dialogue, DialogueSpeaker> onBeginDialogue;
         [Tooltip("An event triggered when the current dialogue display is finished and closed.")]
         [SerializeField] private UnityEvent<Dialogue, DialogueSpeaker> onEndDialogue;
+        
         //TODO: Add more events for Dialogue UI
+        
+        /** An event triggered when the current dialogue display is finished and closed. */
+        public event UnityAction<Dialogue, DialogueSpeaker> OnBeginDialogue
+        {
+            add => onBeginDialogue.AddListener(value);
+            remove => onBeginDialogue.RemoveListener(value);
+        }
+        
+        /** An event triggered when the current dialogue display is finished and closed. */
+        public event UnityAction<Dialogue, DialogueSpeaker> OnEndDialogue
+        {
+            add => onEndDialogue.AddListener(value);
+            remove => onEndDialogue.RemoveListener(value);
+        }
 
         [Header("Settings")]
         
@@ -85,13 +101,14 @@ namespace BuildABot
             _isOpenAnimatorKey = Animator.StringToHash("IsOpen");
         }
 
-        protected void Update()
+        protected void OnEnable()
         {
-            // Check for user input
-            if (_playing && (Input.GetButtonDown("Interact") || Input.GetMouseButtonDown(0))) // TODO: Move to user input and replace with "Interact" button
-            {
-                TryAdvanceDialogue();
-            }
+            player.PlayerController.InputActions.DialogueUI.Continue.performed += Input_OnContinue;
+        }
+
+        protected void OnDisable()
+        {
+            player.PlayerController.InputActions.DialogueUI.Continue.performed -= Input_OnContinue;
         }
 
         private void UpdateSpeakerDisplay(DialogueSpeaker speaker, int expression = -1)
@@ -161,7 +178,9 @@ namespace BuildABot
             // Update UI and sound
             UpdateSpeakerDisplay(speaker);
 
-            player.PlayerController.GameInputEnabled = false;
+            player.PlayerController.InputActions.Player.Disable();
+            player.PlayerController.InputActions.DialogueUI.Enable();
+            
             onBeginDialogue.Invoke(dialogue, speaker);
 
             //Start displaying sentences
@@ -178,8 +197,11 @@ namespace BuildABot
                 _displayTextCoroutine = null;
             }
             
-            player.PlayerController.GameInputEnabled = true;
+            player.PlayerController.InputActions.DialogueUI.Disable();
+            player.PlayerController.InputActions.Player.Enable();
+            
             onEndDialogue.Invoke(_currentlyPlaying, _currentlySpeaking);
+            
             _playing = false;
             //animator.SetBool(_isOpenAnimatorKey, false);
             dialogueText.text = "";
@@ -209,6 +231,7 @@ namespace BuildABot
 
         private void TryAdvanceDialogue()
         {
+            if (!_playing) return;
             // Either cancel the typing coroutine and force fill the content or move to next node
             if (_isTyping && _displayTextCoroutine != null)
             {
@@ -304,6 +327,12 @@ namespace BuildABot
             
             if (next == -1 || next >= _currentlyPlaying.DialogueNodes.Count) EndDialogue();
             else DisplayDialogueNode(_currentlyPlaying.DialogueNodes[next]);
+        }
+        
+        
+        private void Input_OnContinue(InputAction.CallbackContext context)
+        {
+            TryAdvanceDialogue();
         }
     }
 }

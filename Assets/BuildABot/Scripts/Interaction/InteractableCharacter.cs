@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BuildABot
 {
@@ -13,7 +14,7 @@ namespace BuildABot
             if (!CanInteract) return;
             if (instigator.Player.HUD.DialogueDisplay.TryStartDialogue(dialogue, speakerProfile))
             {
-                instigator.Player.PlayerController.GameInputEnabled = false;
+                
             }
         }
 
