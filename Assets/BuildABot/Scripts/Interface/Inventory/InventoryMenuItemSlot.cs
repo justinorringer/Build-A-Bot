@@ -97,5 +97,14 @@ namespace BuildABot
         {
             InventoryMenu.DetailsPanel.Slot = this;
         }
+
+        /**
+         * Selects the underlying button of this slot.
+         */
+        public void Select()
+        {
+            if (Entry != null && Entry.Equipped) equippedButton.Select();
+            else unequippedButton.Select();
+        }
     }
 }

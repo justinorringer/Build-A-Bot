@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BuildABot
 {
@@ -9,7 +10,8 @@ namespace BuildABot
 
         [SerializeField] private TMP_Text titleComponent;
         [SerializeField] private TMP_Text content;
-        [SerializeField] private TMP_Text button;
+        [SerializeField] private TMP_Text buttonText;
+        [SerializeField] private Button button;
 
         private Player _player;
 
@@ -19,7 +21,8 @@ namespace BuildABot
             _player = player;
             titleComponent.text = title;
             content.text = message;
-            button.text = acknowledgeMessage;
+            buttonText.text = acknowledgeMessage;
+            button.Select();
         }
 
         protected void OnDestroy()

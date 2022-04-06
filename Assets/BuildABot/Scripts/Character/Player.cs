@@ -9,7 +9,6 @@ namespace BuildABot
     /**
      * The core data and logic associated with the Player character.
      */
-    [RequireComponent(typeof(PlayerMovement), typeof(PlayerInput))]
     public class Player : Character
     {
 
@@ -25,20 +24,27 @@ namespace BuildABot
         [Tooltip("The display shown on game over.")]
         [SerializeField] private GameOverDisplay gameOverDisplay;
 
-        /** The player movement component used by this player. */
-        private PlayerMovement _playerMovement;
-        /** The player input component used by this player. */
-        private PlayerInput _playerInput;
+        [Tooltip("The player movement component used by this player.")]
+        [SerializeField] private PlayerMovement playerMovement;
+        [Tooltip("The player input component used by this player.")]
+        [SerializeField] private PlayerController playerController;
 
-        /** The player input component used by this player. */
-        public PlayerInput PlayerInput => _playerInput;
+        /** The player input controller used by this player. */
+        public PlayerController PlayerController => playerController;
 
-        public override CharacterMovement CharacterMovement => _playerMovement;
+        public override CharacterMovement CharacterMovement => playerMovement;
 
         /** The HUD used by this player. */
         public HUD HUD => hud;
 
+        /** The main menu used by this player. */
+        public MainMenu MainMenu => mainMenu;
+
 #region Item and Equipment Handling
+
+        /** The amount of currency owned by this player. */
+        [HideInInspector]
+        [SerializeField] private int currencyWallet;
         
         /**
          * The data stored in a single equipment slot.
@@ -131,22 +137,9 @@ namespace BuildABot
         
 #endregion
 
-#region Follow Mouse Debug tool
-
-        [Header("Debug")]
-        [SerializeField] private bool useFollowMouseTool;
-
-        private Vector2 _target;
-        private Camera _mainCamera;
-        
-#endregion
-
         protected override void Awake()
         {
             base.Awake();
-            
-            _playerMovement = GetComponent<PlayerMovement>();
-            _playerInput = GetComponent<PlayerInput>();
             
             Attributes.Initialize();
             Cursor.visible = false;
@@ -155,29 +148,6 @@ namespace BuildABot
             mainMenu.gameObject.SetActive(false);
         }
         
-        
-        protected void Start()
-        {
-            if (useFollowMouseTool)
-            {
-                _playerInput.GameInputEnabled = false;
-                _playerMovement.ChangeMovementMode(ECharacterMovementMode.Flying);
-                _mainCamera = Camera.main;
-            }
-        }
-
-        protected void Update()
-        {
-            if (useFollowMouseTool)
-            {
-                _playerMovement.MoveToPosition(_target);
-                Vector3 mousePos = Input.mousePosition;
-                mousePos.z = _mainCamera.nearClipPlane;
-                Vector3 worldPos = _mainCamera.ScreenToWorldPoint(mousePos);
-                _target = new Vector2(worldPos.x, worldPos.y);
-            }
-        }
-
         public override void Kill()
         {
             onDeath.Invoke();
@@ -209,11 +179,20 @@ namespace BuildABot
         public void ToggleMenu()
         {
             bool active = !mainMenu.gameObject.activeSelf;
+            if (active)
+            {
+                PlayerController.InputActions.Player.Disable();
+                PlayerController.InputActions.UI.Enable();
+            }
+            else
+            {
+                PlayerController.InputActions.Player.Enable();
+                PlayerController.InputActions.UI.Disable();
+            }
             mainMenu.gameObject.SetActive(active);
             Cursor.visible = active;
-            hud.gameObject.SetActive(!active); // TODO: Add option to disable HUD
+            hud.gameObject.SetActive(!active);
             SetPaused(active);
-            // mainMenu.Reset();
         }
 
         public void EnableHUD()
@@ -234,7 +213,7 @@ namespace BuildABot
         public void SetPaused(bool paused)
         {
             Time.timeScale = paused ? 0.0f : 1;
-            PlayerInput.GameInputEnabled = !paused;
+            //PlayerController.GameInputEnabled = !paused;
         }
 
         /**

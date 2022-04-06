@@ -11,6 +11,8 @@ namespace BuildABot
     {
         [Tooltip("The temperature of the character, equivalent to health.")]
         [SerializeField] private FloatAttributeData temperature;
+        [Tooltip("The standard operating temperature of the character. This is equivalent to minimum health, although temperature may fall below it.")]
+        [SerializeField] private FloatAttributeData baseTemperature;
         [Tooltip("The temperature that results in the death of the character.")]
         [SerializeField] private FloatAttributeData maxTemperature;
         [Tooltip("The rate that the character's temperature changes per second. This can be negative to heat up over time.")]
@@ -42,9 +44,14 @@ namespace BuildABot
         
         [Tooltip("The number of slots available in the player's inventory.")]
         [SerializeField] private IntAttributeData inventorySpace;
+        
+        [Tooltip("The view distance multiplier that is used to zoom the camera in or out.")]
+        [SerializeField] private FloatAttributeData viewDistance;
 
         /** The temperature of the character, equivalent to health. */
         public FloatAttributeData Temperature => temperature;
+        /** The standard operating temperature of the character. This is equivalent to minimum health, although temperature may fall below it. */
+        public FloatAttributeData BaseTemperature => baseTemperature;
         /** The temperature that results in the death of the character. */
         public FloatAttributeData MaxTemperature => maxTemperature;
         /** The amount that the character's temperature changes per second. */
@@ -76,5 +83,8 @@ namespace BuildABot
 
         /** The number of slots available in the player's inventory. */
         public IntAttributeData InventorySpace => inventorySpace;
+
+        /** The view distance multiplier that is used to zoom the camera in or out. */
+        public FloatAttributeData ViewDistance => viewDistance;
     }
 }

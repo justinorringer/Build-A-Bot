@@ -195,8 +195,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7689393709949684386}
   m_HandleRect: {fileID: 8146622611874273976}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.32656828
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -352,7 +352,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleComponent: {fileID: 4873907907601780326}
   content: {fileID: 8544838530009280519}
-  button: {fileID: 4624697667111669246}
+  buttonText: {fileID: 4624697667111669246}
+  button: {fileID: 8896696859341741960}
 --- !u!1 &6182942242198212334
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,7 +923,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.44705883, g: 0.8392157, b: 1, a: 1}
     m_PressedColor: {r: 0.35686275, g: 0.57254905, b: 0.65882355, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.44705883, g: 0.8392157, b: 1, a: 1}
     m_DisabledColor: {r: 0.6, g: 0.6, b: 0.6, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1

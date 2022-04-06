@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace BuildABot
 {
@@ -33,7 +34,9 @@ namespace BuildABot
         private int _activeEntryIndex;
         /** A cache of the latest entry value (not submitted) used when selecting previous inputs. */
         private string _latestInputCache = "";
-        
+
+        /** A cache of the input state that was in use before this console was opened. */
+        private PlayerController.InputActionsStateCache _inputStateCache;
 
         /** A function that can be used to validate input arguments. */
         public delegate bool ValidateArgsFunc(string[] args);
@@ -283,16 +286,28 @@ namespace BuildABot
         {
             inputField.onSubmit.AddListener(ExecuteInput);
             Application.logMessageReceived += HandleMessage;
-            player.PlayerInput.GameInputEnabled = false;
-            Time.timeScale = 0.0f;
+
+            _inputStateCache = player.PlayerController.CacheInputActionsState();
+            player.PlayerController.InputActions.Disable();
+            player.PlayerController.InputActions.ConsoleUI.Enable();
+            
+            player.PlayerController.InputActions.ConsoleUI.CycleEntriesUp.performed += Input_CycleEntriesUp;
+            player.PlayerController.InputActions.ConsoleUI.CycleEntriesDown.performed += Input_CycleEntriesDown;
+            
+            Time.timeScale = 0.0f; // TODO: Use global pause utility
         }
 
         private void OnDisable()
         {
             inputField.onSubmit.RemoveListener(ExecuteInput);
             Application.logMessageReceived -= HandleMessage;
-            player.PlayerInput.GameInputEnabled = true;
-            Time.timeScale = 1.0f;
+            
+            player.PlayerController.InputActions.ConsoleUI.CycleEntriesUp.performed -= Input_CycleEntriesUp;
+            player.PlayerController.InputActions.ConsoleUI.CycleEntriesDown.performed -= Input_CycleEntriesDown;
+            
+            player.PlayerController.RestoreInputActionsState(_inputStateCache);
+            
+            Time.timeScale = 1.0f; // TODO: Use global pause utility
         }
 
         /**
@@ -404,30 +419,30 @@ namespace BuildABot
             inputField.OnSelect(null);
         }
 
-        private void Update()
+        private void Input_CycleEntriesUp(InputAction.CallbackContext context)
         {
-            // Handle moving up and down through old inputs
+            // Handle moving up through old inputs
             if (inputField.isFocused && _entries.Count > 0)
             {
-                if (Input.GetKeyDown(KeyCode.UpArrow))
+                if (_activeEntryIndex == _entries.Count) _latestInputCache = inputField.text;
+                _activeEntryIndex--;
+                if (_activeEntryIndex < 0) _activeEntryIndex = 0;
+                inputField.text = _entries[_activeEntryIndex];
+                inputField.caretPosition = inputField.text.Length;
+            }
+        }
+        private void Input_CycleEntriesDown(InputAction.CallbackContext context)
+        {
+            // Handle moving down through old inputs
+            if (inputField.isFocused && _entries.Count > 0)
+            {
+                _activeEntryIndex++;
+                if (_activeEntryIndex > _entries.Count) _activeEntryIndex = _entries.Count;
+                else
                 {
-                    if (_activeEntryIndex == _entries.Count) _latestInputCache = inputField.text;
-                    _activeEntryIndex--;
-                    if (_activeEntryIndex < 0) _activeEntryIndex = 0;
-                    inputField.text = _entries[_activeEntryIndex];
+                    inputField.text = _activeEntryIndex == _entries.Count ?
+                        _latestInputCache : _entries[_activeEntryIndex];
                     inputField.caretPosition = inputField.text.Length;
-                }
-
-                if (Input.GetKeyDown(KeyCode.DownArrow))
-                {
-                    _activeEntryIndex++;
-                    if (_activeEntryIndex > _entries.Count) _activeEntryIndex = _entries.Count;
-                    else
-                    {
-                        inputField.text = _activeEntryIndex == _entries.Count ?
-                            _latestInputCache : _entries[_activeEntryIndex];
-                        inputField.caretPosition = inputField.text.Length;
-                    }
                 }
             }
         }
