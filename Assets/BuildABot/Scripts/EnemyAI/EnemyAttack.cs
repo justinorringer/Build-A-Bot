@@ -70,6 +70,11 @@ namespace BuildABot
                     attackGraphics.SetActive(true);
                 }
 
+                if (attack is ProjectileAttackData projectile)
+                {
+                    projectile.Target = other.transform;
+                }
+
                 //Target enemy if in range
                 if (_enemyController.CanSeek && _enemyController.EnemyMode == EPathingMode.Patrolling)
                 {
