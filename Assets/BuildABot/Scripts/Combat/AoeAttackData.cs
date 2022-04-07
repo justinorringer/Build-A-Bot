@@ -140,17 +140,16 @@ namespace BuildABot
                     GameObject hitObj = hit.gameObject;
 
                     // Get the other character hit
-                    Character other = hitObj.GetComponent<Character>();
-                    if ((CanHitSelf || other != instigator.Character) &&
-                        null != other &&
-                        (AllowMultiHit || !hitLookup.Contains(other)))
+                    CombatController other = hitObj.GetComponent<CombatController>();
+                    if (null != other && null != other.Character &&
+                        (CanHitSelf || other.Character != instigator.Character) &&
+                        (AllowMultiHit || !hitLookup.Contains(other.Character)))
                     {
-                        foreach (EffectInstance instance in Effects)
+                        if (other.TryReceiveAttack(this, instigator))
                         {
-                            other.Attributes.ApplyEffect(instance, other);
+                            hits.Add(other.Character);
+                            hitLookup.Add(other.Character);
                         }
-                        hits.Add(other);
-                        hitLookup.Add(other);
                     }
                 }
 

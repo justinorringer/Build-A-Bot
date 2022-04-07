@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BuildABot
 {
@@ -10,27 +11,20 @@ namespace BuildABot
      */
     public class CombatController : MonoBehaviour
     {
-        /** Size of the attack box. */
-        [SerializeField] private Vector2 meleeAttackSize;
-
-        /** Distance the attack travels. */
-        [SerializeField] private float attackDist;
-
-        /** Duration of attack in seconds. */
-        [SerializeField] private int attackDuration;
-
-        /** Distance between the character and the created attack */
-        private Vector2 _offset;
 
         /** A reference to the player instance using this component. */
         public Character Character { get; private set; }
 
-        [SerializeField] private List<EffectInstance> effects;
-
-        [SerializeField] private AttackData storedAttack;
-
+        [SerializeField] private AttackData storedAttack; // TODO: Remove, only use TryPerformAttack or have a labelled list
+        
         [Tooltip("The layers that can be hit by attacks from this character.")]
         [SerializeField] private LayerMask targetLayers;
+
+        [Tooltip("An event triggered when this combat controller is hit with an attack.")]
+        [SerializeField] private UnityEvent<AttackData, CombatController> onHit;
+
+        [Tooltip("Can this combat controller receive attacks?")]
+        [SerializeField] private bool canReceiveAttacks = true;
 
         /** Gets the layers targeted by this controller. */
         public LayerMask TargetLayers => targetLayers;
@@ -50,15 +44,21 @@ namespace BuildABot
         private Animator _anim;
         /** Hash of "attack" parameter in the animator, stored for optimization */
         private int _attackTriggerHash;
+        
+        /** An event triggered when this combat controller is hit with an attack. */
+        public event UnityAction<AttackData, CombatController> OnHit
+        {
+            add => onHit.AddListener(value);
+            remove => onHit.RemoveListener(value);
+        }
 
         // Start is called before the first frame update
         protected void Start()
         {
-            _offset = new Vector2(GetComponent<Collider2D>().bounds.extents.x, 0);
             Character = GetComponent<Character>();
 
             _anim = GetComponent<Animator>();
-            // TODO: Handle different attacks and supporting multiple animators besides the player
+            // TODO: Handle different attacks by specifying a trigger string in the attack data
             _attackTriggerHash = Animator.StringToHash("Attack");
         }
 
@@ -104,6 +104,29 @@ namespace BuildABot
         }
 
         /**
+         * Attempts to apply the provided attack to this character as if sent by the given instigator.
+         * <param name="attack">The attack to apply.</param>
+         * <param name="instigator">The combat controller that instigated the attack.</param>
+         * <returns>True if the attack was successfully applied.</returns>
+         */
+        public bool TryReceiveAttack(AttackData attack, CombatController instigator)
+        {
+            if (attack == null || instigator == null || !canReceiveAttacks) return false;
+            
+            // Apply the effects from the attack
+            foreach (EffectInstance instance in attack.Effects)
+            {
+                Character.Attributes.ApplyEffect(instance, Character);
+            }
+            
+            onHit.Invoke(attack, instigator);
+
+            return true;
+        }
+        
+        
+
+        /**
          * Called whenever the current attack is finished.
          */
         private void OnFinishAttack()
@@ -122,36 +145,6 @@ namespace BuildABot
             _currentHits = null;
             _currentOnFinish = null;
             _currentOnCancel = null;
-        }
-
-        /** Coroutine to perform an attack which lasts for a number of milliseconds determined by attackDuration */
-        public IEnumerator Attack()
-        {
-            for (int i = 0; i < attackDuration; i++)
-            {
-                Vector2 position = transform.position;
-                RaycastHit2D hitInfo = Physics2D.BoxCast(position + (_offset * Character.CharacterMovement.Facing),
-                    meleeAttackSize, 0, Character.CharacterMovement.Facing, attackDist, LayerMask.GetMask("Enemy"));
-                
-                Debug.DrawRay(position + (_offset * Character.CharacterMovement.Facing), Character.CharacterMovement.Facing * attackDist, Color.red, 1.0f);
-                
-                if (hitInfo) {
-                    GameObject hitObj = hitInfo.collider.gameObject;
-
-                    // Get the other character hit
-                    Character other = hitObj.GetComponent<Character>();
-                    if (other != Character && null != other)
-                    {
-                        foreach (EffectInstance instance in effects)
-                        {
-                            other.Attributes.ApplyEffect(instance, other);
-                        }
-                    }
-
-                    yield break;
-                }
-                yield return new WaitForSeconds(.001f);
-            }
         }
     }
 }
