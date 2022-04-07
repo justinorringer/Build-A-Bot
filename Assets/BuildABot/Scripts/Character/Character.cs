@@ -17,12 +17,20 @@ namespace BuildABot
         
         [Tooltip("A dispatcher called whenever this character is killed.")]
         [SerializeField] protected UnityEvent onDeath;
+        
+        [Header("References")]
+        
+        [Tooltip("The combat controller used by this character.")]
+        [SerializeField] private CombatController combatController;
 
         /** The attribute set used by this character. */
         public CharacterAttributeSet Attributes => attributes;
 
         /** The character movement component used by this character. */
         public abstract CharacterMovement CharacterMovement { get; }
+
+        /** The combat controller used by this character. */
+        public CombatController CombatController => combatController;
         
         /** The bounding size of this character. */
         public Collider2D Collider { get; private set; }
@@ -32,11 +40,22 @@ namespace BuildABot
         
         /** The inventory of this character. */
         public Inventory Inventory { get; private set; }
+        
+        /** An event triggered when this character dies. */
+        public event UnityAction OnDeath
+        {
+            add => onDeath.AddListener(value);
+            remove => onDeath.RemoveListener(value);
+        }
 
+        
         /** The cooling/temperature regeneration coroutine used by this character. */
         private IEnumerator _coolingTask;
 
-        public virtual void Kill()
+        /**
+         * Kills this character.
+         */
+        protected virtual void Kill()
         {
             onDeath.Invoke();
             Destroy(gameObject);

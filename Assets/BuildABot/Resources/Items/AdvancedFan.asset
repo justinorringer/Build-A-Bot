@@ -23,6 +23,6 @@ MonoBehaviour:
   quality: 1
   effects:
   - effect: {fileID: 11400000, guid: 6c8208eacfeb7eb438c471482bca4644, type: 2}
-    magnitude: 3
+    magnitude: 2
   - effect: {fileID: 11400000, guid: e713ec3a7b7fc5540b0fbd6c9862bf3e, type: 2}
     magnitude: 0.5

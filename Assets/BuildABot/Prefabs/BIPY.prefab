@@ -447,13 +447,14 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  combatController: {fileID: 878766306424404202}
   hud: {fileID: 8440469836430779808}
   mainMenu: {fileID: 5293480865152796034}
   alertPrefab: {fileID: 8881248162010663966, guid: e3cf96934b3744e4f9e5b0b3430d7cf4, type: 3}
   gameOverDisplay: {fileID: 8662148064442263802}
   playerMovement: {fileID: 609926857222936979}
   playerController: {fileID: 609926857222936974}
-  currencyWallet: 0
+  wallet: 0
 --- !u!114 &609926857222936974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,16 +499,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4524fb54588e6e142acea720ad6d6c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeAttackSize: {x: 32, y: 32}
-  attackDist: 1
-  attackDuration: 100
-  effects:
-  - effect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
-    magnitude: 1
   storedAttack: {fileID: 11400000, guid: c16e5b7605b9026448da7e17e607dd37, type: 2}
   targetLayers:
     serializedVersion: 2
     m_Bits: 256
+  onPreHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onPostHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onKill:
+    m_PersistentCalls:
+      m_Calls: []
+  canReceiveAttacks: 1
 --- !u!114 &6929657910909737951
 MonoBehaviour:
   m_ObjectHideFlags: 0

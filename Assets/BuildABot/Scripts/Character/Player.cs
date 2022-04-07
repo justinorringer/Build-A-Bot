@@ -26,7 +26,7 @@ namespace BuildABot
 
         [Tooltip("The player movement component used by this player.")]
         [SerializeField] private PlayerMovement playerMovement;
-        [Tooltip("The player input component used by this player.")]
+        [Tooltip("The player input controller used by this player.")]
         [SerializeField] private PlayerController playerController;
 
         /** The player input controller used by this player. */
@@ -44,7 +44,14 @@ namespace BuildABot
 
         /** The amount of currency owned by this player. */
         [HideInInspector]
-        [SerializeField] private int currencyWallet;
+        [SerializeField] private int wallet;
+
+        /** the amount of currency held by this player. */
+        public int Wallet
+        {
+            get => wallet;
+            set => wallet = value < 0 ? 0 : value;
+        }
         
         /**
          * The data stored in a single equipment slot.
@@ -164,15 +171,31 @@ namespace BuildABot
         {
             base.OnEnable();
             Inventory.OnEntryAdded += HandleNewItem;
+            if (CombatController != null) CombatController.OnKill += HandleKill;
         }
 
         protected override void OnDisable()
         {
+            if (CombatController != null) CombatController.OnKill -= HandleKill;
             Inventory.OnEntryAdded -= HandleNewItem;
             base.OnDisable();
         }
-        
-        public override void Kill()
+
+        /**
+         * Handles killing another character.
+         * <param name="attack">The killing attack.</param>
+         * <param name="target">The character killed by this character.</param>
+         */
+        private void HandleKill(AttackData attack, CombatController target)
+        {
+            if (target.Character is Enemy enemy)
+            {
+                Wallet += enemy.DroppedCurrency;
+                Debug.Log($"Wallet has {wallet} coins");
+            }
+        }
+
+        protected override void Kill()
         {
             onDeath.Invoke();
             // TODO: Play death animation

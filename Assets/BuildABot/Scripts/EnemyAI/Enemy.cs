@@ -15,13 +15,17 @@ namespace BuildABot
         /** The enemy controller used by this enemy. */
         private EnemyController _enemyController;
 
-        /** The amount of currency that this enemy should drop upon death */
-        public int currencyToDrop;
+        [Tooltip("The amount of currency that this enemy should drop upon death.")]
+        [Min(0)]
+        [SerializeField] private int currencyToDrop;
 
         public override CharacterMovement CharacterMovement => _enemyMovement;
 
         /** The enemy controller used by this enemy. */
         public EnemyController EnemyController => _enemyController;
+
+        /** The amount of currency dropped by this character. */
+        public int DroppedCurrency => currencyToDrop;
 
         protected override void Awake()
         {
@@ -36,5 +40,6 @@ namespace BuildABot
             _enemyMovement = GetComponent<EnemyMovement>();
             _enemyController = GetComponent<EnemyController>();
         }
+
     }
 }

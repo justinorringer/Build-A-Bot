@@ -20,8 +20,14 @@ namespace BuildABot
         [Tooltip("The layers that can be hit by attacks from this character.")]
         [SerializeField] private LayerMask targetLayers;
 
-        [Tooltip("An event triggered when this combat controller is hit with an attack.")]
-        [SerializeField] private UnityEvent<AttackData, CombatController> onHit;
+        [Tooltip("An event triggered before this combat controller is hit with an attack.")]
+        [SerializeField] private UnityEvent<AttackData, CombatController> onPreHit;
+
+        [Tooltip("An event triggered after this combat controller is hit with an attack.")]
+        [SerializeField] private UnityEvent<AttackData, CombatController> onPostHit;
+
+        [Tooltip("An event triggered when this combat controller kills another.")]
+        [SerializeField] private UnityEvent<AttackData, CombatController> onKill;
 
         [Tooltip("Can this combat controller receive attacks?")]
         [SerializeField] private bool canReceiveAttacks = true;
@@ -40,16 +46,33 @@ namespace BuildABot
         /** The current on cancel action. */
         private Action<List<Character>> _currentOnCancel;
 
+        /** the combat controller currently attacking this controller. */
+        public CombatController CurrentAttacker { get; private set; }
+
         /** The animator used by this object. */
         private Animator _anim;
         /** Hash of "attack" parameter in the animator, stored for optimization */
         private int _attackTriggerHash;
         
-        /** An event triggered when this combat controller is hit with an attack. */
-        public event UnityAction<AttackData, CombatController> OnHit
+        /** An event triggered before this combat controller is hit with an attack. */
+        public event UnityAction<AttackData, CombatController> OnPreHit
         {
-            add => onHit.AddListener(value);
-            remove => onHit.RemoveListener(value);
+            add => onPreHit.AddListener(value);
+            remove => onPreHit.RemoveListener(value);
+        }
+        
+        /** An event triggered after this combat controller is hit with an attack. */
+        public event UnityAction<AttackData, CombatController> OnPostHit
+        {
+            add => onPostHit.AddListener(value);
+            remove => onPostHit.RemoveListener(value);
+        }
+        
+        /** An event triggered when this combat controller kills another. Subscribers receive the killing attack and the killed controller. */
+        public event UnityAction<AttackData, CombatController> OnKill
+        {
+            add => onKill.AddListener(value);
+            remove => onKill.RemoveListener(value);
         }
 
         // Start is called before the first frame update
@@ -111,15 +134,28 @@ namespace BuildABot
          */
         public bool TryReceiveAttack(AttackData attack, CombatController instigator)
         {
-            if (attack == null || instigator == null || !canReceiveAttacks) return false;
+            if (attack == null || instigator == null || !canReceiveAttacks || Character == null) return false;
+            
+            CurrentAttacker = instigator;
+            onPreHit.Invoke(attack, instigator);
+
+            void OnDeath()
+            {
+                instigator.onKill.Invoke(attack, this);
+            }
+
+            Character.OnDeath += OnDeath;
             
             // Apply the effects from the attack
             foreach (EffectInstance instance in attack.Effects)
             {
                 Character.Attributes.ApplyEffect(instance, Character);
             }
+
+            Character.OnDeath -= OnDeath;
             
-            onHit.Invoke(attack, instigator);
+            onPostHit.Invoke(attack, instigator);
+            CurrentAttacker = null;
 
             return true;
         }
