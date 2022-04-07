@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: TR4V3L1NG S4L3SM4N
   speakingSound: {fileID: 8300000, guid: 78d1d26b3c5f2b84dad65de762b918d0, type: 3}
-  defaultCharacterSprite: {fileID: 21300000, guid: 472133035b523ab40ba40e5550bfa11c, type: 3}
+  defaultCharacterSprite: {fileID: 21300000, guid: df03a8c13998c5147809b3ff3e0070e2, type: 3}
   expressions:
   - expressionName: Happy
     spriteOverride: {fileID: 0}
