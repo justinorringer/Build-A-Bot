@@ -30,8 +30,9 @@ namespace BuildABot
         }
 
 
-        protected void Start()
+        protected override void Start()
         {
+            base.Start();
             _enemyMovement = GetComponent<EnemyMovement>();
             _enemyController = GetComponent<EnemyController>();
         }

@@ -134,6 +134,18 @@ namespace BuildABot
                 data.Item.Equipped = false;
             }
         }
+
+        private void HandleNewItem(InventoryEntry entry, int count)
+        {
+            // Handle auto-equipping new items
+            if (entry is ComputerPartInstance cp)
+            {
+                if (GetItemEquippedToSlot(cp.ComputerPartItem.PartType) == null)
+                {
+                    EquipItem(cp);
+                }
+            }
+        }
         
 #endregion
 
@@ -146,6 +158,18 @@ namespace BuildABot
             SetPaused(false);
             EnableHUD();
             mainMenu.gameObject.SetActive(false);
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            Inventory.OnEntryAdded += HandleNewItem;
+        }
+
+        protected override void OnDisable()
+        {
+            Inventory.OnEntryAdded -= HandleNewItem;
+            base.OnDisable();
         }
         
         public override void Kill()

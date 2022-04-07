@@ -22,7 +22,7 @@ namespace BuildABot
         public virtual bool CanEquip => false;
 
         /** Is this entry currently equipped? */
-        private bool _equipped = false;
+        private bool _equipped;
 
         /** Is this entry currently equipped? */
         public bool Equipped
@@ -41,6 +41,13 @@ namespace BuildABot
 
         /** The event called whenever a change is applied to this entry. */
         private readonly UnityEvent _onChange = new UnityEvent();
+        
+        /** An event triggered whenever a change is applied to this entry. */
+        public event UnityAction OnChange
+        {
+            add => _onChange.AddListener(value);
+            remove => _onChange.RemoveListener(value);
+        }
 
         /**
          * Handles any changes made to this entry.
@@ -48,24 +55,6 @@ namespace BuildABot
         protected void ApplyChanges()
         {
             _onChange.Invoke();
-        }
-
-        /**
-         * Adds a new listener that will be triggered whenever a change is made to this entry.
-         * <param name="action">The action to perform on change.</param>
-         */
-        public void AddChangeListener(UnityAction action)
-        {
-            _onChange.AddListener(action);
-        }
-
-        /**
-         * Removes the provided listener from receiving change events.
-         * <param name="action">The action remove as a listener.</param>
-         */
-        public void RemoveChangeListener(UnityAction action)
-        {
-            _onChange.RemoveListener(action);
         }
     }
     
@@ -80,9 +69,9 @@ namespace BuildABot
         
         [Tooltip("The maximum number of entries that can be stored in this inventory.")]
         [SerializeField] private int maxSlots = 10;
-
-        // TODO: Add support for adding/removing listeners at runtime
         
+        #region Events
+
         [Tooltip("A dispatcher called whenever an item is added to this inventory. Subscribers will receive the added item and count.")]
         [SerializeField] private UnityEvent<Item, int> onItemAdded;
         [Tooltip("A dispatcher called whenever an item is removed from this inventory. Subscribers will receive the removed item and count.")]
@@ -94,6 +83,40 @@ namespace BuildABot
         [SerializeField] private UnityEvent<InventoryEntry> onEntryRemoved;
         [Tooltip("A dispatcher called whenever this inventory modifies an entry. Subscribers will receive the entry and its index.")]
         [SerializeField] private UnityEvent<InventoryEntry, int> onEntryModified;
+        
+        /** An event triggered whenever an item is added to this inventory. Subscribers will receive the added item and count. */
+        public event UnityAction<Item, int> OnItemAdded
+        {
+            add => onItemAdded.AddListener(value);
+            remove => onItemAdded.RemoveListener(value);
+        }
+        /** An event triggered whenever an item is removed from this inventory. Subscribers will receive the removed item and count. */
+        public event UnityAction<Item, int> OnItemRemoved
+        {
+            add => onItemRemoved.AddListener(value);
+            remove => onItemRemoved.RemoveListener(value);
+        }
+        
+        /** An event triggered whenever a new entry slot is filled in this inventory. Subscribers will receive the entry and its index. */
+        public event UnityAction<InventoryEntry, int> OnEntryAdded
+        {
+            add => onEntryAdded.AddListener(value);
+            remove => onEntryAdded.RemoveListener(value);
+        }
+        /** An event triggered whenever an entry is removed from a slot in this inventory. Subscribers will receive the entry and its index. */
+        public event UnityAction<InventoryEntry> OnEntryRemoved
+        {
+            add => onEntryRemoved.AddListener(value);
+            remove => onEntryRemoved.RemoveListener(value);
+        }
+        /** An event triggered whenever this inventory modifies an entry. Subscribers will receive the entry and its index." */
+        public event UnityAction<InventoryEntry, int> OnEntryModified
+        {
+            add => onEntryModified.AddListener(value);
+            remove => onEntryModified.RemoveListener(value);
+        }
+        
+        #endregion
         
         /** Gets the (read-only) list of item entries in this inventory. */
         public ReadOnlyCollection<InventoryEntry> Entries => _entries.AsReadOnly();

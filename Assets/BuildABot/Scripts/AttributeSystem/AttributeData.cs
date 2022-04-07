@@ -102,61 +102,41 @@ namespace BuildABot
         {
             return $"Base: {_baseValue}, Current: {_currentValue}";
         }
-
-        /**
-         * Adds a new listener for the OnInitialize event.
-         * <param name="listener">The listener to add.</param>
-         */
-        public void AddOnInitializeListener(UnityAction<T> listener) => onInitialize.AddListener(listener);
-        /**
-         * Removes a listener from the OnInitialize event.
-         * <param name="listener">The listener to remove.</param>
-         */
-        public void RemoveOnInitializeListener(UnityAction<T> listener) => onInitialize.RemoveListener(listener);
-
-        /**
-         * Adds a new listener for the OnPreValueChange event.
-         * <param name="listener">The listener to add.</param>
-         */
-        public void AddPreValueChangeListener(UnityAction<T> listener) => onPreValueChange.AddListener(listener);
-        /**
-         * Removes a listener from the OnPreValueChange event.
-         * <param name="listener">The listener to remove.</param>
-         */
-        public void RemovePreValueChangeListener(UnityAction<T> listener) => onPreValueChange.RemoveListener(listener);
-
-        /**
-         * Adds a new listener for the OnPostValueChange event.
-         * <param name="listener">The listener to add.</param>
-         */
-        public void AddPostValueChangeListener(UnityAction<T> listener) => onPostValueChange.AddListener(listener);
-        /**
-         * Removes a listener from the OnPostValueChange event.
-         * <param name="listener">The listener to remove.</param>
-         */
-        public void RemovePostValueChangeListener(UnityAction<T> listener) => onPostValueChange.RemoveListener(listener);
-
-        /**
-         * Adds a new listener for the OnPreBaseValueChange event.
-         * <param name="listener">The listener to add.</param>
-         */
-        public void AddPreBaseValueChangeListener(UnityAction<T> listener) => onPreBaseValueChange.AddListener(listener);
-        /**
-         * Removes a listener from the OnPreBaseValueChange event.
-         * <param name="listener">The listener to remove.</param>
-         */
-        public void RemovePreBaseValueChangeListener(UnityAction<T> listener) => onPreBaseValueChange.RemoveListener(listener);
-
-        /**
-         * Adds a new listener for the OnPostBaseValueChange event.
-         * <param name="listener">The listener to add.</param>
-         */
-        public void AddPostBaseValueChangeListener(UnityAction<T> listener) => onPostBaseValueChange.AddListener(listener);
-        /**
-         * Removes a listener from the OnPostBaseValueChange event.
-         * <param name="listener">The listener to remove.</param>
-         */
-        public void RemovePostBaseValueChangeListener(UnityAction<T> listener) => onPostBaseValueChange.RemoveListener(listener);
+        
+        /** The event triggered when this attribute data is initialized. */
+        public event UnityAction<T> OnInitialize
+        {
+            add => onInitialize.AddListener(value);
+            remove => onInitialize.RemoveListener(value);
+        }
+        
+        /** The event triggered immediately before this attribute data has its current value changed. */
+        public event UnityAction<T> OnPreValueChange
+        {
+            add => onPreValueChange.AddListener(value);
+            remove => onPreValueChange.RemoveListener(value);
+        }
+        
+        /** The event triggered immediately after this attribute data has its current value changed. */
+        public event UnityAction<T> OnPostValueChange
+        {
+            add => onPostValueChange.AddListener(value);
+            remove => onPostValueChange.RemoveListener(value);
+        }
+        
+        /** The event triggered immediately before this attribute data has its base value changed. */
+        public event UnityAction<T> OnPreBaseValueChange
+        {
+            add => onPreBaseValueChange.AddListener(value);
+            remove => onPreBaseValueChange.RemoveListener(value);
+        }
+        
+        /** The event triggered immediately after this attribute data has its base value changed. */
+        public event UnityAction<T> OnPostBaseValueChange
+        {
+            add => onPostBaseValueChange.AddListener(value);
+            remove => onPostBaseValueChange.RemoveListener(value);
+        }
     }
 
     /**

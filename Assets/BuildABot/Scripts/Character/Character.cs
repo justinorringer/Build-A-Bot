@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -32,6 +33,9 @@ namespace BuildABot
         /** The inventory of this character. */
         public Inventory Inventory { get; private set; }
 
+        /** The cooling/temperature regeneration coroutine used by this character. */
+        private IEnumerator _coolingTask;
+
         public virtual void Kill()
         {
             onDeath.Invoke();
@@ -45,14 +49,33 @@ namespace BuildABot
             Inventory = GetComponent<Inventory>();
         }
 
+        protected virtual void Start()
+        {
+            
+        }
+
         protected virtual void OnEnable()
         {
-            Attributes.Temperature.AddPostValueChangeListener(HandleTemperatureChange);
+            Attributes.Temperature.OnPostValueChange += HandleTemperatureChange;
+            _coolingTask = Utility.RepeatFunction(this, () =>
+            {
+                float currentTemp = Attributes.Temperature.BaseValue;
+                float minTemp = Attributes.BaseTemperature.CurrentValue;
+                float coolingRate = Attributes.CoolDownRate.CurrentValue;
+                
+                if (currentTemp > minTemp && coolingRate != 0.0f)
+                {
+                    // Lower character temperature 
+                    Attributes.Temperature.BaseValue = Mathf.Max(currentTemp - coolingRate, minTemp);
+                }
+            }, 1.0f);
         }
 
         protected virtual void OnDisable()
         {
-            Attributes.Temperature.RemovePostValueChangeListener(HandleTemperatureChange);
+            Attributes.Temperature.OnPostValueChange -= HandleTemperatureChange;
+            StopCoroutine(_coolingTask);
+            _coolingTask = null;
         }
 
         private void HandleTemperatureChange(float newTemperature)

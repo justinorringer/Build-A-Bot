@@ -144,10 +144,10 @@ namespace BuildABot
         private void BindAttributeChangeEvents<T>(AttributeData<T> attribute)
         {
             if (null == attribute) return;
-            attribute.AddPreValueChangeListener((value) => PreAttributeChange(attribute, value));
-            attribute.AddPostValueChangeListener((value) => PostAttributeChange(attribute, value));
-            attribute.AddPreBaseValueChangeListener((value) => PreAttributeBaseChange(attribute, value));
-            attribute.AddPostBaseValueChangeListener((value) => PostAttributeBaseChange(attribute, value));
+            attribute.OnPreValueChange += value => PreAttributeChange(attribute, value);
+            attribute.OnPostValueChange += value => PostAttributeChange(attribute, value);
+            attribute.OnPreBaseValueChange += value => PreAttributeBaseChange(attribute, value);
+            attribute.OnPostBaseValueChange += value => PostAttributeBaseChange(attribute, value);
         }
         
 #endregion
@@ -224,7 +224,7 @@ namespace BuildABot
          */
         protected virtual void PostAttributeBaseChange<T>(AttributeData<T> attribute, T newValue)
         {
-            
+            RecalculateDirtyAttribute(attribute);
         }
 
         /**
