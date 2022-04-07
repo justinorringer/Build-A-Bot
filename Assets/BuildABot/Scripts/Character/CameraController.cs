@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+//using Cinemachine;
 
 namespace BuildABot
 {
@@ -10,6 +9,10 @@ namespace BuildABot
         [SerializeField] private GameObject cameraObj;
         /** Camera being controlled by this script */
         [SerializeField] private Camera camera;
+        /** Virtual camera to the left of the player */
+        //[SerializeField] private CinemachineVirtualCamera cameraLeft;
+        /** Virtual camera to the right of the player */
+        //[SerializeField] private CinemachineVirtualCamera cameraRight;
         /** Maximum horizontal distance the object can move from the camera's position before the camera is moved */
         [SerializeField] private float horizontalMargin;
         /** Maximum vertical distance the object can move from the camera's position before the camera is moved */
