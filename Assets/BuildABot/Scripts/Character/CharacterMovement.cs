@@ -118,7 +118,7 @@ namespace BuildABot
         /** Time it takes for the player to reach zero speed when they stop moving */
         [SerializeField] private float decelerationTime = 0.05f;
 
-        [SerializeField] private IEnumerator _jumpFunction;
+        private IEnumerator _jumpFunction;
 
         /** Can this character move? */
         public bool CanMove { get; set; } = true;
@@ -150,8 +150,6 @@ namespace BuildABot
             _jumpForce = JumpForce;
 
             _originalGravity = _rigidbody.gravityScale;
-
-            _jumpFunction = JumpPhysics();
         }
 
         protected void FixedUpdate()
@@ -278,7 +276,8 @@ namespace BuildABot
                 _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse); // Add the impulse
                 _jumpCount++; // Update the jump count
                 _jumpForce *= JumpForceFalloff; // Apply the force falloff
-                StopCoroutine(_jumpFunction); // Stop jump coroutine of any previous jumps
+                if(_jumpFunction != null) StopCoroutine(_jumpFunction); // Stop jump coroutine of any previous jumps
+                _jumpFunction = JumpPhysics();
                 StartCoroutine(_jumpFunction); // Start a new jump coroutine
             }
         }
