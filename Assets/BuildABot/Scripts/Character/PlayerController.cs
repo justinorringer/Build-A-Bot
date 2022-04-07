@@ -119,7 +119,7 @@ namespace BuildABot
                 _player.CharacterMovement.MoveHorizontal(move.x);
                 _player.CharacterMovement.MoveVertical(move.y); // For flying mode only
 
-                //Vector2 cameraOffset = _inputActions.Player.Camera.ReadValue<Vector2>();
+                Vector2 cameraOffset = InputActions.Player.Camera.ReadValue<Vector2>();
             }
             
             // Legacy
