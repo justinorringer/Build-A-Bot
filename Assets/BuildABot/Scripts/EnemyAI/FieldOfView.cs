@@ -34,7 +34,7 @@ namespace BuildABot{
         public void StartLooking()
         {
             looking = true;
-            StartCoroutine("FindTargetsWithDelay", visionDelay);
+            StartCoroutine(nameof(FindTargetsWithDelay), visionDelay);
             //Debug.Log("Started Looking");
         }
 
@@ -46,6 +46,7 @@ namespace BuildABot{
         {
             visibleTargets.Clear();
             looking = false;
+            StopCoroutine(nameof(FindTargetsWithDelay));
         }
 
         IEnumerator FindTargetsWithDelay(float delay)
