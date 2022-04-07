@@ -37,7 +37,7 @@ MonoBehaviour:
         valueProvider:
           id: 1
         targetAttribute:
-          value: 
+          value: coolDownRate
           options:
           - coolDownRate
           - coolingFactor
