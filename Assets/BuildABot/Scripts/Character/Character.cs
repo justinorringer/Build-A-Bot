@@ -79,13 +79,18 @@ namespace BuildABot
             _coolingTask = Utility.RepeatFunction(this, () =>
             {
                 float currentTemp = Attributes.Temperature.BaseValue;
-                float minTemp = Attributes.BaseTemperature.CurrentValue;
+                float operatingTemp = Attributes.OperatingTemperature.CurrentValue;
                 float coolingRate = Attributes.CoolDownRate.CurrentValue;
                 
-                if (currentTemp > minTemp && coolingRate != 0.0f)
+                if (currentTemp > operatingTemp && coolingRate != 0.0f)
                 {
                     // Lower character temperature 
-                    Attributes.Temperature.BaseValue = Mathf.Max(currentTemp - coolingRate, minTemp);
+                    Attributes.Temperature.BaseValue = Mathf.Max(currentTemp - coolingRate, operatingTemp);
+                }
+                else if (currentTemp < operatingTemp && coolingRate != 0.0f)
+                {
+                    // Raise character temperature 
+                    Attributes.Temperature.BaseValue = Mathf.Min(currentTemp + coolingRate, operatingTemp);
                 }
             }, 1.0f);
         }
@@ -100,6 +105,7 @@ namespace BuildABot
         private void HandleTemperatureChange(float newTemperature)
         {
             if (newTemperature >= Attributes.MaxTemperature.CurrentValue) Kill();
+            else if (newTemperature <= Attributes.MinTemperature.CurrentValue) Kill();
         }
     }
 }

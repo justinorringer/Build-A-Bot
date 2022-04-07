@@ -227,6 +227,40 @@ MonoBehaviour:
       onPostValueChange:
         m_PersistentCalls:
           m_Calls: []
+    operatingTemperature:
+      defaultValue: 70
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+    minTemperature:
+      defaultValue: 0
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostValueChange:
+        m_PersistentCalls:
+          m_Calls: []
     maxTemperature:
       defaultValue: 80
       onInitialize:
@@ -448,9 +482,27 @@ MonoBehaviour:
       onPostValueChange:
         m_PersistentCalls:
           m_Calls: []
+    viewDistance:
+      defaultValue: 0
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostValueChange:
+        m_PersistentCalls:
+          m_Calls: []
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  combatController: {fileID: 0}
   currencyToDrop: 3
 --- !u!114 &929539346526337687
 MonoBehaviour:
@@ -654,14 +706,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4524fb54588e6e142acea720ad6d6c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeAttackSize: {x: 0, y: 0}
-  attackDist: 0
-  attackDuration: 0
-  effects: []
   storedAttack: {fileID: 0}
   targetLayers:
     serializedVersion: 2
     m_Bits: 128
+  onPreHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onPostHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onKill:
+    m_PersistentCalls:
+      m_Calls: []
+  canReceiveAttacks: 1
 --- !u!95 &-8145676553151989463
 Animator:
   serializedVersion: 3

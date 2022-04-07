@@ -165,8 +165,25 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
-    baseTemperature:
+    operatingTemperature:
       defaultValue: 40
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+    minTemperature:
+      defaultValue: 0
       onInitialize:
         m_PersistentCalls:
           m_Calls: []
