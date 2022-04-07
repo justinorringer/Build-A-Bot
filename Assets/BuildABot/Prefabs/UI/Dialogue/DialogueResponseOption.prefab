@@ -370,6 +370,7 @@ GameObject:
   - component: {fileID: 5490568914604830210}
   - component: {fileID: 985589528482352283}
   - component: {fileID: 8504664161230244459}
+  - component: {fileID: 7129923586944804496}
   m_Layer: 5
   m_Name: DialogueResponseOption
   m_TagString: Untagged
@@ -518,7 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 0
+  - eventID: 9
     callback:
       m_PersistentCalls:
         m_Calls:
@@ -532,9 +533,9 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 1
             m_StringArgument: 
-            m_BoolArgument: 1
+            m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 1
+  - eventID: 10
     callback:
       m_PersistentCalls:
         m_Calls:
@@ -590,3 +591,16 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &7129923586944804496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7907398422042844013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dae7b7c89474c51864acdc12d2e7158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 6519836033374947617}

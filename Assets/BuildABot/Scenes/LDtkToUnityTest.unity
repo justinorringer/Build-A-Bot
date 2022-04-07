@@ -4294,10 +4294,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 820324042910893993, guid: bdd8154d9318a8c4eaa91ff322397063, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -3456532010920386237, guid: 71fdaffe795d5934d800e131026b9c8e, type: 3}
     - target: {fileID: 820324042910893994, guid: bdd8154d9318a8c4eaa91ff322397063, type: 3}
       propertyPath: m_Name
       value: Merchant

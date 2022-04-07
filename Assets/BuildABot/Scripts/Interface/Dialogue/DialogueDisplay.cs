@@ -233,7 +233,7 @@ namespace BuildABot
         {
             if (!_playing) return;
             // Either cancel the typing coroutine and force fill the content or move to next node
-            if (_isTyping && _displayTextCoroutine != null)
+            if (_isTyping && _displayTextCoroutine != null && _finalizeDisplayCoroutine == null)
             {
                 StopCoroutine(_displayTextCoroutine);
                 audioSource.Stop();
@@ -290,6 +290,7 @@ namespace BuildABot
                 // Display the response option ui
                 responseOptionsRoot.gameObject.SetActive(true);
                 _responseOptions = new List<DialogueResponseWidget>();
+                Cursor.visible = true;
                 int i = 0;
                 foreach (DialogueResponse response in node.ResponseOptions)
                 {
@@ -298,6 +299,8 @@ namespace BuildABot
                     _responseOptions.Add(widget);
                     i++;
                 }
+                
+                _responseOptions[0].GetComponent<Button>().Select();
                 
                 // Wait until a selection has been received
                 yield return new WaitUntil(() => !_isWaitingForResponse);
@@ -310,6 +313,7 @@ namespace BuildABot
                     Destroy(widget.gameObject);
                 }
                 _responseOptions.Clear();
+                Cursor.visible = false;
             }
             else
             {
@@ -324,6 +328,8 @@ namespace BuildABot
             {
                 e.Invoke();
             }
+
+            _finalizeDisplayCoroutine = null;
             
             if (next == -1 || next >= _currentlyPlaying.DialogueNodes.Count) EndDialogue();
             else DisplayDialogueNode(_currentlyPlaying.DialogueNodes[next]);
