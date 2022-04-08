@@ -118,6 +118,15 @@ namespace BuildABot
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ZoomOut"",
+                    ""type"": ""Button"",
+                    ""id"": ""d02395af-cff3-4817-b950-74cccf77dd97"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -371,6 +380,28 @@ namespace BuildABot
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Guard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f7c87f8-776f-4349-85f5-8500bdbc0f60"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ZoomOut"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ce4a39e-739b-4231-a070-5b99ec0c28f5"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""ZoomOut"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1086,6 +1117,7 @@ namespace BuildABot
             m_Player_LightAttack = m_Player.FindAction("LightAttack", throwIfNotFound: true);
             m_Player_HeavyAttack = m_Player.FindAction("HeavyAttack", throwIfNotFound: true);
             m_Player_Guard = m_Player.FindAction("Guard", throwIfNotFound: true);
+            m_Player_ZoomOut = m_Player.FindAction("ZoomOut", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_CloseMenu = m_UI.FindAction("CloseMenu", throwIfNotFound: true);
@@ -1175,6 +1207,7 @@ namespace BuildABot
         private readonly InputAction m_Player_LightAttack;
         private readonly InputAction m_Player_HeavyAttack;
         private readonly InputAction m_Player_Guard;
+        private readonly InputAction m_Player_ZoomOut;
         public struct PlayerActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -1189,6 +1222,7 @@ namespace BuildABot
             public InputAction @LightAttack => m_Wrapper.m_Player_LightAttack;
             public InputAction @HeavyAttack => m_Wrapper.m_Player_HeavyAttack;
             public InputAction @Guard => m_Wrapper.m_Player_Guard;
+            public InputAction @ZoomOut => m_Wrapper.m_Player_ZoomOut;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1228,6 +1262,9 @@ namespace BuildABot
                     @Guard.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGuard;
                     @Guard.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGuard;
                     @Guard.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGuard;
+                    @ZoomOut.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomOut;
+                    @ZoomOut.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomOut;
+                    @ZoomOut.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomOut;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1262,6 +1299,9 @@ namespace BuildABot
                     @Guard.started += instance.OnGuard;
                     @Guard.performed += instance.OnGuard;
                     @Guard.canceled += instance.OnGuard;
+                    @ZoomOut.started += instance.OnZoomOut;
+                    @ZoomOut.performed += instance.OnZoomOut;
+                    @ZoomOut.canceled += instance.OnZoomOut;
                 }
             }
         }
@@ -1483,6 +1523,7 @@ namespace BuildABot
             void OnLightAttack(InputAction.CallbackContext context);
             void OnHeavyAttack(InputAction.CallbackContext context);
             void OnGuard(InputAction.CallbackContext context);
+            void OnZoomOut(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

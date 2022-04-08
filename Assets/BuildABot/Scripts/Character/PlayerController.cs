@@ -15,6 +15,8 @@ namespace BuildABot
         private PlayerInputActions _inputActions;
         /** The player input component used by this object. */
         private PlayerInput _playerInput;
+        /** The camera controller component used by this object */
+        private CameraController _cameraController;
 
         /** The audio source component used by this object. */
         private AudioSource _audioSource;
@@ -73,6 +75,7 @@ namespace BuildABot
             _combatController = GetComponent<CombatController>();
             _playerInput = GetComponent<PlayerInput>();
             _audioSource = GetComponent<AudioSource>();
+            _cameraController = GetComponent<CameraController>();
             InputActions.Player.Enable();
         }
 
@@ -126,6 +129,10 @@ namespace BuildABot
                 _player.CharacterMovement.MoveVertical(move.y); // For flying mode only
 
                 Vector2 cameraOffset = InputActions.Player.Camera.ReadValue<Vector2>();
+                _cameraController.CameraLook(cameraOffset);
+
+                float zoomOut = InputActions.Player.ZoomOut.ReadValue<float>();
+                _cameraController.ZoomOut(zoomOut != 0);
             }
             
             // Legacy
