@@ -37,9 +37,9 @@ namespace BuildABot
             if (Animator != null && Animator.runtimeAnimatorController != null)
             {
                 // Tell animator if player is running
-                Animator.SetBool(_runningBoolHash, direction.x != 0.0f && IsGrounded);
+                Animator.SetBool(_runningBoolHash, InMotion && IsGrounded);
                 // Tell animator if player is idle
-                Animator.SetBool(_idleBoolHash, Velocity == Vector2.zero);
+                Animator.SetBool(_idleBoolHash, !InMotion);
             }
         }
 
