@@ -18,6 +18,11 @@ namespace BuildABot
         /** The camera controller component used by this object */
         private CameraController _cameraController;
 
+        /** The audio source component used by this object. */
+        private AudioSource _audioSource;
+        /** The clip to be played when attacking */
+        [SerializeField] private AudioClip attackClip;
+
         /**
          * A state cached used to store information about the enabled action maps in an input actions asset.
          */
@@ -69,6 +74,7 @@ namespace BuildABot
             _player = GetComponent<Player>();
             _combatController = GetComponent<CombatController>();
             _playerInput = GetComponent<PlayerInput>();
+            _audioSource = GetComponent<AudioSource>();
             _cameraController = GetComponent<CameraController>();
             InputActions.Player.Enable();
         }
@@ -189,6 +195,7 @@ namespace BuildABot
         private void Player_OnLightAttack(InputAction.CallbackContext context)
         {
             _combatController.DoStoredAttack();
+            _audioSource.PlayOneShot(attackClip);
         }
 
         private void Player_OnHeavyAttack(InputAction.CallbackContext context)
