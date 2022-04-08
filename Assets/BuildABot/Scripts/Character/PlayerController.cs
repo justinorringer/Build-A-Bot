@@ -216,7 +216,7 @@ namespace BuildABot
         private void Player_OnOpenInventory(InputAction.CallbackContext context)
         {
             _player.ToggleMenu();
-            // TODO: Open inventory directly
+            _player.MainMenu.OpenInventory();
         }
         
         #endregion

@@ -8,7 +8,7 @@ namespace BuildABot
         /** Game object containing main camera and cinemachine cameras being moved by this script */
         [SerializeField] private GameObject cameraObj;
         /** Camera being controlled by this script */
-        [SerializeField] private Camera camera;
+        [SerializeField] private Camera mainCamera;
         /** Virtual camera to the left of the player */
         [SerializeField] private CinemachineVirtualCamera cameraLeft;
         /** Virtual camera to the right of the player */
