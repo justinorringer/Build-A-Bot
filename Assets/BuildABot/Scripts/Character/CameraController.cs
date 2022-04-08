@@ -60,7 +60,7 @@ namespace BuildABot
         // Move the camera based on mouse movement if the player is stationary. Input vector is assumed to be normalized.
         public void CameraLook(Vector2 mouseDir)
         {
-            if (_mov.IsGrounded && _rigidbody.velocity == Vector2.zero)
+            if (_mov.IsGrounded && _rigidbody.velocity == Vector2.zero && mouseDir != Vector2.zero)
             {
                 Vector3 offset = mouseDir * lookSpeed * Time.deltaTime;
                 Vector3 look = _lookOffset + offset;
@@ -71,6 +71,16 @@ namespace BuildABot
                 }
                 cameraObj.transform.position += offset;
                 _lookOffset = look;
+            }
+            else
+            {
+                Vector3 offset = _lookOffset.normalized * lookSpeed * Time.deltaTime;
+                if (offset.magnitude > _lookOffset.magnitude)
+                {
+                    offset = mouseDir * (maxLookDist - _lookOffset.magnitude);
+                }
+                cameraObj.transform.position -= offset;
+                _lookOffset -= offset;
             }
         }
 
