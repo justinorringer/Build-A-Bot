@@ -15,6 +15,8 @@ namespace BuildABot
         /** A reference to the player instance using this component. */
         public Character Character { get; private set; }
 
+        public Vector2 AttackDirection { get; set; }
+
         [SerializeField] private AttackData storedAttack; // TODO: Remove, only use TryPerformAttack or have a labelled list
         
         [Tooltip("The layers that can be hit by attacks from this character.")]
