@@ -68,6 +68,10 @@ namespace BuildABot
         [Tooltip("Interval in seconds to update enemy pathing")]
         [SerializeField] private float pathUpdateInterval = 0.5f;
 
+        [Header("Audio Information")]
+        [Tooltip("Audio Clip to play when this enemy spots the player")]
+        [SerializeField] private AudioClip aggroSound;
+
         /** The movement controller used by this enemy. */
         private EnemyMovement _enemyMovement;
         /** The Seeker component that we are using */
@@ -77,6 +81,9 @@ namespace BuildABot
 
         /** The IEnumerator used by the UpdatePath coroutine. */
         private IEnumerator _updatePathCoroutine;
+
+        /** The audiosource with which to play sound effects for an enemy */
+        private AudioSource _audioSource;
 
         /** Reference to the enemy's current mode */
         public EPathingMode EnemyMode => enemyMode;
@@ -91,6 +98,7 @@ namespace BuildABot
             _rigidbody = GetComponent<Rigidbody2D>();
             _fov = GetComponent<FieldOfView>();
             _enemyMovement = GetComponent<EnemyMovement>();
+            _audioSource = GetComponent<AudioSource>();
 
             _fov.StartLooking();
         }
@@ -236,6 +244,9 @@ namespace BuildABot
 
             //Update animator
             _enemyMovement.Animator.SetInteger("EnemyState", 1);
+            
+            //Play Sound
+            _audioSource.PlayOneShot(aggroSound);
         }
 
         void OnCollisionEnter2D(Collision2D collision)

@@ -29,6 +29,9 @@ namespace BuildABot
         /** Internal flag to know if an attack is currently running */
         private bool _isAttacking;
 
+        /** Audio source for playing sound effects */
+        private AudioSource _audioSource;
+
         void Awake()
         {
             //Initialize fields
@@ -36,6 +39,7 @@ namespace BuildABot
             _collider = GetComponent<Collider2D>();
             _enemyMovement = GetComponentInParent<EnemyMovement>();
             _enemyController = GetComponentInParent<EnemyController>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         void Update()
@@ -60,10 +64,13 @@ namespace BuildABot
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.TryGetComponent<Player>(out _))
+            if (!_isAttacking && other.gameObject.TryGetComponent<Player>(out _))
             {
                 _isAttacking = true;
                 _combatController.TryPerformAttack(attack, HandleAttackProgress, HandleAttackFinish);
+                
+                //Play Sound
+                _audioSource.PlayOneShot(attack.AttackSound);
 
                 if (attack is MeleeAttackData melee)
                 {
@@ -80,15 +87,14 @@ namespace BuildABot
 
         void OnTriggerStay2D(Collider2D other)
         {
-            if (!_isAttacking && other.gameObject.TryGetComponent<Player>(out _))
+            if (!_isAttacking && other.gameObject.TryGetComponent<Player>(out _) && !(attack is MeleeAttackData))
             {
                 _isAttacking = true;
                 _combatController.AttackDirection = ((Vector2)(other.transform.position - transform.position)).normalized;
                 _combatController.TryPerformAttack(attack, HandleAttackProgress, HandleAttackFinish);
-                if (attack is MeleeAttackData melee)
-                {
-                    attackGraphics.SetActive(true);
-                }
+                
+                //Play Sound
+                _audioSource.PlayOneShot(attack.AttackSound);
             }
         }
 
@@ -98,6 +104,10 @@ namespace BuildABot
             {
                 float radius = aoe.AreaOverTime.Evaluate(progress) * aoe.Radius;
                 attackGraphics.transform.localScale = new Vector3(radius, radius, 1);
+            }
+            else if (attack is ProjectileAttackData)
+            {
+                _audioSource.PlayOneShot(attack.AttackSound);
             }
         }
 
