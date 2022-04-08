@@ -182,14 +182,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7920212850124570677, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
-      propertyPath: maxZoom
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7920212850124570677, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
-      propertyPath: zoomSpeed
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
 --- !u!1 &332795345

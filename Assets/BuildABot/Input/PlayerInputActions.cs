@@ -311,7 +311,7 @@ namespace BuildABot
                     ""id"": ""8d0756c8-3adc-4df6-9b9f-b726fcd0223d"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": ""NormalizeVector2,StickDeadzone"",
+                    ""processors"": ""NormalizeVector2"",
                     ""groups"": ""Keyboard & Mouse"",
                     ""action"": ""Camera"",
                     ""isComposite"": false,
