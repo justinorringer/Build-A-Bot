@@ -15,6 +15,8 @@ namespace BuildABot
         private PlayerInputActions _inputActions;
         /** The player input component used by this object. */
         private PlayerInput _playerInput;
+        /** The camera controller component used by this object */
+        private CameraController _cameraController;
 
         /**
          * A state cached used to store information about the enabled action maps in an input actions asset.
@@ -67,6 +69,7 @@ namespace BuildABot
             _player = GetComponent<Player>();
             _combatController = GetComponent<CombatController>();
             _playerInput = GetComponent<PlayerInput>();
+            _cameraController = GetComponent<CameraController>();
             InputActions.Player.Enable();
         }
 
@@ -120,6 +123,7 @@ namespace BuildABot
                 _player.CharacterMovement.MoveVertical(move.y); // For flying mode only
 
                 Vector2 cameraOffset = InputActions.Player.Camera.ReadValue<Vector2>();
+                _cameraController.CameraLook(cameraOffset);
             }
             
             // Legacy

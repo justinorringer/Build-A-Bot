@@ -1,5 +1,5 @@
 using UnityEngine;
-//using Cinemachine;
+using Cinemachine;
 
 namespace BuildABot
 {
@@ -10,14 +10,10 @@ namespace BuildABot
         /** Camera being controlled by this script */
         [SerializeField] private Camera camera;
         /** Virtual camera to the left of the player */
-        //[SerializeField] private CinemachineVirtualCamera cameraLeft;
+        [SerializeField] private CinemachineVirtualCamera cameraLeft;
         /** Virtual camera to the right of the player */
-        //[SerializeField] private CinemachineVirtualCamera cameraRight;
-        /** Maximum horizontal distance the object can move from the camera's position before the camera is moved */
-        [SerializeField] private float horizontalMargin;
-        /** Maximum vertical distance the object can move from the camera's position before the camera is moved */
-        [SerializeField] private float verticalMargin;
-
+        [SerializeField] private CinemachineVirtualCamera cameraRight;
+        
         /** Maximum distance the character can look up and down */
         [SerializeField] private float maxLookDist;
         /** Speed the camera moves when looking up and down */
@@ -49,7 +45,16 @@ namespace BuildABot
         // Update is called once per frame
         void Update()
         {
-            
+            if(_mov.Facing.x > 0 && cameraLeft.Priority > cameraRight.Priority)
+            {
+                cameraLeft.Priority--;
+                cameraRight.Priority++;
+            }
+            else if (_mov.Facing.x < 0 && cameraLeft.Priority < cameraRight.Priority)
+            {
+                cameraRight.Priority--;
+                cameraLeft.Priority++;
+            }
         }
 
         // Move the camera based on mouse movement if the player is stationary. Input vector is assumed to be normalized.
