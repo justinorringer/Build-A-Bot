@@ -14,9 +14,6 @@ namespace BuildABot
         [Tooltip("Reference to the GameObject containing graphics for visualizing the attack")]
         [SerializeField] private GameObject attackGraphics;
 
-        [Tooltip("Audio Clip to play on attacking")] 
-        [SerializeField] private AudioClip attackSound;
-
         /** Reference to the parent's CombatController component */
         private CombatController _combatController;
 
@@ -73,7 +70,7 @@ namespace BuildABot
                 _combatController.TryPerformAttack(attack, HandleAttackProgress, HandleAttackFinish);
                 
                 //Play Sound
-                _audioSource.PlayOneShot(attackSound);
+                _audioSource.PlayOneShot(attack.AttackSound);
 
                 if (attack is MeleeAttackData melee)
                 {
@@ -97,7 +94,7 @@ namespace BuildABot
                 _combatController.TryPerformAttack(attack, HandleAttackProgress, HandleAttackFinish);
                 
                 //Play Sound
-                _audioSource.PlayOneShot(attackSound);
+                _audioSource.PlayOneShot(attack.AttackSound);
             }
         }
 
@@ -110,7 +107,7 @@ namespace BuildABot
             }
             else if (attack is ProjectileAttackData)
             {
-                _audioSource.PlayOneShot(attackSound);
+                _audioSource.PlayOneShot(attack.AttackSound);
             }
         }
 

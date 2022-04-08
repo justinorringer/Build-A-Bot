@@ -54,6 +54,9 @@ namespace BuildABot
         [Tooltip("Can this attack be interrupted?")]
         [SerializeField] private bool canInterrupt = true;
 
+        [Header("Sound Information")] 
+        [SerializeField] private AudioClip attackSound;
+
         /** The effects associated with this attack. */
         public List<EffectInstance> Effects => effects;
 
@@ -89,6 +92,9 @@ namespace BuildABot
 
         /** Can this attack be interrupted? */
         public bool CanInterrupt => canInterrupt;
+
+        /** Sound to be played on attack */
+        public AudioClip AttackSound => attackSound;
 
         /**
          * Performs this attack for the provided attacker. This will return a list of the hit enemies.
