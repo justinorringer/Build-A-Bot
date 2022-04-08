@@ -10,6 +10,9 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour
 {
     public Transform[] startingPositions;
+
+    public GameObject startRoom;
+    // public GameObject[] endRoom;
     public GameObject[] rooms; 
     // index 0 --> RL, index 1 --> RBL, index 2 --> TRL, index 3 --> TRBL
 
@@ -27,13 +30,19 @@ public class LevelGenerator : MonoBehaviour
     // variable to prevent down twice
     private int downCounter = 0;
 
+    private GameObject intGrid;
+
     void Start()
     {
+        intGrid = GameObject.Find("IntGrid"); // IntGrid is the parent of all the rooms
+
         int randStartingPos = Random.Range(0, startingPositions.Length);
         transform.position = startingPositions[randStartingPos].position;
-        Instantiate(rooms[0], transform.position, Quaternion.identity);
+        GameObject r = (GameObject) Instantiate(startRoom, transform.position, Quaternion.identity);
 
-        direction = Random.Range(1, 6);
+        r.transform.parent = intGrid.transform;
+
+        direction = Random.Range(1, 5);
     }
 
     private void Update()
@@ -59,7 +68,8 @@ public class LevelGenerator : MonoBehaviour
             
                 // choose room
                 int rand = Random.Range(0, rooms.Length);
-                Instantiate(rooms[rand], transform.position, Quaternion.identity);
+                InstantiateRoom(rooms[rand]);
+
                 // next direction
                 direction = Random.Range(1, 6);
                 if (direction == 3) {
@@ -68,6 +78,14 @@ public class LevelGenerator : MonoBehaviour
                     direction = 5;
                 }
             } else {
+                Collider2D roomDetection = Physics2D.OverlapCircle(transform.position, 1, room);
+                
+                if (roomDetection == null || roomDetection.GetComponent<RoomType>().type == 0) { 
+                    direction = Random.Range(3, 5);
+
+                    return;
+                }
+
                 direction = 5;
             }
         } else if (direction == 3 || direction == 4) { // Move LEFT
@@ -79,7 +97,7 @@ public class LevelGenerator : MonoBehaviour
 
                 // choose room
                 int rand = Random.Range(0, rooms.Length);
-                Instantiate(rooms[rand], transform.position, Quaternion.identity);
+                InstantiateRoom(rooms[rand]);
 
                 direction = Random.Range(3, 6);
             }
@@ -89,10 +107,18 @@ public class LevelGenerator : MonoBehaviour
                 generate = false;
             } else {
                 Collider2D roomDetection = Physics2D.OverlapCircle(transform.position, 1, room);
-                if (roomDetection.GetComponent<RoomType>().type != 1 || roomDetection.GetComponent<RoomType>().type != 3) {
+
+                if (roomDetection.GetComponent<RoomType>().type != 2 || roomDetection.GetComponent<RoomType>().type != 4) {
+
+                    if (roomDetection.GetComponent<RoomType>().type == 0) { 
+                        direction = Random.Range(1, 5);
+
+                        return;
+                    }
+
                     if (downCounter >= 2) {
                         roomDetection.GetComponent<RoomType>().RoomDestruction();
-                        Instantiate(rooms[3], transform.position, Quaternion.identity);
+                        InstantiateRoom(rooms[3]);
                     }  
                     else {
                         roomDetection.GetComponent<RoomType>().RoomDestruction();
@@ -100,31 +126,23 @@ public class LevelGenerator : MonoBehaviour
                         int randBottomRoom = Random.Range(1, 4);
                         if (randBottomRoom == 2) randBottomRoom = 1;
 
-                        Instantiate(rooms[randBottomRoom], transform.position, Quaternion.identity);
+                        InstantiateRoom(rooms[randBottomRoom]);
                     }
                 }
                 transform.position = new Vector2(transform.position.x, transform.position.y - moveAmount);
             
                 int rand = Random.Range(2, 4);
 
-                Instantiate(rooms[rand], transform.position, Quaternion.identity);
+                InstantiateRoom(rooms[rand]);
 
                 direction = Random.Range(1, 6);
             }
         }
     }
 
-    private void AddEnemies()
-    {
-        /**
-            Generate enemies in the room
-        */
-    }
+    private void InstantiateRoom(GameObject room) {
+        GameObject r = (GameObject) Instantiate(room, transform.position, Quaternion.identity);
 
-    private void AddPowerups()
-    {
-        /**
-            Generate powerups in the room
-        */
+        r.transform.parent = intGrid.transform;
     }
 }

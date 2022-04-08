@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RoomType : MonoBehaviour
 {
-    // index 0 --> RL, index 1 --> RBL, index 2 --> TRL, index 3 --> TRBL
+    // index 0 --> start, 1 --> RL, index 2--> RBL, index 3 --> TRL, index 4 --> TRBL
     public int type;
 
     public void RoomDestruction()

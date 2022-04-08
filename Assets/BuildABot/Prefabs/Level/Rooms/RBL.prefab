@@ -1542,7 +1542,6 @@ GameObject:
   - component: {fileID: 8908949674914912896}
   - component: {fileID: 1895558270672495829}
   - component: {fileID: -4897896698394045153}
-  - component: {fileID: 4175146804216703233}
   m_Layer: 11
   m_Name: RBL
   m_TagString: Untagged
@@ -1612,7 +1611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75778c884ea3b3344a18f9b3a11f6d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 2
 --- !u!61 &1895558270672495829
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1660,19 +1659,6 @@ MonoBehaviour:
   - {fileID: 7974553326389875154, guid: 734838c047681da4d89869938ebeec69, type: 3}
   - {fileID: 8624832009274077443, guid: 300f7648ce906a64a9e849554eb81529, type: 3}
   - {fileID: 776113656398115584, guid: 4aba3bba5b7408d4fa4816122ae589df, type: 3}
---- !u!114 &4175146804216703233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8446308834553390989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 860f96a319245b747b8e4caeff27ed4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blocks: []
 --- !u!1 &8446308834628089158
 GameObject:
   m_ObjectHideFlags: 0
