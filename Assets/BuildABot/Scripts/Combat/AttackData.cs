@@ -15,6 +15,9 @@ namespace BuildABot
         [Tooltip("The effects associated with this attack.")]
         [SerializeField] private List<EffectInstance> effects;
         
+        [Tooltip("The name of the animation trigger to activate when using this attack.")]
+        [SerializeField] private string animationTriggerName = "Attack";
+        
         [Header("Offset")]
         
         [Tooltip("The offset to apply between the character and the start point of the attack.")]
@@ -53,6 +56,9 @@ namespace BuildABot
 
         /** The effects associated with this attack. */
         public List<EffectInstance> Effects => effects;
+
+        /** The name of the animation trigger to activate when using this attack. */
+        public string AnimationTriggerName => animationTriggerName;
 
         /** The offset to apply between the character and the start point of the attack. */
         public Vector2 Offset => offset;

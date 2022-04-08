@@ -53,8 +53,9 @@ namespace BuildABot
 
         /** The animator used by this object. */
         private Animator _anim;
-        /** Hash of "attack" parameter in the animator, stored for optimization */
-        private int _attackTriggerHash;
+
+        /** The set of valid parameters for the associated animator. */
+        private HashSet<string> _animValidParameters;
         
         /** An event triggered before this combat controller is hit with an attack. */
         public event UnityAction<AttackData, CombatController> OnPreHit
@@ -82,9 +83,25 @@ namespace BuildABot
         {
             Character = GetComponent<Character>();
 
-            _anim = GetComponent<Animator>();
-            // TODO: Handle different attacks by specifying a trigger string in the attack data
-            _attackTriggerHash = Animator.StringToHash("Attack");
+            _animValidParameters = new HashSet<string>();
+            if (TryGetComponent(out _anim) && _anim.runtimeAnimatorController != null)
+            {
+                // Cache the parameters that the animator has for later checks
+                foreach (AnimatorControllerParameter param in _anim.parameters)
+                {
+                    _animValidParameters.Add(param.name);
+                }
+            }
+        }
+
+        /**
+         * Checks whether the animator parameter cache contains the provided parameter.
+         * <param name="parameter">The parameter name to check for.</param>
+         * <returns>True if the parameter exists.</returns>
+         */
+        protected bool AnimatorHasParameter(string parameter)
+        {
+            return _animValidParameters?.Contains(parameter) ?? false;
         }
 
         public void DoStoredAttack()
@@ -103,12 +120,15 @@ namespace BuildABot
         public bool TryPerformAttack(AttackData attack, Action<float> onProgress = null, Action<List<Character>> onFinish = null, Action<List<Character>> onCancel = null)
         {
             if (null != _currentAttack) return false;
+            if (null == attack) return false;
             _currentAttack = attack;
             _currentHits = new List<Character>();
             _currentOnFinish = onFinish;
             _currentOnCancel = onCancel;
             _currentAttackCoroutine = attack.Execute(this, _currentHits, onProgress, OnFinishAttack);
-            if (_anim != null && _anim.runtimeAnimatorController != null) _anim.SetTrigger(_attackTriggerHash);
+            // Play the animation if there is an animator attached that supports the trigger
+            if (_anim != null && _anim.runtimeAnimatorController != null && AnimatorHasParameter(attack.AnimationTriggerName))
+                _anim.SetTrigger(attack.AnimationTriggerName);
             return true;
         }
 
