@@ -14,7 +14,9 @@ namespace BuildABot
         /** The enemy will patrol between waypoints. */
         Patrolling,
         /** The enemy will seek a specific topic. */
-        Seeking
+        Seeking,
+        /** The enemy will return to its last patrol point */
+        Returning
     }
 
     /**
@@ -49,6 +51,9 @@ namespace BuildABot
         [Tooltip("The target for the enemy to seek")]
         [SerializeField] private Transform target;
 
+        [Header("Returning Information")]
+        [Tooltip("Number of seconds to wait before returning to last waypoint")]
+        [SerializeField] private float returnDelay;
 
         [Tooltip("How close an enemy needs to be to a waypoint to move on to the next one")]
         [SerializeField] private float nextWaypointDistance = 3f;
@@ -115,6 +120,9 @@ namespace BuildABot
                 case EPathingMode.Seeking:
                     SeekingStep();
                     break;
+                case EPathingMode.Returning:
+                    ReturningStep();
+                    break;
             }
 
             //Update player direction
@@ -132,7 +140,6 @@ namespace BuildABot
 
         void PatrollingStep()
         {
-
             //Check to see if there's a target in our field of view
             if (canSeek && _fov.visibleTargets.Count > 0)
             {
@@ -179,12 +186,48 @@ namespace BuildABot
             }
         }
 
+        void ReturningStep()
+        {
+            //Exit conditions
+            if (_path == null)
+                return;
+
+            //Reaching end of path in this context means it is ready to resume patrolling
+            _reachedEndOfPath = _currentWaypoint >= _path.vectorPath.Count;
+            if (_reachedEndOfPath)
+            {
+                enemyMode = EPathingMode.Patrolling;
+                if (_updatePathCoroutine != null) StopCoroutine(_updatePathCoroutine);
+                target = null;
+                _fov.StartLooking();
+                return;
+            }
+
+            //Move to next waypoint
+            _enemyMovement.MoveToPosition(_path.vectorPath[_currentWaypoint]);
+
+            //Check to see if we've reached the point where we can move to the next waypoint
+            float distance = Vector2.Distance(_rigidbody.position, _path.vectorPath[_currentWaypoint]);
+            if (distance < nextWaypointDistance)
+            {
+                _currentWaypoint++;
+            }
+        }
+
         public void AddTarget(Transform newTarget)
         {
             //Dumb enemy - chase the first thing it sees
             target = newTarget;
             _fov.StopLooking();
             enemyMode = EPathingMode.Seeking;
+            
+            //Set timer for returning and start pathing to return
+            Utility.DelayedFunction(this, returnDelay, () =>
+            {
+                enemyMode = EPathingMode.Returning;
+                target = patrolPoints[_currentPatrolPoint].transform;
+                _enemyMovement.Animator.SetInteger("EnemyState", 0);
+            });
 
             if (_updatePathCoroutine != null) StopCoroutine(_updatePathCoroutine);
 
