@@ -21,6 +21,15 @@ namespace BuildABot
         /** Current offset of camera position caused by player looking */
         private Vector3 _lookOffset = Vector3.zero;
 
+        /** Maximum distance the character can zoom out, as a multiplier of current base camera zoom */
+        [SerializeField] private float maxZoom;
+        /** Speed the camera zooms out */
+        [SerializeField] private float zoomSpeed;
+        /** Difference between base zoom and current zoom */
+        private float _zoomDiff = 0;
+        /** Current base zoom of camera */
+        private float _baseZoom;
+
         /** Movement script for this game object */
         private CharacterMovement _mov;
 
@@ -40,6 +49,7 @@ namespace BuildABot
             _player = GetComponent<Player>();
 
             _defaultZoom = camera.orthographicSize;
+            _baseZoom = camera.orthographicSize;
         }
 
         // Update is called once per frame
@@ -74,7 +84,7 @@ namespace BuildABot
             }
             else
             {
-                Vector3 offset = _lookOffset.normalized * lookSpeed * Time.deltaTime;
+                Vector3 offset = _lookOffset.normalized * lookSpeed * 2 * Time.deltaTime;
                 if (offset.magnitude > _lookOffset.magnitude)
                 {
                     offset = _lookOffset;
@@ -84,11 +94,40 @@ namespace BuildABot
             }
         }
 
+        public void ZoomOut(bool zooming)
+        {
+            if (_mov.IsGrounded && _rigidbody.velocity == Vector2.zero && zooming)
+            {
+                float zoom = Mathf.Min(zoomSpeed * Time.deltaTime, (maxZoom * _baseZoom) - (_baseZoom + _zoomDiff));
+                AddCameraSize(zoom);
+                _zoomDiff += zoom;
+            }
+            else if (_zoomDiff != 0)
+            {
+                float zoom = Mathf.Min(zoomSpeed * 2 * Time.deltaTime, _zoomDiff);
+                AddCameraSize(-zoom);
+                _zoomDiff -= zoom;
+            }
+        }
+
         // When the view distance attribute is changed, this function will be called to update the camera's size
         public void UpdateCameraZoom()
         {
-            camera.orthographicSize = _defaultZoom * _player.Attributes.ViewDistance.BaseValue;
+            float newZoom = _defaultZoom * _player.Attributes.ViewDistance.BaseValue;
+            SetCameraSize(newZoom);
+            _baseZoom = newZoom;
         }
 
+        private void SetCameraSize(float newSize)
+        {
+            cameraLeft.m_Lens.OrthographicSize = newSize;
+            cameraRight.m_Lens.OrthographicSize = newSize;
+        }
+
+        private void AddCameraSize(float sizeChange)
+        {
+            cameraLeft.m_Lens.OrthographicSize += sizeChange;
+            cameraRight.m_Lens.OrthographicSize += sizeChange;
+        }
     }
 }

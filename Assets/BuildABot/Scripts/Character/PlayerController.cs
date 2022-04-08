@@ -124,6 +124,9 @@ namespace BuildABot
 
                 Vector2 cameraOffset = InputActions.Player.Camera.ReadValue<Vector2>();
                 _cameraController.CameraLook(cameraOffset);
+
+                float zoomOut = InputActions.Player.ZoomOut.ReadValue<float>();
+                _cameraController.ZoomOut(zoomOut != 0);
             }
             
             // Legacy
