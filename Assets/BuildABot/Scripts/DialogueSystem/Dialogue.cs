@@ -61,6 +61,9 @@ namespace BuildABot
         [Tooltip("The set of gameplay events triggered by this dialogue frame being completed.")]
         [SerializeField] private List<GameplayEvent> completionEvents = new List<GameplayEvent>();
 
+        [Tooltip("Should the dialogue display be suspended when this node finishes? Note that this will require a manual call to Resume by another object.")]
+        [SerializeField] private bool suspendOnCompletion;
+
         /** The dialogue content stated by this node. */
         public string Content => content;
 
@@ -75,6 +78,9 @@ namespace BuildABot
 
         /** The set of gameplay events triggered by this dialogue frame being completed. */
         public ReadOnlyCollection<GameplayEvent> CompletionEvents => completionEvents.AsReadOnly();
+        
+        /** Should the dialogue display be suspended when this node finishes? Note that this will require a manual call to Resume by another object. */
+        public bool SuspendOnCompletion => suspendOnCompletion;
     }
     
     /**

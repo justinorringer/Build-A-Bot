@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace BuildABot
@@ -46,11 +47,26 @@ namespace BuildABot
         [HideInInspector]
         [SerializeField] private int wallet;
 
-        /** the amount of currency held by this player. */
+        /** The amount of currency held by this player. */
         public int Wallet
         {
             get => wallet;
-            set => wallet = value < 0 ? 0 : value;
+            set
+            {
+                int cache = wallet;
+                wallet = value < 0 ? 0 : value;
+                onWalletChanged.Invoke(cache, wallet);
+            }
+        }
+
+        [Tooltip("An event triggered whenever this player's wallet is changed. Subscribers will receive the old and new values.")]
+        [SerializeField] private UnityEvent<int, int> onWalletChanged;
+        
+        /** An event triggered whenever this player's wallet is changed. Subscribers will receive the old and new values. */
+        public event UnityAction<int, int> OnWalletChanged
+        {
+            add => onWalletChanged.AddListener(value);
+            remove => onWalletChanged.RemoveListener(value);
         }
         
         /**
@@ -191,7 +207,7 @@ namespace BuildABot
             if (target.Character is Enemy enemy)
             {
                 Wallet += enemy.DroppedCurrency;
-                Debug.Log($"Wallet has {wallet} coins");
+                Debug.Log($"Wallet has {Wallet} coins");
             }
         }
 

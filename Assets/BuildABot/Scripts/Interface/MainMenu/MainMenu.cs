@@ -24,11 +24,23 @@ namespace BuildABot
             landingOptions.SetActive(true);
         }
 
+        /**
+         * Returns the menu to the starting landing page.
+         */
         public void ReturnToLandingPage()
         {
             // Reset the state
             inventoryMenu.gameObject.SetActive(false);
             landingOptions.SetActive(true);
+        }
+
+        /**
+         * Opens the menu straight to the inventory.
+         */
+        public void OpenInventory()
+        {
+            inventoryMenu.gameObject.SetActive(true);
+            landingOptions.SetActive(false);
         }
     }
 }
