@@ -1,28 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BuildABot
 {
     public class Projectile : MonoBehaviour
     {
-        [Tooltip("Effect to apply on hitting a character")]
-        [SerializeField] private List<EffectInstance> hitEffects;
 
-        [Tooltip("Layer to target")]
-        [SerializeField] private LayerMask targetLayer;
+        [Tooltip("Layers to target")]
+        [SerializeField] private LayerMask targetLayers;
+
+        [Tooltip("Layers to ignore")]
+        [SerializeField] private LayerMask ignoreLayers;
+        
+        [Tooltip("The event triggered when this projectile hits a target.")]
+        [SerializeField] private UnityEvent<CombatController> onHitCombatant;
+        
+        /** An event triggered when this projectile hits a target. */
+        public event UnityAction<CombatController> OnHitCombatant
+        {
+            add => onHitCombatant.AddListener(value);
+            remove => onHitCombatant.RemoveListener(value);
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if ((targetLayer.value & (1 << other.gameObject.layer)) > 0)
+            if (other == null) return;
+            if ((targetLayers.value & (1 << other.gameObject.layer)) > 0)
             {
-                Character otherChar = other.gameObject.GetComponent<Character>();
+                CombatController target = other.gameObject.GetComponent<CombatController>();
+                if (target == null) return;
                 
-                foreach (EffectInstance instance in hitEffects)
-                {
-                    otherChar.Attributes.ApplyEffect(instance, otherChar);
-                }
-                
+                onHitCombatant.Invoke(target);
+                Destroy(gameObject);
+            }
+            else if ((ignoreLayers.value & (1 << other.gameObject.layer)) == 0)
+            {
                 Destroy(gameObject);
             }
         }

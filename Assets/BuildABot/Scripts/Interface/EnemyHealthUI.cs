@@ -48,13 +48,13 @@ namespace BuildABot
         void OnEnable()
         {
             //Subscribe to health change event
-            enemy.Attributes.Temperature.AddPostValueChangeListener(UpdateUI);
+            enemy.Attributes.Temperature.OnPostValueChange += UpdateUI;
         }
 
         void OnDisable()
         {
             //Unsubscribe from health change event
-            enemy.Attributes.Temperature.RemovePostValueChangeListener(UpdateUI);
+            enemy.Attributes.Temperature.OnPostValueChange -= UpdateUI;
         }
 
         private void UpdateUI(float newValue)

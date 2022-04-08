@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 6012801204231589907}
   - component: {fileID: 4502170062227872035}
   - component: {fileID: 8856847881192853202}
+  - component: {fileID: 5514651952020169803}
   m_Layer: 5
   m_Name: UnquipButton
   m_TagString: Untagged
@@ -440,6 +441,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &5514651952020169803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034121960305508900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dae7b7c89474c51864acdc12d2e7158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 4502170062227872035}
 --- !u!1 &1262307415360633793
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,6 +631,7 @@ GameObject:
   - component: {fileID: 1026245485135220554}
   - component: {fileID: 361867690315607349}
   - component: {fileID: 2361239367295266893}
+  - component: {fileID: 2680360447690680978}
   m_Layer: 5
   m_Name: DropButton
   m_TagString: Untagged
@@ -746,6 +761,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &2680360447690680978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2385151388045738286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dae7b7c89474c51864acdc12d2e7158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 361867690315607349}
 --- !u!1 &2670171534538316721
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,6 +877,7 @@ GameObject:
   - component: {fileID: 3598647562763498552}
   - component: {fileID: 6697066116963300376}
   - component: {fileID: 4916471888536078990}
+  - component: {fileID: 8415742607801092718}
   m_Layer: 5
   m_Name: EquipButton
   m_TagString: Untagged
@@ -990,6 +1019,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &8415742607801092718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2760232066584547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dae7b7c89474c51864acdc12d2e7158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 6697066116963300376}
 --- !u!1 &3394581881072820080
 GameObject:
   m_ObjectHideFlags: 0

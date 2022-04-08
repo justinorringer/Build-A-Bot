@@ -70,11 +70,6 @@ namespace BuildABot
                     attackGraphics.SetActive(true);
                 }
 
-                if (attack is ProjectileAttackData projectile)
-                {
-                    projectile.Target = other.transform;
-                }
-
                 //Target enemy if in range
                 if (_enemyController.CanSeek && _enemyController.EnemyMode == EPathingMode.Patrolling)
                 {
@@ -87,6 +82,8 @@ namespace BuildABot
         {
             if (!_isAttacking && other.gameObject.TryGetComponent<Player>(out _))
             {
+                _isAttacking = true;
+                _combatController.AttackDirection = ((Vector2)(other.transform.position - transform.position)).normalized;
                 _combatController.TryPerformAttack(attack, HandleAttackProgress, HandleAttackFinish);
                 if (attack is MeleeAttackData melee)
                 {

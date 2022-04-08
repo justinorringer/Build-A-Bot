@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BuildABot
 {
@@ -10,27 +11,28 @@ namespace BuildABot
      */
     public class CombatController : MonoBehaviour
     {
-        /** Size of the attack box. */
-        [SerializeField] private Vector2 meleeAttackSize;
-
-        /** Distance the attack travels. */
-        [SerializeField] private float attackDist;
-
-        /** Duration of attack in seconds. */
-        [SerializeField] private int attackDuration;
-
-        /** Distance between the character and the created attack */
-        private Vector2 _offset;
 
         /** A reference to the player instance using this component. */
         public Character Character { get; private set; }
 
-        [SerializeField] private List<EffectInstance> effects;
+        public Vector2 AttackDirection { get; set; }
 
-        [SerializeField] private AttackData storedAttack;
-
+        [SerializeField] private AttackData storedAttack; // TODO: Remove, only use TryPerformAttack or have a labelled list
+        
         [Tooltip("The layers that can be hit by attacks from this character.")]
         [SerializeField] private LayerMask targetLayers;
+
+        [Tooltip("An event triggered before this combat controller is hit with an attack.")]
+        [SerializeField] private UnityEvent<AttackData, CombatController> onPreHit;
+
+        [Tooltip("An event triggered after this combat controller is hit with an attack.")]
+        [SerializeField] private UnityEvent<AttackData, CombatController> onPostHit;
+
+        [Tooltip("An event triggered when this combat controller kills another.")]
+        [SerializeField] private UnityEvent<AttackData, CombatController> onKill;
+
+        [Tooltip("Can this combat controller receive attacks?")]
+        [SerializeField] private bool canReceiveAttacks = true;
 
         /** Gets the layers targeted by this controller. */
         public LayerMask TargetLayers => targetLayers;
@@ -46,20 +48,60 @@ namespace BuildABot
         /** The current on cancel action. */
         private Action<List<Character>> _currentOnCancel;
 
+        /** the combat controller currently attacking this controller. */
+        public CombatController CurrentAttacker { get; private set; }
+
         /** The animator used by this object. */
         private Animator _anim;
-        /** Hash of "attack" parameter in the animator, stored for optimization */
-        private int _attackTriggerHash;
+
+        /** The set of valid parameters for the associated animator. */
+        private HashSet<string> _animValidParameters;
+        
+        /** An event triggered before this combat controller is hit with an attack. */
+        public event UnityAction<AttackData, CombatController> OnPreHit
+        {
+            add => onPreHit.AddListener(value);
+            remove => onPreHit.RemoveListener(value);
+        }
+        
+        /** An event triggered after this combat controller is hit with an attack. */
+        public event UnityAction<AttackData, CombatController> OnPostHit
+        {
+            add => onPostHit.AddListener(value);
+            remove => onPostHit.RemoveListener(value);
+        }
+        
+        /** An event triggered when this combat controller kills another. Subscribers receive the killing attack and the killed controller. */
+        public event UnityAction<AttackData, CombatController> OnKill
+        {
+            add => onKill.AddListener(value);
+            remove => onKill.RemoveListener(value);
+        }
 
         // Start is called before the first frame update
         protected void Start()
         {
-            _offset = new Vector2(GetComponent<Collider2D>().bounds.extents.x, 0);
             Character = GetComponent<Character>();
 
-            _anim = GetComponent<Animator>();
-            // TODO: Handle different attacks and supporting multiple animators besides the player
-            _attackTriggerHash = Animator.StringToHash("Attack");
+            _animValidParameters = new HashSet<string>();
+            if (TryGetComponent(out _anim) && _anim.runtimeAnimatorController != null)
+            {
+                // Cache the parameters that the animator has for later checks
+                foreach (AnimatorControllerParameter param in _anim.parameters)
+                {
+                    _animValidParameters.Add(param.name);
+                }
+            }
+        }
+
+        /**
+         * Checks whether the animator parameter cache contains the provided parameter.
+         * <param name="parameter">The parameter name to check for.</param>
+         * <returns>True if the parameter exists.</returns>
+         */
+        protected bool AnimatorHasParameter(string parameter)
+        {
+            return _animValidParameters?.Contains(parameter) ?? false;
         }
 
         public void DoStoredAttack()
@@ -78,12 +120,15 @@ namespace BuildABot
         public bool TryPerformAttack(AttackData attack, Action<float> onProgress = null, Action<List<Character>> onFinish = null, Action<List<Character>> onCancel = null)
         {
             if (null != _currentAttack) return false;
+            if (null == attack) return false;
             _currentAttack = attack;
             _currentHits = new List<Character>();
             _currentOnFinish = onFinish;
             _currentOnCancel = onCancel;
             _currentAttackCoroutine = attack.Execute(this, _currentHits, onProgress, OnFinishAttack);
-            if (_anim != null && _anim.runtimeAnimatorController != null) _anim.SetTrigger(_attackTriggerHash);
+            // Play the animation if there is an animator attached that supports the trigger
+            if (_anim != null && _anim.runtimeAnimatorController != null && AnimatorHasParameter(attack.AnimationTriggerName))
+                _anim.SetTrigger(attack.AnimationTriggerName);
             return true;
         }
 
@@ -104,6 +149,42 @@ namespace BuildABot
         }
 
         /**
+         * Attempts to apply the provided attack to this character as if sent by the given instigator.
+         * <param name="attack">The attack to apply.</param>
+         * <param name="instigator">The combat controller that instigated the attack.</param>
+         * <returns>True if the attack was successfully applied.</returns>
+         */
+        public bool TryReceiveAttack(AttackData attack, CombatController instigator)
+        {
+            if (attack == null || instigator == null || !canReceiveAttacks || Character == null) return false;
+            
+            CurrentAttacker = instigator;
+            onPreHit.Invoke(attack, instigator);
+
+            void OnDeath()
+            {
+                instigator.onKill.Invoke(attack, this);
+            }
+
+            Character.OnDeath += OnDeath;
+            
+            // Apply the effects from the attack
+            foreach (EffectInstance instance in attack.Effects)
+            {
+                Character.Attributes.ApplyEffect(instance, Character);
+            }
+
+            Character.OnDeath -= OnDeath;
+            
+            onPostHit.Invoke(attack, instigator);
+            CurrentAttacker = null;
+
+            return true;
+        }
+        
+        
+
+        /**
          * Called whenever the current attack is finished.
          */
         private void OnFinishAttack()
@@ -122,36 +203,6 @@ namespace BuildABot
             _currentHits = null;
             _currentOnFinish = null;
             _currentOnCancel = null;
-        }
-
-        /** Coroutine to perform an attack which lasts for a number of milliseconds determined by attackDuration */
-        public IEnumerator Attack()
-        {
-            for (int i = 0; i < attackDuration; i++)
-            {
-                Vector2 position = transform.position;
-                RaycastHit2D hitInfo = Physics2D.BoxCast(position + (_offset * Character.CharacterMovement.Facing),
-                    meleeAttackSize, 0, Character.CharacterMovement.Facing, attackDist, LayerMask.GetMask("Enemy"));
-                
-                Debug.DrawRay(position + (_offset * Character.CharacterMovement.Facing), Character.CharacterMovement.Facing * attackDist, Color.red, 1.0f);
-                
-                if (hitInfo) {
-                    GameObject hitObj = hitInfo.collider.gameObject;
-
-                    // Get the other character hit
-                    Character other = hitObj.GetComponent<Character>();
-                    if (other != Character && null != other)
-                    {
-                        foreach (EffectInstance instance in effects)
-                        {
-                            other.Attributes.ApplyEffect(instance, other);
-                        }
-                    }
-
-                    yield break;
-                }
-                yield return new WaitForSeconds(.001f);
-            }
         }
     }
 }

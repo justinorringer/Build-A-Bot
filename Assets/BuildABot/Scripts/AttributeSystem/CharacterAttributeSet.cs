@@ -11,9 +11,11 @@ namespace BuildABot
     {
         [Tooltip("The temperature of the character, equivalent to health.")]
         [SerializeField] private FloatAttributeData temperature;
-        [Tooltip("The standard operating temperature of the character. This is equivalent to minimum health, although temperature may fall below it.")]
-        [SerializeField] private FloatAttributeData baseTemperature;
-        [Tooltip("The temperature that results in the death of the character.")]
+        [Tooltip("The standard operating temperature of the character.")]
+        [SerializeField] private FloatAttributeData operatingTemperature;
+        [Tooltip("The freezing temperature that results in the death of the character.")]
+        [SerializeField] private FloatAttributeData minTemperature;
+        [Tooltip("The overheat temperature that results in the death of the character.")]
         [SerializeField] private FloatAttributeData maxTemperature;
         [Tooltip("The rate that the character's temperature changes per second. This can be negative to heat up over time.")]
         [SerializeField] private FloatAttributeData coolDownRate;
@@ -50,9 +52,11 @@ namespace BuildABot
 
         /** The temperature of the character, equivalent to health. */
         public FloatAttributeData Temperature => temperature;
-        /** The standard operating temperature of the character. This is equivalent to minimum health, although temperature may fall below it. */
-        public FloatAttributeData BaseTemperature => baseTemperature;
-        /** The temperature that results in the death of the character. */
+        /** The standard operating temperature of the character. */
+        public FloatAttributeData OperatingTemperature => operatingTemperature;
+        /** The freezing temperature that results in the death of the character. */
+        public FloatAttributeData MinTemperature => minTemperature;
+        /** The overheating temperature that results in the death of the character. */
         public FloatAttributeData MaxTemperature => maxTemperature;
         /** The amount that the character's temperature changes per second. */
         public FloatAttributeData CoolDownRate => coolDownRate;

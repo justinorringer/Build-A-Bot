@@ -16,50 +16,79 @@ namespace BuildABot
         [Tooltip("Speed at which bullets move")]
         [SerializeField] private float bulletSpeed;
 
-        [Tooltip("Seconds between firing a bullet")] 
+        [Tooltip("The number of bullets fired in total.")] 
+        [SerializeField] private int bulletCount;
+
+        [Tooltip("The interval between bullets being shot.")] 
         [SerializeField] private float fireRate;
 
-        [Tooltip("Number of seconds during which bullets should be fired")] 
-        [SerializeField] private float duration;
-
         [Tooltip("Prefab of the projectile that should be fired")]
-        [SerializeField] private GameObject bulletPrefab;
-
-        public Transform Target { get; set; }
+        [SerializeField] private Projectile bulletPrefab;
 
         public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action<float> onProgress = null, Action onComplete = null)
         {
             if (!AllowMovement) instigator.Character.CharacterMovement.CanMove = false;
             
+            HashSet<Character> hitLookup = new HashSet<Character>();
             float progress = 0f;
-            float interval = 1f / fireRate;
+            float interval = fireRate;
+            float duration = bulletCount * fireRate;
             float progressInterval = duration == 0f ? 0f : interval / duration;
+
+            void HandleHit(CombatController other)
+            {
+                if (null != other && null != other.Character &&
+                    (CanHitSelf || other.Character != instigator.Character) &&
+                    (AllowMultiHit || !hitLookup.Contains(other.Character)))
+                {
+                    if (other.TryReceiveAttack(this, instigator))
+                    {
+                        hits.Add(other.Character);
+                        hitLookup.Add(other.Character);
+                    }
+                }
+            }
+
+            void SpawnProjectile(Vector3 position)
+            {
+                //Spawn prefab
+                Projectile bullet = Instantiate(bulletPrefab, position, Quaternion.identity);
+
+                bullet.OnHitCombatant += HandleHit;
+                
+                //Set destruction timer on projectile
+                Utility.DelayedFunction(bullet, bulletLifetime, () =>
+                {
+                    bullet.OnHitCombatant -= HandleHit;
+                    Destroy(bullet.gameObject);
+                });
+                
+                //Give the projectile velocity
+                if (instigator != null)
+                {
+                    bullet.GetComponent<Rigidbody2D>().AddForce(instigator.AttackDirection * bulletSpeed, ForceMode2D.Impulse);
+                }
+                else
+                {
+                    Destroy(bullet.gameObject);
+                }
+            }
             
             return Utility.RepeatFunction(instigator, () =>
             {
                 Vector3 localPosition = instigator.transform.position;
-                
-                //Spawn prefab
-                GameObject bullet = Instantiate(bulletPrefab, localPosition, Quaternion.identity);
 
-                //Give the projectile velocity
-                Vector3 direction = (Target.position - localPosition).normalized;
-                bullet.GetComponent<Rigidbody2D>().AddForce(direction * bulletSpeed, ForceMode2D.Impulse);
-                
-                //Set destruction timer on projectile
-                Destroy(bullet, bulletLifetime);
+                SpawnProjectile(localPosition);
                 
                 //Update progress
                 progress += progressInterval;
                 onProgress?.Invoke(progress);
 
-            }, interval, (int) (fireRate * duration), () =>
+            }, interval, bulletCount, () =>
             {
                 if (!AllowMovement) instigator.Character.CharacterMovement.CanMove = true;
                 onComplete?.Invoke();
             });
-
-            return null;
         }
     }
 }

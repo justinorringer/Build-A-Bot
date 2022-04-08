@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 1420240958618928410}
   - component: {fileID: 1420240958618928409}
   - component: {fileID: 1420240958618928408}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemyDetection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,8 +449,25 @@ MonoBehaviour:
       onPostValueChange:
         m_PersistentCalls:
           m_Calls: []
-    baseTemperature:
+    operatingTemperature:
       defaultValue: 75
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+    minTemperature:
+      defaultValue: 0
       onInitialize:
         m_PersistentCalls:
           m_Calls: []
@@ -707,6 +724,7 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  combatController: {fileID: 0}
   currencyToDrop: 2
 --- !u!114 &1420240959490163651
 MonoBehaviour:
@@ -810,14 +828,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4524fb54588e6e142acea720ad6d6c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeAttackSize: {x: 0, y: 0}
-  attackDist: 0
-  attackDuration: 0
-  effects: []
   storedAttack: {fileID: 0}
   targetLayers:
     serializedVersion: 2
     m_Bits: 0
+  onPreHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onPostHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onKill:
+    m_PersistentCalls:
+      m_Calls: []
+  canReceiveAttacks: 1
 --- !u!95 &1420240959490163662
 Animator:
   serializedVersion: 3
@@ -875,7 +899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ffec29c6303fa4c8b1937c1ca7ee30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 2
+  viewRadius: 5
   viewAngle: 45
   targetMask:
     serializedVersion: 2
@@ -885,4 +909,4 @@ MonoBehaviour:
     m_Bits: 0
   visionDelay: 0.2
   visibleTargets: []
-  flipx: 0
+  flipx: 1

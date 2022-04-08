@@ -34,9 +34,9 @@ namespace BuildABot
             get => _entry;
             set
             {
-                if (_entry != null) _entry.RemoveChangeListener(Refresh);
+                if (_entry != null) _entry.OnChange -= Refresh;
                 _entry = value;
-                if (_entry != null) _entry.AddChangeListener(Refresh);
+                if (_entry != null) _entry.OnChange += Refresh;
                 Refresh();
             }
         }
