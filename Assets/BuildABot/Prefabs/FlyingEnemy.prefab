@@ -621,6 +621,7 @@ MonoBehaviour:
   nextPatrolPointDistance: 0.5
   canSeek: 1
   target: {fileID: 0}
+  returnDelay: 5
   nextWaypointDistance: 0.5
   pathUpdateInterval: 0.5
 --- !u!50 &2516541654574296491
@@ -656,8 +657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ffec29c6303fa4c8b1937c1ca7ee30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 2.53
-  viewAngle: 120
+  viewRadius: 6.42
+  viewAngle: 50
   targetMask:
     serializedVersion: 2
     m_Bits: 128
