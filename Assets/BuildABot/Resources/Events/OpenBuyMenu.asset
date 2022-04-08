@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9253f1e7902469fb077383bf6d65539, type: 3}
-  m_Name: SummonTradeMenu
+  m_Name: OpenBuyMenu
   m_EditorClassIdentifier: 

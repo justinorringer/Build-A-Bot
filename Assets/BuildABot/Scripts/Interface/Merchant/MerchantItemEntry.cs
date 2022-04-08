@@ -86,9 +86,9 @@ namespace BuildABot
                 sprite.sprite = Entry.Item.InventorySprite;
                 sprite.color = Color.white;
 
-                nameText.text = Entry.Item.DisplayName;
+                nameText.text =  $"{Entry.Item.DisplayName} (x{Entry.Count})";
                 descriptionText.text = Entry.Item.Description;
-                priceText.text = (_buying ? "Buy $" : "Sell $") + (Entry.Item.Value * Entry.Count); // TODO: Handle buying and selling a single item
+                priceText.text = (_buying ? "Buy $" : "Sell $") + Entry.Item.Value;
                 
                 bool canBuy = Entry.Item.Value < _owner.Wallet;
                 buyButton.interactable = canBuy;
@@ -131,25 +131,26 @@ namespace BuildABot
 
         private void Buy()
         {
-            _owner.Merchant.Customer.Inventory.TryAddEntry(Entry, out int overflow);
-            int bought = Entry.Count - overflow;
-            _owner.Merchant.Inventory.TryRemoveCountFromEntry(_entryIndex, bought);
-            _owner.Merchant.Customer.Wallet -= Entry.Item.Value * bought;
-
-            if (bought != 0)
+            bool success = (Entry is ItemStack stack) ?
+                _owner.Merchant.Customer.Inventory.TryAddItem(stack.Item) :
+                _owner.Merchant.Customer.Inventory.TryAddEntry(Entry, out _);
+            
+            if (success && _owner.Merchant.Inventory.TryRemoveCountFromEntry(_entryIndex, 1))
             {
+                _owner.Merchant.Customer.Wallet -= Entry.Item.Value;
                 // TODO: Play buy sound
             }
         }
 
         private void Sell()
         {
-            _owner.Merchant.Inventory.TryAddEntry(Entry, out int overflow);
-            int sold = Entry.Count - overflow;
-            _owner.Merchant.Customer.Inventory.TryRemoveCountFromEntry(_entryIndex, sold);
-
-            if (sold != 0)
+            bool success = (Entry is ItemStack stack) ?
+                _owner.Merchant.Inventory.TryAddItem(stack.Item) :
+                _owner.Merchant.Inventory.TryAddEntry(Entry, out _);
+            
+            if (success && _owner.Merchant.Customer.Inventory.TryRemoveCountFromEntry(_entryIndex, 1))
             {
+                _owner.Merchant.Customer.Wallet += Entry.Item.Value;
                 // TODO: Play sell sound
             }
         }

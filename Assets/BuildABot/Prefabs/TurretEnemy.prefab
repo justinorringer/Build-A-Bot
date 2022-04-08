@@ -179,7 +179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: {fileID: 11400000, guid: bb14501fb7bee3c4799c3c2c707a1017, type: 2}
   attackGraphics: {fileID: 0}
-  attackSound: {fileID: 8300000, guid: 2c048c54c0465084fb6cbda8aa24d455, type: 3}
 --- !u!82 &3159311542281214456
 AudioSource:
   m_ObjectHideFlags: 0
@@ -823,8 +822,8 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
-  combatController: {fileID: 0}
-  currencyToDrop: 2
+  combatController: {fileID: 1420240959490163661}
+  currencyToDrop: 30
 --- !u!114 &1420240959490163651
 MonoBehaviour:
   m_ObjectHideFlags: 0

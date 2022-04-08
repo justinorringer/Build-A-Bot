@@ -18,6 +18,14 @@ namespace BuildABot
         [Tooltip("The name of the animation trigger to activate when using this attack.")]
         [SerializeField] private string animationTriggerName = "Attack";
         
+        [Header("Sound Information")]
+        
+        [Tooltip("The sound to play when this attack is started.")]
+        [SerializeField] private AudioClip startSound;
+        
+        [Tooltip("The sound to play when this attack is progresses its execution. Mainly used for projectiles.")]
+        [SerializeField] private AudioClip progressSound;
+        
         [Header("Offset")]
         
         [Tooltip("The offset to apply between the character and the start point of the attack.")]
@@ -54,14 +62,17 @@ namespace BuildABot
         [Tooltip("Can this attack be interrupted?")]
         [SerializeField] private bool canInterrupt = true;
 
-        [Header("Sound Information")] 
-        [SerializeField] private AudioClip attackSound;
-
         /** The effects associated with this attack. */
         public List<EffectInstance> Effects => effects;
 
         /** The name of the animation trigger to activate when using this attack. */
         public string AnimationTriggerName => animationTriggerName;
+
+        /** The sound to play when this attack is started. */
+        public AudioClip StartSound => startSound;
+
+        /** The sound to play when this attack is progresses its execution. Mainly used for projectiles. */
+        public AudioClip ProgressSound => progressSound;
 
         /** The offset to apply between the character and the start point of the attack. */
         public Vector2 Offset => offset;
@@ -92,9 +103,6 @@ namespace BuildABot
 
         /** Can this attack be interrupted? */
         public bool CanInterrupt => canInterrupt;
-
-        /** Sound to be played on attack */
-        public AudioClip AttackSound => attackSound;
 
         /**
          * Performs this attack for the provided attacker. This will return a list of the hit enemies.

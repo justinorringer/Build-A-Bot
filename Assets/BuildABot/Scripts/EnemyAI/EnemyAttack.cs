@@ -68,9 +68,6 @@ namespace BuildABot
             {
                 _isAttacking = true;
                 _combatController.TryPerformAttack(attack, HandleAttackProgress, HandleAttackFinish);
-                
-                //Play Sound
-                _audioSource.PlayOneShot(attack.AttackSound);
 
                 if (attack is MeleeAttackData melee)
                 {
@@ -92,9 +89,6 @@ namespace BuildABot
                 _isAttacking = true;
                 _combatController.AttackDirection = ((Vector2)(other.transform.position - transform.position)).normalized;
                 _combatController.TryPerformAttack(attack, HandleAttackProgress, HandleAttackFinish);
-                
-                //Play Sound
-                _audioSource.PlayOneShot(attack.AttackSound);
             }
         }
 
@@ -104,10 +98,6 @@ namespace BuildABot
             {
                 float radius = aoe.AreaOverTime.Evaluate(progress) * aoe.Radius;
                 attackGraphics.transform.localScale = new Vector3(radius, radius, 1);
-            }
-            else if (attack is ProjectileAttackData)
-            {
-                _audioSource.PlayOneShot(attack.AttackSound);
             }
         }
 
