@@ -48,8 +48,8 @@ namespace BuildABot
             _rigidbody = GetComponent<Rigidbody2D>();
             _player = GetComponent<Player>();
 
-            _defaultZoom = camera.orthographicSize;
-            _baseZoom = camera.orthographicSize;
+            _defaultZoom = cameraLeft.m_Lens.OrthographicSize;
+            _baseZoom = _defaultZoom;
         }
 
         // Update is called once per frame
