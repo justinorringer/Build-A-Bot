@@ -60,6 +60,9 @@ namespace BuildABot
         /** The animator used by this object. */
         private Animator _anim;
 
+        /** The animator used by this object. */
+        private AudioSource _audio;
+
         /** How many jumps has the character attempted? */
         private int _jumpCount;
         /** The current jump force available to this character. */
@@ -82,11 +85,17 @@ namespace BuildABot
         /** Whether the player is currently touching the ground. */
         private bool _isGrounded;
 
+        /** Whether the player is currently walking or flying (depending on movement mode). */
+        private bool _inMotion;
+
         /** The root foot position of the character used for the ground check. */
         private Vector2 RootPosition => _rigidbody.position + (Vector2.down * _extents.y);
 
         /** Is the character grounded? */
         public bool IsGrounded => _isGrounded;
+
+        /** Is the character grounded? */
+        public bool InMotion => _inMotion;
 
         /** The normalized movement direction of this character. */
         public Vector2 MovementDirection => _rigidbody.velocity.normalized;
@@ -136,6 +145,9 @@ namespace BuildABot
             _collider = GetComponent<Collider2D>();
             _sprite = GetComponent<SpriteRenderer>();
             _anim = GetComponent<Animator>();
+            _audio = GetComponent<AudioSource>();
+
+            _audio.loop = true;
 
             Bounds bounds = _collider.bounds;
             _extents = new Vector2(bounds.extents.x, bounds.extents.y);
@@ -187,6 +199,17 @@ namespace BuildABot
                         targetVelocity = _rigidbody.velocity;
                         break;
                 }
+            }
+
+            if(targetVelocity.magnitude > 0 && !_inMotion)
+            {
+                _inMotion = true;
+                _audio.Play();
+            }
+            else if (targetVelocity.magnitude == 0 && _inMotion)
+            {
+                _inMotion = false;
+                _audio.Stop();
             }
 
             float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;

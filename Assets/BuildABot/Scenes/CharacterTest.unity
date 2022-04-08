@@ -130,10 +130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 609926857222936974, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
-      propertyPath: attackClip
-      value: 
-      objectReference: {fileID: 8300000, guid: fd3906c968b31f344a82861ea4a74bdb, type: 3}
     - target: {fileID: 609926857222936975, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -182,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BIPY
       objectReference: {fileID: 0}
+    - target: {fileID: 2524026693348277527, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: fd3906c968b31f344a82861ea4a74bdb, type: 3}
     - target: {fileID: 2716948616281990121, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
