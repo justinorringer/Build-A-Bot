@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BIPY
       objectReference: {fileID: 0}
+    - target: {fileID: 2716948616281990121, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
 --- !u!1 &332795345
@@ -455,7 +459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1031587645
 AudioListener:
   m_ObjectHideFlags: 0
