@@ -240,7 +240,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2542724794632459177}
   m_HandleRect: {fileID: 7760438160764057427}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -395,8 +395,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 8.5, y: -0.0000076293945}
-  m_SizeDelta: {x: 17, y: -108}
+  m_AnchoredPosition: {x: 8.500015, y: -0.0000076293945}
+  m_SizeDelta: {x: 17, y: -93.399994}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8066285754333210758
 CanvasRenderer:
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5e3db03513cb46c49bc02264076a6ce0, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -1301668893019750164, guid: 5e3db03513cb46c49bc02264076a6ce0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -492,7 +492,7 @@ MonoBehaviour:
   m_margin: {x: 8, y: 5, z: 20, w: 5}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &1269118548307683251
@@ -572,7 +572,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -6.139374, y: 0}
+  m_SizeDelta: {x: -5.9161224, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &7143923045838790975
 CanvasRenderer:
@@ -1067,7 +1067,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -2.2249756, y: 0}
+  m_SizeDelta: {x: -2.0350037, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &2563944597864802367
 CanvasRenderer:
@@ -1157,7 +1157,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -910, y: 0}
+  m_SizeDelta: {x: -890.25, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &3857313452067575870
 CanvasRenderer:
@@ -1389,7 +1389,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16.2
+  m_fontSize: 14
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1444,6 +1444,7 @@ GameObject:
   - component: {fileID: 7318594855571525114}
   - component: {fileID: 6093749066898063245}
   - component: {fileID: 2162049232336284593}
+  - component: {fileID: 1713514194209526482}
   m_Layer: 5
   m_Name: DialogueDisplay
   m_TagString: Untagged
@@ -1524,6 +1525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ebcd57ba58ca44882794015e90878b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   characterImage: {fileID: 6844065370570991465}
   dialogueText: {fileID: 5290431755304922731}
   nameText: {fileID: 5270071866290306918}
@@ -1531,6 +1533,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   responsePrefab: {fileID: 3420067070387613520, guid: 6ba4b3d4a98bdaa419cba12bf41e74fd, type: 3}
   responseOptionsRoot: {fileID: 6493193086193068083}
+  canvasGroup: {fileID: 1713514194209526482}
   onBeginDialogue:
     m_PersistentCalls:
       m_Calls: []
@@ -1557,6 +1560,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!225 &1713514194209526482
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7263870664618925920}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7572921711272240283
 GameObject:
   m_ObjectHideFlags: 0

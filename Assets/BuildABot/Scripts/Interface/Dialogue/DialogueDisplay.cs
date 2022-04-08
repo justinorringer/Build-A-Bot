@@ -36,6 +36,9 @@ namespace BuildABot
 
         [Tooltip("The root of the response options list in the scene.")]
         [SerializeField] private GameObject responseOptionsRoot;
+
+        [Tooltip("The canvas grop controlling this display.")]
+        [SerializeField] private CanvasGroup canvasGroup;
         
         [Header("Events")]
         
@@ -82,6 +85,9 @@ namespace BuildABot
 
         /** Private flag to know if dialogue is currently being played */
         private bool _playing;
+
+        /** Flag used to indicate if this display is currently suspended. */
+        private bool _suspended;
 
         /** Is dialogue currently being typed to the screen? */
         private bool _isTyping;
@@ -142,6 +148,34 @@ namespace BuildABot
                 nameText.text = "???";
                 characterImage.sprite = null; // TODO: Create default sprite and sound
                 audioSource.clip = null;
+            }
+        }
+
+        /**
+         * Temporarily hides this dialogue display on screen. This will prevent any inputs from being receive by the display.
+         */
+        private void Suspend()
+        {
+            if (!_suspended)
+            {
+                _suspended = true;
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
+                canvasGroup.alpha = 0.0f;
+            }
+        }
+
+        /**
+         * Resumes this dialogue display if it had been previously suspended.
+         */
+        public void Resume()
+        {
+            if (_suspended)
+            {
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+                canvasGroup.alpha = 1.0f;
+                _suspended = false;
             }
         }
 
@@ -332,7 +366,15 @@ namespace BuildABot
             _finalizeDisplayCoroutine = null;
             
             if (next == -1 || next >= _currentlyPlaying.DialogueNodes.Count) EndDialogue();
-            else DisplayDialogueNode(_currentlyPlaying.DialogueNodes[next]);
+            else
+            {
+                if (node.SuspendOnCompletion)
+                {
+                    Suspend();
+                    yield return new WaitUntil(() => !_suspended);
+                }
+                DisplayDialogueNode(_currentlyPlaying.DialogueNodes[next]);
+            }
         }
         
         

@@ -170,6 +170,11 @@ namespace BuildABot
                     {
                         AttributeSet playerAttributes = console.player.Attributes;
                         AttributeDataBase attribute = playerAttributes.GetAttributeData(args[1]);
+                        if (attribute == null)
+                        {
+                            Debug.LogErrorFormat("Invalid attribute name '{0}'.", args[1]);
+                            return;
+                        }
                         if (attribute.DataType == typeof(float))
                         {
                             ((AttributeData<float>)attribute).BaseValue = float.Parse(args[2]);
@@ -178,6 +183,23 @@ namespace BuildABot
                         {
                             ((AttributeData<int>)attribute).BaseValue = int.Parse(args[2]);
                         }
+                    }
+                }
+            },
+            { // Give the player money
+                "player.giveMoney", new CommandProperties {
+                    Description = "gives the player a specified amount of money",
+                    Usage = "player.giveMoney {amount}",
+                    ValidateArgs = args => ExpectArgCount(args, 1),
+                    Action = (console, args) =>
+                    {
+                        if (!int.TryParse(args[1], out int amount) || amount < 0)
+                        {
+                            Debug.LogErrorFormat("Invalid amount argument '{0}': Expected a positive integer.", args[2]);
+                            return;
+                        }
+                        console.player.Wallet += amount;
+                        Debug.LogFormat("Added {0} currency to the player's wallet.", amount);
                     }
                 }
             },
@@ -208,7 +230,7 @@ namespace BuildABot
                         // Attempt to add the item
                         if (console.player.Inventory.TryAddItem(target, count))
                         {
-                            Debug.LogFormat("{0} instance{1} of item '{2}' successfully added to player inventory", count, count > 1 ? "s" : "", args[1]);
+                            Debug.LogFormat("{0} instance{1} of item '{2}' successfully added to player inventory.", count, count > 1 ? "s" : "", args[1]);
                         }
                         else
                         {
@@ -228,6 +250,19 @@ namespace BuildABot
                         console.player.CharacterMovement.ChangeMovementMode(mode == ECharacterMovementMode.Flying ?
                             ECharacterMovementMode.Walking : ECharacterMovementMode.Flying);
                         Debug.LogFormat("Fly mode {0}", console.player.CharacterMovement.IsFlying ? "enabled" : "disabled");
+                    }
+                }
+            },
+            { // Toggle player collision
+                "tcm", new CommandProperties {
+                    Description = "toggles collision for the player",
+                    Usage = "tcm",
+                    ValidateArgs = args => ExpectArgCount(args, 0),
+                    Action = (console, args) =>
+                    {
+                        bool active = console.player.Collider.enabled;
+                        console.player.Collider.enabled = !active;
+                        Debug.LogFormat("Collision {0}", !active ? "enabled" : "disabled");
                     }
                 }
             }

@@ -18,6 +18,7 @@ MonoBehaviour:
     responseOptions: []
     expressionOverride: -1
     completionEvents: []
+    suspendOnCompletion: 0
   - content: Wanna buy some wares?
     nextNode: 3
     responseOptions:
@@ -29,13 +30,17 @@ MonoBehaviour:
       selectionEvents: []
     expressionOverride: -1
     completionEvents: []
+    suspendOnCompletion: 0
   - content: Here's what I have.
     nextNode: 3
     responseOptions: []
     expressionOverride: -1
-    completionEvents: []
+    completionEvents:
+    - {fileID: 11400000, guid: 5235488d8de8b674ba686dbd6e67a19f, type: 2}
+    suspendOnCompletion: 1
   - content: Come again!
     nextNode: -1
     responseOptions: []
     expressionOverride: -1
     completionEvents: []
+    suspendOnCompletion: 0
