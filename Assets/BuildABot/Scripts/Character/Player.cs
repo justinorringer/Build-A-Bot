@@ -169,6 +169,14 @@ namespace BuildABot
                 }
             }
         }
+
+        private void HandleRemovedItem(InventoryEntry entry)
+        {
+            if (entry.Equipped && entry is ComputerPartInstance cp)
+            {
+                UnequipItemSlot(cp.ComputerPartItem.PartType);
+            }
+        }
         
 #endregion
 
@@ -187,6 +195,7 @@ namespace BuildABot
         {
             base.OnEnable();
             Inventory.OnEntryAdded += HandleNewItem;
+            Inventory.OnEntryRemoved += HandleRemovedItem;
             if (CombatController != null) CombatController.OnKill += HandleKill;
         }
 
@@ -194,6 +203,7 @@ namespace BuildABot
         {
             if (CombatController != null) CombatController.OnKill -= HandleKill;
             Inventory.OnEntryAdded -= HandleNewItem;
+            Inventory.OnEntryRemoved -= HandleRemovedItem;
             base.OnDisable();
         }
 

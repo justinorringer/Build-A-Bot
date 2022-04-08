@@ -37,6 +37,9 @@ namespace BuildABot
         /** Gets the layers targeted by this controller. */
         public LayerMask TargetLayers => targetLayers;
 
+        /** The audio source component used by this object. */
+        private AudioSource _audioSource;
+
         /** The IEnumerator representing the current attack's coroutine. */
         private IEnumerator _currentAttackCoroutine;
         /** The attack currently being executed. */
@@ -81,6 +84,7 @@ namespace BuildABot
         // Start is called before the first frame update
         protected void Start()
         {
+            _audioSource = GetComponent<AudioSource>();
             Character = GetComponent<Character>();
 
             _animValidParameters = new HashSet<string>();
@@ -125,10 +129,22 @@ namespace BuildABot
             _currentHits = new List<Character>();
             _currentOnFinish = onFinish;
             _currentOnCancel = onCancel;
-            _currentAttackCoroutine = attack.Execute(this, _currentHits, onProgress, OnFinishAttack);
+            _currentAttackCoroutine = attack.Execute(this, _currentHits,
+                progress =>
+                {
+                    // Play the progress attack sound
+                    if (_audioSource != null && attack.ProgressSound != null)
+                        _audioSource.PlayOneShot(attack.ProgressSound);
+                    onProgress?.Invoke(progress);
+                },
+                OnFinishAttack);
+            
             // Play the animation if there is an animator attached that supports the trigger
             if (_anim != null && _anim.runtimeAnimatorController != null && AnimatorHasParameter(attack.AnimationTriggerName))
                 _anim.SetTrigger(attack.AnimationTriggerName);
+            // Play the start attack sound
+            if (_audioSource != null && attack.StartSound != null)
+                _audioSource.PlayOneShot(attack.StartSound);
             return true;
         }
 

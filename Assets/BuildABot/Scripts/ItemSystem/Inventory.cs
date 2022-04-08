@@ -300,7 +300,7 @@ namespace BuildABot
             bool result = false;
             if (index >= 0 && index < _entries.Count) // Bounds check
             {
-                if (count > 1 && _entries[index] is ItemStack stack) // Handle stackable items
+                if (count >= 1 && _entries[index] is ItemStack stack) // Handle stackable items
                 {
                     result = stack.TryRemove(count);
                     // If successful and the stack was emptied remove the entry

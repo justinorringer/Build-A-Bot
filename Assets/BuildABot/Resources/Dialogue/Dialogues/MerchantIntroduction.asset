@@ -19,24 +19,34 @@ MonoBehaviour:
     expressionOverride: -1
     completionEvents: []
     suspendOnCompletion: 0
-  - content: Wanna buy some wares?
+  - content: How can I help you?
     nextNode: 3
     responseOptions:
-    - text: Yes
+    - text: Buy Goods
       targetNode: 2
       selectionEvents: []
-    - text: No
+    - text: Sell Goods
       targetNode: 3
+      selectionEvents: []
+    - text: Nevermind
+      targetNode: 4
       selectionEvents: []
     expressionOverride: -1
     completionEvents: []
     suspendOnCompletion: 0
   - content: Here's what I have.
-    nextNode: 3
+    nextNode: 4
     responseOptions: []
     expressionOverride: -1
     completionEvents:
     - {fileID: 11400000, guid: 5235488d8de8b674ba686dbd6e67a19f, type: 2}
+    suspendOnCompletion: 1
+  - content: What do you have?
+    nextNode: 4
+    responseOptions: []
+    expressionOverride: -1
+    completionEvents:
+    - {fileID: 11400000, guid: bce811269022f9242a2267944afdc5ea, type: 2}
     suspendOnCompletion: 1
   - content: Come again!
     nextNode: -1

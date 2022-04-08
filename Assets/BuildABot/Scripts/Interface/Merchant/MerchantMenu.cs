@@ -82,9 +82,11 @@ namespace BuildABot
 
         /**
          * Opens this menu for display.
+         * <param name="buying">True if the buying menu should be opened, false for selling.</param>
          */
-        public void Open()
+        public void Open(bool buying)
         {
+            _buying = buying;
             _inputStateCache = Merchant.Customer.PlayerController.CacheInputActionsState();
             Merchant.Customer.PlayerController.InputActions.Disable();
             Merchant.Customer.PlayerController.InputActions.UI.Enable();
@@ -129,6 +131,7 @@ namespace BuildABot
             if (!_buying)
             {
                 Merchant.Customer.Inventory.OnEntryAdded += HandleInventoryChange;
+                //Merchant.Customer.Inventory.OnEntryModified += HandleInventoryChange;
                 Merchant.Customer.Inventory.OnEntryRemoved += HandleInventoryChange;
             }
         }
@@ -136,6 +139,7 @@ namespace BuildABot
         private void BindMerchantEvents()
         {
             Merchant.Inventory.OnEntryAdded += HandleInventoryChange;
+            //Merchant.Inventory.OnEntryModified += HandleInventoryChange;
             Merchant.Inventory.OnEntryRemoved += HandleInventoryChange;
         }
 
@@ -145,6 +149,7 @@ namespace BuildABot
             if (!_buying)
             {
                 Merchant.Customer.Inventory.OnEntryAdded -= HandleInventoryChange;
+                //Merchant.Customer.Inventory.OnEntryModified -= HandleInventoryChange;
                 Merchant.Customer.Inventory.OnEntryRemoved -= HandleInventoryChange;
             }
         }
@@ -152,6 +157,7 @@ namespace BuildABot
         private void UnbindMerchantEvents()
         {
             Merchant.Inventory.OnEntryAdded -= HandleInventoryChange;
+            //Merchant.Inventory.OnEntryModified -= HandleInventoryChange;
             Merchant.Inventory.OnEntryRemoved -= HandleInventoryChange;
         }
 

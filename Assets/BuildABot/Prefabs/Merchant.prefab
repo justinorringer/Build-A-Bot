@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 820324042910893992}
   - component: {fileID: 820324042910893995}
   - component: {fileID: 2545930632812418361}
+  - component: {fileID: 1769549463822336756}
   m_Layer: 9
   m_Name: Merchant
   m_TagString: Untagged
@@ -197,7 +198,35 @@ MonoBehaviour:
       - m_Target: {fileID: 7158311789688761051}
         m_TargetAssemblyTypeName: BuildABot.MerchantMenu, Assembly-CSharp
         m_MethodName: Open
-        m_Mode: 1
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &1769549463822336756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820324042910893994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d151c8363e54a9489dafee9296204f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameplayEvent: {fileID: 11400000, guid: bce811269022f9242a2267944afdc5ea, type: 2}
+  onEventReceived:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7158311789688761051}
+        m_TargetAssemblyTypeName: BuildABot.MerchantMenu, Assembly-CSharp
+        m_MethodName: Open
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
