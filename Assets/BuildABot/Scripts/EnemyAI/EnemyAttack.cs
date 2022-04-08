@@ -98,12 +98,6 @@ namespace BuildABot
                 
                 //Play Sound
                 _audioSource.PlayOneShot(attackSound);
-                
-                //Handle Graphics for Melee Attacking
-                if (attack is MeleeAttackData melee)
-                {
-                    attackGraphics.SetActive(true);
-                }
             }
         }
 
