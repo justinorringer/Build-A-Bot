@@ -77,7 +77,7 @@ namespace BuildABot
                 Vector3 offset = _lookOffset.normalized * lookSpeed * Time.deltaTime;
                 if (offset.magnitude > _lookOffset.magnitude)
                 {
-                    offset = mouseDir * (maxLookDist - _lookOffset.magnitude);
+                    offset = _lookOffset;
                 }
                 cameraObj.transform.position -= offset;
                 _lookOffset -= offset;
