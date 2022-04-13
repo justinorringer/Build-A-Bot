@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.XInput;
 using UnityEngine.SceneManagement;
 
 namespace BuildABot
@@ -29,6 +32,9 @@ namespace BuildABot
         [SerializeField] private PlayerMovement playerMovement;
         [Tooltip("The player input controller used by this player.")]
         [SerializeField] private PlayerController playerController;
+
+        /** The text replacement tokens to use for this play session. */
+        private Dictionary<string, string> _textReplacementTokens;
 
         /** The player input controller used by this player. */
         public PlayerController PlayerController => playerController;
@@ -311,6 +317,65 @@ namespace BuildABot
             widget.Initialize(this, message, title, acknowledgeMessage);
             SetPaused(true);
             DisableHUD();
+        }
+
+        private void SetupStandardTextTokens()
+        {
+            
+            _textReplacementTokens = new Dictionary<string, string>
+            {
+                {"{PLAYER_NAME}", "BIPY"}
+            };
+            
+            // Gather input mapping tokens
+            foreach (var actionMap in PlayerController.InputActions.asset.actionMaps)
+            {
+                foreach (var action in actionMap)
+                {
+                    if (action != null)
+                    {
+                        var bindingIndex = action.GetBindingIndex(PlayerController.PlayerInput.currentControlScheme);
+                        if (bindingIndex != -1)
+                        {
+                            action.GetBindingDisplayString(bindingIndex, out _,
+                                out string controlPath, InputBinding.DisplayStringOptions.DontUseShortDisplayNames);
+
+                            bool isGamepad = Gamepad.current != null;
+                            string iconsSource;
+                            if (isGamepad && PlayerController.PlayerInput.currentControlScheme == "Gamepad")
+                            {
+                                if (Gamepad.current is DualShockGamepad)
+                                {
+                                    iconsSource = "PlaystationIcons";
+                                }
+                                else if (Gamepad.current is XInputController)
+                                {
+                                    iconsSource = "XboxIcons";
+                                }
+                                else
+                                {
+                                    iconsSource = "XboxIcons"; // TODO: Use generic icons
+                                }
+                            }
+                            else
+                            {
+                                iconsSource = "KeyboardMouseIcons";
+                            }
+                            string spriteName = controlPath?.Replace('/', '_');
+                            
+                            if (spriteName != null)
+                                _textReplacementTokens.Add($"{{INPUT:{actionMap.name}:{action.name}}}",
+                                    $"<sprite=\"{iconsSource}\" name=\"{spriteName}\">");
+                        }
+                    }
+                }
+            }
+        }
+
+        public string PerformStandardTokenReplacement(string source)
+        {
+            SetupStandardTextTokens();
+            return source.ReplaceTokens(_textReplacementTokens);
         }
 
     }
