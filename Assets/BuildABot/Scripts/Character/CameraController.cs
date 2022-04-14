@@ -33,19 +33,21 @@ namespace BuildABot
         /** Movement script for this game object */
         private CharacterMovement _mov;
 
-        /** Rigidbody of the object */
-        private Rigidbody2D _rigidbody;
-
         /** Initial zoom of the camera */
         private float _defaultZoom;
 
         /** Player script */
         private Player _player;
 
+        /** Time the camera waits after there is no more input for camera look before returning */
+        [SerializeField] private float lookTime = .1f;
+
+        /** Time since the camera has stopped recieving input */
+        private float _lookTimer = 0;
+
         private void Start()
         {
             _mov = GetComponent<CharacterMovement>();
-            _rigidbody = GetComponent<Rigidbody2D>();
             _player = GetComponent<Player>();
 
             _defaultZoom = cameraLeft.m_Lens.OrthographicSize;
@@ -70,33 +72,42 @@ namespace BuildABot
         // Move the camera based on mouse movement if the player is stationary. Input vector is assumed to be normalized.
         public void CameraLook(Vector2 mouseDir)
         {
-            if (_mov.IsGrounded && _rigidbody.velocity == Vector2.zero && mouseDir != Vector2.zero)
+            if (_mov.IsGrounded && !_mov.InMotion && mouseDir != Vector2.zero)
             {
+                _lookTimer = 0;
+                
                 Vector3 offset = mouseDir * lookSpeed * Time.deltaTime;
                 Vector3 look = _lookOffset + offset;
                 if (look.magnitude > maxLookDist)
                 {
                     offset = mouseDir * (maxLookDist - _lookOffset.magnitude);
-                    look = Vector3.ClampMagnitude(look, maxLookDist);
+                    look = _lookOffset + offset;
                 }
                 cameraObj.transform.position += offset;
                 _lookOffset = look;
             }
             else
             {
-                Vector3 offset = _lookOffset.normalized * lookSpeed * 2 * Time.deltaTime;
-                if (offset.magnitude > _lookOffset.magnitude)
+                if (_lookTimer >= lookTime || _mov.InMotion || !_mov.IsGrounded)
                 {
-                    offset = _lookOffset;
+                    Vector3 offset = _lookOffset.normalized * lookSpeed * 1.5f * Time.deltaTime;
+                    if (offset.magnitude > _lookOffset.magnitude)
+                    {
+                        offset = _lookOffset;
+                    }
+                    cameraObj.transform.position -= offset;
+                    _lookOffset -= offset;
                 }
-                cameraObj.transform.position -= offset;
-                _lookOffset -= offset;
+                else
+                {
+                    _lookTimer += Time.deltaTime;
+                }
             }
         }
 
         public void ZoomOut(bool zooming)
         {
-            if (_mov.IsGrounded && _rigidbody.velocity == Vector2.zero && zooming)
+            if (_mov.IsGrounded && !_mov.InMotion && zooming)
             {
                 float zoom = Mathf.Min(zoomSpeed * Time.deltaTime, (maxZoom * _baseZoom) - (_baseZoom + _zoomDiff));
                 AddCameraSize(zoom);
