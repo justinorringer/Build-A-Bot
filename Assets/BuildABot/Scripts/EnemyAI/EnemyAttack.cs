@@ -81,6 +81,12 @@ namespace BuildABot
                     _enemyController.AddTarget(other.transform);
                 }
             }
+            if (_enemyMovement.MovementMode == ECharacterMovementMode.Walking && other.gameObject.CompareTag("Player"))
+            {
+                //Turn around
+                _enemyController.CurrentPatrolPoint++;
+            }
+            
         }
 
         void OnTriggerStay2D(Collider2D other)
