@@ -60,6 +60,7 @@ namespace BuildABot
             if (_target != null)
             {
                 _target.Interact(this);
+                _target = null;
                 // TODO: Suppress message here
             }
         }
@@ -68,14 +69,19 @@ namespace BuildABot
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, player.CharacterMovement.Facing,
                 player.Bounds.x * 2, targetLayer);
-            if (hit.transform == null) return;
+            if (hit.transform == null)
+            {
+                _target = null;
+                return;
+            }
             
             IInteractable interactable = hit.transform.GetComponent<IInteractable>();
+            _target = interactable;
             if (interactable != null)
             {
-                _target = interactable;
                 // TODO: Display message
             }
+            
         }
         
     }
