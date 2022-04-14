@@ -248,15 +248,6 @@ namespace BuildABot
             //Play Sound
             _audioSource.PlayOneShot(aggroSound);
         }
-
-        void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (_enemyMovement.MovementMode == ECharacterMovementMode.Walking && collision.gameObject.CompareTag("Player"))
-            {
-                //Turn around
-                //CurrentPatrolPoint++;
-            }
-        }
     }
 }
 
