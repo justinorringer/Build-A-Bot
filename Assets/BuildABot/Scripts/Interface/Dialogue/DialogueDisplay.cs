@@ -214,6 +214,7 @@ namespace BuildABot
 
             player.PlayerController.InputActions.Player.Disable();
             player.PlayerController.InputActions.DialogueUI.Enable();
+            player.CharacterMovement.ClearMovement();
             
             onBeginDialogue.Invoke(dialogue, speaker);
 
