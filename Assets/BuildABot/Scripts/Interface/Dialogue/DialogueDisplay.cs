@@ -317,6 +317,8 @@ namespace BuildABot
             _isTyping = false;
             int next = node.NextNode;
 
+            yield return new WaitForSeconds(0.5f);
+
             if (node.ResponseOptions.Count > 0)
             {
                 _isWaitingForResponse = true;
