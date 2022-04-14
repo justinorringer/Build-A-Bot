@@ -201,12 +201,12 @@ namespace BuildABot
                 }
             }
 
-            if(targetVelocity.magnitude > 0 && !_inMotion)
+            if(targetVelocity.magnitude > 0.00000001f && !_inMotion)
             {
                 _inMotion = true;
                 //_audio.Play();
             }
-            else if (targetVelocity.magnitude == 0 && _inMotion)
+            else if (targetVelocity.magnitude <= 0.00000001f && _inMotion)
             {
                 _inMotion = false;
                 //_audio.Stop();
