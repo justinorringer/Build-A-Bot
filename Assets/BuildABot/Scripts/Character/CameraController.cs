@@ -42,6 +42,12 @@ namespace BuildABot
         /** Player script */
         private Player _player;
 
+        /** Time the camera waits after there is no more input for camera look before returning */
+        [SerializeField] private float lookTime = .1f;
+
+        /** Time since the camera has stopped recieving input */
+        private float _lookTimer = 0;
+
         private void Start()
         {
             _mov = GetComponent<CharacterMovement>();
@@ -72,6 +78,8 @@ namespace BuildABot
         {
             if (_mov.IsGrounded && _rigidbody.velocity == Vector2.zero && mouseDir != Vector2.zero)
             {
+                _lookTimer = 0;
+                
                 Vector3 offset = mouseDir * lookSpeed * Time.deltaTime;
                 Vector3 look = _lookOffset + offset;
                 if (look.magnitude > maxLookDist)
@@ -84,13 +92,20 @@ namespace BuildABot
             }
             else
             {
-                Vector3 offset = _lookOffset.normalized * lookSpeed * 2 * Time.deltaTime;
-                if (offset.magnitude > _lookOffset.magnitude)
+                if (_lookTimer >= lookTime || _mov.InMotion || !_mov.IsGrounded)
                 {
-                    offset = _lookOffset;
+                    Vector3 offset = _lookOffset.normalized * lookSpeed * 1.5f * Time.deltaTime;
+                    if (offset.magnitude > _lookOffset.magnitude)
+                    {
+                        offset = _lookOffset;
+                    }
+                    cameraObj.transform.position -= offset;
+                    _lookOffset -= offset;
                 }
-                cameraObj.transform.position -= offset;
-                _lookOffset -= offset;
+                else
+                {
+                    _lookTimer += Time.deltaTime;
+                }
             }
         }
 
