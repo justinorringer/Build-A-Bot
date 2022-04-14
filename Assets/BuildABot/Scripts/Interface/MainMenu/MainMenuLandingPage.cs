@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -12,11 +13,23 @@ namespace BuildABot
         
         [SerializeField] private List<Button> buttons;
 
+        [SerializeField] private Button quitToDesktopButton;
+
         protected void OnEnable()
         {
-            if (buttons.Count > 0)
+            
+#if DEMO_BUILD
+            //quitToDesktopButton.interactable = false;
+#endif
+            
+            // Select the first found button
+            foreach (Button button in buttons)
             {
-                buttons[0].Select();
+                if (button.enabled && button.interactable)
+                {
+                    button.Select();
+                    break;
+                }
             }
 
             mainMenu.Player.PlayerController.InputActions.UI.Back.performed += Input_Back;

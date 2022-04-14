@@ -214,6 +214,7 @@ namespace BuildABot
 
             player.PlayerController.InputActions.Player.Disable();
             player.PlayerController.InputActions.DialogueUI.Enable();
+            player.CharacterMovement.ClearMovement();
             
             onBeginDialogue.Invoke(dialogue, speaker);
 
@@ -316,6 +317,8 @@ namespace BuildABot
         {
             _isTyping = false;
             int next = node.NextNode;
+
+            yield return new WaitForSeconds(0.5f);
 
             if (node.ResponseOptions.Count > 0)
             {

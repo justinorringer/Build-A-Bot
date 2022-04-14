@@ -20,7 +20,7 @@ namespace BuildABot
             Debug.Assert(player != null, "A help message can only be displayed if a valid player reference exists.");
             _player = player;
             titleComponent.text = title;
-            content.text = message;
+            content.text = player.PerformStandardTokenReplacement(message);
             buttonText.text = acknowledgeMessage;
             button.Select();
         }

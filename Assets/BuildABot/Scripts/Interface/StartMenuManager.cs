@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +8,10 @@ namespace BuildABot
     public class StartMenuManager : MonoBehaviour
     {
 
-        [SerializeField] private Button continueButton;
         [SerializeField] private Button newGameButton;
+        [SerializeField] private Button optionsButton;
+        [SerializeField] private Button quitGameButton;
+        [SerializeField] private TMP_Text versionDisplay;
         
         protected void Awake()
         {
@@ -17,9 +20,15 @@ namespace BuildABot
 
         protected void Start()
         {
-            // TODO: Check for save data, if it exists enable the continue button, otherwise focus on new game
-            continueButton.interactable = false;
             newGameButton.Select();
+#if DEMO_BUILD
+            //quitGameButton.interactable = false;
+            versionDisplay.gameObject.SetActive(true);
+            versionDisplay.text = "Demo - " + Application.version;
+#else
+            versionDisplay.gameObject.SetActive(true);
+            versionDisplay.text = Application.version;
+#endif
         }
     }
 }
