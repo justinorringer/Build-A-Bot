@@ -85,7 +85,7 @@ namespace BuildABot
                 if (look.magnitude > maxLookDist)
                 {
                     offset = mouseDir * (maxLookDist - _lookOffset.magnitude);
-                    look = Vector3.ClampMagnitude(look, maxLookDist);
+                    look = _lookOffset + offset;
                 }
                 cameraObj.transform.position += offset;
                 _lookOffset = look;
