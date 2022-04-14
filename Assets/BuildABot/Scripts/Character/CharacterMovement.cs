@@ -276,6 +276,15 @@ namespace BuildABot
         }
 
         /**
+         * Zeroes out the movement for this character.
+         */
+        public void ClearMovement()
+        {
+            _horizontalMovementRate = 0.0f;
+            _verticalMovementRate = 0.0f;
+        }
+
+        /**
          * Changes the movement mode of this controller to the provided mode.
          * <param name="mode">The new movement mode to use.</param>
          */

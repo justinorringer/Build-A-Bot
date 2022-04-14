@@ -16,6 +16,9 @@ namespace BuildABot
         [Tooltip("The text object used to display the wallet value.")]
         [SerializeField] private TMP_Text walletText;
 
+        [Tooltip("The text object used to display the control tips.")]
+        [SerializeField] private TMP_Text controlTipText;
+
         [Tooltip("The minimum number of digits of currency that should be displayed.")]
         [Min(1)]
         [SerializeField] private int minCurrencyDigits = 5;
@@ -49,6 +52,9 @@ namespace BuildABot
                 UpdateWallet(Wallet, Wallet);
 
                 titleText.text = _buying ? "Buy Items" : "Sell Items";
+                controlTipText.text = Merchant.Customer.PerformStandardTokenReplacement(_buying ? 
+                    "{INPUT:UI:Submit} Buy   {INPUT:UI:Back} Exit" :
+                    "{INPUT:UI:Submit} Sell   {INPUT:UI:Back} Exit");
                 
                 // Spawn entries
 

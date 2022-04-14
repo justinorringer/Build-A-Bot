@@ -49,9 +49,6 @@ namespace BuildABot
         [Tooltip("The max durability available to instances of this item.")]
         [Min(1)]
         [SerializeField] private int maxDurability = 1;
-
-        [Tooltip("The amount that this item protects the user from overheating while equipped. A negative value will cause the user to overheat more easily.")]
-        [SerializeField] private float coolingFactor = 0.0f;
         
         [Tooltip("The quality level of this item.")]
         [Min(1)]
@@ -65,9 +62,6 @@ namespace BuildABot
         
         /** The maximum durability of instances of this item (read-only). */
         public int MaxDurability => maxDurability;
-        
-        /** The cooling or heating impact of this item when equipped (read-only). */
-        public float CoolingFactor => coolingFactor;
 
         /** The quality level of this item. */
         public int Quality => quality;
