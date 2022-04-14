@@ -248,7 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributes:
     temperature:
-      defaultValue: 73
+      defaultValue: 76
       onInitialize:
         m_PersistentCalls:
           m_Calls: []

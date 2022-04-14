@@ -90,9 +90,9 @@ namespace BuildABot
                 descriptionText.text = Entry.Item.Description;
                 priceText.text = (_buying ? "Buy $" : "Sell $") + Entry.Item.Value;
                 
-                bool canBuy = Entry.Item.Value < _owner.Wallet;
-                buyButton.interactable = canBuy;
-                disableTintPanel.enabled = !canBuy;
+                bool canPerformTransaction = !_buying || Entry.Item.Value < _owner.Wallet;
+                buyButton.interactable = canPerformTransaction;
+                disableTintPanel.enabled = !canPerformTransaction;
 
                 if (null != quantityText)
                 {

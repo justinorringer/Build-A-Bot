@@ -204,12 +204,12 @@ namespace BuildABot
             if(targetVelocity.magnitude > 0 && !_inMotion)
             {
                 _inMotion = true;
-                _audio.Play();
+                //_audio.Play();
             }
             else if (targetVelocity.magnitude == 0 && _inMotion)
             {
                 _inMotion = false;
-                _audio.Stop();
+                //_audio.Stop();
             }
 
             float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
