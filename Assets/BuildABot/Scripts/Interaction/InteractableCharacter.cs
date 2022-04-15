@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BuildABot
 {
@@ -7,6 +8,7 @@ namespace BuildABot
 
         [SerializeField] protected Dialogue dialogue;
         [SerializeField] protected DialogueSpeaker speakerProfile;
+        [SerializeField] protected UnityEvent onFinishInteraction;
 
         /** The name of this character. */
         public string Name => speakerProfile.CharacterName;
@@ -26,15 +28,23 @@ namespace BuildABot
         {
             if (instigator.Player.HUD.DialogueDisplay.TryStartDialogue(dialogue, speakerProfile))
             {
-                instigator.Player.HUD.DialogueDisplay.OnEndDialogue += OnFinishDialogue;
+                CanInteract = false;
+                instigator.Player.HUD.DialogueDisplay.OnEndDialogue += OnFinishDialogue; // TODO: Unsubscribe
             }
         }
 
         protected virtual void OnFinishDialogue(Dialogue finished, DialogueSpeaker speaker)
         {
-            
+            onFinishInteraction.Invoke();
+            CanInteract = true;
         }
 
         public bool CanInteract { get; set; } = true;
+        
+        public event UnityAction OnFinishInteraction
+        {
+            add => onFinishInteraction.AddListener(value);
+            remove => onFinishInteraction.RemoveListener(value);
+        }
     }
 }

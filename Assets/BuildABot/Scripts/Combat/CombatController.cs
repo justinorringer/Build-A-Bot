@@ -44,6 +44,31 @@ namespace BuildABot
         /** Gets the layers targeted by this controller. */
         public LayerMask TargetLayers => targetLayers;
 
+        /** The light melee attack equipped by the character. */
+        public MeleeAttackData LightAttack
+        {
+            get => lightAttack;
+            set => lightAttack = value;
+        }
+        /** The heavy melee attack equipped by the character. */
+        public MeleeAttackData HeavyAttack
+        {
+            get => heavyAttack;
+            set => heavyAttack = value;
+        }
+        /** The AoE attack equipped by the character. */
+        public AoeAttackData AoeAttack
+        {
+            get => aoeAttack;
+            set => aoeAttack = value;
+        }
+        /** The ranged projectile attack equipped by the character. */
+        public ProjectileAttackData ProjectileAttack
+        {
+            get => projectileAttack;
+            set => projectileAttack = value;
+        }
+
         /** The audio source component used by this object. */
         private AudioSource _audioSource;
 

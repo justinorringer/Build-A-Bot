@@ -120,6 +120,22 @@ namespace BuildABot
             // Unequip the slots previous item if one exists
             if (_equippedItems.TryGetValue(slot, out _)) UnequipItemSlot(slot);
 
+            switch (slot)
+            {
+                case EComputerPartSlot.Mouse:
+                    CombatController.LightAttack = baseItem.Attack as MeleeAttackData;
+                    break;
+                case EComputerPartSlot.Keyboard:
+                    CombatController.HeavyAttack = baseItem.Attack as MeleeAttackData;
+                    break;
+                case EComputerPartSlot.WirelessCard:
+                    CombatController.AoeAttack = baseItem.Attack as AoeAttackData;
+                    break;
+                case EComputerPartSlot.DiskDrive:
+                    CombatController.ProjectileAttack = baseItem.Attack as ProjectileAttackData;
+                    break;
+            }
+
             // Create the slot data
             EquipmentSlotData data = new EquipmentSlotData()
             {
@@ -154,6 +170,22 @@ namespace BuildABot
         {
             if (_equippedItems.TryGetValue(slot, out EquipmentSlotData data))
             {
+                switch (slot)
+                {
+                    case EComputerPartSlot.Mouse:
+                        CombatController.LightAttack = null;
+                        break;
+                    case EComputerPartSlot.Keyboard:
+                        CombatController.HeavyAttack = null;
+                        break;
+                    case EComputerPartSlot.WirelessCard:
+                        CombatController.AoeAttack = null;
+                        break;
+                    case EComputerPartSlot.DiskDrive:
+                        CombatController.ProjectileAttack = null;
+                        break;
+                }
+                
                 foreach (AttributeSet.AppliedEffectHandle effect in data.AppliedEffects)
                 {
                     Attributes.RemoveEffect(effect);

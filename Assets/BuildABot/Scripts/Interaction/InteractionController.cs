@@ -59,9 +59,9 @@ namespace BuildABot
         {
             if (_target != null)
             {
-                _target.Interact(this);
+                Player.HUD.InteractionMessage.Suppress(); // TODO: Keep suppressed until interaction finishes
+                _target.Interact(this); // TODO: Subscribe to OnInteractionFinished event
                 _target = null;
-                // TODO: Suppress message here
             }
         }
 
@@ -72,14 +72,20 @@ namespace BuildABot
             if (hit.transform == null)
             {
                 _target = null;
+                Player.HUD.InteractionMessage.Suppress(); // TODO: Display message in scene over object to interact with, remove from HUD
                 return;
             }
             
             IInteractable interactable = hit.transform.GetComponent<IInteractable>();
-            _target = interactable;
-            if (interactable != null)
+            if (interactable != null && interactable.CanInteract)
             {
-                // TODO: Display message
+                _target = interactable;
+                Player.HUD.InteractionMessage.DisplayMessage("{INPUT:Player:Interact} " + interactable.GetMessage());
+            }
+            else
+            {
+                _target = null;
+                Player.HUD.InteractionMessage.Suppress();
             }
             
         }
