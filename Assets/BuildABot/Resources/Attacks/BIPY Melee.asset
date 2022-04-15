@@ -69,7 +69,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   offsetInLookDirection: 1
   useRelativeSize: 1
-  size: {x: 1, y: 1}
+  size: {x: 1, y: 0.8}
   canHitSelf: 0
   allowMultiHit: 0
   allowMovement: 1
