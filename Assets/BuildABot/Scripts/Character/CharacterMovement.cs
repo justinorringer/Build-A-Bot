@@ -112,6 +112,9 @@ namespace BuildABot
         /** The original assigned gravity scale of the rigidbody */
         private float _originalGravity;
 
+        /** Knockback to be applied on the next physics update */
+        private Vector2 _knockback;
+
         [Tooltip("Gravity scale multiplier of the jump during the upward arc.")]
         [SerializeField] private float upArcGravity;
         [Tooltip("Gravity scale multiplier of the jump during the peak.")]
@@ -220,6 +223,9 @@ namespace BuildABot
             }
             //_rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
 
+            _rigidbody.velocity += _knockback;
+            _knockback = Vector2.zero;
+
             // Update the direction the character is facing if it has changed
             Vector2 dir = targetVelocity.normalized;
             if (dir.x != 0.0f)
@@ -293,6 +299,11 @@ namespace BuildABot
             movementMode = mode;
             if (IsFlying) _rigidbody.gravityScale = 0;
             else _rigidbody.gravityScale = 2.5f;
+        }
+
+        public void ApplyKnockback(Vector2 force)
+        {
+            _knockback += force;
         }
 
         /**
