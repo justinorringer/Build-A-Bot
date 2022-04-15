@@ -905,7 +905,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9019085076114218808, guid: baf1b2c13f1c61e4cb251a0bfb3c1d24, type: 3}
+  m_Sprite: {fileID: -6475469183857932378, guid: d1863689a148aba4f9b794949ca308b1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -952,7 +952,7 @@ Animator:
   m_GameObject: {fileID: 1420240959490163653}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 02add78f1275936448335820200005ba, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4e00970ec84d14645bc340e0f405e74f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1000,16 +1000,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewRadius: 5
-  viewAngle: 45
+  viewAngle: 365
   targetMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   visionDelay: 0.2
   visibleTargets: []
-  flipx: 1
+  flipx: 0
 --- !u!82 &1885766211471204228
 AudioSource:
   m_ObjectHideFlags: 0
