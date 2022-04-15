@@ -153,7 +153,7 @@ namespace BuildABot
                 {
                     ""name"": """",
                     ""id"": ""5642340b-e9c7-412a-997f-22192d61ed8a"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -230,7 +230,7 @@ namespace BuildABot
                 {
                     ""name"": """",
                     ""id"": ""e41647ff-ee24-41e0-bc3a-a7135e229202"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -285,7 +285,7 @@ namespace BuildABot
                 {
                     ""name"": """",
                     ""id"": ""149f7121-f83d-4e86-8111-3ea259a73254"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
