@@ -372,6 +372,10 @@ namespace BuildABot
             }
         }
 
+        /**
+         * Handles replacing any standard tokens with their displayed value.
+         * <param name="source">The source string to replace tokens within.</param>
+         */
         public string PerformStandardTokenReplacement(string source)
         {
             SetupStandardTextTokens();

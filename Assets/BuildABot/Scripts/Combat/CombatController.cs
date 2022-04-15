@@ -17,7 +17,14 @@ namespace BuildABot
 
         public Vector2 AttackDirection { get; set; }
 
-        [SerializeField] private AttackData storedAttack; // TODO: Remove, only use TryPerformAttack or have a labelled list
+        [Tooltip("The light melee attack equipped by the character.")]
+        [SerializeField] private MeleeAttackData lightAttack;
+        [Tooltip("The heavy melee attack equipped by the character.")]
+        [SerializeField] private MeleeAttackData heavyAttack;
+        [Tooltip("The AoE attack equipped by the character.")]
+        [SerializeField] private AoeAttackData aoeAttack;
+        [Tooltip("The ranged projectile attack equipped by the character.")]
+        [SerializeField] private ProjectileAttackData projectileAttack;
         
         [Tooltip("The layers that can be hit by attacks from this character.")]
         [SerializeField] private LayerMask targetLayers;
@@ -108,9 +115,40 @@ namespace BuildABot
             return _animValidParameters?.Contains(parameter) ?? false;
         }
 
-        public void DoStoredAttack()
+        /**
+         * Attempts to perform the stored light attack for this character.
+         * <returns>True if the attack is available and could be performed.</returns>
+         */
+        public bool DoLightMeleeAttack()
         {
-            TryPerformAttack(storedAttack);
+            return lightAttack != null && TryPerformAttack(lightAttack);
+        }
+
+        /**
+         * Attempts to perform the stored heavy attack for this character.
+         * <returns>True if the attack is available and could be performed.</returns>
+         */
+        public bool DoHeavyMeleeAttack()
+        {
+            return heavyAttack != null && TryPerformAttack(heavyAttack);
+        }
+
+        /**
+         * Attempts to perform the stored AoE attack for this character.
+         * <returns>True if the attack is available and could be performed.</returns>
+         */
+        public bool DoAreaOfEffectAttack()
+        {
+            return aoeAttack != null && TryPerformAttack(aoeAttack);
+        }
+
+        /**
+         * Attempts to perform the stored ranged projectile attack for this character.
+         * <returns>True if the attack is available and could be performed.</returns>
+         */
+        public bool DoProjectileAttack()
+        {
+            return projectileAttack != null && TryPerformAttack(projectileAttack);
         }
 
         /**
