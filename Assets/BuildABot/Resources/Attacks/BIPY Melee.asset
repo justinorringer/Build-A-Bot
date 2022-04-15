@@ -69,12 +69,12 @@ MonoBehaviour:
     m_RotationOrder: 4
   offsetInLookDirection: 1
   useRelativeSize: 1
-  size: {x: 1, y: 1}
+  size: {x: 1, y: 0.8}
   canHitSelf: 0
   allowMultiHit: 0
   allowMovement: 1
   canInterrupt: 1
-  distance: 1.5
+  distance: 0.5
   useRelativeDistance: 1
-  duration: 0.37
+  duration: 0.54
   raycastRate: 30

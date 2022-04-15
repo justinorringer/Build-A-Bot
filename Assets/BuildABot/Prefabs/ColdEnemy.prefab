@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 1942002777164120116}
   - component: {fileID: 3192853744901855796}
   - component: {fileID: 5659295749698136088}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: EnemyDetection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,6 @@ GameObject:
   - component: {fileID: 1068492960641246455}
   - component: {fileID: 1068492960641246454}
   - component: {fileID: 1068492960641246451}
-  - component: {fileID: 1068492960641246448}
   - component: {fileID: 1068492960641246449}
   - component: {fileID: 1068492960641246450}
   - component: {fileID: 1068492960641246453}
@@ -314,6 +313,7 @@ GameObject:
   - component: {fileID: 2091839568386402200}
   - component: {fileID: 3885036849838738053}
   - component: {fileID: 5409764119556527081}
+  - component: {fileID: 4387276268450961547}
   m_Layer: 8
   m_Name: ColdEnemy
   m_TagString: Untagged
@@ -605,6 +605,23 @@ MonoBehaviour:
       onPostValueChange:
         m_PersistentCalls:
           m_Calls: []
+    attackPower:
+      defaultValue: 0
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostValueChange:
+        m_PersistentCalls:
+          m_Calls: []
     inventorySpace:
       defaultValue: 0
       onInitialize:
@@ -692,22 +709,6 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!58 &1068492960641246448
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1068492960641246351}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.35
 --- !u!114 &1068492960641246449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -969,6 +970,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!61 &4387276268450961547
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068492960641246351}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.55, y: 0.7}
+  m_EdgeRadius: 0
 --- !u!1 &1468013653747508445
 GameObject:
   m_ObjectHideFlags: 0
