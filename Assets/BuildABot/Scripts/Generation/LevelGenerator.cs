@@ -1,148 +1,165 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-/**
-    A lot of help from this tutorial series by Blackthornprod
+namespace BuildABot {
+    /**
+        A lot of help from this tutorial series by Blackthornprod
 
-    https://www.youtube.com/watch?v=hk6cUanSfXQ
- */
-public class LevelGenerator : MonoBehaviour
-{
-    public Transform[] startingPositions;
-
-    public GameObject startRoom;
-    // public GameObject[] endRoom;
-    public GameObject[] rooms; 
-    // index 0 --> RL, index 1 --> RBL, index 2 --> TRL, index 3 --> TRBL
-
-    public LayerMask room;
-    private int gridSize = 4;
-
-    private int direction;
-    public float moveAmount;
-
-    private float timeBtwRoom;
-    private float startTimeBtwRoom = 0.25f;
-
-    public bool generate = true;
-
-    // variable to prevent down twice
-    private int downCounter = 0;
-
-    private GameObject intGrid;
-
-    void Start()
+        https://www.youtube.com/watch?v=hk6cUanSfXQ
+    */
+    public class LevelGenerator : MonoBehaviour
     {
-        intGrid = GameObject.Find("IntGrid"); // IntGrid is the parent of all the rooms
+        public Transform[] startingPositions;
 
-        int randStartingPos = Random.Range(0, startingPositions.Length);
-        transform.position = startingPositions[randStartingPos].position;
-        GameObject r = (GameObject) Instantiate(startRoom, transform.position, Quaternion.identity);
+        public GameObject startRoom;
+        // public GameObject[] endRoom;
+        public GameObject[] rooms; 
+        // index 0 --> RL, index 1 --> RBL, index 2 --> TRL, index 3 --> TRBL
 
-        r.transform.parent = intGrid.transform;
+        public GameObject tilemap;
+        
+        public LayerMask room;
 
-        direction = Random.Range(1, 5);
-    }
+        private int gridSize = 4;
 
-    private void Update()
-    {
-        if (generate)
+        private int direction;
+        public float moveAmount;
+
+        private float timeBtwRoom;
+        private float startTimeBtwRoom = 0.25f;
+
+        public bool generate = true;
+
+        // variable to prevent down twice
+        private int downCounter = 0;
+
+        void Start()
         {
-            if (timeBtwRoom <= 0) {
-                Generate();
+            tilemap.GetComponent<Tilemap>().ClearAllTiles();
 
-                timeBtwRoom = startTimeBtwRoom;
-            } else {
-                timeBtwRoom -= Time.deltaTime;
-            }
-        }   
-    }
+            int randStartingPos = Random.Range(0, startingPositions.Length);
+            transform.position = startingPositions[randStartingPos].position;
+            Instantiate(startRoom, transform.position, Quaternion.identity);
 
-    private void Generate()
-    {
-        if (direction == 1 || direction == 2) { // Move RIGHT
-            if (transform.position.x < (gridSize * moveAmount) - (moveAmount * .5f)) {
-                downCounter = 0;
-                transform.position = new Vector2(transform.position.x + moveAmount, transform.position.y);
-            
-                // choose room
-                int rand = Random.Range(0, rooms.Length);
-                InstantiateRoom(rooms[rand]);
+            direction = Random.Range(1, 5);
+        }
 
-                // next direction
-                direction = Random.Range(1, 6);
-                if (direction == 3) {
-                    direction = 2;
-                } else if (direction == 4) {
-                    direction = 5;
+        private void Update()
+        {
+            if (generate)
+            {
+                if (timeBtwRoom <= 0) {
+                    Generate();
+
+                    timeBtwRoom = startTimeBtwRoom;
+                } else {
+                    timeBtwRoom -= Time.deltaTime;
                 }
-            } else {
-                Collider2D roomDetection = Physics2D.OverlapCircle(transform.position, 1, room);
+            }   
+        }
+
+        private void Generate()
+        {
+            if (direction == 1 || direction == 2) { // Move RIGHT
+                if (transform.position.x < (gridSize * moveAmount) - (moveAmount * .5f)) {
+
+                    downCounter = 0;
+                    transform.position = new Vector2(transform.position.x + moveAmount, transform.position.y);
                 
-                if (roomDetection == null || roomDetection.GetComponent<RoomType>().type == 0) { 
-                    direction = Random.Range(3, 5);
+                    // choose room
+                    int rand = Random.Range(0, rooms.Length);
+                    InstantiateRoom(rooms[rand]);
 
-                    return;
-                }
+                    // next direction
+                    direction = Random.Range(1, 6);
+                    if (direction == 3) {
+                        direction = 2;
+                    } else if (direction == 4) {
+                        direction = 5;
+                    }
 
-                direction = 5;
-            }
-        } else if (direction == 3 || direction == 4) { // Move LEFT
-            if (transform.position.x < moveAmount) {
-                direction = 5;
-            } else {
-                downCounter = 0;
-                transform.position = new Vector2(transform.position.x - moveAmount, transform.position.y);
+                } else {
+                    Collider2D roomDetection = Physics2D.OverlapCircle(transform.position, 1, room);
 
-                // choose room
-                int rand = Random.Range(0, rooms.Length);
-                InstantiateRoom(rooms[rand]);
-
-                direction = Random.Range(3, 6);
-            }
-        } else if (direction == 5) { // Move DOWN
-            downCounter++;
-            if (transform.position.y < moveAmount) {
-                generate = false;
-            } else {
-                Collider2D roomDetection = Physics2D.OverlapCircle(transform.position, 1, room);
-
-                if (roomDetection.GetComponent<RoomType>().type != 2 || roomDetection.GetComponent<RoomType>().type != 4) {
-
-                    if (roomDetection.GetComponent<RoomType>().type == 0) { 
-                        direction = Random.Range(1, 5);
+                    if (roomDetection == null || roomDetection.GetComponent<Room>().type == 0)
+                    {
+                        direction = Random.Range(3, 5);
 
                         return;
                     }
 
-                    if (downCounter >= 2) {
-                        roomDetection.GetComponent<RoomType>().RoomDestruction();
-                        InstantiateRoom(rooms[3]);
-                    }  
-                    else {
-                        roomDetection.GetComponent<RoomType>().RoomDestruction();
-
-                        int randBottomRoom = Random.Range(1, 4);
-                        if (randBottomRoom == 2) randBottomRoom = 1;
-
-                        InstantiateRoom(rooms[randBottomRoom]);
-                    }
+                    direction = 5;
                 }
-                transform.position = new Vector2(transform.position.x, transform.position.y - moveAmount);
-            
-                int rand = Random.Range(2, 4);
+            } else if (direction == 3 || direction == 4) { // Move LEFT
+                if (transform.position.x < moveAmount) {
+                    direction = 5;
+                } else {
+                    downCounter = 0;
+                    transform.position = new Vector2(transform.position.x - moveAmount, transform.position.y);
 
-                InstantiateRoom(rooms[rand]);
+                    // choose room
+                    int rand = Random.Range(0, rooms.Length);
+                    InstantiateRoom(rooms[rand]);
 
-                direction = Random.Range(1, 6);
+                    direction = Random.Range(3, 6);
+                }
+            } else if (direction == 5) { // Move DOWN
+                downCounter++;
+                if (transform.position.y < moveAmount) {
+                    generate = false;
+                } else {
+                    Collider2D roomDetection = Physics2D.OverlapCircle(transform.position, 1, room);
+
+                    if (roomDetection.GetComponent<Room>().type != 2 || roomDetection.GetComponent<Room>().type != 4)
+                    {
+                        
+                        Debug.LogFormat("Room type: {0}", roomDetection.GetComponent<Room>().type);
+                        if (roomDetection.GetComponent<Room>().type == 0)
+                        {
+                            direction = Random.Range(1, 5);
+
+                            return;
+                        }
+
+                        if (downCounter >= 2)
+                        {
+                            roomDetection.GetComponent<Room>().DestroyRoom();
+                            InstantiateRoom(rooms[3]);
+                        }
+                        else
+                        {
+                            roomDetection.GetComponent<Room>().DestroyRoom();
+
+                            int randBottomRoom = Random.Range(1, 4);
+                            if (randBottomRoom == 2) randBottomRoom = 1;
+
+                            InstantiateRoom(rooms[randBottomRoom]);
+                        }
+                    }
+                    transform.position = new Vector2(transform.position.x, transform.position.y - moveAmount);
+                
+                    int rand = Random.Range(2, 4);
+
+                    InstantiateRoom(rooms[rand]);
+
+                    direction = Random.Range(1, 6);
+                }
             }
         }
-    }
 
-    private void InstantiateRoom(GameObject room) {
-        GameObject r = (GameObject) Instantiate(room, transform.position, Quaternion.identity);
+        private void InstantiateRoom(GameObject room) {
 
-        r.transform.parent = intGrid.transform;
+            GameObject r = (GameObject) Instantiate(room, transform.position, Quaternion.identity);
+
+            r.transform.parent = tilemap.transform;
+        }
+
+        private void ClearAllTiles() {
+            Utility.DelayedFunction(this, 5.0f, () => {
+                tilemap.GetComponent<Tilemap>().ClearAllTiles();
+            });
+        }
     }
 }

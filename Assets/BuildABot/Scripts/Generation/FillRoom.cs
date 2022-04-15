@@ -2,29 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FillRoom : MonoBehaviour
-{
-    public GameObject[] blocks; // includes whatever blocks you want to spawn
-
-    void Start()
+namespace BuildABot {
+    public class FillRoom : MonoBehaviour
     {
-        AddBlocks();
-    }
-        
-    // Functions for adding additional obstacles and powerups
-    private void AddBlocks()
-    {
-        int numOfBlocks = Random.Range(1, 3);
+        public GameObject[] blocks; // includes whatever blocks you want to spawn
 
-        for (int i = 0; i <= numOfBlocks; i++) {
-            if (blocks.Length == 0) continue;
-            int rand = Random.Range((int) 0, (int) blocks.Length);
+        void Start()
+        {
+            AddBlocks();
+        }
+            
+        // Functions for adding additional obstacles and powerups
+        private void AddBlocks()
+        {
+            int numOfBlocks = Random.Range(1, 3);
 
-            // int randPos = Random.Range(0, startingPositions.Length);
+            for (int i = 0; i <= numOfBlocks; i++) {
+                if (blocks.Length == 0) continue;
+                int rand = Random.Range((int) 0, (int) blocks.Length);
 
-            GameObject instance = (GameObject) Instantiate(blocks[rand], transform.position, Quaternion.identity);
+                // int randPos = Random.Range(0, startingPositions.Length);
 
-            instance.transform.parent = transform;
+                // GameObject instance = (GameObject) Instantiate(blocks[rand], transform.position, Quaternion.identity);
+
+                // instance.transform.parent = transform;
+            }
         }
     }
 }

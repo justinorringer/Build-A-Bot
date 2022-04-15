@@ -1,19 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-public class Spawn : MonoBehaviour
-{
-    public GameObject[] objects; // includes regular tile and empty tile for now
-
-    void Start()
+namespace BuildABot {
+    public class Spawn : MonoBehaviour
     {
-        if (objects.Length > 0) {
-            int rand = Random.Range(0, objects.Length);
+        public Tile basicTile;
 
-            GameObject instance = (GameObject) Instantiate(objects[rand], transform.position, Quaternion.identity);
+        public GameObject tilemap;
 
-            instance.transform.parent = transform;
+        public GameObject room = null;
+
+        void Start()
+        {
+
+            int x = (int) transform.position.x;
+            int y = (int) transform.position.y;
+
+            Debug.LogFormat("{0}, {1}", x, y);
+
+            // Make a vector 3 to store the position of the object .SetTile is particular
+            Vector3Int pos = new Vector3Int(x, y, 0);
+
+            tilemap.GetComponent<Tilemap>().SetTile(pos, basicTile);
+
+            // GameObject instance = (GameObject) Instantiate(objects[rand], transform.position, Quaternion.identity);
+
+            // instance.transform.parent = transform;
         }
     }
 }
