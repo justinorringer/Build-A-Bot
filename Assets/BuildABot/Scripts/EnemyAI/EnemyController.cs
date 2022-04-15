@@ -224,9 +224,10 @@ namespace BuildABot
 
         public void AddTarget(Transform newTarget)
         {
-            //Dumb enemy - chase the first thing it sees
             target = newTarget;
             _fov.StopLooking();
+            
+            
             enemyMode = EPathingMode.Seeking;
             
             //Set timer for returning and start pathing to return
@@ -234,7 +235,7 @@ namespace BuildABot
             {
                 enemyMode = EPathingMode.Returning;
                 target = patrolPoints[CurrentPatrolPoint].transform;
-                _enemyMovement.Animator.SetInteger("EnemyState", 0);
+                _enemyMovement.Animator.SetBool("EnemyAggro", false);
             });
 
             if (_updatePathCoroutine != null) StopCoroutine(_updatePathCoroutine);
@@ -243,7 +244,7 @@ namespace BuildABot
             _updatePathCoroutine = Utility.RepeatFunction(this, UpdatePath, pathUpdateInterval);
 
             //Update animator
-            _enemyMovement.Animator.SetInteger("EnemyState", 1);
+            _enemyMovement.Animator.SetBool("EnemyAggro", true);
             
             //Play Sound
             _audioSource.PlayOneShot(aggroSound);
