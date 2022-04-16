@@ -343,6 +343,12 @@ namespace BuildABot
                 yield return new WaitUntil(() => !_isWaitingForResponse);
                 next = node.ResponseOptions[_selectedOption].TargetNode;
                 
+                //Fire response event
+                foreach (GameplayEvent e in node.ResponseOptions[_selectedOption].SelectionEvents)
+                {
+                    e.Invoke();
+                }
+
                 // Hide and clear the response ui
                 responseOptionsRoot.gameObject.SetActive(false);
                 foreach (DialogueResponseWidget widget in _responseOptions)

@@ -79,7 +79,6 @@ namespace BuildABot
                 {
                     if (attack is MeleeAttackData melee)
                     {
-                        attackGraphics.SetActive(true);
                         AttackCharacter(other);
                     }
 
