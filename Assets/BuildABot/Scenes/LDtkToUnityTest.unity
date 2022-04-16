@@ -694,6 +694,107 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424bc4a2b79bbb74e8d66c20492fe331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &435003817
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2681680376353605034, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_Name
+      value: ItemPickup (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605036, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6b79966743887b5468d897186e4c3fd4, type: 3}
+    - target: {fileID: 2681680376353605036, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605038, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 11400000, guid: bfb014402157fe34eb474ab7e85110f7, type: 2}
+    - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1368060797}
+    - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ShowHelpMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: BuildABot.Player, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: You just found a mouse! Attack with it by using {INPUT:Player:LightAttack}.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
 --- !u!4 &508777933 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3266326166300001799, guid: 8ebd647fc1c968846a10abfa64c6aff2, type: 3}
@@ -3990,7 +4091,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8400183345778989922, guid: 67df502673ce82341a317262a523d7dc, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8400183345778989922, guid: 67df502673ce82341a317262a523d7dc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4142,7 +4243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 820324042910893991, guid: bdd8154d9318a8c4eaa91ff322397063, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 820324042910893991, guid: bdd8154d9318a8c4eaa91ff322397063, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4398,6 +4499,7 @@ PrefabInstance:
       propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: You just found a fan! You can open your inventory through the main menu
         by pressing {INPUT:Player:OpenMenu} or directly by pressing {INPUT:Player:OpenInventory}.
+        Try jumping with {INPUT:Player:Jump}!
       objectReference: {fileID: 0}
     - target: {fileID: 2681680376353605039, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
       propertyPath: onPickup.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -4418,7 +4520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5663229579305658271, guid: b9d62d6cbe677ce41bf50835e413dcab, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5663229579305658271, guid: b9d62d6cbe677ce41bf50835e413dcab, type: 3}
       propertyPath: m_LocalPosition.x

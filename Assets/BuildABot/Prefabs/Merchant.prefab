@@ -52,6 +52,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: 2b62cf67bd64a564680dd21154360963, type: 2}
   speakerProfile: {fileID: 11400000, guid: 2e3d62fae2715d3458df73cf6698642d, type: 2}
+  onFinishInteraction:
+    m_PersistentCalls:
+      m_Calls: []
   lootTable: {fileID: 0}
 --- !u!114 &5404235463652087764
 MonoBehaviour:
