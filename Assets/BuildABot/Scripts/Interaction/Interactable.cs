@@ -11,10 +11,15 @@ namespace BuildABot
         public void Interact(InteractionController instigator);
 
         /**
-         * Gets the message tip to display for this object.
-         * <returns>The interaction message for this object.</returns>
+         * Hides the message display of this object if it is active.
          */
-        public string GetMessage();
+        public void SuppressMessage();
+        
+        /**
+         * Shows the message tip for this object.
+         * <param name="instigator">The instigator of the interaction.</param>
+         */
+        public void DisplayMessage(InteractionController instigator);
 
         /** Can this object be interacted with? */
         public bool CanInteract { get; set; }

@@ -8,17 +8,16 @@ namespace BuildABot
     {
         [Tooltip("The text area used to display the message.")]
         [SerializeField] private TMP_Text textArea;
-        [Tooltip("The HUD that owns this display.")]
-        [SerializeField] private HUD hud;
 
         /**
          * Displays the message on screen.
+         * <param name="player">The player requesting the display.</param>
          * <param name="message">The message to display. Token replacement will be performed.</param>
          */
-        public void DisplayMessage(string message)
+        public void DisplayMessage(Player player, string message)
         {
             gameObject.SetActive(true);
-            textArea.text = hud.Player.PerformStandardTokenReplacement(message);
+            textArea.text = player.PerformStandardTokenReplacement(message);
         }
 
         /**

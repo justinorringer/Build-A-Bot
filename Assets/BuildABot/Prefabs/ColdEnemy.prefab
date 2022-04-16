@@ -722,11 +722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyMode: 0
-  patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  patrolPoints: []
   nextPatrolPointDistance: 0.5
   canSeek: 1
   target: {fileID: 0}
@@ -841,7 +837,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4524fb54588e6e142acea720ad6d6c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storedAttack: {fileID: 11400000, guid: e0ddff33f159325449ed740abafd02a5, type: 2}
+  lightAttack: {fileID: 0}
+  heavyAttack: {fileID: 0}
+  aoeAttack: {fileID: 0}
+  projectileAttack: {fileID: 0}
   targetLayers:
     serializedVersion: 2
     m_Bits: 128

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -59,7 +58,7 @@ namespace BuildABot
         {
             if (_target != null)
             {
-                Player.HUD.InteractionMessage.Suppress(); // TODO: Keep suppressed until interaction finishes
+                _target.SuppressMessage();
                 _target.Interact(this); // TODO: Subscribe to OnInteractionFinished event
                 _target = null;
             }
@@ -71,8 +70,8 @@ namespace BuildABot
                 player.Bounds.x * 2, targetLayer);
             if (hit.transform == null)
             {
+                if (_target != null) _target.SuppressMessage();
                 _target = null;
-                Player.HUD.InteractionMessage.Suppress(); // TODO: Display message in scene over object to interact with, remove from HUD
                 return;
             }
             
@@ -80,12 +79,12 @@ namespace BuildABot
             if (interactable != null && interactable.CanInteract)
             {
                 _target = interactable;
-                Player.HUD.InteractionMessage.DisplayMessage("{INPUT:Player:Interact} " + interactable.GetMessage());
+                interactable.DisplayMessage(this);
             }
             else
             {
+                if (_target != null) _target.SuppressMessage();
                 _target = null;
-                Player.HUD.InteractionMessage.Suppress();
             }
             
         }
