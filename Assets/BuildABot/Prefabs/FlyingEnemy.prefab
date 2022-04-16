@@ -203,7 +203,6 @@ GameObject:
   - component: {fileID: 2516541654574296494}
   - component: {fileID: 2516541654574296495}
   - component: {fileID: 2516541654574296490}
-  - component: {fileID: 2516541654574296489}
   - component: {fileID: 2516541654574296488}
   - component: {fileID: 2516541654574296491}
   - component: {fileID: 2516541654574296492}
@@ -211,6 +210,7 @@ GameObject:
   - component: {fileID: 3548613184503819969}
   - component: {fileID: -7362561252315773988}
   - component: {fileID: 7434271107450608304}
+  - component: {fileID: 5413840062464763398}
   m_Layer: 8
   m_Name: FlyingEnemy
   m_TagString: Untagged
@@ -589,22 +589,6 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!58 &2516541654574296489
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2516541654574296534}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.35
 --- !u!114 &2516541654574296488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewRadius: 6.42
-  viewAngle: 50
+  viewAngle: 120
   targetMask:
     serializedVersion: 2
     m_Bits: 128
@@ -862,6 +846,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!61 &5413840062464763398
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2516541654574296534}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.55, y: 0.7}
+  m_EdgeRadius: 0
 --- !u!1 &2736034257710530268
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,7 +885,7 @@ GameObject:
   - component: {fileID: 3948496744134314349}
   - component: {fileID: 33718115216888685}
   - component: {fileID: 7111564667658150209}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: EnemyDetection
   m_TagString: Untagged
   m_Icon: {fileID: 0}

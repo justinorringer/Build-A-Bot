@@ -43,7 +43,10 @@ namespace BuildABot
         [SerializeField] private FloatAttributeData mediumAttackPower;
         [Tooltip("The amount of power behind the character's heavy attacks.")]
         [SerializeField] private FloatAttributeData heavyAttackPower;
-        
+
+        [Tooltip("The power multiplier for all of the character's attacks.")]
+        [SerializeField] private FloatAttributeData attackPower;
+
         [Tooltip("The number of slots available in the player's inventory.")]
         [SerializeField] private IntAttributeData inventorySpace;
         
@@ -84,6 +87,9 @@ namespace BuildABot
         public FloatAttributeData MediumAttackPower => mediumAttackPower;
         /** The amount of power behind the character's heavy attacks. */
         public FloatAttributeData HeavyAttackPower => heavyAttackPower;
+
+        /** The power multiplier for all of the character's attacks. */
+        public FloatAttributeData AttackPower => attackPower;
 
         /** The number of slots available in the player's inventory. */
         public IntAttributeData InventorySpace => inventorySpace;
