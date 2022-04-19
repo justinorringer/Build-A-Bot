@@ -422,7 +422,7 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
     inventorySpace:
-      defaultValue: 30
+      defaultValue: 10
       onInitialize:
         m_PersistentCalls:
           m_Calls:
