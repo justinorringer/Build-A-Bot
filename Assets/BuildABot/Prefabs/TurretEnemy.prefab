@@ -786,7 +786,7 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
     attackPower:
-      defaultValue: 0
+      defaultValue: 1
       onInitialize:
         m_PersistentCalls:
           m_Calls: []

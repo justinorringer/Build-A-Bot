@@ -244,12 +244,19 @@ namespace BuildABot
             {
                 instigator.onKill.Invoke(attack, this);
             }
+            
+            // TODO: Make knockback work
+            //Character.CharacterMovement.ApplyKnockback(instigator.AttackDirection);
 
             Character.OnDeath += OnDeath;
             
             // Apply the effects from the attack
             foreach (EffectInstance instance in attack.Effects)
             {
+                EffectInstance amplifiedByStatsInst = instance;
+                // Apply attack power buff
+                amplifiedByStatsInst.magnitude *= instigator.Character.Attributes.AttackPower.CurrentValue;
+                // TODO: Apply receiver resistance
                 Character.Attributes.ApplyEffect(instance, Character);
             }
 
