@@ -37,33 +37,41 @@ namespace BuildABot
                 if (_entry != null) _entry.OnChange -= Refresh;
                 _entry = value;
                 if (_entry != null) _entry.OnChange += Refresh;
-                Refresh();
+                Refresh(_entry);
             }
+        }
+
+        /**
+         * Updates the slot display using the bound entry data.
+         */
+        public void Refresh()
+        {
+            Refresh(_entry);
         }
 
         /**
          * Updates the slot display.
          */
-        public void Refresh()
+        private void Refresh(InventoryEntry entry)
         {
-            if (Entry != null)
+            if (entry != null)
             {
-                sprite.sprite = Entry.Item.InventorySprite;
+                sprite.sprite = entry.Item.InventorySprite;
                 sprite.color = Color.white;
                 
-                unequippedButton.gameObject.SetActive(!Entry.Equipped);
-                equippedButton.gameObject.SetActive(Entry.Equipped);
+                unequippedButton.gameObject.SetActive(!entry.Equipped);
+                equippedButton.gameObject.SetActive(entry.Equipped);
 
                 unequippedButton.interactable = true;
                 equippedButton.interactable = true;
                 
-                if (Entry is ComputerPartInstance cp)
+                if (entry is ComputerPartInstance cp)
                 {
                     durabilityBar.gameObject.SetActive(true);
                     durabilityBar.value = cp.Durability / (float) cp.MaxDurability;
                     quantityText.gameObject.SetActive(false);
                 }
-                else if (Entry is ItemStack stack)
+                else if (entry is ItemStack stack)
                 {
                     durabilityBar.gameObject.SetActive(false);
                     quantityText.gameObject.SetActive(true);

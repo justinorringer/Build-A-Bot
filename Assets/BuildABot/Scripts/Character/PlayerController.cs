@@ -163,7 +163,15 @@ namespace BuildABot
 
         private void Player_OnLightAttack(InputAction.CallbackContext context)
         {
-            _combatController.DoLightMeleeAttack();
+            if (_combatController.DoLightMeleeAttack())
+            {
+                ComputerPartInstance item = _player.GetItemEquippedToSlot(EComputerPartSlot.Mouse);
+                if (item != null)
+                {
+                    item.ApplyDamage(1);
+                    Debug.Log(item.Durability);
+                }
+            }
         }
 
         private void Player_OnHeavyAttack(InputAction.CallbackContext context)
