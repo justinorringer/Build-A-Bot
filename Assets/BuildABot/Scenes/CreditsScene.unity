@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4733d4c6003a48f489c2257a8d97ca88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeoutDuration: 35
+  timeoutDuration: 30
   scene: StartMenuScene
 --- !u!4 &543528987
 Transform:
@@ -635,15 +635,18 @@ MonoBehaviour:
     Harris - UI & NPC Artist
 
 
-
-
-    <u><b>In Association With</b></u>
+    Justin Orringer - Level Artist
 
 
 
 
-    North
-    Carolina State University
+    <u><b>In
+    Association With</b></u>
+
+
+
+
+    North Carolina State University
 
 
     Katabasis
@@ -651,13 +654,13 @@ MonoBehaviour:
 
 
 
-    <u><b>Special Thanks</b></u>
+    <u><b>Special
+    Thanks</b></u>
 
 
 
 
-    Dr.
-    Arnav Jahla'
+    Dr. Arnav Jahla'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
