@@ -368,16 +368,16 @@ namespace BuildABot
          */
         public void ShowHelpMenu(string message)
         {
-            ShowHelpMenu(message, "Alert");
+            ShowHelpMenu(message, HelpWidget.DefaultTitle);
         }
 
         /**
          * Show a help menu to the player.
          * <param name="message">The message to display.</param>
-         * <param name="title">The title of the alert. Defaults to Alert.</param>
-         * <param name="acknowledgeMessage">The text to place in the acknowledgement button. Defaults to OK.</param>
+         * <param name="title">The title of the alert.</param>
+         * <param name="acknowledgeMessage">The text to place in the acknowledgement button. This will use the global help widget default if not provided.</param>
          */
-        public void ShowHelpMenu(string message, string title, string acknowledgeMessage = "OK")
+        public void ShowHelpMenu(string message, string title, string acknowledgeMessage = HelpWidget.DefaultAcknowledgeMessage)
         {
             Cursor.visible = true;
             HelpWidget widget = Instantiate(alertPrefab);

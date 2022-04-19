@@ -12,9 +12,14 @@ namespace BuildABot
         [SerializeField] private TMP_Text buttonText;
         [SerializeField] private Button button;
 
+        /** The default title used for help widgets. */
+        public const string DefaultTitle = "Important Tip!";
+        /** The default acknowledge message used for help widgets. */
+        public const string DefaultAcknowledgeMessage = "Dismiss";
+        
         private Player _player;
 
-        public void Initialize(Player player, string message, string title = "Alert", string acknowledgeMessage = "OK")
+        public void Initialize(Player player, string message, string title = DefaultTitle, string acknowledgeMessage = DefaultAcknowledgeMessage)
         {
             Debug.Assert(player != null, "A help message can only be displayed if a valid player reference exists.");
             _player = player;

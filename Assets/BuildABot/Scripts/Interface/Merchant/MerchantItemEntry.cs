@@ -93,6 +93,10 @@ namespace BuildABot
                 
                 CanPerformTransaction = !_buying || entry.Item.Value < _owner.Wallet;
                 buyButton.interactable = CanPerformTransaction;
+                // Strikethrough options that are not valid
+                if (CanPerformTransaction) priceText.fontStyle &= ~FontStyles.Strikethrough;
+                else  priceText.fontStyle |= FontStyles.Strikethrough;
+                
                 disableTintPanel.enabled = !CanPerformTransaction;
 
                 if (null != quantityText)

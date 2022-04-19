@@ -505,6 +505,12 @@ MonoBehaviour:
   onWalletChanged:
     m_PersistentCalls:
       m_Calls: []
+  onItemEquipped:
+    m_PersistentCalls:
+      m_Calls: []
+  onItemUnequipped:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &609926857222936974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,7 +555,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4524fb54588e6e142acea720ad6d6c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storedAttack: {fileID: 11400000, guid: c16e5b7605b9026448da7e17e607dd37, type: 2}
+  lightAttack: {fileID: 0}
+  heavyAttack: {fileID: 0}
+  aoeAttack: {fileID: 0}
+  projectileAttack: {fileID: 0}
   targetLayers:
     serializedVersion: 2
     m_Bits: 256
@@ -1640,6 +1649,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 609926857222936973}
     - target: {fileID: 1240007643860137565, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 609926857222936973}
+    - target: {fileID: 1476272353634760046, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 609926857222936973}

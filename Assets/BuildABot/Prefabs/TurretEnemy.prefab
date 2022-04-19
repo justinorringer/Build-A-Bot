@@ -448,7 +448,7 @@ GameObject:
   m_Layer: 8
   m_Name: TurretEnemy
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -945,7 +945,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4524fb54588e6e142acea720ad6d6c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storedAttack: {fileID: 0}
+  lightAttack: {fileID: 0}
+  heavyAttack: {fileID: 0}
+  aoeAttack: {fileID: 0}
+  projectileAttack: {fileID: 0}
   targetLayers:
     serializedVersion: 2
     m_Bits: 0

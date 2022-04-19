@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9b1b939c6a4ce98d380593a05f1a20, type: 3}
+  m_Name: OldKeyboard
+  m_EditorClassIdentifier: 
+  displayName: Old Keyboard
+  description: An old computer keyboard. Maybe it could be used to enter information
+    or even defend yourself?
+  inventorySprite: {fileID: -2189495587588525845, guid: 239581d4371f6af4fb16312ec604e566, type: 3}
+  overworldSprite: {fileID: -2189495587588525845, guid: 239581d4371f6af4fb16312ec604e566, type: 3}
+  value: 100
+  partType: 11
+  maxDurability: 300
+  quality: 1
+  effects: []
+  attack: {fileID: 11400000, guid: 0e67756bf659c744a81015ab2bf33672, type: 2}
