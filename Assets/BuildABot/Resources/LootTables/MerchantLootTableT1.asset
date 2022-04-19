@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b45f968a9541d59476994b0b63f39a, type: 3}
+  m_Name: MerchantLootTableT1
+  m_EditorClassIdentifier: 
+  entries:
+  - item: {fileID: 11400000, guid: 98e90fac1a1655942bf20121a71b4f16, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: e8560ef59af6a584d929e1251c078bb7, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: 7a60613fd75af414c8705ed29cff8484, type: 2}
+    dropChance: 1
+    minSpawned: 10
+    maxSpawned: 20
+    averageDurability: 1
+    durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: c0de492e8b8d2764ba635fc58aa5d838, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: cffc663ae3f340149a977335af5a70cc, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: bfb014402157fe34eb474ab7e85110f7, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: ef587b2946e1c82429bfa44b0cffb07c, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: 8cd1830b872b17b48995d4afade161d8, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: d54edf0bbff05514390fd42c1198ce37, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: 1c8cd76d0cb17e44fa1edd14a43e7f7e, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
