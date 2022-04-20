@@ -4,10 +4,22 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace BuildABot {
+    public enum RoomType
+    {
+        START,
+        RL,
+        RBL,
+        TRL,
+        TRBL,
+        END,
+        LEND,
+        REND,
+        NONE
+    }
     public class RoomTemplate : MonoBehaviour
     {
         // index 0 --> start, 1 --> RL, index 2--> RBL, index 3 --> TRL, index 4 --> TRBL
-        public int type;
+        public RoomType type;
 
         public GameObject[] rooms;
 
@@ -18,7 +30,7 @@ namespace BuildABot {
         {
             int randRoom = Random.Range(0, rooms.Length); // choose a random room
 
-            GameObject room = (GameObject) Instantiate(rooms[randRoom], transform.position, Quaternion.identity); // instantiate that room
+            GameObject room = (GameObject)Instantiate(rooms[randRoom], transform.position, Quaternion.identity); // instantiate that room
 
             room.transform.parent = transform.parent; // make the room a child of the grid
 

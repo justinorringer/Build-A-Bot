@@ -21,9 +21,7 @@ namespace BuildABot {
                 if (blocks.Length == 0) continue;
                 int rand = Random.Range((int) 0, (int) blocks.Length);
 
-                // int randPos = Random.Range(0, startingPositions.Length);
-
-                // GameObject instance = (GameObject) Instantiate(blocks[rand], transform.position, Quaternion.identity);
+                Instantiate(blocks[rand], transform.position, Quaternion.identity);
 
                 // instance.transform.parent = transform;
             }

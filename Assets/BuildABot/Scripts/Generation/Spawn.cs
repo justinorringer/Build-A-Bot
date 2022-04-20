@@ -25,10 +25,6 @@ namespace BuildABot {
             Vector3Int pos = new Vector3Int(x, y, 0);
 
             tilemap.GetComponent<Tilemap>().SetTile(pos, basicTile);
-
-            // GameObject instance = (GameObject) Instantiate(objects[rand], transform.position, Quaternion.identity);
-
-            // instance.transform.parent = transform;
         }
     }
 }
