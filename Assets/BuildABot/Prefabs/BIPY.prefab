@@ -404,6 +404,23 @@ MonoBehaviour:
       onPostValueChange:
         m_PersistentCalls:
           m_Calls: []
+    attackPower:
+      defaultValue: 1
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostValueChange:
+        m_PersistentCalls:
+          m_Calls: []
     inventorySpace:
       defaultValue: 30
       onInitialize:
@@ -500,7 +517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217ffa0eaf9427a45a72f8390ad9e8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackClip: {fileID: 8300000, guid: fd3906c968b31f344a82861ea4a74bdb, type: 3}
 --- !u!114 &609926857222936979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,6 +871,7 @@ MonoBehaviour:
   lookSpeed: 3
   maxZoom: 1.5
   zoomSpeed: 3
+  lookTime: 0.1
 --- !u!1 &3162087834383454061
 GameObject:
   m_ObjectHideFlags: 0
