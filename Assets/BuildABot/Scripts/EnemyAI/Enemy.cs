@@ -15,6 +15,9 @@ namespace BuildABot
         /** The enemy controller used by this enemy. */
         private EnemyController _enemyController;
 
+        [Tooltip("The particle system prefab used when the enemy dies.")]
+        [SerializeField] private ParticleSystem deathParticle;
+
         [Tooltip("The amount of currency that this enemy should drop upon death.")]
         [Min(0)]
         [SerializeField] private int currencyToDrop;
@@ -39,6 +42,11 @@ namespace BuildABot
             base.Start();
             _enemyMovement = GetComponent<EnemyMovement>();
             _enemyController = GetComponent<EnemyController>();
+        }
+
+        public void PlayDeathParticle()
+        {
+            Instantiate(deathParticle, transform.position, Quaternion.identity).Play();
         }
 
     }
