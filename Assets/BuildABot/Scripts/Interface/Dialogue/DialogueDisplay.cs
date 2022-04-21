@@ -357,7 +357,6 @@ namespace BuildABot
             int next = node.NextNode;
 
             yield return new WaitForSeconds(0.5f);
-            dialogueText.text += GetContinueString();
 
             if (node.ResponseOptions.Count > 0)
             {
@@ -400,6 +399,7 @@ namespace BuildABot
             else
             {
                 // Wait for continue option
+                dialogueText.text += GetContinueString();
                 _shouldContinue = false;
                 yield return new WaitUntil(() => _shouldContinue);
                 _shouldContinue = false;
