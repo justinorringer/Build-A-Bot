@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -68,16 +69,24 @@ namespace BuildABot
 
                 Inventory source = _buying ? Merchant.Inventory : Merchant.Customer.Inventory;
                 _spawnedEntries = new List<MerchantItemEntry>();
-                for (int i = 0; i < source.Entries.Count; i++)
+                ReadOnlyCollection<InventoryEntry> entries = source.Entries;
+                foreach (InventoryEntry e in entries)
                 {
                     MerchantItemEntry entry = Instantiate(entryPrefab, entriesRoot.transform);
-                    entry.Initialize(this, i, _buying);
+                    entry.Initialize(this, e, _buying);
                     _spawnedEntries.Add(entry);
                 }
 
                 if (_spawnedEntries.Count > 0)
                 {
-                    _spawnedEntries[0].Select();
+                    foreach (MerchantItemEntry entry in _spawnedEntries)
+                    {
+                        if (entry.CanPerformTransaction)
+                        {
+                            entry.Select();
+                            break;
+                        }
+                    }
                 }
             }
             else
@@ -155,7 +164,7 @@ namespace BuildABot
             if (!_buying)
             {
                 Merchant.Customer.Inventory.OnEntryAdded -= HandleInventoryChange;
-                //Merchant.Customer.Inventory.OnEntryModified -= HandleInventoryChange;
+                Merchant.Customer.Inventory.OnEntryModified -= HandleInventoryChange;
                 Merchant.Customer.Inventory.OnEntryRemoved -= HandleInventoryChange;
             }
         }
@@ -163,13 +172,8 @@ namespace BuildABot
         private void UnbindMerchantEvents()
         {
             Merchant.Inventory.OnEntryAdded -= HandleInventoryChange;
-            //Merchant.Inventory.OnEntryModified -= HandleInventoryChange;
+            Merchant.Inventory.OnEntryModified -= HandleInventoryChange;
             Merchant.Inventory.OnEntryRemoved -= HandleInventoryChange;
-        }
-
-        private void HandleInventoryChange(InventoryEntry entry, int count)
-        {
-            HandleInventoryChange(entry);
         }
 
         private void HandleInventoryChange(InventoryEntry entry)

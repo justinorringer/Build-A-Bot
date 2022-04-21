@@ -28,8 +28,7 @@ namespace BuildABot
         Cable,
         Microphone,
         Speaker,
-        BluetoothDongle,
-        WifiDongle,
+        WirelessCard,
         SDCard,
         SDReader,
         Printer
@@ -56,6 +55,10 @@ namespace BuildABot
 
         [Tooltip("The list of effects provided by this item when equipped.")]
         [SerializeField] private List<EffectInstance> effects = new List<EffectInstance>();
+        
+        [Tooltip("The attack provided by this attack.")]
+        [HideInInspector]
+        [SerializeField] private AttackData attack;
 
         /** The type of part that this item is. */
         public EComputerPartSlot PartType => partType;
@@ -68,5 +71,8 @@ namespace BuildABot
 
         /** The effects used by this item. */
         public List<EffectInstance> Effects => effects;
+
+        /** The attack provided by this attack. */
+        public AttackData Attack => attack;
     }
 }

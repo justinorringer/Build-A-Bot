@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -59,9 +58,9 @@ namespace BuildABot
         {
             if (_target != null)
             {
-                _target.Interact(this);
+                _target.SuppressMessage();
+                _target.Interact(this); // TODO: Subscribe to OnInteractionFinished event
                 _target = null;
-                // TODO: Suppress message here
             }
         }
 
@@ -71,15 +70,21 @@ namespace BuildABot
                 player.Bounds.x * 2, targetLayer);
             if (hit.transform == null)
             {
+                if (_target != null) _target.SuppressMessage();
                 _target = null;
                 return;
             }
             
             IInteractable interactable = hit.transform.GetComponent<IInteractable>();
-            _target = interactable;
-            if (interactable != null)
+            if (interactable != null && interactable.CanInteract)
             {
-                // TODO: Display message
+                _target = interactable;
+                interactable.DisplayMessage(this);
+            }
+            else
+            {
+                if (_target != null) _target.SuppressMessage();
+                _target = null;
             }
             
         }
