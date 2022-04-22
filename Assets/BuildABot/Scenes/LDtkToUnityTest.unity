@@ -1275,33 +1275,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeathParticle
       objectReference: {fileID: 0}
-    - target: {fileID: 8272185725650907572, guid: 0266442451da43b498c20b1432ae87a5, type: 3}
-      propertyPath: lengthInSec
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8272185725650907572, guid: 0266442451da43b498c20b1432ae87a5, type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8272185725650907572, guid: 0266442451da43b498c20b1432ae87a5, type: 3}
-      propertyPath: InitialModule.gravityModifier.scalar
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 8272185725650907573, guid: 0266442451da43b498c20b1432ae87a5, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8272185725650907573, guid: 0266442451da43b498c20b1432ae87a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.522649
+      value: 8.768
       objectReference: {fileID: 0}
     - target: {fileID: 8272185725650907573, guid: 0266442451da43b498c20b1432ae87a5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.7681777
+      value: -0.417
       objectReference: {fileID: 0}
     - target: {fileID: 8272185725650907573, guid: 0266442451da43b498c20b1432ae87a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 8272185725650907573, guid: 0266442451da43b498c20b1432ae87a5, type: 3}
       propertyPath: m_LocalRotation.w
