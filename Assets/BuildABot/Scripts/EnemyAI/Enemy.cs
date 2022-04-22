@@ -46,7 +46,7 @@ namespace BuildABot
 
         public void PlayDeathParticle()
         {
-            Instantiate(deathParticle, transform.position, Quaternion.identity).Play();
+            Instantiate(deathParticle, transform.position, Quaternion.identity);
         }
 
     }
