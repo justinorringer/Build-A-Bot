@@ -107,7 +107,7 @@ namespace BuildABot {
             */
             public int mapSize = 4;
 
-            public MapRoom[ , ] grid = new MapRoom[ 16, 16 ];
+            public MapRoom[ , ] grid = new MapRoom[ 8, 8 ];
         }
 
         private int[] startingPositions = new int[ ] {0,1,2,3};
@@ -127,7 +127,7 @@ namespace BuildABot {
 
         private int[] current = new int[] {0, 0};
 
-        public int moveAmount = 16;
+        public int moveAmount = 8;
 
         public bool generate = true;
 
