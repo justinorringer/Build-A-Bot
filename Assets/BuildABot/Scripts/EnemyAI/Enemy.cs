@@ -46,7 +46,7 @@ namespace BuildABot
 
         public void PlayDeathParticle()
         {
-            Instantiate(deathParticle, new Vector3 (transform.position.x, transform.position.y, -11), Quaternion.identity);
+            Instantiate(deathParticle, new Vector3 (transform.position.x, transform.position.y, deathParticle.transform.position.z), Quaternion.identity);
         }
 
     }
