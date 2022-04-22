@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/BuildABot/Scenes/LDtkToUnityTest.unity
     guid: 8ad33e8b86a0b6246807b28f0de60714
+  - enabled: 1
+    path: Assets/BuildABot/Scenes/CreditsScene.unity
+    guid: 2abb42cd48d5e6d4481b4697bdd964c3
   m_configObjects: {}

@@ -90,7 +90,25 @@ namespace BuildABot
         private readonly Dictionary<EComputerPartSlot, EquipmentSlotData> _equippedItems =
             new Dictionary<EComputerPartSlot, EquipmentSlotData>();
         
-        // TODO: Add events for when items are equipped and unequipped
+        [Tooltip("An event triggered whenever this player equips an item.")]
+        [SerializeField] private UnityEvent<ComputerPartInstance> onItemEquipped;
+        
+        [Tooltip("An event triggered whenever this player unequips an item.")]
+        [SerializeField] private UnityEvent<ComputerPartInstance> onItemUnequipped;
+        
+        /** An event triggered whenever this player equips an item. */
+        public event UnityAction<ComputerPartInstance> OnItemEquipped
+        {
+            add => onItemEquipped.AddListener(value);
+            remove => onItemEquipped.RemoveListener(value);
+        }
+        
+        /** An event triggered whenever this player unequips an item. */
+        public event UnityAction<ComputerPartInstance> OnItemUnequipped
+        {
+            add => onItemUnequipped.AddListener(value);
+            remove => onItemUnequipped.RemoveListener(value);
+        }
 
         /**
          * Gets the computer part equipped to the specified slot. If nothing is equipped, null is returned.
@@ -120,6 +138,22 @@ namespace BuildABot
             // Unequip the slots previous item if one exists
             if (_equippedItems.TryGetValue(slot, out _)) UnequipItemSlot(slot);
 
+            switch (slot)
+            {
+                case EComputerPartSlot.Mouse:
+                    CombatController.LightAttack = baseItem.Attack as MeleeAttackData;
+                    break;
+                case EComputerPartSlot.Keyboard:
+                    CombatController.HeavyAttack = baseItem.Attack as MeleeAttackData;
+                    break;
+                case EComputerPartSlot.WirelessCard:
+                    CombatController.AoeAttack = baseItem.Attack as AoeAttackData;
+                    break;
+                case EComputerPartSlot.DiskDrive:
+                    CombatController.ProjectileAttack = baseItem.Attack as ProjectileAttackData;
+                    break;
+            }
+
             // Create the slot data
             EquipmentSlotData data = new EquipmentSlotData()
             {
@@ -144,6 +178,7 @@ namespace BuildABot
             // Store the slot entry and mark as equipped
             _equippedItems.Add(slot, data);
             item.Equipped = true;
+            onItemEquipped.Invoke(item);
         }
 
         /**
@@ -154,6 +189,22 @@ namespace BuildABot
         {
             if (_equippedItems.TryGetValue(slot, out EquipmentSlotData data))
             {
+                switch (slot)
+                {
+                    case EComputerPartSlot.Mouse:
+                        CombatController.LightAttack = null;
+                        break;
+                    case EComputerPartSlot.Keyboard:
+                        CombatController.HeavyAttack = null;
+                        break;
+                    case EComputerPartSlot.WirelessCard:
+                        CombatController.AoeAttack = null;
+                        break;
+                    case EComputerPartSlot.DiskDrive:
+                        CombatController.ProjectileAttack = null;
+                        break;
+                }
+                
                 foreach (AttributeSet.AppliedEffectHandle effect in data.AppliedEffects)
                 {
                     Attributes.RemoveEffect(effect);
@@ -161,10 +212,11 @@ namespace BuildABot
                 // Remove the data and mark as not equipped
                 _equippedItems.Remove(slot);
                 data.Item.Equipped = false;
+                onItemEquipped.Invoke(data.Item);
             }
         }
 
-        private void HandleNewItem(InventoryEntry entry, int count)
+        private void HandleNewItem(InventoryEntry entry)
         {
             // Handle auto-equipping new items
             if (entry is ComputerPartInstance cp)
@@ -181,6 +233,19 @@ namespace BuildABot
             if (entry.Equipped && entry is ComputerPartInstance cp)
             {
                 UnequipItemSlot(cp.ComputerPartItem.PartType);
+            }
+        }
+
+        private void HandleModifiedItem(InventoryEntry entry)
+        {
+            if (entry is ComputerPartInstance cp)
+            {
+                // Handle losing all durability
+                if (cp.Durability == 0 && cp.MaxDurability != 0)
+                {
+                    if (entry.Equipped) UnequipItemSlot(cp.ComputerPartItem.PartType);
+                    Inventory.RemoveEntry(entry, true);
+                }
             }
         }
         
@@ -201,6 +266,7 @@ namespace BuildABot
         {
             base.OnEnable();
             Inventory.OnEntryAdded += HandleNewItem;
+            Inventory.OnEntryModified += HandleModifiedItem;
             Inventory.OnEntryRemoved += HandleRemovedItem;
             if (CombatController != null) CombatController.OnKill += HandleKill;
         }
@@ -209,6 +275,7 @@ namespace BuildABot
         {
             if (CombatController != null) CombatController.OnKill -= HandleKill;
             Inventory.OnEntryAdded -= HandleNewItem;
+            Inventory.OnEntryModified -= HandleModifiedItem;
             Inventory.OnEntryRemoved -= HandleRemovedItem;
             base.OnDisable();
         }
@@ -301,16 +368,16 @@ namespace BuildABot
          */
         public void ShowHelpMenu(string message)
         {
-            ShowHelpMenu(message, "Alert");
+            ShowHelpMenu(message, HelpWidget.DefaultTitle);
         }
 
         /**
          * Show a help menu to the player.
          * <param name="message">The message to display.</param>
-         * <param name="title">The title of the alert. Defaults to Alert.</param>
-         * <param name="acknowledgeMessage">The text to place in the acknowledgement button. Defaults to OK.</param>
+         * <param name="title">The title of the alert.</param>
+         * <param name="acknowledgeMessage">The text to place in the acknowledgement button. This will use the global help widget default if not provided.</param>
          */
-        public void ShowHelpMenu(string message, string title, string acknowledgeMessage = "OK")
+        public void ShowHelpMenu(string message, string title, string acknowledgeMessage = HelpWidget.DefaultAcknowledgeMessage)
         {
             Cursor.visible = true;
             HelpWidget widget = Instantiate(alertPrefab);
@@ -372,6 +439,10 @@ namespace BuildABot
             }
         }
 
+        /**
+         * Handles replacing any standard tokens with their displayed value.
+         * <param name="source">The source string to replace tokens within.</param>
+         */
         public string PerformStandardTokenReplacement(string source)
         {
             SetupStandardTextTokens();

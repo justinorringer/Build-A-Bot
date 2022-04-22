@@ -159,7 +159,6 @@ namespace BuildABot
 
         void HandleAttackFinish(List<Character> characters)
         {
-            Debug.Log("Finishing Attack");
             _isAttacking = false;
             if (attack is MeleeAttackData melee)
             {

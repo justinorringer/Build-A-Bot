@@ -5,6 +5,15 @@ using UnityEngine;
 
 namespace BuildABot
 {
+
+    /**
+     * The type of a melee attack, either light or heavy.
+     */
+    public enum EMeleeAttackType
+    {
+        Light,
+        Heavy
+    }
     
     /**
      * A melee attack that uses box-casts extending from the attacker.
@@ -15,6 +24,9 @@ namespace BuildABot
 
         [Header("Melee")]
         
+        [Tooltip("The type of this melee attack.")]
+        [SerializeField] private EMeleeAttackType attackType = EMeleeAttackType.Light;
+
         [Tooltip("The distance the attack travels.")]
         [Min(0f)]
         [SerializeField] private float distance = 1f;
@@ -29,6 +41,9 @@ namespace BuildABot
         [Tooltip("The number of times to raycast the attack per second.")]
         [Min(1)]
         [SerializeField] private int raycastRate = 10;
+
+        /** The type of this melee attack. */
+        public EMeleeAttackType AttackType => attackType;
 
         /** The distance the attack travels. */
         public float Distance => distance;

@@ -8,8 +8,6 @@ namespace BuildABot
     {
         /** The underlying entry data. */
         private InventoryEntry _entry;
-        /** The inventory entry index to display. */
-        private int _entryIndex;
 
         [Tooltip("The text object used to show the item name.")]
         [SerializeField] private TMP_Text nameText;
@@ -47,9 +45,12 @@ namespace BuildABot
                 if (_entry != null) _entry.OnChange -= Refresh;
                 _entry = value;
                 if (_entry != null) _entry.OnChange += Refresh;
-                Refresh();
+                Refresh(_entry);
             }
         }
+
+        /** Can this entry have a transaction performed on it? */
+        public bool CanPerformTransaction { get; private set; }
 
         /**
          * Initializes this entry.
@@ -57,15 +58,15 @@ namespace BuildABot
          * <param name="entry">The inventory index of the entry being displayed.</param>
          * <param name="buying">Is this entry being bought? If false, it is being sold.</param>
          */
-        public void Initialize(MerchantMenu owner, int entry, bool buying)
+        public void Initialize(MerchantMenu owner, InventoryEntry entry, bool buying)
         {
-            if (owner == null || entry < 0) return;
+            if (owner == null) return;
+            // Entry validity check
+            if (buying && !owner.Merchant.Inventory.ContainsEntry(entry)) return;
+            if (!buying && !owner.Merchant.Customer.Inventory.ContainsEntry(entry)) return;
             _owner = owner;
             _buying = buying;
-            _entryIndex = entry;
-            Entry = _buying ?
-                _owner.Merchant.Inventory.Entries[entry] :
-                _owner.Merchant.Customer.Inventory.Entries[entry]; // This will refresh
+            Entry = entry; // This will call refresh
         }
 
         /**
@@ -79,28 +80,32 @@ namespace BuildABot
         /**
          * Updates the entry display.
          */
-        private void Refresh()
+        private void Refresh(InventoryEntry entry)
         {
-            if (Entry != null)
+            if (entry != null)
             {
-                sprite.sprite = Entry.Item.InventorySprite;
+                sprite.sprite = entry.Item.InventorySprite;
                 sprite.color = Color.white;
 
-                nameText.text =  $"{Entry.Item.DisplayName} (x{Entry.Count})";
-                descriptionText.text = Entry.Item.Description;
-                priceText.text = (_buying ? "Buy $" : "Sell $") + Entry.Item.Value;
+                nameText.text =  $"{entry.Item.DisplayName} (x{entry.Count})";
+                descriptionText.text = entry.Item.Description;
+                priceText.text = (_buying ? "Buy $" : "Sell $") + entry.Item.Value;
                 
-                bool canPerformTransaction = !_buying || Entry.Item.Value < _owner.Wallet;
-                buyButton.interactable = canPerformTransaction;
-                disableTintPanel.enabled = !canPerformTransaction;
+                CanPerformTransaction = !_buying || entry.Item.Value < _owner.Wallet;
+                buyButton.interactable = CanPerformTransaction;
+                // Strikethrough options that are not valid
+                if (CanPerformTransaction) priceText.fontStyle &= ~FontStyles.Strikethrough;
+                else  priceText.fontStyle |= FontStyles.Strikethrough;
+                
+                disableTintPanel.enabled = !CanPerformTransaction;
 
                 if (null != quantityText)
                 {
-                    if (Entry is ComputerPartInstance)
+                    if (entry is ComputerPartInstance)
                     {
                         quantityText.gameObject.SetActive(false);
                     }
-                    else if (Entry is ItemStack stack)
+                    else if (entry is ItemStack stack)
                     {
                         quantityText.gameObject.SetActive(true);
                         quantityText.text = stack.Count.ToString();
@@ -135,7 +140,7 @@ namespace BuildABot
                 _owner.Merchant.Customer.Inventory.TryAddItem(stack.Item) :
                 _owner.Merchant.Customer.Inventory.TryAddEntry(Entry, out _);
             
-            if (success && _owner.Merchant.Inventory.TryRemoveCountFromEntry(_entryIndex, 1))
+            if (success && _owner.Merchant.Inventory.TryRemoveCountFromEntry(Entry, 1))
             {
                 _owner.Merchant.Customer.Wallet -= Entry.Item.Value;
                 // TODO: Play buy sound
@@ -148,7 +153,7 @@ namespace BuildABot
                 _owner.Merchant.Inventory.TryAddItem(stack.Item) :
                 _owner.Merchant.Inventory.TryAddEntry(Entry, out _);
             
-            if (success && _owner.Merchant.Customer.Inventory.TryRemoveCountFromEntry(_entryIndex, 1))
+            if (success && _owner.Merchant.Customer.Inventory.TryRemoveCountFromEntry(Entry, 1))
             {
                 _owner.Merchant.Customer.Wallet += Entry.Item.Value;
                 // TODO: Play sell sound

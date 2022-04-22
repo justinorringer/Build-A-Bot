@@ -106,6 +106,7 @@ namespace BuildABot
         {
             if (newTemperature >= Attributes.MaxTemperature.CurrentValue) Kill();
             else if (newTemperature <= Attributes.MinTemperature.CurrentValue) Kill();
+            // TODO: Apply tinting
         }
     }
 }

@@ -81,7 +81,8 @@ namespace BuildABot
             
             InputActions.Player.LightAttack.performed += Player_OnLightAttack;
             InputActions.Player.HeavyAttack.performed += Player_OnHeavyAttack;
-            InputActions.Player.Guard.performed += Player_OnGuard;
+            InputActions.Player.AoeAttack.performed += Player_OnAoeAttack;
+            InputActions.Player.ProjectileAttack.performed += Player_OnProjectileAttack;
             
             InputActions.Player.OpenMenu.performed += Player_OnOpenMenu;
             InputActions.Player.OpenInventory.performed += Player_OnOpenInventory;
@@ -101,7 +102,8 @@ namespace BuildABot
             
             InputActions.Player.LightAttack.performed -= Player_OnLightAttack;
             InputActions.Player.HeavyAttack.performed -= Player_OnHeavyAttack;
-            InputActions.Player.Guard.performed -= Player_OnGuard;
+            InputActions.Player.AoeAttack.performed -= Player_OnAoeAttack;
+            InputActions.Player.ProjectileAttack.performed -= Player_OnProjectileAttack;
             
             InputActions.Player.OpenMenu.performed -= Player_OnOpenMenu;
             InputActions.Player.OpenInventory.performed -= Player_OnOpenInventory;
@@ -161,17 +163,30 @@ namespace BuildABot
 
         private void Player_OnLightAttack(InputAction.CallbackContext context)
         {
-            _combatController.DoStoredAttack();
+            if (_combatController.DoLightMeleeAttack())
+            {
+                ComputerPartInstance item = _player.GetItemEquippedToSlot(EComputerPartSlot.Mouse);
+                if (item != null)
+                {
+                    item.ApplyDamage(1);
+                    Debug.Log(item.Durability);
+                }
+            }
         }
 
         private void Player_OnHeavyAttack(InputAction.CallbackContext context)
         {
-            Debug.Log("Heavy attack");
+            _combatController.DoHeavyMeleeAttack();
         }
 
-        private void Player_OnGuard(InputAction.CallbackContext context)
+        private void Player_OnAoeAttack(InputAction.CallbackContext context)
         {
-            Debug.Log("Guard");
+            _combatController.DoAreaOfEffectAttack();
+        }
+
+        private void Player_OnProjectileAttack(InputAction.CallbackContext context)
+        {
+            _combatController.DoProjectileAttack();
         }
 
         private void Player_OnOpenMenu(InputAction.CallbackContext context)
