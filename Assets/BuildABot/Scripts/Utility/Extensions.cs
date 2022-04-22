@@ -74,5 +74,14 @@ namespace BuildABot
         
         #endregion
         
+        #region Color
+
+        public static string ToHex(this Color color)
+        {
+            return ColorUtility.ToHtmlStringRGBA(color);
+        }
+        
+        #endregion
+        
     }
 }

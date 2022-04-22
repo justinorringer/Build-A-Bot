@@ -60,6 +60,9 @@ namespace BuildABot
         /** The animator used by this object. */
         private Animator _anim;
 
+        /** The animator used by this object. */
+        private AudioSource _audio;
+
         /** How many jumps has the character attempted? */
         private int _jumpCount;
         /** The current jump force available to this character. */
@@ -82,11 +85,17 @@ namespace BuildABot
         /** Whether the player is currently touching the ground. */
         private bool _isGrounded;
 
+        /** Whether the player is currently walking or flying (depending on movement mode). */
+        private bool _inMotion;
+
         /** The root foot position of the character used for the ground check. */
         private Vector2 RootPosition => _rigidbody.position + (Vector2.down * _extents.y);
 
         /** Is the character grounded? */
         public bool IsGrounded => _isGrounded;
+
+        /** Is the character grounded? */
+        public bool InMotion => _inMotion;
 
         /** The normalized movement direction of this character. */
         public Vector2 MovementDirection => _rigidbody.velocity.normalized;
@@ -102,6 +111,9 @@ namespace BuildABot
 
         /** The original assigned gravity scale of the rigidbody */
         private float _originalGravity;
+
+        /** Knockback to be applied on the next physics update */
+        private Vector2 _knockback;
 
         [Tooltip("Gravity scale multiplier of the jump during the upward arc.")]
         [SerializeField] private float upArcGravity;
@@ -136,6 +148,9 @@ namespace BuildABot
             _collider = GetComponent<Collider2D>();
             _sprite = GetComponent<SpriteRenderer>();
             _anim = GetComponent<Animator>();
+            _audio = GetComponent<AudioSource>();
+
+            _audio.loop = true;
 
             Bounds bounds = _collider.bounds;
             _extents = new Vector2(bounds.extents.x, bounds.extents.y);
@@ -189,6 +204,17 @@ namespace BuildABot
                 }
             }
 
+            if(targetVelocity.magnitude > 0.00000001f && !_inMotion)
+            {
+                _inMotion = true;
+                //_audio.Play();
+            }
+            else if (targetVelocity.magnitude <= 0.00000001f && _inMotion)
+            {
+                _inMotion = false;
+                //_audio.Stop();
+            }
+
             float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
 
             if (targetVelocity != _rigidbody.velocity)
@@ -196,6 +222,9 @@ namespace BuildABot
                 StartCoroutine(VelocityDamp(targetVelocity, dampTime));
             }
             //_rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
+
+            _rigidbody.velocity += _knockback;
+            _knockback = Vector2.zero;
 
             // Update the direction the character is facing if it has changed
             Vector2 dir = targetVelocity.normalized;
@@ -253,6 +282,15 @@ namespace BuildABot
         }
 
         /**
+         * Zeroes out the movement for this character.
+         */
+        public void ClearMovement()
+        {
+            _horizontalMovementRate = 0.0f;
+            _verticalMovementRate = 0.0f;
+        }
+
+        /**
          * Changes the movement mode of this controller to the provided mode.
          * <param name="mode">The new movement mode to use.</param>
          */
@@ -261,6 +299,11 @@ namespace BuildABot
             movementMode = mode;
             if (IsFlying) _rigidbody.gravityScale = 0;
             else _rigidbody.gravityScale = 2.5f;
+        }
+
+        public void ApplyKnockback(Vector2 force)
+        {
+            _knockback += force;
         }
 
         /**

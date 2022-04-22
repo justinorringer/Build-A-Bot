@@ -15,6 +15,8 @@ namespace BuildABot
         private PlayerInputActions _inputActions;
         /** The player input component used by this object. */
         private PlayerInput _playerInput;
+        /** The camera controller component used by this object */
+        private CameraController _cameraController;
 
         /**
          * A state cached used to store information about the enabled action maps in an input actions asset.
@@ -67,6 +69,7 @@ namespace BuildABot
             _player = GetComponent<Player>();
             _combatController = GetComponent<CombatController>();
             _playerInput = GetComponent<PlayerInput>();
+            _cameraController = GetComponent<CameraController>();
             InputActions.Player.Enable();
         }
 
@@ -78,7 +81,8 @@ namespace BuildABot
             
             InputActions.Player.LightAttack.performed += Player_OnLightAttack;
             InputActions.Player.HeavyAttack.performed += Player_OnHeavyAttack;
-            InputActions.Player.Guard.performed += Player_OnGuard;
+            InputActions.Player.AoeAttack.performed += Player_OnAoeAttack;
+            InputActions.Player.ProjectileAttack.performed += Player_OnProjectileAttack;
             
             InputActions.Player.OpenMenu.performed += Player_OnOpenMenu;
             InputActions.Player.OpenInventory.performed += Player_OnOpenInventory;
@@ -98,7 +102,8 @@ namespace BuildABot
             
             InputActions.Player.LightAttack.performed -= Player_OnLightAttack;
             InputActions.Player.HeavyAttack.performed -= Player_OnHeavyAttack;
-            InputActions.Player.Guard.performed -= Player_OnGuard;
+            InputActions.Player.AoeAttack.performed -= Player_OnAoeAttack;
+            InputActions.Player.ProjectileAttack.performed -= Player_OnProjectileAttack;
             
             InputActions.Player.OpenMenu.performed -= Player_OnOpenMenu;
             InputActions.Player.OpenInventory.performed -= Player_OnOpenInventory;
@@ -120,34 +125,11 @@ namespace BuildABot
                 _player.CharacterMovement.MoveVertical(move.y); // For flying mode only
 
                 Vector2 cameraOffset = InputActions.Player.Camera.ReadValue<Vector2>();
-            }
-            
-            // Legacy
-            /*if (GameInputEnabled)
-            {
-                _player.CharacterMovement.MoveHorizontal(Input.GetAxisRaw("Horizontal"));
-                _player.CharacterMovement.MoveVertical(Input.GetAxisRaw("Vertical")); // For flying mode only
-            
-                // If jump is pressed, FixedUpdate will determine if they are allowed to jump on this frame
-                if (Input.GetButtonDown("Jump"))
-                {
-                    _player.CharacterMovement.Jump();
-                }
+                _cameraController.CameraLook(cameraOffset);
 
-                if (Input.GetButtonDown("Fire1"))
-                {
-                    //StartCoroutine(_combatController.Attack());
-                    _combatController.DoStoredAttack();
-                }
+                float zoomOut = InputActions.Player.ZoomOut.ReadValue<float>();
+                _cameraController.ZoomOut(zoomOut != 0);
             }
-
-            if (UIInputEnabled)
-            {
-                if (Input.GetButtonDown("Open Menu"))
-                {
-                    _player.ToggleMenu();
-                }
-            }*/
         }
 
         /**
@@ -181,17 +163,30 @@ namespace BuildABot
 
         private void Player_OnLightAttack(InputAction.CallbackContext context)
         {
-            _combatController.DoStoredAttack();
+            if (_combatController.DoLightMeleeAttack())
+            {
+                ComputerPartInstance item = _player.GetItemEquippedToSlot(EComputerPartSlot.Mouse);
+                if (item != null)
+                {
+                    item.ApplyDamage(1);
+                    Debug.Log(item.Durability);
+                }
+            }
         }
 
         private void Player_OnHeavyAttack(InputAction.CallbackContext context)
         {
-            Debug.Log("Heavy attack");
+            _combatController.DoHeavyMeleeAttack();
         }
 
-        private void Player_OnGuard(InputAction.CallbackContext context)
+        private void Player_OnAoeAttack(InputAction.CallbackContext context)
         {
-            Debug.Log("Guard");
+            _combatController.DoAreaOfEffectAttack();
+        }
+
+        private void Player_OnProjectileAttack(InputAction.CallbackContext context)
+        {
+            _combatController.DoProjectileAttack();
         }
 
         private void Player_OnOpenMenu(InputAction.CallbackContext context)
@@ -202,7 +197,7 @@ namespace BuildABot
         private void Player_OnOpenInventory(InputAction.CallbackContext context)
         {
             _player.ToggleMenu();
-            // TODO: Open inventory directly
+            _player.MainMenu.OpenInventory();
         }
         
         #endregion

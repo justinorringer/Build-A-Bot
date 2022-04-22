@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -36,6 +37,12 @@ namespace BuildABot
 
         [Tooltip("The root of the response options list in the scene.")]
         [SerializeField] private GameObject responseOptionsRoot;
+        
+        [Tooltip("The root of the response options area in the scene.")]
+        [SerializeField] private GameObject responseOptionsArea;
+
+        [Tooltip("The canvas grop controlling this display.")]
+        [SerializeField] private CanvasGroup canvasGroup;
         
         [Header("Events")]
         
@@ -83,8 +90,13 @@ namespace BuildABot
         /** Private flag to know if dialogue is currently being played */
         private bool _playing;
 
+        /** Flag used to indicate if this display is currently suspended. */
+        private bool _suspended;
+
         /** Is dialogue currently being typed to the screen? */
         private bool _isTyping;
+        /** The final output value expected for the current node. */
+        private string _finalNodeOutput;
         /** Should the dialogue advance to the next selection? */
         private bool _shouldContinue;
 
@@ -104,11 +116,13 @@ namespace BuildABot
         protected void OnEnable()
         {
             player.PlayerController.InputActions.DialogueUI.Continue.performed += Input_OnContinue;
+            responseOptionsArea.SetActive(false);
         }
 
         protected void OnDisable()
         {
             player.PlayerController.InputActions.DialogueUI.Continue.performed -= Input_OnContinue;
+            responseOptionsArea.SetActive(false);
         }
 
         private void UpdateSpeakerDisplay(DialogueSpeaker speaker, int expression = -1)
@@ -142,6 +156,34 @@ namespace BuildABot
                 nameText.text = "???";
                 characterImage.sprite = null; // TODO: Create default sprite and sound
                 audioSource.clip = null;
+            }
+        }
+
+        /**
+         * Temporarily hides this dialogue display on screen. This will prevent any inputs from being receive by the display.
+         */
+        private void Suspend()
+        {
+            if (!_suspended)
+            {
+                _suspended = true;
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
+                canvasGroup.alpha = 0.0f;
+            }
+        }
+
+        /**
+         * Resumes this dialogue display if it had been previously suspended.
+         */
+        public void Resume()
+        {
+            if (_suspended)
+            {
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+                canvasGroup.alpha = 1.0f;
+                _suspended = false;
             }
         }
 
@@ -180,6 +222,7 @@ namespace BuildABot
 
             player.PlayerController.InputActions.Player.Disable();
             player.PlayerController.InputActions.DialogueUI.Enable();
+            player.CharacterMovement.ClearMovement();
             
             onBeginDialogue.Invoke(dialogue, speaker);
 
@@ -260,16 +303,46 @@ namespace BuildABot
             _isWaitingForResponse = false;
         }
 
+        /**
+         * Gets the string displayed to prompt the player to continue.
+         * <returns>The continue notice string.</returns>
+         */
+        private string GetContinueString()
+        {
+            return player.PerformStandardTokenReplacement(" {INPUT:DialogueUI:Continue}");
+        }
+
         private IEnumerator DisplayNodeImplementation(DialogueNode node)
         {
             
             // TODO: Handle standardized token replacement
             _isTyping = true;
             dialogueText.text = "";
-            foreach (char letter in node.Content)
+            _finalNodeOutput = player.PerformStandardTokenReplacement(node.Content);
+            for (int i = 0; i < _finalNodeOutput.Length; i++)
             {
+                char c = _finalNodeOutput[i];
                 audioSource.Play();
-                dialogueText.text += letter;
+                if (c == '<')
+                {
+                    // Find the closing tag
+                    StringBuilder tmpTag = new StringBuilder();
+                    for (int j = i; j < _finalNodeOutput.Length; j++)
+                    {
+                        char ch = _finalNodeOutput[i];
+                        tmpTag.Append(ch);
+                        if (ch == '>')
+                        {
+                            i = j;
+                            break;
+                        }
+                    }
+                    dialogueText.text += tmpTag.ToString();
+                }
+                else
+                {
+                    dialogueText.text += c;
+                }
 
                 yield return new WaitForSecondsRealtime(characterTypingSpeed); // Wait for delay
                 audioSource.Stop();
@@ -283,12 +356,14 @@ namespace BuildABot
             _isTyping = false;
             int next = node.NextNode;
 
+            yield return new WaitForSeconds(0.5f);
+
             if (node.ResponseOptions.Count > 0)
             {
                 _isWaitingForResponse = true;
                 
                 // Display the response option ui
-                responseOptionsRoot.gameObject.SetActive(true);
+                responseOptionsArea.gameObject.SetActive(true);
                 _responseOptions = new List<DialogueResponseWidget>();
                 Cursor.visible = true;
                 int i = 0;
@@ -306,8 +381,14 @@ namespace BuildABot
                 yield return new WaitUntil(() => !_isWaitingForResponse);
                 next = node.ResponseOptions[_selectedOption].TargetNode;
                 
+                //Fire response event
+                foreach (GameplayEvent e in node.ResponseOptions[_selectedOption].SelectionEvents)
+                {
+                    e.Invoke();
+                }
+
                 // Hide and clear the response ui
-                responseOptionsRoot.gameObject.SetActive(false);
+                responseOptionsArea.gameObject.SetActive(false);
                 foreach (DialogueResponseWidget widget in _responseOptions)
                 {
                     Destroy(widget.gameObject);
@@ -318,6 +399,7 @@ namespace BuildABot
             else
             {
                 // Wait for continue option
+                dialogueText.text += GetContinueString();
                 _shouldContinue = false;
                 yield return new WaitUntil(() => _shouldContinue);
                 _shouldContinue = false;
@@ -332,7 +414,15 @@ namespace BuildABot
             _finalizeDisplayCoroutine = null;
             
             if (next == -1 || next >= _currentlyPlaying.DialogueNodes.Count) EndDialogue();
-            else DisplayDialogueNode(_currentlyPlaying.DialogueNodes[next]);
+            else
+            {
+                if (node.SuspendOnCompletion)
+                {
+                    Suspend();
+                    yield return new WaitUntil(() => !_suspended);
+                }
+                DisplayDialogueNode(_currentlyPlaying.DialogueNodes[next]);
+            }
         }
         
         

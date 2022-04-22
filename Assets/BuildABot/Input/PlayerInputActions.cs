@@ -111,9 +111,27 @@ namespace BuildABot
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Guard"",
+                    ""name"": ""AoeAttack"",
                     ""type"": ""Button"",
-                    ""id"": ""73449cbb-2ced-44ba-b106-fdda2603f710"",
+                    ""id"": ""45d8c989-7139-40b4-ba08-3f8610600661"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ProjectileAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""25186f28-b313-4085-b394-5a5fb1e0f99b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ZoomOut"",
+                    ""type"": ""Button"",
+                    ""id"": ""d02395af-cff3-4817-b950-74cccf77dd97"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -135,7 +153,7 @@ namespace BuildABot
                 {
                     ""name"": """",
                     ""id"": ""5642340b-e9c7-412a-997f-22192d61ed8a"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -212,7 +230,7 @@ namespace BuildABot
                 {
                     ""name"": """",
                     ""id"": ""e41647ff-ee24-41e0-bc3a-a7135e229202"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -267,7 +285,7 @@ namespace BuildABot
                 {
                     ""name"": """",
                     ""id"": ""149f7121-f83d-4e86-8111-3ea259a73254"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -333,8 +351,8 @@ namespace BuildABot
                 {
                     ""name"": """",
                     ""id"": ""bbcc3251-bef1-41e3-b8e4-a4bf58d1dec2"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Hold"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
                     ""action"": ""HeavyAttack"",
@@ -344,8 +362,8 @@ namespace BuildABot
                 {
                     ""name"": """",
                     ""id"": ""805d1794-cf32-41ec-8905-009b215d118b"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": ""Hold"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""HeavyAttack"",
@@ -354,23 +372,67 @@ namespace BuildABot
                 },
                 {
                     ""name"": """",
-                    ""id"": ""df90f8cd-c280-4b41-b259-3e01b0625533"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""id"": ""d10dbfee-11aa-491c-9d8a-15d5346bddce"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Guard"",
+                    ""action"": ""AoeAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""557a9352-3c01-44bc-b80b-4ac8122f7972"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""id"": ""2bcbdb97-3b12-4f8f-88e7-c4b17d23d0a6"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Guard"",
+                    ""action"": ""AoeAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dfb55b67-a4b6-40c8-b2e2-a4aad60cd0d0"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""ProjectileAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ae3bfb5-7374-4a1e-a39d-d9b488bdca3c"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ProjectileAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f7c87f8-776f-4349-85f5-8500bdbc0f60"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ZoomOut"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ce4a39e-739b-4231-a070-5b99ec0c28f5"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""ZoomOut"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -596,7 +658,7 @@ namespace BuildABot
                 {
                     ""name"": """",
                     ""id"": ""3661f2c9-9fba-4cb4-ab76-55dc596da5b6"",
-                    ""path"": ""*/{Cancel}"",
+                    ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
@@ -682,105 +744,6 @@ namespace BuildABot
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Gamepad"",
-                    ""id"": ""4b084d59-e977-4594-a6e1-d3befbffe626"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""377d6936-afa0-42ac-bce0-ae2f2046a302"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""eb937e2a-2a25-4def-8741-d24fabbdbb97"",
-                    ""path"": ""<Gamepad>/rightStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""2d49ea19-cfb8-4aa0-bbef-ee98d09e2807"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""5248a37d-b624-419e-a9a6-65aa5843037a"",
-                    ""path"": ""<Gamepad>/rightStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""e0d6fabd-1088-4279-8b44-1729d26b87bc"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""66ea7419-51be-442a-9598-4d544af0200f"",
-                    ""path"": ""<Gamepad>/rightStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""0d9566bc-56a1-4add-905a-7a3eea549e9b"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""19b870f5-0d3d-435f-9eb9-a66e46545d09"",
-                    ""path"": ""<Gamepad>/rightStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""75ef0fdb-59dd-4ae5-aba4-d22c303fc7d7"",
                     ""path"": ""<Gamepad>/dpad"",
@@ -788,6 +751,28 @@ namespace BuildABot
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6db9eae5-69b0-4261-b317-078c877adfed"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ed2f8f2-36b1-4535-860f-4d136139c58e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -815,17 +800,6 @@ namespace BuildABot
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4ed2f8f2-36b1-4535-860f-4d136139c58e"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": ""Tap"",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Submit"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""aa0be6e3-eb9d-4e8b-9cf9-295bafb42983"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
@@ -837,8 +811,8 @@ namespace BuildABot
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c0f76a77-b8c1-437e-adc0-7894c2f809b4"",
-                    ""path"": ""<Mouse>/backButton"",
+                    ""id"": ""41584ae3-5699-4674-af32-2e4b3cfa738e"",
+                    ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
@@ -848,8 +822,8 @@ namespace BuildABot
                 },
                 {
                     ""name"": """",
-                    ""id"": ""41584ae3-5699-4674-af32-2e4b3cfa738e"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""id"": ""c0f76a77-b8c1-437e-adc0-7894c2f809b4"",
+                    ""path"": ""<Mouse>/backButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
@@ -1085,7 +1059,9 @@ namespace BuildABot
             m_Player_OpenConsole = m_Player.FindAction("OpenConsole", throwIfNotFound: true);
             m_Player_LightAttack = m_Player.FindAction("LightAttack", throwIfNotFound: true);
             m_Player_HeavyAttack = m_Player.FindAction("HeavyAttack", throwIfNotFound: true);
-            m_Player_Guard = m_Player.FindAction("Guard", throwIfNotFound: true);
+            m_Player_AoeAttack = m_Player.FindAction("AoeAttack", throwIfNotFound: true);
+            m_Player_ProjectileAttack = m_Player.FindAction("ProjectileAttack", throwIfNotFound: true);
+            m_Player_ZoomOut = m_Player.FindAction("ZoomOut", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_CloseMenu = m_UI.FindAction("CloseMenu", throwIfNotFound: true);
@@ -1174,7 +1150,9 @@ namespace BuildABot
         private readonly InputAction m_Player_OpenConsole;
         private readonly InputAction m_Player_LightAttack;
         private readonly InputAction m_Player_HeavyAttack;
-        private readonly InputAction m_Player_Guard;
+        private readonly InputAction m_Player_AoeAttack;
+        private readonly InputAction m_Player_ProjectileAttack;
+        private readonly InputAction m_Player_ZoomOut;
         public struct PlayerActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -1188,7 +1166,9 @@ namespace BuildABot
             public InputAction @OpenConsole => m_Wrapper.m_Player_OpenConsole;
             public InputAction @LightAttack => m_Wrapper.m_Player_LightAttack;
             public InputAction @HeavyAttack => m_Wrapper.m_Player_HeavyAttack;
-            public InputAction @Guard => m_Wrapper.m_Player_Guard;
+            public InputAction @AoeAttack => m_Wrapper.m_Player_AoeAttack;
+            public InputAction @ProjectileAttack => m_Wrapper.m_Player_ProjectileAttack;
+            public InputAction @ZoomOut => m_Wrapper.m_Player_ZoomOut;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1225,9 +1205,15 @@ namespace BuildABot
                     @HeavyAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack;
                     @HeavyAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack;
                     @HeavyAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack;
-                    @Guard.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGuard;
-                    @Guard.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGuard;
-                    @Guard.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGuard;
+                    @AoeAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAoeAttack;
+                    @AoeAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAoeAttack;
+                    @AoeAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAoeAttack;
+                    @ProjectileAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnProjectileAttack;
+                    @ProjectileAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnProjectileAttack;
+                    @ProjectileAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnProjectileAttack;
+                    @ZoomOut.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomOut;
+                    @ZoomOut.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomOut;
+                    @ZoomOut.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomOut;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1259,9 +1245,15 @@ namespace BuildABot
                     @HeavyAttack.started += instance.OnHeavyAttack;
                     @HeavyAttack.performed += instance.OnHeavyAttack;
                     @HeavyAttack.canceled += instance.OnHeavyAttack;
-                    @Guard.started += instance.OnGuard;
-                    @Guard.performed += instance.OnGuard;
-                    @Guard.canceled += instance.OnGuard;
+                    @AoeAttack.started += instance.OnAoeAttack;
+                    @AoeAttack.performed += instance.OnAoeAttack;
+                    @AoeAttack.canceled += instance.OnAoeAttack;
+                    @ProjectileAttack.started += instance.OnProjectileAttack;
+                    @ProjectileAttack.performed += instance.OnProjectileAttack;
+                    @ProjectileAttack.canceled += instance.OnProjectileAttack;
+                    @ZoomOut.started += instance.OnZoomOut;
+                    @ZoomOut.performed += instance.OnZoomOut;
+                    @ZoomOut.canceled += instance.OnZoomOut;
                 }
             }
         }
@@ -1482,7 +1474,9 @@ namespace BuildABot
             void OnOpenConsole(InputAction.CallbackContext context);
             void OnLightAttack(InputAction.CallbackContext context);
             void OnHeavyAttack(InputAction.CallbackContext context);
-            void OnGuard(InputAction.CallbackContext context);
+            void OnAoeAttack(InputAction.CallbackContext context);
+            void OnProjectileAttack(InputAction.CallbackContext context);
+            void OnZoomOut(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

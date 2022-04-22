@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -59,8 +58,9 @@ namespace BuildABot
         {
             if (_target != null)
             {
-                _target.Interact(this);
-                // TODO: Suppress message here
+                _target.SuppressMessage();
+                _target.Interact(this); // TODO: Subscribe to OnInteractionFinished event
+                _target = null;
             }
         }
 
@@ -68,14 +68,25 @@ namespace BuildABot
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, player.CharacterMovement.Facing,
                 player.Bounds.x * 2, targetLayer);
-            if (hit.transform == null) return;
+            if (hit.transform == null)
+            {
+                if (_target != null) _target.SuppressMessage();
+                _target = null;
+                return;
+            }
             
             IInteractable interactable = hit.transform.GetComponent<IInteractable>();
-            if (interactable != null)
+            if (interactable != null && interactable.CanInteract)
             {
                 _target = interactable;
-                // TODO: Display message
+                interactable.DisplayMessage(this);
             }
+            else
+            {
+                if (_target != null) _target.SuppressMessage();
+                _target = null;
+            }
+            
         }
         
     }

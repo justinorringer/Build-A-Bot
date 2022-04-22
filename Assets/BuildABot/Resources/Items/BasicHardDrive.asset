@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9b1b939c6a4ce98d380593a05f1a20, type: 3}
+  m_Name: BasicHardDrive
+  m_EditorClassIdentifier: 
+  displayName: Basic Hard Drive
+  description: An old hard drive used to store data. Maybe this can help BIPY store
+    more?
+  inventorySprite: {fileID: 21300000, guid: fcf3dfca4b5184f42a686beaa9d80978, type: 3}
+  overworldSprite: {fileID: 21300000, guid: fcf3dfca4b5184f42a686beaa9d80978, type: 3}
+  value: 250
+  partType: 6
+  maxDurability: 1000
+  quality: 1
+  effects:
+  - effect: {fileID: 11400000, guid: 50e2935d55e5fcc498b480f7486757cf, type: 2}
+    magnitude: 15
+  attack: {fileID: 0}

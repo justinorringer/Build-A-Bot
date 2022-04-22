@@ -30,11 +30,15 @@ namespace BuildABot
         
         protected void OnEnable()
         {
+#if DEMO_BUILD
+            
+#else
             if (allowCommandConsole)
             {
                 player.PlayerController.InputActions.Player.OpenConsole.performed += Input_OpenConsole;
                 player.PlayerController.InputActions.ConsoleUI.Close.performed += Input_CloseConsole;
             }
+#endif
         }
 
         protected void OnDisable()

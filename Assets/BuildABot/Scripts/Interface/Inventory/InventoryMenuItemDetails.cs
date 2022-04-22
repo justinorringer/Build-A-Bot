@@ -24,8 +24,36 @@ namespace BuildABot
             get => _slot;
             set
             {
+                if (enabled && _slot != null && _slot.Entry.CanEquip)
+                {
+                    _slot.Entry.OnEquip -= OnEquipped;
+                    _slot.Entry.OnUnequip -= OnUnequipped;
+                }
                 _slot = value;
+                if (enabled && _slot != null && _slot.Entry.CanEquip)
+                {
+                    _slot.Entry.OnEquip += OnEquipped;
+                    _slot.Entry.OnUnequip += OnUnequipped;
+                }
                 Refresh();
+            }
+        }
+
+        private void OnEnable()
+        {
+            if (_slot != null && _slot.Entry.CanEquip)
+            {
+                _slot.Entry.OnEquip += OnEquipped;
+                _slot.Entry.OnUnequip += OnUnequipped;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_slot != null && _slot.Entry.CanEquip)
+            {
+                _slot.Entry.OnEquip -= OnEquipped;
+                _slot.Entry.OnUnequip -= OnUnequipped;
             }
         }
 
@@ -63,10 +91,6 @@ namespace BuildABot
             if (Slot.Entry is ComputerPartInstance cp)
             {
                 InventoryMenu.Player.EquipItem(cp);
-                itemDetailsEquipOption.gameObject.SetActive(false);
-                itemDetailsUnequipOption.gameObject.SetActive(true);
-                Slot.Refresh();
-                itemDetailsUnequipOption.Select();
             }
         }
         
@@ -78,11 +102,23 @@ namespace BuildABot
             if (Slot.Entry is ComputerPartInstance cp)
             {
                 InventoryMenu.Player.UnequipItemSlot(cp.ComputerPartItem.PartType);
-                itemDetailsEquipOption.gameObject.SetActive(true);
-                itemDetailsUnequipOption.gameObject.SetActive(false);
-                Slot.Refresh();
-                itemDetailsEquipOption.Select();
             }
+        }
+
+        private void OnEquipped(InventoryEntry entry)
+        {
+            itemDetailsEquipOption.gameObject.SetActive(false);
+            itemDetailsUnequipOption.gameObject.SetActive(true);
+            Slot.Refresh();
+            itemDetailsUnequipOption.Select();
+        }
+
+        private void OnUnequipped(InventoryEntry entry)
+        {
+            itemDetailsEquipOption.gameObject.SetActive(true);
+            itemDetailsUnequipOption.gameObject.SetActive(false);
+            Slot.Refresh();
+            itemDetailsEquipOption.Select();
         }
     }
 }

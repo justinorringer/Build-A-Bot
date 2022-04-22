@@ -17,7 +17,14 @@ namespace BuildABot
 
         public Vector2 AttackDirection { get; set; }
 
-        [SerializeField] private AttackData storedAttack; // TODO: Remove, only use TryPerformAttack or have a labelled list
+        [Tooltip("The light melee attack equipped by the character.")]
+        [SerializeField] private MeleeAttackData lightAttack;
+        [Tooltip("The heavy melee attack equipped by the character.")]
+        [SerializeField] private MeleeAttackData heavyAttack;
+        [Tooltip("The AoE attack equipped by the character.")]
+        [SerializeField] private AoeAttackData aoeAttack;
+        [Tooltip("The ranged projectile attack equipped by the character.")]
+        [SerializeField] private ProjectileAttackData projectileAttack;
         
         [Tooltip("The layers that can be hit by attacks from this character.")]
         [SerializeField] private LayerMask targetLayers;
@@ -36,6 +43,34 @@ namespace BuildABot
 
         /** Gets the layers targeted by this controller. */
         public LayerMask TargetLayers => targetLayers;
+
+        /** The light melee attack equipped by the character. */
+        public MeleeAttackData LightAttack
+        {
+            get => lightAttack;
+            set => lightAttack = value;
+        }
+        /** The heavy melee attack equipped by the character. */
+        public MeleeAttackData HeavyAttack
+        {
+            get => heavyAttack;
+            set => heavyAttack = value;
+        }
+        /** The AoE attack equipped by the character. */
+        public AoeAttackData AoeAttack
+        {
+            get => aoeAttack;
+            set => aoeAttack = value;
+        }
+        /** The ranged projectile attack equipped by the character. */
+        public ProjectileAttackData ProjectileAttack
+        {
+            get => projectileAttack;
+            set => projectileAttack = value;
+        }
+
+        /** The audio source component used by this object. */
+        private AudioSource _audioSource;
 
         /** The IEnumerator representing the current attack's coroutine. */
         private IEnumerator _currentAttackCoroutine;
@@ -81,6 +116,7 @@ namespace BuildABot
         // Start is called before the first frame update
         protected void Start()
         {
+            _audioSource = GetComponent<AudioSource>();
             Character = GetComponent<Character>();
 
             _animValidParameters = new HashSet<string>();
@@ -104,9 +140,40 @@ namespace BuildABot
             return _animValidParameters?.Contains(parameter) ?? false;
         }
 
-        public void DoStoredAttack()
+        /**
+         * Attempts to perform the stored light attack for this character.
+         * <returns>True if the attack is available and could be performed.</returns>
+         */
+        public bool DoLightMeleeAttack()
         {
-            TryPerformAttack(storedAttack);
+            return lightAttack != null && TryPerformAttack(lightAttack);
+        }
+
+        /**
+         * Attempts to perform the stored heavy attack for this character.
+         * <returns>True if the attack is available and could be performed.</returns>
+         */
+        public bool DoHeavyMeleeAttack()
+        {
+            return heavyAttack != null && TryPerformAttack(heavyAttack);
+        }
+
+        /**
+         * Attempts to perform the stored AoE attack for this character.
+         * <returns>True if the attack is available and could be performed.</returns>
+         */
+        public bool DoAreaOfEffectAttack()
+        {
+            return aoeAttack != null && TryPerformAttack(aoeAttack);
+        }
+
+        /**
+         * Attempts to perform the stored ranged projectile attack for this character.
+         * <returns>True if the attack is available and could be performed.</returns>
+         */
+        public bool DoProjectileAttack()
+        {
+            return projectileAttack != null && TryPerformAttack(projectileAttack);
         }
 
         /**
@@ -125,10 +192,22 @@ namespace BuildABot
             _currentHits = new List<Character>();
             _currentOnFinish = onFinish;
             _currentOnCancel = onCancel;
-            _currentAttackCoroutine = attack.Execute(this, _currentHits, onProgress, OnFinishAttack);
+            _currentAttackCoroutine = attack.Execute(this, _currentHits,
+                progress =>
+                {
+                    // Play the progress attack sound
+                    if (_audioSource != null && attack.ProgressSound != null)
+                        _audioSource.PlayOneShot(attack.ProgressSound);
+                    onProgress?.Invoke(progress);
+                },
+                OnFinishAttack);
+            
             // Play the animation if there is an animator attached that supports the trigger
             if (_anim != null && _anim.runtimeAnimatorController != null && AnimatorHasParameter(attack.AnimationTriggerName))
                 _anim.SetTrigger(attack.AnimationTriggerName);
+            // Play the start attack sound
+            if (_audioSource != null && attack.StartSound != null)
+                _audioSource.PlayOneShot(attack.StartSound);
             return true;
         }
 
@@ -165,12 +244,19 @@ namespace BuildABot
             {
                 instigator.onKill.Invoke(attack, this);
             }
+            
+            // TODO: Make knockback work
+            //Character.CharacterMovement.ApplyKnockback(instigator.AttackDirection);
 
             Character.OnDeath += OnDeath;
             
             // Apply the effects from the attack
             foreach (EffectInstance instance in attack.Effects)
             {
+                EffectInstance amplifiedByStatsInst = instance;
+                // Apply attack power buff
+                amplifiedByStatsInst.magnitude *= instigator.Character.Attributes.AttackPower.CurrentValue;
+                // TODO: Apply receiver resistance
                 Character.Attributes.ApplyEffect(instance, Character);
             }
 

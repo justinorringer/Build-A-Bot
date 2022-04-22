@@ -38,7 +38,7 @@ namespace BuildABot
         [SerializeField] private float nextPatrolPointDistance = 1f;
 
         /** The current patrol point target index. */
-        private int _currentPatrolPoint;
+        public int CurrentPatrolPoint { get; set; }
 
         /** The field of view component used for vision based detection. */
         private FieldOfView _fov;
@@ -68,6 +68,10 @@ namespace BuildABot
         [Tooltip("Interval in seconds to update enemy pathing")]
         [SerializeField] private float pathUpdateInterval = 0.5f;
 
+        [Header("Audio Information")]
+        [Tooltip("Audio Clip to play when this enemy spots the player")]
+        [SerializeField] private AudioClip aggroSound;
+
         /** The movement controller used by this enemy. */
         private EnemyMovement _enemyMovement;
         /** The Seeker component that we are using */
@@ -77,6 +81,9 @@ namespace BuildABot
 
         /** The IEnumerator used by the UpdatePath coroutine. */
         private IEnumerator _updatePathCoroutine;
+
+        /** The audiosource with which to play sound effects for an enemy */
+        private AudioSource _audioSource;
 
         /** Reference to the enemy's current mode */
         public EPathingMode EnemyMode => enemyMode;
@@ -91,6 +98,7 @@ namespace BuildABot
             _rigidbody = GetComponent<Rigidbody2D>();
             _fov = GetComponent<FieldOfView>();
             _enemyMovement = GetComponent<EnemyMovement>();
+            _audioSource = GetComponent<AudioSource>();
 
             _fov.StartLooking();
         }
@@ -152,17 +160,17 @@ namespace BuildABot
                 return;
 
             //Loop if necessary
-            if (_currentPatrolPoint >= patrolPoints.Count)
-                _currentPatrolPoint = 0;
+            if (CurrentPatrolPoint >= patrolPoints.Count)
+                CurrentPatrolPoint = 0;
 
             //Move to next waypoint
-            _enemyMovement.MoveToPosition(patrolPoints[_currentPatrolPoint].position);
+            _enemyMovement.MoveToPosition(patrolPoints[CurrentPatrolPoint].position);
 
             //Check to see if we've reached the point where we can move to the next waypoint
-            float distance = Vector2.Distance(_rigidbody.position, patrolPoints[_currentPatrolPoint].position);
+            float distance = Vector2.Distance(_rigidbody.position, patrolPoints[CurrentPatrolPoint].position);
             if (distance < nextPatrolPointDistance)
             {
-                _currentPatrolPoint++;
+                CurrentPatrolPoint++;
             }
         }
 
@@ -216,17 +224,18 @@ namespace BuildABot
 
         public void AddTarget(Transform newTarget)
         {
-            //Dumb enemy - chase the first thing it sees
             target = newTarget;
             _fov.StopLooking();
+            
+            
             enemyMode = EPathingMode.Seeking;
             
             //Set timer for returning and start pathing to return
             Utility.DelayedFunction(this, returnDelay, () =>
             {
                 enemyMode = EPathingMode.Returning;
-                target = patrolPoints[_currentPatrolPoint].transform;
-                _enemyMovement.Animator.SetInteger("EnemyState", 0);
+                target = patrolPoints[CurrentPatrolPoint].transform;
+                _enemyMovement.Animator.SetBool("EnemyAggro", false);
             });
 
             if (_updatePathCoroutine != null) StopCoroutine(_updatePathCoroutine);
@@ -235,16 +244,10 @@ namespace BuildABot
             _updatePathCoroutine = Utility.RepeatFunction(this, UpdatePath, pathUpdateInterval);
 
             //Update animator
-            _enemyMovement.Animator.SetInteger("EnemyState", 1);
-        }
-
-        void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (_enemyMovement.MovementMode == ECharacterMovementMode.Walking && collision.gameObject.CompareTag("Player"))
-            {
-                //Turn around
-                _currentPatrolPoint++;
-            }
+            _enemyMovement.Animator.SetBool("EnemyAggro", true);
+            
+            //Play Sound
+            _audioSource.PlayOneShot(aggroSound);
         }
     }
 }

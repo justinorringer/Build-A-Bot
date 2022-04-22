@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.XInput;
 using UnityEngine.SceneManagement;
 
 namespace BuildABot
@@ -29,6 +33,9 @@ namespace BuildABot
         [Tooltip("The player input controller used by this player.")]
         [SerializeField] private PlayerController playerController;
 
+        /** The text replacement tokens to use for this play session. */
+        private Dictionary<string, string> _textReplacementTokens;
+
         /** The player input controller used by this player. */
         public PlayerController PlayerController => playerController;
 
@@ -46,11 +53,26 @@ namespace BuildABot
         [HideInInspector]
         [SerializeField] private int wallet;
 
-        /** the amount of currency held by this player. */
+        /** The amount of currency held by this player. */
         public int Wallet
         {
             get => wallet;
-            set => wallet = value < 0 ? 0 : value;
+            set
+            {
+                int cache = wallet;
+                wallet = value < 0 ? 0 : value;
+                onWalletChanged.Invoke(cache, wallet);
+            }
+        }
+
+        [Tooltip("An event triggered whenever this player's wallet is changed. Subscribers will receive the old and new values.")]
+        [SerializeField] private UnityEvent<int, int> onWalletChanged;
+        
+        /** An event triggered whenever this player's wallet is changed. Subscribers will receive the old and new values. */
+        public event UnityAction<int, int> OnWalletChanged
+        {
+            add => onWalletChanged.AddListener(value);
+            remove => onWalletChanged.RemoveListener(value);
         }
         
         /**
@@ -68,7 +90,25 @@ namespace BuildABot
         private readonly Dictionary<EComputerPartSlot, EquipmentSlotData> _equippedItems =
             new Dictionary<EComputerPartSlot, EquipmentSlotData>();
         
-        // TODO: Add events for when items are equipped and unequipped
+        [Tooltip("An event triggered whenever this player equips an item.")]
+        [SerializeField] private UnityEvent<ComputerPartInstance> onItemEquipped;
+        
+        [Tooltip("An event triggered whenever this player unequips an item.")]
+        [SerializeField] private UnityEvent<ComputerPartInstance> onItemUnequipped;
+        
+        /** An event triggered whenever this player equips an item. */
+        public event UnityAction<ComputerPartInstance> OnItemEquipped
+        {
+            add => onItemEquipped.AddListener(value);
+            remove => onItemEquipped.RemoveListener(value);
+        }
+        
+        /** An event triggered whenever this player unequips an item. */
+        public event UnityAction<ComputerPartInstance> OnItemUnequipped
+        {
+            add => onItemUnequipped.AddListener(value);
+            remove => onItemUnequipped.RemoveListener(value);
+        }
 
         /**
          * Gets the computer part equipped to the specified slot. If nothing is equipped, null is returned.
@@ -98,6 +138,22 @@ namespace BuildABot
             // Unequip the slots previous item if one exists
             if (_equippedItems.TryGetValue(slot, out _)) UnequipItemSlot(slot);
 
+            switch (slot)
+            {
+                case EComputerPartSlot.Mouse:
+                    CombatController.LightAttack = baseItem.Attack as MeleeAttackData;
+                    break;
+                case EComputerPartSlot.Keyboard:
+                    CombatController.HeavyAttack = baseItem.Attack as MeleeAttackData;
+                    break;
+                case EComputerPartSlot.WirelessCard:
+                    CombatController.AoeAttack = baseItem.Attack as AoeAttackData;
+                    break;
+                case EComputerPartSlot.DiskDrive:
+                    CombatController.ProjectileAttack = baseItem.Attack as ProjectileAttackData;
+                    break;
+            }
+
             // Create the slot data
             EquipmentSlotData data = new EquipmentSlotData()
             {
@@ -122,6 +178,7 @@ namespace BuildABot
             // Store the slot entry and mark as equipped
             _equippedItems.Add(slot, data);
             item.Equipped = true;
+            onItemEquipped.Invoke(item);
         }
 
         /**
@@ -132,6 +189,22 @@ namespace BuildABot
         {
             if (_equippedItems.TryGetValue(slot, out EquipmentSlotData data))
             {
+                switch (slot)
+                {
+                    case EComputerPartSlot.Mouse:
+                        CombatController.LightAttack = null;
+                        break;
+                    case EComputerPartSlot.Keyboard:
+                        CombatController.HeavyAttack = null;
+                        break;
+                    case EComputerPartSlot.WirelessCard:
+                        CombatController.AoeAttack = null;
+                        break;
+                    case EComputerPartSlot.DiskDrive:
+                        CombatController.ProjectileAttack = null;
+                        break;
+                }
+                
                 foreach (AttributeSet.AppliedEffectHandle effect in data.AppliedEffects)
                 {
                     Attributes.RemoveEffect(effect);
@@ -139,10 +212,11 @@ namespace BuildABot
                 // Remove the data and mark as not equipped
                 _equippedItems.Remove(slot);
                 data.Item.Equipped = false;
+                onItemEquipped.Invoke(data.Item);
             }
         }
 
-        private void HandleNewItem(InventoryEntry entry, int count)
+        private void HandleNewItem(InventoryEntry entry)
         {
             // Handle auto-equipping new items
             if (entry is ComputerPartInstance cp)
@@ -150,6 +224,27 @@ namespace BuildABot
                 if (GetItemEquippedToSlot(cp.ComputerPartItem.PartType) == null)
                 {
                     EquipItem(cp);
+                }
+            }
+        }
+
+        private void HandleRemovedItem(InventoryEntry entry)
+        {
+            if (entry.Equipped && entry is ComputerPartInstance cp)
+            {
+                UnequipItemSlot(cp.ComputerPartItem.PartType);
+            }
+        }
+
+        private void HandleModifiedItem(InventoryEntry entry)
+        {
+            if (entry is ComputerPartInstance cp)
+            {
+                // Handle losing all durability
+                if (cp.Durability == 0 && cp.MaxDurability != 0)
+                {
+                    if (entry.Equipped) UnequipItemSlot(cp.ComputerPartItem.PartType);
+                    Inventory.RemoveEntry(entry, true);
                 }
             }
         }
@@ -171,6 +266,8 @@ namespace BuildABot
         {
             base.OnEnable();
             Inventory.OnEntryAdded += HandleNewItem;
+            Inventory.OnEntryModified += HandleModifiedItem;
+            Inventory.OnEntryRemoved += HandleRemovedItem;
             if (CombatController != null) CombatController.OnKill += HandleKill;
         }
 
@@ -178,6 +275,8 @@ namespace BuildABot
         {
             if (CombatController != null) CombatController.OnKill -= HandleKill;
             Inventory.OnEntryAdded -= HandleNewItem;
+            Inventory.OnEntryModified -= HandleModifiedItem;
+            Inventory.OnEntryRemoved -= HandleRemovedItem;
             base.OnDisable();
         }
 
@@ -191,7 +290,7 @@ namespace BuildABot
             if (target.Character is Enemy enemy)
             {
                 Wallet += enemy.DroppedCurrency;
-                Debug.Log($"Wallet has {wallet} coins");
+                Debug.Log($"Wallet has {Wallet} coins");
             }
         }
 
@@ -269,22 +368,85 @@ namespace BuildABot
          */
         public void ShowHelpMenu(string message)
         {
-            ShowHelpMenu(message, "Alert");
+            ShowHelpMenu(message, HelpWidget.DefaultTitle);
         }
 
         /**
          * Show a help menu to the player.
          * <param name="message">The message to display.</param>
-         * <param name="title">The title of the alert. Defaults to Alert.</param>
-         * <param name="acknowledgeMessage">The text to place in the acknowledgement button. Defaults to OK.</param>
+         * <param name="title">The title of the alert.</param>
+         * <param name="acknowledgeMessage">The text to place in the acknowledgement button. This will use the global help widget default if not provided.</param>
          */
-        public void ShowHelpMenu(string message, string title, string acknowledgeMessage = "OK")
+        public void ShowHelpMenu(string message, string title, string acknowledgeMessage = HelpWidget.DefaultAcknowledgeMessage)
         {
             Cursor.visible = true;
             HelpWidget widget = Instantiate(alertPrefab);
             widget.Initialize(this, message, title, acknowledgeMessage);
             SetPaused(true);
             DisableHUD();
+        }
+
+        private void SetupStandardTextTokens()
+        {
+            
+            _textReplacementTokens = new Dictionary<string, string>
+            {
+                {"{PLAYER_NAME}", "BIPY"}
+            };
+            
+            // Gather input mapping tokens
+            foreach (var actionMap in PlayerController.InputActions.asset.actionMaps)
+            {
+                foreach (var action in actionMap)
+                {
+                    if (action != null)
+                    {
+                        var bindingIndex = action.GetBindingIndex(PlayerController.PlayerInput.currentControlScheme);
+                        if (bindingIndex != -1)
+                        {
+                            action.GetBindingDisplayString(bindingIndex, out _,
+                                out string controlPath, InputBinding.DisplayStringOptions.DontUseShortDisplayNames);
+
+                            bool isGamepad = Gamepad.current != null;
+                            string iconsSource;
+                            if (isGamepad && PlayerController.PlayerInput.currentControlScheme == "Gamepad")
+                            {
+                                if (Gamepad.current is DualShockGamepad)
+                                {
+                                    iconsSource = "PlaystationIcons";
+                                }
+                                else if (Gamepad.current is XInputController)
+                                {
+                                    iconsSource = "XboxIcons";
+                                }
+                                else
+                                {
+                                    iconsSource = "XboxIcons"; // TODO: Use generic icons
+                                }
+                            }
+                            else
+                            {
+                                iconsSource = "KeyboardMouseIcons";
+                            }
+                            string spriteName = controlPath?.Replace('/', '_');
+                            
+                            if (spriteName != null)
+                                _textReplacementTokens.Add($"{{INPUT:{actionMap.name}:{action.name}}}",
+                                    $"<sprite=\"{iconsSource}\" name=\"{spriteName}\">");
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Handles replacing any standard tokens with their displayed value.
+         * <param name="source">The source string to replace tokens within.</param>
+         */
+        public string PerformStandardTokenReplacement(string source)
+        {
+            SetupStandardTextTokens();
+            return source.ReplaceTokens(_textReplacementTokens);
         }
 
     }
