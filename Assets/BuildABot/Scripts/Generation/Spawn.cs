@@ -7,24 +7,27 @@ using UnityEngine.Tilemaps;
 namespace BuildABot {
     public class Spawn : MonoBehaviour
     {
-        public Tile basicTile;
+        [SerializeField] public LootTable spawns;
 
-        public GameObject tilemap;
+        [SerializeField] private ItemPickup itemPickup;
 
-        public GameObject room = null;
+        [SerializeField] private int xPos = 4;
+        [SerializeField] private int yPos = 4;
 
         void Start()
         {
-
-            int x = (int) transform.position.x;
-            int y = (int) transform.position.y;
-
-            Debug.LogFormat("{0}, {1}", x, y);
+            int x = (int) transform.position.x + xPos;
+            int y = (int) transform.position.y + yPos;
 
             // Make a vector 3 to store the position of the object .SetTile is particular
             Vector3Int pos = new Vector3Int(x, y, 0);
 
-            tilemap.GetComponent<Tilemap>().SetTile(pos, basicTile);
+            InventoryEntry i = spawns.GenerateItemList()[0];
+            ItemPickup pickup = Instantiate(itemPickup, pos, Quaternion.identity);
+
+            pickup.Item = i.Item;
+
+            pickup.Count = i.Count;
         }
     }
 }

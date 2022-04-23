@@ -219,10 +219,10 @@ namespace BuildABot {
                     // First, I need to check if the left or right of this room is open
                     if (current[0] + 1 < map.mapSize - 1 && map.grid[current[0] + 1, current[1]].GetRoomType() == RoomType.NONE) {
                         // if so, create a dead end room
-                        if (Random.Range(0, 5) == 1)
+                        if (Random.Range(0, 3) == 0)
                             map.grid[current[0] + 1, current[1]].isLEnd = true; // set the room to be a dead end
                     } else if (current[0] - 1 >= 1 && map.grid[current[0] - 1, current[1]].GetRoomType() == RoomType.NONE) {
-                        if (Random.Range(0, 5) == 1) // if so, create a dead end room
+                        if (Random.Range(0, 3) == 0) // if so, create a dead end room
                             map.grid[current[0] - 1, current[1]].isREnd = true;
                     }
 
