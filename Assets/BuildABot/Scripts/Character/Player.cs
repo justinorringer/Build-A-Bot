@@ -95,7 +95,10 @@ namespace BuildABot
         
         [Tooltip("An event triggered whenever this player unequips an item.")]
         [SerializeField] private UnityEvent<ComputerPartInstance> onItemUnequipped;
-        
+
+        /** The pre-cached hash value for the HasMouse animation flag. */
+        private static readonly int HasMouse = Animator.StringToHash("HasMouse");
+
         /** An event triggered whenever this player equips an item. */
         public event UnityAction<ComputerPartInstance> OnItemEquipped
         {
@@ -142,6 +145,7 @@ namespace BuildABot
             {
                 case EComputerPartSlot.Mouse:
                     CombatController.LightAttack = baseItem.Attack as MeleeAttackData;
+                    CharacterMovement.Animator.SetBool(HasMouse, true);
                     break;
                 case EComputerPartSlot.Keyboard:
                     CombatController.HeavyAttack = baseItem.Attack as MeleeAttackData;
@@ -193,6 +197,7 @@ namespace BuildABot
                 {
                     case EComputerPartSlot.Mouse:
                         CombatController.LightAttack = null;
+                        CharacterMovement.Animator.SetBool(HasMouse, false);
                         break;
                     case EComputerPartSlot.Keyboard:
                         CombatController.HeavyAttack = null;
@@ -369,6 +374,23 @@ namespace BuildABot
         public void ShowHelpMenu(string message)
         {
             ShowHelpMenu(message, HelpWidget.DefaultTitle);
+        }
+
+        /**
+         * Shows an input help display.
+         * <param name="message">The message to display.</param>
+         */
+        public void ShowInputHelp(string message)
+        {
+            HUD.InputHelpWidget.ShowMessage(message);
+        }
+
+        /**
+         * Hides the input help widget.
+         */
+        public void HideInputHelp()
+        {
+            HUD.InputHelpWidget.HideMessage();
         }
 
         /**
