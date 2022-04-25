@@ -220,6 +220,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ebd647fc1c968846a10abfa64c6aff2, type: 3}
+--- !u!114 &168807685 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4669034438795753241, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
+  m_PrefabInstance: {fileID: 1366704809}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c52c3dbbcc294b56ba08f2286bc28253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &271086936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4281,6 +4292,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4669034438795753241, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
+      propertyPath: deathParticle
+      value: 
+      objectReference: {fileID: 214333524792713431, guid: 2a171f49a1c154149b70fcc2c618a3fe, type: 3}
+    - target: {fileID: 4669034438795753241, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669034438795753241, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669034438795753241, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 168807685}
+    - target: {fileID: 4669034438795753241, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669034438795753241, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayDeathParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669034438795753241, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: BuildABot.Enemy, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669034438795753241, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4669034438795753246, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
       propertyPath: m_Name
       value: ColdTurretEnemy
@@ -4876,7 +4919,7 @@ Transform:
   - {fileID: 1679629389}
   - {fileID: 371907371}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &820324041955028894
 PrefabInstance:
@@ -4895,7 +4938,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 820324042910893991, guid: bdd8154d9318a8c4eaa91ff322397063, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 820324042910893991, guid: bdd8154d9318a8c4eaa91ff322397063, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5200,7 +5243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5663229579305658271, guid: b9d62d6cbe677ce41bf50835e413dcab, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5663229579305658271, guid: b9d62d6cbe677ce41bf50835e413dcab, type: 3}
       propertyPath: m_LocalPosition.x
