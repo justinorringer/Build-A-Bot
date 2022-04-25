@@ -115,6 +115,9 @@ namespace BuildABot
         /** Knockback to be applied on the next physics update */
         private Vector2 _knockback;
 
+        /** Whether this character can currently jump */
+        public bool CanJump => _jumpCount < MaxJumps;
+
         [Tooltip("Gravity scale multiplier of the jump during the upward arc.")]
         [SerializeField] private float upArcGravity;
         [Tooltip("Gravity scale multiplier of the jump during the peak.")]
@@ -310,10 +313,10 @@ namespace BuildABot
          * Makes the character jump if the character is grounded or has available multi-jumps.
          * This will only work for characters with a Walking movement mode.
          */
-        public void Jump()
+        public virtual void Jump()
         {
             // If the player has jumps available and is in a grounded movement mode, jump
-            if (_jumpCount < MaxJumps)
+            if (CanJump)
             {
                 _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0); // Clear any existing vertical velocity
                 _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse); // Add the impulse
