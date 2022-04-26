@@ -766,8 +766,21 @@ MonoBehaviour:
           m_Calls: []
   onDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2930235710264420322}
+        m_TargetAssemblyTypeName: BuildABot.Enemy, Assembly-CSharp
+        m_MethodName: PlayDeathParticle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   combatController: {fileID: 2930235710264420345}
+  deathParticle: {fileID: 1536405843065613026, guid: 568e792644c2a1745b045aaaabdf44f9, type: 3}
   currencyToDrop: 100
 --- !u!114 &2930235710264420323
 MonoBehaviour:
@@ -908,6 +921,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   visionDelay: 0.2
+  maxTargets: 10
   visibleTargets: []
   flipx: 0
 --- !u!212 &2930235710264420347
