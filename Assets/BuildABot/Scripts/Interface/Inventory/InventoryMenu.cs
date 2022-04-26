@@ -27,6 +27,9 @@ namespace BuildABot
         [Tooltip("The details panel used to display item information.")]
         [SerializeField] private InventoryMenuItemDetails detailsPanel;
 
+        [Tooltip("The display area for the actively selected item.")]
+        [SerializeField] private Image activeItemDisplay;
+
         [Tooltip("The number of item slots shown in each row.")]
         [SerializeField] private int slotsPerRow = 4;
 
@@ -37,7 +40,27 @@ namespace BuildABot
         private List<InventoryMenuItemSlot> _spawnedSlots;
 
         /** The details panel used to display item information. */
-        public InventoryMenuItemDetails DetailsPanel => detailsPanel;
+        private InventoryMenuItemDetails DetailsPanel => detailsPanel;
+        
+        /** The active inventory slot being shown to the user. */
+        public InventoryMenuItemSlot ActiveSlot
+        {
+            get => DetailsPanel.Slot;
+            set
+            {
+                DetailsPanel.Slot = value;
+                if (value == null)
+                {
+                    activeItemDisplay.sprite = null;
+                    activeItemDisplay.gameObject.SetActive(false);
+                }
+                else
+                {
+                    activeItemDisplay.sprite = value.Entry.Item.InventorySprite;
+                    activeItemDisplay.gameObject.SetActive(true);
+                }
+            }
+        }
 
         /** The player instance controlling this menu. */
         public Player Player => player;
@@ -95,17 +118,17 @@ namespace BuildABot
                 Destroy(slot.gameObject);
             }
 
-            DetailsPanel.Slot = null;
+            ActiveSlot = null;
             
             player.PlayerController.InputActions.UI.Back.performed -= Input_Back;
         }
 
         private void Input_Back(InputAction.CallbackContext context)
         {
-            if (DetailsPanel.Slot != null)
+            if (ActiveSlot != null)
             {
-                InventoryMenuItemSlot slot = DetailsPanel.Slot;
-                DetailsPanel.Slot = null; // Exit Detail panel before trying to return to main menu
+                InventoryMenuItemSlot slot = ActiveSlot;
+                ActiveSlot = null; // Exit Detail panel before trying to return to main menu
                 slot.Select();
             }
             else

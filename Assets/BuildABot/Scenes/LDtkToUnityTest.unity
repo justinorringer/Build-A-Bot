@@ -857,7 +857,7 @@ GameObject:
   - component: {fileID: 554038604}
   - component: {fileID: 554038603}
   m_Layer: 0
-  m_Name: BackgroundNoise
+  m_Name: BackgroundAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
