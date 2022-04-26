@@ -29,6 +29,9 @@ namespace BuildABot
         [Tooltip("The layers that can be hit by attacks from this character.")]
         [SerializeField] private LayerMask targetLayers;
 
+        [Tooltip("The collider to use when performing melee attacks. If not specified, a raycast will be used instead.")]
+        [SerializeField] private MeleeCollider meleeCollider;
+
         [Tooltip("An event triggered before this combat controller is hit with an attack.")]
         [SerializeField] private UnityEvent<AttackData, CombatController> onPreHit;
 
@@ -43,6 +46,9 @@ namespace BuildABot
 
         /** Gets the layers targeted by this controller. */
         public LayerMask TargetLayers => targetLayers;
+
+        /** The collider to use when performing melee attacks. If not specified, a raycast will be used instead. */
+        public MeleeCollider MeleeCollider => meleeCollider;
 
         /** The light melee attack equipped by the character. */
         public MeleeAttackData LightAttack
