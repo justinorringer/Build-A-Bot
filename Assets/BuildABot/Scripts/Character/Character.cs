@@ -32,7 +32,7 @@ namespace BuildABot
         /** The combat controller used by this character. */
         public CombatController CombatController => combatController;
         
-        /** The bounding size of this character. */
+        /** The collider of this character. */
         public Collider2D Collider { get; private set; }
         
         /** The bounding size of this character. */
@@ -40,6 +40,9 @@ namespace BuildABot
         
         /** The inventory of this character. */
         public Inventory Inventory { get; private set; }
+        
+        /** This character's sprite renderer. */
+        public SpriteRenderer SpriteRenderer { get; private set; }
         
         /** An event triggered when this character dies. */
         public event UnityAction OnDeath
@@ -66,6 +69,7 @@ namespace BuildABot
             Collider = GetComponent<Collider2D>();
             Bounds = Collider.bounds.size;
             Inventory = GetComponent<Inventory>();
+            SpriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         protected virtual void Start()
@@ -106,7 +110,6 @@ namespace BuildABot
         {
             if (newTemperature >= Attributes.MaxTemperature.CurrentValue) Kill();
             else if (newTemperature <= Attributes.MinTemperature.CurrentValue) Kill();
-            // TODO: Apply tinting
         }
     }
 }
