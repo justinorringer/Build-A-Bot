@@ -690,6 +690,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   combatController: {fileID: 4669034438795753238}
+  deathParticle: {fileID: 214333524792713431, guid: 2a171f49a1c154149b70fcc2c618a3fe, type: 3}
   currencyToDrop: 30
 --- !u!114 &4669034438795753240
 MonoBehaviour:
@@ -878,6 +879,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   visionDelay: 0.2
+  maxTargets: 10
   visibleTargets: []
   flipx: 0
 --- !u!82 &5284303279458593631
