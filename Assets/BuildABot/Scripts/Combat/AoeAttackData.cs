@@ -23,6 +23,24 @@ namespace BuildABot
         
         [Tooltip("The shape of the attack box.")]
         [SerializeField] private EAoeAttackShape shape = EAoeAttackShape.Circle;
+        
+        [Tooltip("The graphic to spawn for this attack.")]
+        [SerializeField] private AoeAttackGraphic graphic;
+        
+        [Tooltip("The color gradient to apply to the spawned graphic.")]
+        [SerializeField] private Gradient graphicColorGradient = new Gradient
+        {
+            colorKeys = new []
+            {
+                new GradientColorKey(Color.white, 0.0f),
+                new GradientColorKey(Color.white, 1.0f)
+            },
+            alphaKeys = new []
+            {
+                new GradientAlphaKey(1.0f, 0.0f),
+                new GradientAlphaKey(1.0f, 1.0f)
+            }
+        };
 
         [Tooltip("Is the size of this attack relative to the bounds of the attacking character?")]
         [SerializeField] private bool useRelativeRadius;
@@ -51,6 +69,12 @@ namespace BuildABot
 
         /** The shape of the attack box. */
         public EAoeAttackShape Shape => shape;
+
+        /** The graphic prefab spawned by this attack. */
+        public AoeAttackGraphic Graphic => graphic;
+
+        /** The color gradient applied by this attack to its graphic prefab. */
+        public Gradient GraphicColorGradient => graphicColorGradient;
 
         /** Is the size of this attack relative to the bounds of the attacking character? */
         public bool UseRelativeRadius => useRelativeRadius;
@@ -81,6 +105,13 @@ namespace BuildABot
             float progress = 0f;
             float interval = 1f / raycastRate;
             float progressInterval = duration == 0f ? 1f : interval / duration;
+
+            AoeAttackGraphic graphicInst = null;
+            if (graphic != null)
+            {
+                graphicInst = Instantiate(graphic, instigator.transform);
+                graphicInst.Initialize(this);
+            }
             
             return Utility.RepeatFunction(instigator, () =>
             {
@@ -154,11 +185,13 @@ namespace BuildABot
                 }
 
                 progress += progressInterval;
+                if (graphicInst != null) graphicInst.OnAttackProgress(progress);
                 onProgress?.Invoke(progress);
                 
             }, interval, (int) (raycastRate * duration), () =>
             {
                 if (!AllowMovement) instigator.Character.CharacterMovement.CanMove = true;
+                if (graphicInst != null) graphicInst.OnAttackFinish();
                 onComplete?.Invoke();
             });
         }

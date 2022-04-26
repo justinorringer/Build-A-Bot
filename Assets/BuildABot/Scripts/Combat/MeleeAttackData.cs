@@ -65,6 +65,28 @@ namespace BuildABot
             float progress = 0f;
             float interval = 1f / raycastRate;
             float progressInterval = duration == 0f ? 0f : interval / duration;
+
+            void ProcessHit(CombatController other)
+            {
+                if (null != other && null != other.Character &&
+                    (CanHitSelf || other.Character != instigator.Character) &&
+                    (AllowMultiHit || !hitLookup.Contains(other.Character)))
+                {
+                    if (other.TryReceiveAttack(this, instigator))
+                    {
+                        hits.Add(other.Character);
+                        hitLookup.Add(other.Character);
+                    }
+                }
+            }
+
+            bool useCollider = false;
+
+            if (instigator.MeleeCollider != null)
+            {
+                useCollider = true;
+                instigator.MeleeCollider.OnHit += ProcessHit;
+            }
             
             return Utility.RepeatFunction(instigator, () =>
             {
@@ -74,34 +96,28 @@ namespace BuildABot
                 
                 Vector2 trueSize = UseRelativeSize ? instigator.Character.Bounds * Size : Size;
                 float dist = useRelativeDistance ? distance * instigator.Character.Bounds.x : distance;
-                
-                RaycastHit2D[] hitInfoAll = Physics2D.BoxCastAll(
-                    position,
-                    trueSize,
-                    0,
-                    instigator.Character.CharacterMovement.Facing,
-                    dist,
-                    instigator.TargetLayers);
-                
-                DebugUtility.DrawBoxCast2D(position, trueSize, 0.0f, 
-                    instigator.Character.CharacterMovement.Facing,
-                    dist, Color.red, duration * (1 - progress));
 
-                foreach (RaycastHit2D hitInfo in hitInfoAll)
+                if (!useCollider)
                 {
-                    GameObject hitObj = hitInfo.collider.gameObject;
+                    RaycastHit2D[] hitInfoAll = Physics2D.BoxCastAll(
+                        position,
+                        trueSize,
+                        0,
+                        instigator.Character.CharacterMovement.Facing,
+                        dist,
+                        instigator.TargetLayers);
+                
+                    DebugUtility.DrawBoxCast2D(position, trueSize, 0.0f, 
+                        instigator.Character.CharacterMovement.Facing,
+                        dist, Color.red, duration * (1 - progress));
 
-                    // Get the other character hit
-                    CombatController other = hitObj.GetComponent<CombatController>();
-                    if (null != other && null != other.Character &&
-                        (CanHitSelf || other.Character != instigator.Character) &&
-                        (AllowMultiHit || !hitLookup.Contains(other.Character)))
+                    foreach (RaycastHit2D hitInfo in hitInfoAll)
                     {
-                        if (other.TryReceiveAttack(this, instigator))
-                        {
-                            hits.Add(other.Character);
-                            hitLookup.Add(other.Character);
-                        }
+                        GameObject hitObj = hitInfo.collider.gameObject;
+
+                        // Get the other character hit
+                        CombatController other = hitObj.GetComponent<CombatController>();
+                        ProcessHit(other);
                     }
                 }
 
@@ -110,6 +126,10 @@ namespace BuildABot
                 
             }, interval, (int) (raycastRate * duration), () =>
             {
+                if (useCollider)
+                {
+                    instigator.MeleeCollider.OnHit -= ProcessHit;
+                }
                 if (!AllowMovement) instigator.Character.CharacterMovement.CanMove = true;
                 onComplete?.Invoke();
             });

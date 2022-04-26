@@ -32,6 +32,9 @@ namespace BuildABot
         [Tooltip("The sprite used by item instances displayed in the overworld.")]
         [SerializeField] private Sprite overworldSprite;
 
+        [Tooltip("The color to tint the sprites of this item.")]
+        [SerializeField] private Color spriteTint = Color.white;
+
         [Tooltip("The base value of this item when selling to or buying from the trader.")]
         [SerializeField] private int value;
         
@@ -49,6 +52,9 @@ namespace BuildABot
         public Sprite InventorySprite => inventorySprite;
         /** The sprite used by this item in the overworld (read-only). */
         public Sprite OverworldSprite => overworldSprite;
+
+        /** The color to tint the sprites of this item. */
+        public Color SpriteTint => spriteTint;
 
         /** The value of this item when being bought from or sold to the trader (read-only). */
         public int Value => value;

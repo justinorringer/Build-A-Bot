@@ -85,7 +85,7 @@ namespace BuildABot
             if (entry != null)
             {
                 sprite.sprite = entry.Item.InventorySprite;
-                sprite.color = Color.white;
+                sprite.color = entry.Item.SpriteTint;
 
                 nameText.text =  $"{entry.Item.DisplayName} (x{entry.Count})";
                 descriptionText.text = entry.Item.Description;
