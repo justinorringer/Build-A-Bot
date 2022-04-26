@@ -57,7 +57,7 @@ namespace BuildABot
             if (entry != null)
             {
                 sprite.sprite = entry.Item.InventorySprite;
-                sprite.color = Color.white;
+                sprite.color = entry.Item.SpriteTint;
                 
                 unequippedButton.gameObject.SetActive(!entry.Equipped);
                 equippedButton.gameObject.SetActive(entry.Equipped);

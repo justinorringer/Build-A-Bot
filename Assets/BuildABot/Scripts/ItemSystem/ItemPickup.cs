@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -45,10 +46,12 @@ namespace BuildABot
             if (Item != null)
             {
                 spriteRenderer.sprite = item.OverworldSprite;
+                spriteRenderer.color = item.SpriteTint;
             }
             else
             {
                 spriteRenderer.sprite = null;
+                spriteRenderer.color = Color.white;
             }
         }
 
@@ -72,6 +75,16 @@ namespace BuildABot
     #if UNITY_EDITOR
         private void OnValidate()
         {
+            EditorApplication.delayCall += OnValidateImpl;
+        }
+
+        /**
+         * The actual implementation of OnValidate, called with a delay to avoid warnings in the inspector.
+         */
+        private void OnValidateImpl()
+        {
+            EditorApplication.delayCall -= OnValidateImpl;
+            if (this == null) return;
             Initialize();
         }
     #endif

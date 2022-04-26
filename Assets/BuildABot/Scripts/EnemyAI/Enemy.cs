@@ -44,9 +44,17 @@ namespace BuildABot
             _enemyController = GetComponent<EnemyController>();
         }
 
+        protected override void Kill()
+        {
+            PlayDeathParticle();
+            base.Kill();
+        }
+
         public void PlayDeathParticle()
         {
-            Instantiate(deathParticle, new Vector3 (transform.position.x, transform.position.y, deathParticle.transform.position.z), Quaternion.identity);
+            Vector3 pos = transform.position;
+            pos.z = deathParticle.transform.position.z;
+            ParticleSystem ps = Instantiate(deathParticle, pos, Quaternion.identity);
         }
 
     }

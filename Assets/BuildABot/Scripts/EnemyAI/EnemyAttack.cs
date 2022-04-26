@@ -150,11 +150,11 @@ namespace BuildABot
 
         void HandleAttackProgress(float progress)
         {
-            if (attack is AoeAttackData aoe)
+            /*if (attack is AoeAttackData aoe)
             {
                 float radius = aoe.AreaOverTime.Evaluate(progress) * aoe.Radius;
                 attackGraphics.transform.localScale = new Vector3(radius, radius, 1);
-            }
+            }*/
         }
 
         void HandleAttackFinish(List<Character> characters)
