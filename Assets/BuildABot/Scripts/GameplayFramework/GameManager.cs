@@ -4,13 +4,10 @@ using UnityEngine.Events;
 
 namespace BuildABot
 {
-    public sealed class GameManager : MonoBehaviour
+    public sealed class GameManager : GameSingleton<GameManager>
     {
         private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
         private bool _paused;
-
-        [Tooltip("An event triggered whenever the game manager is finished initializing.")]
-        [SerializeField] private UnityEvent onInitialized;
 
         [Tooltip("An event triggered whenever the game is paused.")]
         [SerializeField] private UnityEvent onPause;
@@ -21,13 +18,7 @@ namespace BuildABot
         [Tooltip("An event triggered whenever the game pause state of the game changes.")]
         [SerializeField] private UnityEvent<bool> onSetPaused;
         
-        /** The singleton instance of this game manager. */
-        private static GameManager Instance { get; set; }
-        
         #region Public Properties
-
-        /** Checks if this manager has already been initialized. */
-        public static bool Initialized => Instance != null;
 
         /** Is the game currently paused? */
         public static bool Paused => Instance._paused;
@@ -35,13 +26,6 @@ namespace BuildABot
         #endregion
         
         #region Events
-        
-        /** An event triggered whenever the game manager is finished initializing. */
-        public static event UnityAction OnInitialized
-        {
-            add => Instance.onInitialized.AddListener(value);
-            remove => Instance.onInitialized.RemoveListener(value);
-        }
         
         /** An event triggered whenever the game is paused. */
         public static event UnityAction OnPause
@@ -66,33 +50,18 @@ namespace BuildABot
         
         #endregion
 
-        private void Awake()
+        protected override void Awake()
         {
-            Debug.Assert(Instance == null, "Multiple instances of GameManager cannot exist in the same scene.");
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(this);
-            }
-            else
-            {
-                Destroy(this); // Destroy the violating instance
-                return;
-            }
-
             _paused = false;
-            onInitialized.Invoke();
+            base.Awake();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            if (Instance == this)
-            {
-                Instance = null;
-            }
             onPause.RemoveAllListeners();
             onUnpause.RemoveAllListeners();
             onSetPaused.RemoveAllListeners();
+            base.OnDestroy();
         }
 
         internal static int RegisterPlayer(Player player)

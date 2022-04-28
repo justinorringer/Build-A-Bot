@@ -346,6 +346,7 @@ namespace BuildABot
             GameManager.SetPaused(true);
             DisableHUD();
             mainMenu.gameObject.SetActive(false);
+            AudioManager.FadeOutBackgroundTrack(5f);
             StartCoroutine(WaitForGameOver(message));
         }
 
