@@ -33,6 +33,9 @@ namespace BuildABot
         [Tooltip("The collider to use when performing melee attacks. If not specified, a raycast will be used instead.")]
         [SerializeField] private MeleeCollider meleeCollider;
 
+        [Tooltip("The audio source component used by this object.")]
+        [SerializeField] private AudioSource audioSource;
+
         [Tooltip("An event triggered before this combat controller is hit with an attack.")]
         [SerializeField] private UnityEvent<AttackData, CombatController> onPreHit;
 
@@ -75,9 +78,6 @@ namespace BuildABot
             get => projectileAttack;
             set => projectileAttack = value;
         }
-
-        /** The audio source component used by this object. */
-        private AudioSource _audioSource;
 
         /** The IEnumerator representing the current attack's coroutine. */
         private IEnumerator _currentAttackCoroutine;
@@ -126,7 +126,6 @@ namespace BuildABot
         // Start is called before the first frame update
         protected void Start()
         {
-            _audioSource = GetComponent<AudioSource>();
             Character = GetComponent<Character>();
 
             _animValidParameters = new HashSet<string>();
@@ -206,8 +205,8 @@ namespace BuildABot
                 progress =>
                 {
                     // Play the progress attack sound
-                    if (_audioSource != null && attack.ProgressSound != null)
-                        _audioSource.PlayOneShot(attack.ProgressSound);
+                    if (audioSource != null && attack.ProgressSound != null)
+                        audioSource.PlayOneShot(attack.ProgressSound);
                     onProgress?.Invoke(progress);
                 },
                 OnFinishAttack);
@@ -216,8 +215,8 @@ namespace BuildABot
             if (_anim != null && _anim.runtimeAnimatorController != null && AnimatorHasParameter(attack.AnimationTriggerName))
                 _anim.SetTrigger(attack.AnimationTriggerName);
             // Play the start attack sound
-            if (_audioSource != null && attack.StartSound != null)
-                _audioSource.PlayOneShot(attack.StartSound);
+            if (audioSource != null && attack.StartSound != null)
+                audioSource.PlayOneShot(attack.StartSound);
             return true;
         }
 
