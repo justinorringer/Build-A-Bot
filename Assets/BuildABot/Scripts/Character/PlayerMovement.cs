@@ -20,7 +20,11 @@ namespace BuildABot
         private int _idleBoolHash;
         /** Hash of "grounded" parameter in the animator, stored for optimization */
         private int _groundedBoolHash;
-        
+        /** Hash of "jump" parameter in the animator, stored for optimization */
+        private int _jumpTriggerHash;
+        /** Hash of "jump peaked" parameter in the animator, stored for optimization */
+        private int _jumpPeakedTriggerHash;
+
         protected override void Awake()
         {
             base.Awake();
@@ -29,6 +33,8 @@ namespace BuildABot
             _runningBoolHash = Animator.StringToHash("Running");
             _idleBoolHash = Animator.StringToHash("Idle");
             _groundedBoolHash = Animator.StringToHash("Grounded");
+            _jumpTriggerHash = Animator.StringToHash("Jump");
+            _jumpPeakedTriggerHash = Animator.StringToHash("JumpPeaked");
         }
 
         protected override void UpdateAnimation(Vector2 direction)
@@ -41,6 +47,22 @@ namespace BuildABot
                 // Tell animator if player is idle
                 Animator.SetBool(_idleBoolHash, Velocity == Vector2.zero);
             }
+        }
+
+        public override void Jump()
+        {
+            if (CanJump)
+            {
+                Animator.SetTrigger(_jumpTriggerHash);
+            }
+
+            base.Jump();
+        }
+
+        protected override void AtJumpPeak()
+        {
+            base.AtJumpPeak();
+            Animator.SetTrigger(_jumpPeakedTriggerHash);
         }
 
         protected override void CheckGrounded()
