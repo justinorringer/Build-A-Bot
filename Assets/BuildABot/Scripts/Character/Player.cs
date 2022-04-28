@@ -33,13 +33,22 @@ namespace BuildABot
         [Tooltip("The player input controller used by this player.")]
         [SerializeField] private PlayerController playerController;
 
+        /** The index of this player. */
+        private int _playerIndex = -1;
+
         /** The text replacement tokens to use for this play session. */
         private Dictionary<string, string> _textReplacementTokens;
+
+        /** Can the menu be toggled? */
+        private bool _canToggleMenu = true;
 
         /** The player input controller used by this player. */
         public PlayerController PlayerController => playerController;
 
         public override CharacterMovement CharacterMovement => playerMovement;
+
+        /** The index of this player in the game. Based on join order. */
+        public int PlayerIndex => _playerIndex;
 
         /** The HUD used by this player. */
         public HUD HUD => hud;
@@ -256,13 +265,33 @@ namespace BuildABot
         
 #endregion
 
+        [Tooltip("An event triggered when this object is destroyed.")]
+        [SerializeField] private UnityEvent<Player> onPlayerDestroyed;
+
+        /** An event triggered when this object is destroyed. */
+        public event UnityAction<Player> OnPlayerDestroyed
+        {
+            add => onPlayerDestroyed.AddListener(value);
+            remove => onPlayerDestroyed.RemoveListener(value);
+        }
+        
         protected override void Awake()
         {
             base.Awake();
-            
+            // Register this player
+            if (GameManager.Initialized)
+            {
+                _playerIndex = GameManager.RegisterPlayer(this);
+            }
+            else
+            {
+                GameManager.OnInitialized += () => _playerIndex = GameManager.RegisterPlayer(this);
+            }
+            // Initialize the attribute system
             Attributes.Initialize();
+            // Set up game and UI state
             Cursor.visible = false;
-            SetPaused(false);
+            GameManager.SetPaused(false);
             EnableHUD();
             mainMenu.gameObject.SetActive(false);
         }
@@ -283,6 +312,11 @@ namespace BuildABot
             Inventory.OnEntryModified -= HandleModifiedItem;
             Inventory.OnEntryRemoved -= HandleRemovedItem;
             base.OnDisable();
+        }
+
+        protected virtual void OnDestroy()
+        {
+            onPlayerDestroyed.Invoke(this);
         }
 
         /**
@@ -309,7 +343,7 @@ namespace BuildABot
         public void FinishGame(string message)
         {
             // TODO: Replace with a more graceful implementation for winning
-            SetPaused(true);
+            GameManager.SetPaused(true);
             DisableHUD();
             mainMenu.gameObject.SetActive(false);
             StartCoroutine(WaitForGameOver(message));
@@ -329,6 +363,7 @@ namespace BuildABot
          */
         public void ToggleMenu()
         {
+            if (!_canToggleMenu) return;
             bool active = !mainMenu.gameObject.activeSelf;
             if (active)
             {
@@ -343,7 +378,7 @@ namespace BuildABot
             mainMenu.gameObject.SetActive(active);
             Cursor.visible = active;
             hud.gameObject.SetActive(!active);
-            SetPaused(active);
+            GameManager.SetPaused(active);
         }
 
         public void EnableHUD()
@@ -354,17 +389,6 @@ namespace BuildABot
         public void DisableHUD()
         {
             hud.gameObject.SetActive(false);
-        }
-
-        /**
-         * Sets the game paused state.
-         * TODO: Move pausing behavior to a global game state controller
-         * <param name="paused">true if the game should be paused, false to unpause.</param>
-         */
-        public void SetPaused(bool paused)
-        {
-            Time.timeScale = paused ? 0.0f : 1;
-            //PlayerController.GameInputEnabled = !paused;
         }
 
         /**
@@ -379,16 +403,17 @@ namespace BuildABot
         /**
          * Shows an input help display.
          * <param name="message">The message to display.</param>
+         * <param name="inputPath">The input action path to wait for to hide the display.</param>
          */
-        public void ShowInputHelp(string message)
+        public void ShowInputHelp(string message, string inputPath)
         {
-            HUD.InputHelpWidget.ShowMessage(message);
+            HUD.InputHelpWidget.ShowMessage(message, inputPath);
         }
 
         /**
-         * Hides the input help widget.
+         * Force dismisses the current input help widget.
          */
-        public void HideInputHelp()
+        public void DismissInputHelp()
         {
             HUD.InputHelpWidget.HideMessage();
         }
@@ -401,10 +426,10 @@ namespace BuildABot
          */
         public void ShowHelpMenu(string message, string title, string acknowledgeMessage = HelpWidget.DefaultAcknowledgeMessage)
         {
+            _canToggleMenu = false;
             Cursor.visible = true;
             HelpWidget widget = Instantiate(alertPrefab);
-            widget.Initialize(this, message, title, acknowledgeMessage);
-            SetPaused(true);
+            widget.Initialize(this, message, title, acknowledgeMessage, () => _canToggleMenu = true);
             DisableHUD();
         }
 
@@ -417,13 +442,13 @@ namespace BuildABot
             };
             
             // Gather input mapping tokens
-            foreach (var actionMap in PlayerController.InputActions.asset.actionMaps)
+            foreach (InputActionMap actionMap in PlayerController.InputActions.asset.actionMaps)
             {
-                foreach (var action in actionMap)
+                foreach (InputAction action in actionMap)
                 {
                     if (action != null)
                     {
-                        var bindingIndex = action.GetBindingIndex(PlayerController.PlayerInput.currentControlScheme);
+                        int bindingIndex = action.GetBindingIndex(PlayerController.PlayerInput.currentControlScheme);
                         if (bindingIndex != -1)
                         {
                             action.GetBindingDisplayString(bindingIndex, out _,
