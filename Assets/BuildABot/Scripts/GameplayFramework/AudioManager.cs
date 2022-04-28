@@ -16,9 +16,14 @@ namespace BuildABot
         [Tooltip("The secondary audio source used to fade in new background tracks.")]
         [SerializeField] private AudioSource secondaryBackgroundPlayer;
 
+        private float _currentVolume;
+
+        public static float CurrentVolume => Initialized ? Instance._currentVolume : 0;
+
         protected override void Awake()
         {
             base.Awake();
+            _currentVolume = defaultBackgroundVolume;
             secondaryBackgroundPlayer.clip = null;
             secondaryBackgroundPlayer.volume = 0;
             primaryBackgroundPlayer.clip = defaultBackgroundTrack;
@@ -32,7 +37,20 @@ namespace BuildABot
 
         public static void SetBackgroundVolume(float volume)
         {
-            Instance.primaryBackgroundPlayer.volume = Mathf.Clamp01(volume);
+            void Implementation()
+            {
+                Instance._currentVolume = Mathf.Clamp01(volume);
+                Instance.primaryBackgroundPlayer.volume = Instance._currentVolume;
+            }
+
+            void LatentImplementation()
+            {
+                OnInitialized -= LatentImplementation;
+                Implementation();
+            }
+
+            if (Initialized) Implementation();
+            else OnInitialized += LatentImplementation;
         }
 
         private static void FadePlayerToTarget(AudioSource player, float seconds, float targetVolume, Action onFinish = null)
@@ -71,54 +89,56 @@ namespace BuildABot
 
         public static void EaseBackgroundTrackVolume(float seconds, float targetVolume, Action onFinish = null)
         {
-            FadePlayerToTarget(Instance.primaryBackgroundPlayer, seconds, targetVolume, onFinish);
+            if (Initialized) FadePlayerToTarget(Instance.primaryBackgroundPlayer, seconds, targetVolume, onFinish);
         }
 
         public static void FadeOutBackgroundTrack(float seconds, Action onFinish = null)
         {
-            FadePlayerToTarget(Instance.primaryBackgroundPlayer, seconds, 0f, onFinish);
+            if (Initialized) FadePlayerToTarget(Instance.primaryBackgroundPlayer, seconds, 0f, onFinish);
         }
 
         public static void PauseBackgroundTrack()
         {
-            Instance.primaryBackgroundPlayer.Pause();
+            if (Initialized) Instance.primaryBackgroundPlayer.Pause();
         }
 
         public static void ResumeBackgroundTrack()
         {
-            Instance.primaryBackgroundPlayer.UnPause();
+            if (Initialized) Instance.primaryBackgroundPlayer.UnPause();
         }
 
         public static void RestartBackgroundTrack()
         {
-            Instance.primaryBackgroundPlayer.Stop();
-            Instance.primaryBackgroundPlayer.Play();
+            if (Initialized) Instance.primaryBackgroundPlayer.time = 0;
         }
 
         public static void SwapBackgroundTrack(AudioClip track)
         {
-            Instance.primaryBackgroundPlayer.Stop();
-            Instance.primaryBackgroundPlayer.clip = track;
-            Instance.primaryBackgroundPlayer.Play();
+            if (Initialized)
+            {
+                Instance.primaryBackgroundPlayer.Stop();
+                Instance.primaryBackgroundPlayer.clip = track;
+                Instance.primaryBackgroundPlayer.Play();
+            }
         }
 
         public static void CrossFadeToNewTrack(AudioClip track, float seconds, Action onFinish = null)
         {
-            float currentVolume = Instance.primaryBackgroundPlayer.volume;
+            if (!Initialized) return;
             FadePlayerToTarget(Instance.primaryBackgroundPlayer, seconds, 0f);
             Instance.secondaryBackgroundPlayer.clip = track;
             Instance.secondaryBackgroundPlayer.volume = 0f;
             Instance.secondaryBackgroundPlayer.Play();
-            FadePlayerToTarget(Instance.secondaryBackgroundPlayer, seconds, currentVolume, () =>
+            FadePlayerToTarget(Instance.secondaryBackgroundPlayer, seconds, CurrentVolume, () =>
             {
                 float currentTime = Instance.secondaryBackgroundPlayer.time;
                 Instance.primaryBackgroundPlayer.clip = track;
-                Instance.primaryBackgroundPlayer.time = currentTime;
-                Instance.primaryBackgroundPlayer.volume = currentVolume;
+                Instance.primaryBackgroundPlayer.volume = CurrentVolume;
                 Instance.primaryBackgroundPlayer.Play();
+                Instance.primaryBackgroundPlayer.time = currentTime;
+                Instance.secondaryBackgroundPlayer.Stop();
                 Instance.secondaryBackgroundPlayer.clip = null;
                 Instance.secondaryBackgroundPlayer.volume = 0f;
-                Instance.secondaryBackgroundPlayer.Stop();
                 onFinish?.Invoke();
             });
         }
