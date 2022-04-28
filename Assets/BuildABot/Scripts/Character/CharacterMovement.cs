@@ -343,6 +343,7 @@ namespace BuildABot
             }
 
             // Change the gravity scale at the peak of the jump for the specified number of seconds
+            AtJumpPeak();
             SetGravity(_originalGravity * jumpPeakGravity);
             yield return new WaitForSeconds(jumpPeakDuration);
 
@@ -356,6 +357,11 @@ namespace BuildABot
 
             // Reset gravity scale to original value
             SetGravity(_originalGravity);
+        }
+
+        protected virtual void AtJumpPeak()
+        {
+
         }
         
         private void SetGravity(float newGravity)

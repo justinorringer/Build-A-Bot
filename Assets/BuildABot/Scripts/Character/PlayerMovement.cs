@@ -22,6 +22,8 @@ namespace BuildABot
         private int _groundedBoolHash;
         /** Hash of "jump" parameter in the animator, stored for optimization */
         private int _jumpTriggerHash;
+        /** Hash of "jump peaked" parameter in the animator, stored for optimization */
+        private int _jumpPeakedTriggerHash;
 
         protected override void Awake()
         {
@@ -32,6 +34,7 @@ namespace BuildABot
             _idleBoolHash = Animator.StringToHash("Idle");
             _groundedBoolHash = Animator.StringToHash("Grounded");
             _jumpTriggerHash = Animator.StringToHash("Jump");
+            _jumpPeakedTriggerHash = Animator.StringToHash("JumpPeaked");
         }
 
         protected override void UpdateAnimation(Vector2 direction)
@@ -54,6 +57,12 @@ namespace BuildABot
             }
 
             base.Jump();
+        }
+
+        protected override void AtJumpPeak()
+        {
+            base.AtJumpPeak();
+            Animator.SetTrigger(_jumpPeakedTriggerHash);
         }
 
         protected override void CheckGrounded()
