@@ -102,8 +102,11 @@ namespace BuildABot
         protected virtual void OnDisable()
         {
             Attributes.Temperature.OnPostValueChange -= HandleTemperatureChange;
-            StopCoroutine(_coolingTask);
-            _coolingTask = null;
+            if (_coolingTask != null)
+            {
+                StopCoroutine(_coolingTask);
+                _coolingTask = null;
+            }
         }
 
         private void HandleTemperatureChange(float newTemperature)

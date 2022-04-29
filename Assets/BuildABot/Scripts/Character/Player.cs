@@ -279,14 +279,7 @@ namespace BuildABot
         {
             base.Awake();
             // Register this player
-            if (GameManager.Initialized)
-            {
-                _playerIndex = GameManager.RegisterPlayer(this);
-            }
-            else
-            {
-                GameManager.OnInitialized += () => _playerIndex = GameManager.RegisterPlayer(this);
-            }
+            GameManager.RegisterPlayer(this, index => _playerIndex = index);
             // Initialize the attribute system
             Attributes.Initialize();
             // Set up game and UI state

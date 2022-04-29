@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BuildABot
 {
@@ -72,8 +73,21 @@ namespace BuildABot
         /** A runtime map of all attribute names to their references in this set. */
         private Dictionary<string, AttributeDataBase> _attributes = new Dictionary<string, AttributeDataBase>();
 
+        /** An event triggered when this attribute set finishes initialization. */
+        private UnityEvent _onInitialize = new UnityEvent();
+
+        /** Has this attribute set been initialized? */
+        public bool Initialized { get; private set; } = false;
+
         /** The names of the attributes held by this set. */
         public IReadOnlyCollection<string> AttributeNames => _attributes.Keys;
+        
+        /** An event triggered when this attribute set finishes initialization. */
+        public event UnityAction OnInitialize
+        {
+            add => _onInitialize.AddListener(value);
+            remove => _onInitialize.RemoveListener(value);
+        }
         
 #region Startup and Initialization
 
@@ -134,6 +148,8 @@ namespace BuildABot
             {
                 entry.Value.Initialize(this);
             }
+            Initialized = true;
+            _onInitialize.Invoke();
         }
         
         /**
