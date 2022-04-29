@@ -5854,7 +5854,15 @@ PrefabInstance:
     - target: {fileID: 2681680376353605036, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 32281da613b58d84eb3a144c148bc2e1, type: 3}
+      objectReference: {fileID: 21300000, guid: fadc2b1b0d35c5746a8b2245c7ea6dc7, type: 3}
+    - target: {fileID: 2681680376353605036, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_Color.g
+      value: 0.61666656
+      objectReference: {fileID: 0}
+    - target: {fileID: 2681680376353605036, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2681680376353605036, guid: 4488643fc2c29ed41b2a713ec795ef06, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -6128,10 +6136,6 @@ PrefabInstance:
       propertyPath: patrolPoints.Array.data[1]
       value: 
       objectReference: {fileID: 1340748305}
-    - target: {fileID: 929539346526337686, guid: 19357d80d57764c4ca79391cfc603398, type: 3}
-      propertyPath: attributes.operatingTemperature.defaultValue
-      value: 75
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19357d80d57764c4ca79391cfc603398, type: 3}
 --- !u!1001 &2023867144834917454

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9b1b939c6a4ce98d380593a05f1a20, type: 3}
+  m_Name: AdvancedPowerSupply
+  m_EditorClassIdentifier: 
+  displayName: Modern Power Supply
+  description: This is the pinnacle of power! This shiny new power supply will let
+    BIPY pack more punch behind each attack than ever before!
+  inventorySprite: {fileID: 21300000, guid: 7dd129e5344b0c844896e78491297350, type: 3}
+  overworldSprite: {fileID: 0}
+  spriteTint: {r: 0.93333334, g: 0.8235294, b: 0, a: 1}
+  value: 500
+  partType: 3
+  maxDurability: 1000
+  quality: 3
+  effects:
+  - effect: {fileID: 11400000, guid: dcb6127989665eb4687b97353841b7dc, type: 2}
+    magnitude: 2
+  attack: {fileID: 0}
