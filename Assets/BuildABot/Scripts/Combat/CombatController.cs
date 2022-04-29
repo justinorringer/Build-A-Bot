@@ -209,7 +209,7 @@ namespace BuildABot
                         audioSource.PlayOneShot(attack.ProgressSound);
                     onProgress?.Invoke(progress);
                 },
-                OnFinishAttack);
+                OnFinishAttack, PlayHitSound);
             
             // Play the animation if there is an animator attached that supports the trigger
             if (_anim != null && _anim.runtimeAnimatorController != null && AnimatorHasParameter(attack.AnimationTriggerName))
@@ -339,6 +339,24 @@ namespace BuildABot
             _currentHits = null;
             _currentOnFinish = null;
             _currentOnCancel = null;
+        }
+
+        /**
+         * Plays the frame sound of the current attck if it exists. Meant to be called by an animation event.
+         */
+        public void PlayFrameSound()
+        {
+            if (audioSource != null && _currentAttack.FrameSound != null)
+                audioSource.PlayOneShot(_currentAttack.FrameSound);
+        }
+
+        /**
+         * Plays the hit sound of the current attck if it exists.
+         */
+        private void PlayHitSound()
+        {
+            if (audioSource != null && _currentAttack.HitSound != null)
+                audioSource.PlayOneShot(_currentAttack.HitSound);
         }
     }
 }
