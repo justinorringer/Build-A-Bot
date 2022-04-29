@@ -30,7 +30,7 @@ namespace BuildABot {
             Down = 5
         }
 
-        private class Map {
+        public class Map {
             public class MapRoom {
                 public bool isStart = false;
                 public bool isEnd = false;
@@ -39,7 +39,6 @@ namespace BuildABot {
                 public bool isREnd = false; // Dead end with opening on the right
 
                 public bool isBrick = true; // unused Room when true
-
                 public enum Connections {
                     Top,
                     Right,
@@ -117,12 +116,12 @@ namespace BuildABot {
 
 
         public GameObject[] roomTemplates; 
-        // index 0 --> RL, index 1 --> RBL, index 2 --> TRL, index 3 --> TRBL
+        // index 0 --> RL, index 1 --> RBL, index 2 --> TRL, index 3 --> TRBL, index 4 --> NPC (LR)
 
         public GameObject tilemap;
 
-        [SerializeField] private Map map = new Map();
-        
+        public Map map { get; private set; }
+
         /** downCounter prevents down twice, making lame levels */
         private int direction, downCounter = 0; // direction is the direction the next room will be generated in
 
@@ -132,8 +131,13 @@ namespace BuildABot {
 
         public bool generate = true;
 
+        public bool hasNPC {get; set;} // boolean used to get at most 1 NPC per map
+
         void Start()
         {
+            map = new Map();
+            hasNPC = false;
+
             tilemap.GetComponent<Tilemap>().ClearAllTiles();
 
             int randStartingPos = Random.Range(0, startingPositions.Length);
@@ -210,8 +214,13 @@ namespace BuildABot {
             } else if (direction == 5) { // Move DOWN
                 downCounter++;
                 if (current[1] == map.mapSize - 1) {
-                    map.grid[current[0], current[1]].isEnd = true;
-                    generate = false;
+                    // dont want the player to come from the top of the map into the end room
+                    if (map.grid[current[0], current[1]].GetConnections()[0] == true) {
+                        direction = Random.Range(1, 5); // force go left or right
+                    } else {
+                        map.grid[current[0], current[1]].isEnd = true;
+                        generate = false;
+                    }
                 } else {
                     if (map.grid[current[0], current[1]].GetRoomType() == RoomType.START) { // just in case this happens somehow
                         direction = Random.Range(1, 5);
@@ -263,6 +272,17 @@ namespace BuildABot {
                 }
             }
         }
+
+        private bool checkNPC()
+        {
+            if (!hasNPC && Random.Range(0, 10) > 5)
+            {
+                hasNPC = true;
+
+                return true;
+            }
+            return false;
+        }
         private void InstantiateGrid() {
 
             for (int i = -1; i <= map.mapSize; i++) {
@@ -280,7 +300,8 @@ namespace BuildABot {
 
                     switch (type) {
                         case RoomType.RL:
-                            InstantiateRoom(roomTemplates[0], pos);
+                            if (checkNPC()) InstantiateRoom(roomTemplates[4], pos);
+                            else InstantiateRoom(roomTemplates[0], pos);
                             break;
                         case RoomType.RBL:
                             InstantiateRoom(roomTemplates[1], pos);

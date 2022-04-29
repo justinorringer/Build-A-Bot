@@ -14,6 +14,7 @@ namespace BuildABot {
         END,
         LEND,
         REND,
+        NPC,
         NONE
     }
     public class RoomTemplate : MonoBehaviour

@@ -10,6 +10,8 @@ namespace BuildABot {
 
         public Tile basicTile;
 
+        [SerializeField] private bool optional = false;
+
         /**
             Populates the room with tiles on each child's position.
          */
@@ -18,6 +20,8 @@ namespace BuildABot {
             tilemap = GameObject.Find("Grid");
 
             foreach (Transform child in transform) {
+                if (optional && Random.Range(0, 4) == 0) continue; // for some extra randomness
+
                 int x = (int) child.transform.position.x; // pivot point in bottom corner of each tile
                 int y = (int) child.transform.position.y;
 
