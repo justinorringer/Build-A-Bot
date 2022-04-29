@@ -545,6 +545,8 @@ MonoBehaviour:
   flashingInterval: 0.5
   flashingThresholdMin: 0.1
   flashingThresholdMax: 0.9
+  criticalTempSound: {fileID: 8300000, guid: c0e24fd2711afcf40b6378cba4355871, type: 3}
+  source: {fileID: 0}
 --- !u!1 &7560402000375618946
 GameObject:
   m_ObjectHideFlags: 0

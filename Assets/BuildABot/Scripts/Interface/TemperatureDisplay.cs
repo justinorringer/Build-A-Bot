@@ -18,6 +18,9 @@ namespace BuildABot {
         [SerializeField] private float flashingThresholdMin = 0.1f;
         [SerializeField] private float flashingThresholdMax = 0.9f;
 
+        [SerializeField] private AudioClip criticalTempSound;
+        [SerializeField] private AudioSource source;
+
         private IEnumerator _flashingTempTask;
 
         private Color _latestColor;
@@ -60,6 +63,7 @@ namespace BuildABot {
                             _isFlashed = false;
                             _flashingTempTask = null;
                         });
+                    source.PlayOneShot(criticalTempSound);
                 }
             }
         }

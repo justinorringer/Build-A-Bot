@@ -1988,6 +1988,10 @@ PrefabInstance:
       propertyPath: bipy
       value: 
       objectReference: {fileID: 609926857222936973}
+    - target: {fileID: 7288006543357717287, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
+      propertyPath: source
+      value: 
+      objectReference: {fileID: 907860813063632688}
     - target: {fileID: 7297464605415290706, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
       propertyPath: m_fontSize
       value: 27.5
