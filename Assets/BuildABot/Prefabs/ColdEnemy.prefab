@@ -579,6 +579,7 @@ MonoBehaviour:
   combatController: {fileID: 2091839568386402200}
   deathParticle: {fileID: 8272185725650907572, guid: 0266442451da43b498c20b1432ae87a5, type: 3}
   currencyToDrop: 50
+  deathClip: {fileID: 8300000, guid: 8fb630ebd6c88fb47a97fa75ba33fd70, type: 3}
 --- !u!114 &1068492960641246454
 MonoBehaviour:
   m_ObjectHideFlags: 0

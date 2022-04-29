@@ -22,6 +22,9 @@ namespace BuildABot
         [Min(0)]
         [SerializeField] private int currencyToDrop;
 
+        [Tooltip("The sound clip played when the enemy dies.")]
+        [SerializeField] private AudioClip deathClip;
+
         public override CharacterMovement CharacterMovement => _enemyMovement;
 
         /** The enemy controller used by this enemy. */
@@ -47,6 +50,8 @@ namespace BuildABot
         protected override void Kill()
         {
             PlayDeathParticle();
+            if (deathClip != null)
+                AudioSource.PlayClipAtPoint(deathClip, transform.position);
             base.Kill();
         }
 
