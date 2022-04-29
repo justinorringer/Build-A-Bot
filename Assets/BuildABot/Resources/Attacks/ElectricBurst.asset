@@ -16,7 +16,7 @@ MonoBehaviour:
   - effect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
     magnitude: 0.4
   animationTriggerName: Attack
-  startSound: {fileID: 8300000, guid: fe41f631cc9c6974ea2d196cbcaeadd3, type: 3}
+  startSound: {fileID: 8300000, guid: 431e83abfd4a6fb48a6fdfeac679753b, type: 3}
   progressSound: {fileID: 0}
   offset: {x: 0, y: 0}
   offsetXCurve:
