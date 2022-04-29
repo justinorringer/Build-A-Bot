@@ -207,15 +207,26 @@ namespace BuildABot
                 }
             }
 
-            if(targetVelocity.magnitude > 0.000000001f && !_inMotion)
+            // Play or stop audio based on whether the character is moving in the way their movement mode specifies
+            bool moving = (Mathf.Abs(targetVelocity.x) > 0.000000001f && IsGrounded && movementMode == ECharacterMovementMode.Walking)
+                || (targetVelocity.magnitude > 0.000000001f && movementMode == ECharacterMovementMode.Flying);
+            if(moving && !_audio.isPlaying)
+            {
+                _audio.Play();
+            }
+            else if (!moving && _audio.isPlaying)
+            {
+                _audio.Stop();
+            }
+
+            // Set InMotion variable so other scripts can see if the character is moving
+            if (targetVelocity.magnitude > 0.000000001f && !_inMotion)
             {
                 _inMotion = true;
-                _audio.Play();
             }
             else if (targetVelocity.magnitude <= 0.000000001f && _inMotion)
             {
                 _inMotion = false;
-                _audio.Stop();
             }
 
             float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
