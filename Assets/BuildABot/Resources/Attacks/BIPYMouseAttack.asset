@@ -18,8 +18,8 @@ MonoBehaviour:
   animationTriggerName: LightAttack
   startSound: {fileID: 8300000, guid: fd3906c968b31f344a82861ea4a74bdb, type: 3}
   progressSound: {fileID: 0}
-  hitSound: {fileID: 0}
-  frameSound: {fileID: 8300000, guid: 04e6737eb43f0fa4ea1e35af4e07c23f, type: 3}
+  hitSound: {fileID: 8300000, guid: 51c7d0e6e47da454eaaa12c154f8f4f0, type: 3}
+  frameSound: {fileID: 0}
   offset: {x: 0, y: 0}
   offsetXCurve:
     serializedVersion: 2
