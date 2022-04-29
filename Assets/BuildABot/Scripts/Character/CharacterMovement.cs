@@ -151,9 +151,6 @@ namespace BuildABot
 
         protected virtual void Start()
         {
-            
-
-            Debug.Log(_rigidbody);
 
             _audio.loop = true;
 
@@ -280,8 +277,6 @@ namespace BuildABot
 
         public void MoveToPosition(Vector2 position)
         {
-            Debug.LogFormat("position: {0}", position);
-            Debug.LogFormat(" _rigidbody.position: {0}", _rigidbody.position);
             Vector2 delta = (position - _rigidbody.position);
             if (delta.sqrMagnitude > 1.0f) delta.Normalize();
             _horizontalMovementRate = delta.x;

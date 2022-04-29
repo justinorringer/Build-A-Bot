@@ -5,26 +5,33 @@ using UnityEngine;
 namespace BuildABot {
     public class FillRoom : MonoBehaviour
     {
-        public GameObject[] blocks; // includes whatever blocks you want to spawn
+        public GameObject[] horizontal; // includes whatever horizontal blocks you want to spawn
 
+        public GameObject[] vertical; // includes whatever vertical blocks you want to spawn
         void Start()
         {
-            AddBlocks();
+            AddHorizontal();
+            AddVertical();
         }
             
         // Functions for adding additional obstacles and powerups
-        private void AddBlocks()
+        private void AddHorizontal()
         {
             int numOfBlocks = Random.Range(1, 3);
-
+ 
             for (int i = 0; i <= numOfBlocks; i++) {
-                if (blocks.Length == 0) continue;
-                int rand = Random.Range((int) 0, (int) blocks.Length);
+                if (horizontal.Length == 0) continue;
+                int rand = Random.Range((int) 0, (int) horizontal.Length);
 
-                Instantiate(blocks[rand], transform.position, Quaternion.identity);
-
-                // instance.transform.parent = transform;
+                Instantiate(horizontal[rand], transform.position, Quaternion.identity);
             }
+        }
+
+        private void AddVertical()
+        {
+            int rand = Random.Range(0, vertical.Length);
+ 
+            if (vertical.Length > 0) Instantiate(vertical[rand], transform.position, Quaternion.identity);
         }
     }
 }

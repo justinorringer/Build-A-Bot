@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Pathfinding;
 
 namespace BuildABot {
 
@@ -151,6 +152,11 @@ namespace BuildABot {
             }
 
             InstantiateGrid();
+
+            // Let level generate then scan with A*
+            Utility.DelayedFunction(this, 0.5f, () => {
+                AstarPath.active.Scan();
+            });
         }
 
         private void ChoosePath()
@@ -231,7 +237,7 @@ namespace BuildABot {
                     m.Connect(Map.MapRoom.Connections.Top); // connect the room to the top
 
 
-                    if (downCounter >= 2) { // going down two many times makes a bad map
+                    if (downCounter >= 1) { // going down too many times makes a bad map
                         downCounter = 0;
                         direction = Random.Range(1, 5);
                     } else {

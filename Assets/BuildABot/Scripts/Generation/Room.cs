@@ -19,17 +19,16 @@ namespace BuildABot {
             tilemap = GameObject.Find("Grid");
 
             foreach (Transform child in transform) {
-                if (child.gameObject.layer == LayerMask.NameToLayer("Waypoint") || child.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
-                    continue;
+                if (child.gameObject.layer == LayerMask.NameToLayer("Room")) {
+
+                    int x = (int) child.transform.position.x; // pivot point in bottom corner of each tile
+                    int y = (int) child.transform.position.y;
+
+                    // Make a vector 3 to store the position of the object .SetTile is particular
+                    Vector3Int pos = new Vector3Int(x, y, 0);
+
+                    tilemap.GetComponent<Tilemap>().SetTile(pos, basicTile);
                 }
-                
-                int x = (int) child.transform.position.x; // pivot point in bottom corner of each tile
-                int y = (int) child.transform.position.y;
-
-                // Make a vector 3 to store the position of the object .SetTile is particular
-                Vector3Int pos = new Vector3Int(x, y, 0);
-
-                tilemap.GetComponent<Tilemap>().SetTile(pos, basicTile);
             }
         }
 

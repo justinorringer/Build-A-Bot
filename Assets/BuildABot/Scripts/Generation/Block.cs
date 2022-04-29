@@ -27,7 +27,7 @@ namespace BuildABot {
                 tilemap.GetComponent<Tilemap>().SetTile(pos, basicTile);
             }
 
-            DestroyBlock();
+            // DestroyBlock();
         }
 
         public void DestroyBlock()
