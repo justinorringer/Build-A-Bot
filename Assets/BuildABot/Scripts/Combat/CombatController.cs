@@ -15,6 +15,7 @@ namespace BuildABot
         /** A reference to the player instance using this component. */
         public Character Character { get; private set; }
 
+        /** The direction that this controller is attacking in. */
         public Vector2 AttackDirection { get; set; }
 
         [Tooltip("The light melee attack equipped by the character.")]
@@ -28,6 +29,9 @@ namespace BuildABot
         
         [Tooltip("The layers that can be hit by attacks from this character.")]
         [SerializeField] private LayerMask targetLayers;
+
+        [Tooltip("The collider to use when performing melee attacks. If not specified, a raycast will be used instead.")]
+        [SerializeField] private MeleeCollider meleeCollider;
 
         [Tooltip("An event triggered before this combat controller is hit with an attack.")]
         [SerializeField] private UnityEvent<AttackData, CombatController> onPreHit;
@@ -43,6 +47,9 @@ namespace BuildABot
 
         /** Gets the layers targeted by this controller. */
         public LayerMask TargetLayers => targetLayers;
+
+        /** The collider to use when performing melee attacks. If not specified, a raycast will be used instead. */
+        public MeleeCollider MeleeCollider => meleeCollider;
 
         /** The light melee attack equipped by the character. */
         public MeleeAttackData LightAttack
@@ -91,6 +98,9 @@ namespace BuildABot
 
         /** The set of valid parameters for the associated animator. */
         private HashSet<string> _animValidParameters;
+
+        /** Is the damage animation playing? */
+        private bool _isAnimatingDamage;
         
         /** An event triggered before this combat controller is hit with an attack. */
         public event UnityAction<AttackData, CombatController> OnPreHit
@@ -248,6 +258,8 @@ namespace BuildABot
             // TODO: Make knockback work
             //Character.CharacterMovement.ApplyKnockback(instigator.AttackDirection);
 
+            PlayDamageAnimation();
+
             Character.OnDeath += OnDeath;
             
             // Apply the effects from the attack
@@ -267,7 +279,46 @@ namespace BuildABot
 
             return true;
         }
+
+        /** The gradient applied to characters when they receive an attack. */
+        private static readonly Gradient DamageGradient = new Gradient()
+        {
+            colorKeys = new []
+            {
+                new GradientColorKey(new Color(1, 1, 1), 0.0f),
+                new GradientColorKey(new Color(1f, 0.5f, 0.4f), 0.1f),
+                new GradientColorKey(new Color(1, 1, 1), 0.2f),
+                new GradientColorKey(new Color(1f, 0.5f, 0.4f), 0.3f),
+                new GradientColorKey(new Color(1, 1, 1), 0.5f),
+                new GradientColorKey(new Color(1f, 0.5f, 0.4f), 0.7f),
+                new GradientColorKey(new Color(1, 1, 1), 1.0f),
+            },
+            alphaKeys = new []
+            {
+                new GradientAlphaKey(1f, 0f),
+                new GradientAlphaKey(1f, 1f)
+            }
+        };
         
+        /** Plays the damage coloration animation. */
+        private void PlayDamageAnimation()
+        {
+            if (_isAnimatingDamage) return;
+            _isAnimatingDamage = true;
+            
+            const float animationTime = 1.0f;
+            const float animationInterval = 0.1f;
+            const float progressInterval = animationInterval / animationTime;
+            
+            float progress = 0;
+            
+            Utility.DelayedFunction(this, animationTime, () => _isAnimatingDamage = false);
+            Utility.RepeatFunctionUntil(this, () =>
+            {
+                progress += progressInterval;
+                Character.SpriteRenderer.color = DamageGradient.Evaluate(progress);
+            }, animationInterval, () => _isAnimatingDamage);
+        }
         
 
         /**

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,9 +9,6 @@ namespace BuildABot
         [Header("Attack Information")]
         [Tooltip("Reference to the Attack that this enemy should use")]
         [SerializeField] private AttackData attack;
-
-        [Tooltip("Reference to the GameObject containing graphics for visualizing the attack")]
-        [SerializeField] private GameObject attackGraphics;
 
         /** Reference to the parent's CombatController component */
         private CombatController _combatController;
@@ -60,12 +55,10 @@ namespace BuildABot
                 if (_enemyMovement.Facing.x <= -0.2f)
                 {
                     box.offset = new Vector2(-0.5f, 0);
-                    attackGraphics.transform.localPosition = new Vector3(-0.5f, 0, 0);
                 }
                 else if (_enemyMovement.Facing.x >= 0.2f)
                 {
                     box.offset = new Vector2(0.5f, 0);
-                    attackGraphics.transform.localPosition = new Vector3(0.5f, 0, 0);
                 }
 
             }
@@ -150,20 +143,16 @@ namespace BuildABot
 
         void HandleAttackProgress(float progress)
         {
-            if (attack is AoeAttackData aoe)
+            /*if (attack is AoeAttackData aoe)
             {
                 float radius = aoe.AreaOverTime.Evaluate(progress) * aoe.Radius;
                 attackGraphics.transform.localScale = new Vector3(radius, radius, 1);
-            }
+            }*/
         }
 
         void HandleAttackFinish(List<Character> characters)
         {
             _isAttacking = false;
-            if (attack is MeleeAttackData melee)
-            {
-                attackGraphics.SetActive(false);
-            }
             GetComponentInParent<Animator>().SetBool(attack.AnimationTriggerName, false);
         }
     }

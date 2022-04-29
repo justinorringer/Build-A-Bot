@@ -43,7 +43,7 @@ namespace BuildABot
                     ""type"": ""Value"",
                     ""id"": ""a9e14446-8819-4e67-856c-0e0b7d10f022"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -52,7 +52,7 @@ namespace BuildABot
                     ""type"": ""Value"",
                     ""id"": ""578837b7-7ef0-42b7-98fb-94e3e56a8365"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },

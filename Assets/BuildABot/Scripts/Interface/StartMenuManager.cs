@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace BuildABot
@@ -16,6 +17,8 @@ namespace BuildABot
         protected void Awake()
         {
             Cursor.visible = true;
+            if (!GameManager.Initialized)
+                SceneManager.LoadSceneAsync("PersistentGame", LoadSceneMode.Additive);
         }
 
         protected void Start()

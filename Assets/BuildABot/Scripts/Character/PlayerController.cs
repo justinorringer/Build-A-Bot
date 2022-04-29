@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace BuildABot
@@ -18,13 +19,19 @@ namespace BuildABot
         /** The camera controller component used by this object */
         private CameraController _cameraController;
 
+        /** The input actions of this program mapped to a key identifier. */
+        private readonly Dictionary<string, InputAction> _inputActionLookup = new Dictionary<string, InputAction>();
+
+        /** The input events bound to this controller indexed by their associated action. */
+        private readonly Dictionary<InputAction, UnityEvent> _inputEventLookup = new Dictionary<InputAction, UnityEvent>();
+
         /**
          * A state cached used to store information about the enabled action maps in an input actions asset.
          */
         public class InputActionsStateCache
         {
             /** The cached states. */
-            private Dictionary<InputActionMap, bool> _inputActionsStateCache;
+            private readonly Dictionary<InputActionMap, bool> _inputActionsStateCache;
 
             /**
              * Constructs a new cache.
@@ -73,6 +80,14 @@ namespace BuildABot
             InputActions.Player.Enable();
         }
 
+        private void HandleInputAction(InputAction.CallbackContext callback)
+        {
+            if (_inputEventLookup.TryGetValue(callback.action, out UnityEvent e))
+            {
+                e.Invoke();
+            }
+        }
+
         protected void OnEnable()
         {
             // Bind player inputs
@@ -90,8 +105,20 @@ namespace BuildABot
             // Bind UI inputs
 
             InputActions.UI.CloseMenu.performed += UI_OnCloseMenu;
-
-            // Bind dialogue and inputs from their respective classes
+            
+            // Gather input lookups
+            foreach (InputActionMap actionMap in InputActions.asset.actionMaps)
+            {
+                foreach (InputAction action in actionMap)
+                {
+                    if (action != null)
+                    {
+                        _inputActionLookup.Add($"{{INPUT:{actionMap.name}:{action.name}}}", action);
+                        _inputEventLookup.Add(action, new UnityEvent());
+                        action.performed += HandleInputAction;
+                    }
+                }
+            }
         }
 
         protected void OnDisable()
@@ -111,8 +138,17 @@ namespace BuildABot
             // Unbind UI inputs
 
             InputActions.UI.CloseMenu.performed -= UI_OnCloseMenu;
-
-            // Unbind dialogue and inputs from their respective classes
+            
+            // Clear input lookups
+            foreach (var entry in _inputEventLookup)
+            {
+                if (entry.Key != null)
+                {
+                    entry.Key.performed -= HandleInputAction;
+                }
+            }
+            _inputActionLookup.Clear();
+            _inputEventLookup.Clear();
         }
 
         protected void Update()
@@ -130,6 +166,46 @@ namespace BuildABot
                 float zoomOut = InputActions.Player.ZoomOut.ReadValue<float>();
                 _cameraController.ZoomOut(zoomOut != 0);
             }
+        }
+
+        /**
+         * Binds the provided action to the input action associated with the provided input path.
+         * Input paths are in the form {INPUT:ActionMap:Action}.
+         * <param name="inputPath">The input path to bind to.</param>
+         * <param name="action">The action to bind to the input event.</param>
+         * <returns>True if the operation was successful, false otherwise.</returns>
+         */
+        public bool BindInputEvent(string inputPath, UnityAction action)
+        {
+            if (_inputActionLookup.TryGetValue(inputPath, out InputAction inputAction))
+            {
+                if (_inputEventLookup.TryGetValue(inputAction, out UnityEvent e))
+                {
+                    e.AddListener(action);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Unbinds the provided action from the input action associated with the provided input path.
+         * Input paths are in the form {INPUT:ActionMap:Action}.
+         * <param name="inputPath">The input path to bind to.</param>
+         * <param name="action">The action to unbind from the input event.</param>
+         * <returns>True if the input path was valid, false otherwise.</returns>
+         */
+        public bool UnbindInputEvent(string inputPath, UnityAction action)
+        {
+            if (_inputActionLookup.TryGetValue(inputPath, out InputAction inputAction))
+            {
+                if (_inputEventLookup.TryGetValue(inputAction, out UnityEvent e))
+                {
+                    e.RemoveListener(action);
+                    return true;
+                }
+            }
+            return false;
         }
 
         /**
@@ -169,14 +245,20 @@ namespace BuildABot
                 if (item != null)
                 {
                     item.ApplyDamage(1);
-                    Debug.Log(item.Durability);
                 }
             }
         }
 
         private void Player_OnHeavyAttack(InputAction.CallbackContext context)
         {
-            _combatController.DoHeavyMeleeAttack();
+            if (_combatController.DoHeavyMeleeAttack())
+            {
+                ComputerPartInstance item = _player.GetItemEquippedToSlot(EComputerPartSlot.Keyboard);
+                if (item != null)
+                {
+                    item.ApplyDamage(1);
+                }
+            }
         }
 
         private void Player_OnAoeAttack(InputAction.CallbackContext context)

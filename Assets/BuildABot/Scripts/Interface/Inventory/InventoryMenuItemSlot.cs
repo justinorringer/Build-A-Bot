@@ -57,7 +57,7 @@ namespace BuildABot
             if (entry != null)
             {
                 sprite.sprite = entry.Item.InventorySprite;
-                sprite.color = Color.white;
+                sprite.color = entry.Item.SpriteTint;
                 
                 unequippedButton.gameObject.SetActive(!entry.Equipped);
                 equippedButton.gameObject.SetActive(entry.Equipped);
@@ -67,7 +67,7 @@ namespace BuildABot
                 
                 if (entry is ComputerPartInstance cp)
                 {
-                    durabilityBar.gameObject.SetActive(true);
+                    durabilityBar.gameObject.SetActive(cp.Durability != cp.MaxDurability);
                     durabilityBar.value = cp.Durability / (float) cp.MaxDurability;
                     quantityText.gameObject.SetActive(false);
                 }
@@ -103,7 +103,7 @@ namespace BuildABot
          */
         public void ShowInDetailsPanel()
         {
-            InventoryMenu.DetailsPanel.Slot = this;
+            InventoryMenu.ActiveSlot = this;
         }
 
         /**
