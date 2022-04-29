@@ -16,6 +16,7 @@ namespace BuildABot
         
         protected override void Awake()
         {
+            base.Awake();
             _enemy = GetComponent<Enemy>();
         }
     }

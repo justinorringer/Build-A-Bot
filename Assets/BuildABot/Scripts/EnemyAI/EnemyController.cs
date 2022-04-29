@@ -164,6 +164,7 @@ namespace BuildABot
                 CurrentPatrolPoint = 0;
 
             //Move to next waypoint
+            Debug.Log("Moving to waypoint " + patrolPoints[CurrentPatrolPoint].position);
             _enemyMovement.MoveToPosition(patrolPoints[CurrentPatrolPoint].position);
 
             //Check to see if we've reached the point where we can move to the next waypoint

@@ -10,6 +10,7 @@ namespace BuildABot {
 
         public Tile basicTile;
 
+
         /**
             Populates the room with tiles on each child's position.
          */
@@ -18,6 +19,10 @@ namespace BuildABot {
             tilemap = GameObject.Find("Grid");
 
             foreach (Transform child in transform) {
+                if (child.gameObject.layer == LayerMask.NameToLayer("Waypoint") || child.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
+                    continue;
+                }
+                
                 int x = (int) child.transform.position.x; // pivot point in bottom corner of each tile
                 int y = (int) child.transform.position.y;
 
