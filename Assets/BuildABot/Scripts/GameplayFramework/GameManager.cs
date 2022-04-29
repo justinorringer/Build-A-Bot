@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,7 +22,7 @@ namespace BuildABot
         #region Public Properties
 
         /** Is the game currently paused? */
-        public static bool Paused => Instance._paused;
+        public static bool Paused => Instance != null ? Instance._paused : Time.timeScale == 0.0f;
         
         #endregion
         
@@ -64,22 +65,34 @@ namespace BuildABot
             base.OnDestroy();
         }
 
-        internal static int RegisterPlayer(Player player)
+        internal static void RegisterPlayer(Player player, Action<int> onComplete)
         {
-            if (player == null || player.PlayerIndex != -1) return -1;
-            
-            int index = Instance._players.Count;
-            Instance._players.Add(index, player);
-            player.OnPlayerDestroyed += UnregisterPlayer;
-            
-            Debug.Log($"Registered player {index}");
-            return index;
+            if (onComplete == null) throw new ArgumentNullException();
+            if (player == null || player.PlayerIndex != -1) onComplete.Invoke(-1);
+
+            void RegisterImplementation()
+            {
+                int index = Instance._players.Count;
+                Instance._players.Add(index, player);
+                player.OnPlayerDestroyed += UnregisterPlayer;
+                Debug.Log($"Registered player {index}");
+                onComplete.Invoke(index);
+            }
+
+            void LatentRegister()
+            {
+                OnInitialized -= LatentRegister;
+                RegisterImplementation();
+            }
+
+            if (Initialized) RegisterImplementation();
+            else OnInitialized += LatentRegister;
         }
 
         private static void UnregisterPlayer(Player player)
         {
             player.OnPlayerDestroyed -= UnregisterPlayer;
-            if (Instance != null)
+            if (Initialized)
             {
                 Instance._players.Remove(player.PlayerIndex);
                 Debug.Log($"Unregistered player {player.PlayerIndex}");
@@ -134,14 +147,21 @@ namespace BuildABot
          */
         public static void SetPaused(bool paused)
         {
-            if (paused == Paused) return; // Do nothing, no change
-            Time.timeScale = paused ? 0.0f : 1; // Update time scale
-            Instance._paused = paused;
+            if (Initialized)
+            {
+                if (paused == Paused) return; // Do nothing, no change
+                Time.timeScale = paused ? 0.0f : 1; // Update time scale
+                Instance._paused = paused;
             
-            // Fire events
-            Instance.onSetPaused.Invoke(paused);
-            if (paused) Instance.onPause.Invoke();
-            else Instance.onUnpause.Invoke();
+                // Fire events
+                Instance.onSetPaused.Invoke(paused);
+                if (paused) Instance.onPause.Invoke();
+                else Instance.onUnpause.Invoke();
+            }
+            else
+            {
+                Time.timeScale = paused ? 0.0f : 1; // Update time scale
+            }
         }
     }
 }

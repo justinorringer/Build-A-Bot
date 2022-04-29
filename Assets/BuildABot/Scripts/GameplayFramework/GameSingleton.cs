@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,6 +9,8 @@ namespace BuildABot
 
         [Tooltip("An event triggered whenever this object is finished initializing.")]
         [SerializeField] private UnityEvent onInitialized;
+
+        private static readonly HashSet<UnityAction> _pendingInitializedActions = new HashSet<UnityAction>();
         
         /** The singleton instance in the scene. */
         protected static TDerived Instance { get; private set; }
@@ -20,8 +23,16 @@ namespace BuildABot
         /** An event triggered whenever this singleton is finished initializing. */
         public static event UnityAction OnInitialized
         {
-            add => Instance.onInitialized.AddListener(value);
-            remove => Instance.onInitialized.RemoveListener(value);
+            add
+            {
+                if (Instance != null) Instance.onInitialized.AddListener(value);
+                else _pendingInitializedActions.Add(value);
+            }
+            remove
+            {
+                if (Instance != null) Instance.onInitialized.RemoveListener(value);
+                else _pendingInitializedActions.Remove(value);
+            }
         }
         
         #endregion
@@ -32,6 +43,11 @@ namespace BuildABot
             if (Instance == null)
             {
                 Instance = this as TDerived;
+                foreach (UnityAction action in _pendingInitializedActions)
+                {
+                    onInitialized.AddListener(action);
+                }
+                _pendingInitializedActions.Clear();
                 DontDestroyOnLoad(this);
             }
             else
