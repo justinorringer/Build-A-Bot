@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9af03b66f7e80ca46b0c1beb14c5bca6, type: 3}
+  m_Name: MerchantIntroduction
+  m_EditorClassIdentifier: 
+  dialogueNodes:
+  - content: Hi there!
+    nextNode: 1
+    responseOptions: []
+    expressionOverride: -1
+    completionEvents: []
+    suspendOnCompletion: 0
+  - content: How can I help you?
+    nextNode: 5
+    responseOptions:
+    - text: Buy Goods
+      targetNode: 2
+      selectionEvents:
+      - {fileID: 11400000, guid: d3ad9434699154e428cb70c2d8b411b1, type: 2}
+    - text: Sell Goods
+      targetNode: 3
+      selectionEvents:
+      - {fileID: 11400000, guid: d3ad9434699154e428cb70c2d8b411b1, type: 2}
+    - text: Nevermind
+      targetNode: 5
+      selectionEvents: []
+    expressionOverride: -1
+    completionEvents: []
+    suspendOnCompletion: 0
+  - content: Here's what I have.
+    nextNode: 4
+    responseOptions: []
+    expressionOverride: -1
+    completionEvents:
+    - {fileID: 11400000, guid: 5235488d8de8b674ba686dbd6e67a19f, type: 2}
+    suspendOnCompletion: 1
+  - content: What do you have?
+    nextNode: 4
+    responseOptions: []
+    expressionOverride: -1
+    completionEvents:
+    - {fileID: 11400000, guid: bce811269022f9242a2267944afdc5ea, type: 2}
+    suspendOnCompletion: 1
+  - content: Can I help you with anything else?
+    nextNode: 5
+    responseOptions:
+    - text: Buy Goods
+      targetNode: 2
+      selectionEvents:
+      - {fileID: 11400000, guid: d3ad9434699154e428cb70c2d8b411b1, type: 2}
+    - text: Sell Goods
+      targetNode: 3
+      selectionEvents:
+      - {fileID: 11400000, guid: d3ad9434699154e428cb70c2d8b411b1, type: 2}
+    - text: Nevermind
+      targetNode: 5
+      selectionEvents: []
+    expressionOverride: -1
+    completionEvents: []
+    suspendOnCompletion: 0
+  - content: Come again!
+    nextNode: -1
+    responseOptions: []
+    expressionOverride: -1
+    completionEvents: []
+    suspendOnCompletion: 0

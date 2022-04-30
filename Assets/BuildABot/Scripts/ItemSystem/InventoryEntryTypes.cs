@@ -50,6 +50,7 @@ namespace BuildABot
         {
             int delta = Mathf.Min(quantity, Capacity - Count);
             count += delta;
+            if (delta != 0) ApplyChanges();
             return quantity - delta;
         }
 
@@ -63,7 +64,11 @@ namespace BuildABot
         public bool TryRemove(int quantity)
         {
             bool success = count >= quantity;
-            if (success) count -= quantity;
+            if (success)
+            {
+                count -= quantity;
+                ApplyChanges();
+            }
             return success;
         }
     }
@@ -140,8 +145,9 @@ namespace BuildABot
          */
         public void ApplyDamage(int amount)
         {
-            durability -= amount; // TODO: Apply modifiers from skills/perks here
+            durability -= amount; // TODO: Apply modifiers from skills/perks to the parameter before calling this function
             durability = (durability >= 0) ? durability : 0;
+            ApplyChanges();
         }
     }
 

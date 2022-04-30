@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4ca94a105a4e87b53e87b24b07f39e, type: 3}
+  m_Name: CDProjectile
+  m_EditorClassIdentifier: 
+  effects:
+  - effect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
+    magnitude: 2
+  animationTriggerName: TurretAggro
+  startSound: {fileID: 0}
+  progressSound: {fileID: 8300000, guid: 2c048c54c0465084fb6cbda8aa24d455, type: 3}
+  offset: {x: 0, y: 0}
+  offsetXCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  offsetYCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  offsetInLookDirection: 1
+  useRelativeSize: 1
+  size: {x: 1, y: 1}
+  canHitSelf: 0
+  allowMultiHit: 0
+  allowMovement: 1
+  canInterrupt: 1
+  bulletLifetime: 5
+  bulletSpeed: 8
+  bulletCount: 1
+  fireRate: 0.5
+  bulletPrefab: {fileID: 419722241216213143, guid: e35330adb14925e4480769b67d937e0d, type: 3}

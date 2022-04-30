@@ -29,7 +29,7 @@ namespace BuildABot
         public string SelectedAttributeName => value;
 
         /** The friendly name of the selected attribute. */
-        public string SelectedAttributeNameFriendly => ObjectNames.NicifyVariableName(SelectedAttributeName);
+        public string SelectedAttributeNameFriendly => Utility.NicifyVariableName(SelectedAttributeName);
         
         protected AttributeSelector()
         {

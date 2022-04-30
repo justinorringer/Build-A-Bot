@@ -23,6 +23,24 @@ namespace BuildABot
         
         [Tooltip("The shape of the attack box.")]
         [SerializeField] private EAoeAttackShape shape = EAoeAttackShape.Circle;
+        
+        [Tooltip("The graphic to spawn for this attack.")]
+        [SerializeField] private AoeAttackGraphic graphic;
+        
+        [Tooltip("The color gradient to apply to the spawned graphic.")]
+        [SerializeField] private Gradient graphicColorGradient = new Gradient
+        {
+            colorKeys = new []
+            {
+                new GradientColorKey(Color.white, 0.0f),
+                new GradientColorKey(Color.white, 1.0f)
+            },
+            alphaKeys = new []
+            {
+                new GradientAlphaKey(1.0f, 0.0f),
+                new GradientAlphaKey(1.0f, 1.0f)
+            }
+        };
 
         [Tooltip("Is the size of this attack relative to the bounds of the attacking character?")]
         [SerializeField] private bool useRelativeRadius;
@@ -52,6 +70,12 @@ namespace BuildABot
         /** The shape of the attack box. */
         public EAoeAttackShape Shape => shape;
 
+        /** The graphic prefab spawned by this attack. */
+        public AoeAttackGraphic Graphic => graphic;
+
+        /** The color gradient applied by this attack to its graphic prefab. */
+        public Gradient GraphicColorGradient => graphicColorGradient;
+
         /** Is the size of this attack relative to the bounds of the attacking character? */
         public bool UseRelativeRadius => useRelativeRadius;
 
@@ -73,7 +97,7 @@ namespace BuildABot
         /** The number of times to raycast the attack per second. */
         public int RaycastRate => raycastRate;
 
-        public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action<float> onProgress = null, Action onComplete = null)
+        public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action<float> onProgress = null, Action onComplete = null, Action onHit = null)
         {
             if (!AllowMovement) instigator.Character.CharacterMovement.CanMove = false;
             
@@ -81,6 +105,13 @@ namespace BuildABot
             float progress = 0f;
             float interval = 1f / raycastRate;
             float progressInterval = duration == 0f ? 1f : interval / duration;
+
+            AoeAttackGraphic graphicInst = null;
+            if (graphic != null)
+            {
+                graphicInst = Instantiate(graphic, instigator.transform);
+                graphicInst.Initialize(this);
+            }
             
             return Utility.RepeatFunction(instigator, () =>
             {
@@ -140,26 +171,27 @@ namespace BuildABot
                     GameObject hitObj = hit.gameObject;
 
                     // Get the other character hit
-                    Character other = hitObj.GetComponent<Character>();
-                    if ((CanHitSelf || other != instigator.Character) &&
-                        null != other &&
-                        (AllowMultiHit || !hitLookup.Contains(other)))
+                    CombatController other = hitObj.GetComponent<CombatController>();
+                    if (null != other && null != other.Character &&
+                        (CanHitSelf || other.Character != instigator.Character) &&
+                        (AllowMultiHit || !hitLookup.Contains(other.Character)))
                     {
-                        foreach (EffectInstance instance in Effects)
+                        if (other.TryReceiveAttack(this, instigator))
                         {
-                            other.Attributes.ApplyEffect(instance, other);
+                            hits.Add(other.Character);
+                            hitLookup.Add(other.Character);
                         }
-                        hits.Add(other);
-                        hitLookup.Add(other);
                     }
                 }
 
                 progress += progressInterval;
+                if (graphicInst != null) graphicInst.OnAttackProgress(progress);
                 onProgress?.Invoke(progress);
                 
             }, interval, (int) (raycastRate * duration), () =>
             {
                 if (!AllowMovement) instigator.Character.CharacterMovement.CanMove = true;
+                if (graphicInst != null) graphicInst.OnAttackFinish();
                 onComplete?.Invoke();
             });
         }

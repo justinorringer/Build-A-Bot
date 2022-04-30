@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,7 +23,7 @@ namespace BuildABot
         public virtual bool CanEquip => false;
 
         /** Is this entry currently equipped? */
-        private bool _equipped = false;
+        private bool _equipped;
 
         /** Is this entry currently equipped? */
         public bool Equipped
@@ -30,12 +31,53 @@ namespace BuildABot
             get => _equipped;
             set
             {
-                if (CanEquip) _equipped = value;
-                else
+                if (CanEquip)
                 {
-                    Debug.LogWarning("Cannot equip an item that is not marked CanEquip.");
+                    _equipped = value;
+                    if (_equipped) _onEquip.Invoke(this);
+                    else _onUnequip.Invoke(this);
+                    ApplyChanges();
                 }
+                else Debug.LogWarning("Cannot equip an item that is not marked CanEquip.");
             }
+        }
+
+        /** The event called whenever a change is applied to this entry. */
+        private readonly UnityEvent<InventoryEntry> _onChange = new UnityEvent<InventoryEntry>();
+
+        /** The event called whenever this entry is equipped. */
+        private readonly UnityEvent<InventoryEntry> _onEquip = new UnityEvent<InventoryEntry>();
+
+        /** The event called whenever this entry is unequipped. */
+        private readonly UnityEvent<InventoryEntry> _onUnequip = new UnityEvent<InventoryEntry>();
+        
+        /** An event triggered whenever a change is applied to this entry. Sends subscribers a reference to this entry. */
+        public event UnityAction<InventoryEntry> OnChange
+        {
+            add => _onChange.AddListener(value);
+            remove => _onChange.RemoveListener(value);
+        }
+        
+        /** The event called whenever this entry is equipped. */
+        public event UnityAction<InventoryEntry> OnEquip
+        {
+            add => _onEquip.AddListener(value);
+            remove => _onEquip.RemoveListener(value);
+        }
+        
+        /** The event called whenever this entry is unequipped. */
+        public event UnityAction<InventoryEntry> OnUnequip
+        {
+            add => _onUnequip.AddListener(value);
+            remove => _onUnequip.RemoveListener(value);
+        }
+
+        /**
+         * Handles any changes made to this entry.
+         */
+        protected void ApplyChanges()
+        {
+            _onChange.Invoke(this);
         }
     }
     
@@ -46,27 +88,62 @@ namespace BuildABot
     {
 
         /** The runtime collection of entries inside of this inventory. */
-        private readonly List<InventoryEntry> _entries = new List<InventoryEntry>();
+        private readonly LinkedList<InventoryEntry> _entries = new LinkedList<InventoryEntry>();
+        private readonly Dictionary<InventoryEntry, LinkedListNode<InventoryEntry>> _lookup = new Dictionary<InventoryEntry, LinkedListNode<InventoryEntry>>();
         
         [Tooltip("The maximum number of entries that can be stored in this inventory.")]
         [SerializeField] private int maxSlots = 10;
-
-        // TODO: Add support for adding/removing listeners at runtime
         
+        #region Events
+
         [Tooltip("A dispatcher called whenever an item is added to this inventory. Subscribers will receive the added item and count.")]
         [SerializeField] private UnityEvent<Item, int> onItemAdded;
         [Tooltip("A dispatcher called whenever an item is removed from this inventory. Subscribers will receive the removed item and count.")]
         [SerializeField] private UnityEvent<Item, int> onItemRemoved;
         
-        [Tooltip("A dispatcher called whenever a new entry slot is filled in this inventory. Subscribers will receive the entry and its index.")]
-        [SerializeField] private UnityEvent<InventoryEntry, int> onEntryAdded;
+        [Tooltip("A dispatcher called whenever a new entry slot is filled in this inventory. Subscribers will receive a reference to the entry.")]
+        [SerializeField] private UnityEvent<InventoryEntry> onEntryAdded;
         [Tooltip("A dispatcher called whenever an entry is removed from a slot in this inventory. Subscribers will receive the entry and its index.")]
         [SerializeField] private UnityEvent<InventoryEntry> onEntryRemoved;
-        [Tooltip("A dispatcher called whenever this inventory modifies an entry. Subscribers will receive the entry and its index.")]
-        [SerializeField] private UnityEvent<InventoryEntry, int> onEntryModified;
+        [Tooltip("A dispatcher called whenever this inventory modifies an entry. Subscribers will receive a reference to the entry.")]
+        [SerializeField] private UnityEvent<InventoryEntry> onEntryModified;
+        
+        /** An event triggered whenever an item is added to this inventory. Subscribers will receive the added item and count. */
+        public event UnityAction<Item, int> OnItemAdded
+        {
+            add => onItemAdded.AddListener(value);
+            remove => onItemAdded.RemoveListener(value);
+        }
+        /** An event triggered whenever an item is removed from this inventory. Subscribers will receive the removed item and count. */
+        public event UnityAction<Item, int> OnItemRemoved
+        {
+            add => onItemRemoved.AddListener(value);
+            remove => onItemRemoved.RemoveListener(value);
+        }
+        
+        /** An event triggered whenever a new entry slot is filled in this inventory. Subscribers will receive a reference to the entry. */
+        public event UnityAction<InventoryEntry> OnEntryAdded
+        {
+            add => onEntryAdded.AddListener(value);
+            remove => onEntryAdded.RemoveListener(value);
+        }
+        /** An event triggered whenever an entry is removed from a slot in this inventory. Subscribers will receive a reference to the entry. */
+        public event UnityAction<InventoryEntry> OnEntryRemoved
+        {
+            add => onEntryRemoved.AddListener(value);
+            remove => onEntryRemoved.RemoveListener(value);
+        }
+        /** An event triggered whenever this inventory modifies an entry. Subscribers will receive the entry and its index." */
+        public event UnityAction<InventoryEntry> OnEntryModified
+        {
+            add => onEntryModified.AddListener(value);
+            remove => onEntryModified.RemoveListener(value);
+        }
+        
+        #endregion
         
         /** Gets the (read-only) list of item entries in this inventory. */
-        public ReadOnlyCollection<InventoryEntry> Entries => _entries.AsReadOnly();
+        public ReadOnlyCollection<InventoryEntry> Entries => _entries.ToList().AsReadOnly();
         
         /** Gets the number of item slots available in this inventory. */
         public int MaxSlots => maxSlots;
@@ -100,24 +177,39 @@ namespace BuildABot
             
             return found >= quantity;
         }
+        
+        /**
+         * Does this inventory contain the provided entry?
+         * <param name="entry">The entry to check for</param>
+         * <returns>True if the entry is in this inventory, false otherwise.</returns>
+         */
+        public bool ContainsEntry(InventoryEntry entry)
+        {
+            return entry != null && _lookup.ContainsKey(entry);
+        }
 
         /**
          * Adds the provided inventory entry if space exists. If the entry is stackable, it will automatically stack
-         * with existing entries.
+         * with existing entries. If the provided entry is already tracked by this inventory the operation will fail.
          * <param name="entry">The entry to try to add.</param>
          * <param name="overflow">(Out) The amount of the requested entry addition could not be added due to slot or stack size limitations.</param>
          * <returns>True if the entry could be fully added, false otherwise.</returns>
          */
         public bool TryAddEntry(InventoryEntry entry, out int overflow)
         {
+            if (entry == null || _lookup.ContainsKey(entry))
+            {
+                overflow = 0;
+                return false;
+            }
+            
             if (entry is ItemStack stack) // Entry is stackable
             {
                 // Handle increasing stack size if a stack already exists
                 
                 int remaining = entry.Count;
-                for (int i = 0; i < _entries.Count; i++)
+                foreach (InventoryEntry e in _entries)
                 {
-                    InventoryEntry e = _entries[i];
                     if (entry.Item == e.Item && e is ItemStack s)
                     {
                         int delta = remaining;
@@ -125,7 +217,7 @@ namespace BuildABot
                         remaining = s.TryAdd(remaining);
                         delta -= remaining;
                         // Fire events
-                        if (delta != 0) onEntryModified.Invoke(e, i);
+                        if (delta != 0) onEntryModified.Invoke(e);
                     }
 
                     if (remaining == 0)
@@ -143,9 +235,11 @@ namespace BuildABot
                 {
                     int delta = Mathf.Min(remaining, stack.Capacity);
                     InventoryEntry e = new ItemStack(entry.Item as StackableItem, delta);
-                    _entries.Add(e);
+                    LinkedListNode<InventoryEntry> node = _entries.AddLast(e);
+                    _lookup.Add(e, node);
+                    e.OnChange += onEntryModified.Invoke;
                     // Fire events
-                    onEntryAdded.Invoke(e, _entries.Count - 1);
+                    onEntryAdded.Invoke(e);
                     remaining -= delta;
                 }
                 overflow = remaining;
@@ -158,9 +252,11 @@ namespace BuildABot
                 bool canAdd = _entries.Count < maxSlots;
                 if (canAdd)
                 {
-                    _entries.Add(entry);
+                    LinkedListNode<InventoryEntry> node = _entries.AddLast(entry);
+                    _lookup.Add(entry, node);
+                    entry.OnChange += onEntryModified.Invoke;
                     // Fire events
-                    onEntryAdded.Invoke(entry, _entries.Count - 1);
+                    onEntryAdded.Invoke(entry);
                     onItemAdded.Invoke(entry.Item, 1);
                 }
                 overflow = canAdd ? 0 : 1;
@@ -234,51 +330,53 @@ namespace BuildABot
         // TODO: Add searching for specific entry by Item for removal
 
         /**
-         * Attempts to remove the specified item count from the entry at the provided index. If the entry does not have
+         * Attempts to remove the specified item count from the provided entry. If the entry does not have
          * a sufficient count to fulfill the request the operation will fail and false is returned. If the entry is for
          * a non-stackable item the count must be 1 for the operation to succeed.
          * Success implies that the requested entry has been modified or fully removed.
-         * <param name="index">The index of the entry to modify.</param>
+         * <param name="entry">The entry to modify.</param>
          * <param name="count">The amount to try to remove. this must be 1 for non-stackable types.</param>
          * <returns>True if the operation was successful, false otherwise.</returns>
          */
-        public bool TryRemoveCountFromEntry(int index, int count)
+        public bool TryRemoveCountFromEntry(InventoryEntry entry, int count)
         {
+            if (entry == null || !_lookup.ContainsKey(entry)) return false; // Check validity
+            
             bool result = false;
-            if (index >= 0 && index < _entries.Count) // Bounds check
+            if (count >= 1 && entry is ItemStack stack) // Handle stackable items
             {
-                if (count > 1 && _entries[index] is ItemStack stack) // Handle stackable items
-                {
-                    result = stack.TryRemove(count);
-                    // If successful and the stack was emptied remove the entry
-                    if (result && stack.Count == 0) RemoveEntryByIndex(index, true);
-                    else if (result) onEntryModified.Invoke(_entries[index], index);
-                }
-                else if (_entries[index] is ComputerPartInstance || _entries[index] is KeyItemEntry) // Handle non-stackable items
-                {
-                    result = count == 1;
-                    // Only remove the entry if the request was valid
-                    if (result) RemoveEntryByIndex(index, true);
-                }
+                result = stack.TryRemove(count);
+                // If successful and the stack was emptied remove the entry
+                if (result && stack.Count == 0) RemoveEntry(entry, true);
+                else if (result) onEntryModified.Invoke(entry);
+            }
+            else if (entry is ComputerPartInstance || entry is KeyItemEntry) // Handle non-stackable items
+            {
+                result = count == 1;
+                // Only remove the entry if the request was valid
+                if (result) RemoveEntry(entry, true);
             }
 
             return result;
         }
 
         /**
-         * Removes the inventory entry with the provided index. This requires that the 
-         * <param name="index">The index of the entry to remove.</param>
+         * Removes the provided inventory entry if it is owned by this inventory. This requires that the 
+         * <param name="entry">The entry to remove.</param>
          * <param name="force">Should this operation bypass the removable check on the item? Defaults to false.</param>
-         * <returns>The removed entry if it could be removed.</returns>
+         * <returns>The removed entry if it could be removed, null otherwise.</returns>
          */
-        public InventoryEntry RemoveEntryByIndex(int index, bool force = false)
+        public InventoryEntry RemoveEntry(InventoryEntry entry, bool force = false)
         {
-            if (index < 0 || index >= _entries.Count) return null; // Check index bounds
+            if (entry == null || !_lookup.TryGetValue(entry, out LinkedListNode<InventoryEntry> node)) return null; // Check validity
+            
             // check that the item can be removed or force the operation
-            if (force || _entries[index].Item.Removable)
+            if (force || entry.Item.Removable)
             {
-                InventoryEntry removed = _entries[index];
-                _entries.RemoveAt(index);
+                InventoryEntry removed = entry;
+                _entries.Remove(node);
+                _lookup.Remove(entry);
+                entry.OnChange -= onEntryModified.Invoke;
                 // Fire events
                 onEntryRemoved.Invoke(removed);
                 onItemRemoved.Invoke(removed.Item, (removed is ItemStack s) ? s.Count : 1);
@@ -295,7 +393,12 @@ namespace BuildABot
          */
         public List<InventoryEntry> FilterEntries(Predicate<InventoryEntry> match)
         {
-            return _entries.FindAll(match);
+            List<InventoryEntry> matches = new List<InventoryEntry>();
+            foreach (InventoryEntry entry in _entries)
+            {
+                if (match(entry)) matches.Add(entry);
+            }
+            return matches;
         }
 
         /**
@@ -303,9 +406,21 @@ namespace BuildABot
          */
         public void SortByName()
         {
-            _entries.Sort((a, b) =>
+            List<InventoryEntry> entries = _entries.ToList();
+            entries.Sort((a, b) =>
                     String.Compare(a.Item.DisplayName, b.Item.DisplayName, StringComparison.Ordinal)
                     );
+            LinkedListNode<InventoryEntry> prev = null;
+            foreach (InventoryEntry entry in entries)
+            {
+                if (_lookup.TryGetValue(entry, out LinkedListNode<InventoryEntry> node))
+                {
+                    _entries.Remove(node);
+                    if (prev == null) _entries.AddFirst(node);
+                    else _entries.AddAfter(prev, node);
+                    prev = node;
+                }
+            }
         }
 
         /**
@@ -313,9 +428,21 @@ namespace BuildABot
          */
         public void SortByType()
         {
-            _entries.Sort((a, b) =>
+            List<InventoryEntry> entries = _entries.ToList();
+            entries.Sort((a, b) =>
                 a.Item.Type.CompareTo(b.Item.Type)
             );
+            LinkedListNode<InventoryEntry> prev = null;
+            foreach (InventoryEntry entry in entries)
+            {
+                if (_lookup.TryGetValue(entry, out LinkedListNode<InventoryEntry> node))
+                {
+                    _entries.Remove(node);
+                    if (prev == null) _entries.AddFirst(node);
+                    else _entries.AddAfter(prev, node);
+                    prev = node;
+                }
+            }
         }
     }
 }

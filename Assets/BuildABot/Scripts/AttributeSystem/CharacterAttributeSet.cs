@@ -11,7 +11,11 @@ namespace BuildABot
     {
         [Tooltip("The temperature of the character, equivalent to health.")]
         [SerializeField] private FloatAttributeData temperature;
-        [Tooltip("The temperature that results in the death of the character.")]
+        [Tooltip("The standard operating temperature of the character.")]
+        [SerializeField] private FloatAttributeData operatingTemperature;
+        [Tooltip("The freezing temperature that results in the death of the character.")]
+        [SerializeField] private FloatAttributeData minTemperature;
+        [Tooltip("The overheat temperature that results in the death of the character.")]
         [SerializeField] private FloatAttributeData maxTemperature;
         [Tooltip("The rate that the character's temperature changes per second. This can be negative to heat up over time.")]
         [SerializeField] private FloatAttributeData coolDownRate;
@@ -39,13 +43,23 @@ namespace BuildABot
         [SerializeField] private FloatAttributeData mediumAttackPower;
         [Tooltip("The amount of power behind the character's heavy attacks.")]
         [SerializeField] private FloatAttributeData heavyAttackPower;
-        
+
+        [Tooltip("The power multiplier for all of the character's attacks.")]
+        [SerializeField] private FloatAttributeData attackPower;
+
         [Tooltip("The number of slots available in the player's inventory.")]
         [SerializeField] private IntAttributeData inventorySpace;
+        
+        [Tooltip("The view distance multiplier that is used to zoom the camera in or out.")]
+        [SerializeField] private FloatAttributeData viewDistance;
 
         /** The temperature of the character, equivalent to health. */
         public FloatAttributeData Temperature => temperature;
-        /** The temperature that results in the death of the character. */
+        /** The standard operating temperature of the character. */
+        public FloatAttributeData OperatingTemperature => operatingTemperature;
+        /** The freezing temperature that results in the death of the character. */
+        public FloatAttributeData MinTemperature => minTemperature;
+        /** The overheating temperature that results in the death of the character. */
         public FloatAttributeData MaxTemperature => maxTemperature;
         /** The amount that the character's temperature changes per second. */
         public FloatAttributeData CoolDownRate => coolDownRate;
@@ -74,7 +88,13 @@ namespace BuildABot
         /** The amount of power behind the character's heavy attacks. */
         public FloatAttributeData HeavyAttackPower => heavyAttackPower;
 
+        /** The power multiplier for all of the character's attacks. */
+        public FloatAttributeData AttackPower => attackPower;
+
         /** The number of slots available in the player's inventory. */
         public IntAttributeData InventorySpace => inventorySpace;
+
+        /** The view distance multiplier that is used to zoom the camera in or out. */
+        public FloatAttributeData ViewDistance => viewDistance;
     }
 }

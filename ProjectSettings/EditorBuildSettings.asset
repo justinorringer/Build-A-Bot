@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/BuildABot/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/BuildABot/Scenes/StartMenuScene.unity
+    guid: b5bcf630d9b93a6438e86c248b9673b4
+  - enabled: 1
+    path: Assets/BuildABot/Scenes/PersistentGame.unity
+    guid: 619a120109d4bab4a8cb3b45c23a8c1e
+  - enabled: 1
+    path: Assets/BuildABot/Scenes/LDtkToUnityTest.unity
+    guid: 8ad33e8b86a0b6246807b28f0de60714
+  - enabled: 1
+    path: Assets/BuildABot/Scenes/MapGeneration.unity
+    guid: 0385e6b8ab654ca45b46e55372f11a2d
+  - enabled: 1
+    path: Assets/BuildABot/Scenes/CreditsScene.unity
+    guid: 2abb42cd48d5e6d4481b4697bdd964c3
   m_configObjects: {}

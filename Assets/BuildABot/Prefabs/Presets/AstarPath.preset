@@ -1,0 +1,399 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AstarPath
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: version
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: data.dataString
+    value: UEsDBBQAAAgIAACYn+sUMujccgIAACYFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVE1zmzAQ/SsenesMkNgOvbXEcXpI4onbyYWLjBajsZAYScR2Mv7vXQlhqHtCertvP96u+CJcmgYKq/RKc/asGJDvE+LO5NtkMD7Bke6U3PBP6H3eObOVc6Le541arhCPHc2oGqzmxQ+5E845QrCVvFS6XrIdZMpYg3BJhQE0aWUdWyL0NSFH/ExTRznhKVm40yee0mhyxmMB0oIeXJPbmziZp1E8D4xpcrNYLJIk8YhjdsRWFoLWDTDXxcCfzQLvdubdJPYXPKIbZyuUENyE8og9Nb79jDamxebQgXGK7fqaErxWwHeVDZcL+bUsDdighaanB65RtS4q+ak6KWtq9l1lH1S0Ls/8zhfVxXz+zzyNvbnUqn7q08aRS2ErXuzf6Kmgxo6kHsMPQ92x1+dAxZ5uBbxXIF/USqtWMjRa3TpqayB5GK6XzrIKiv2Ad6VegW0zCN5Ptp+r6+Hsmz9mgtdbL/xdB2yE8nL7dQCNo/mFBftlMSEEoq6KPwZ+0914q4LhkWtj0RS6lK68rWq1cyVLr5nrprWZ0hI8HIpuQFJhT2sMY68neGUbpb2yPFL3fkLyYOufxRXFw4N/FF2Z1upwGZap1OEZTPXaWsElDEU7wwvqlCkpuwUba9LTNq0uaTGi7VrO/l0tEhW3kNA4jRljESzKaTqP7vFRpTC7Txd3ZUT87nGJfVKx7goN8uDU5BBc4p71v5XJStPGLzvT9LDin7UaSc5lqTaFBpCvXYRL4aAxCT5LtmQcBdqAtVz6eZOvnAhV7IHll0C573R5tJrmQ5ScNPxDWYfkJPP/kZw4+LLLaw0fHA4ueR/sTM5/AVBLAwQUAAAICAAAmJ/r3E1Aym0AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNdRUEovSizIKAaKGII4pZkpIHa0kkGycapRoqGlYUpKikGqeZqupZmBhZGhmWWqqYWluUmagVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAmJ/rFDLo3HICAAAmBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAmJ/r3E1Aym0AAAB4AAAACQAkAAAAAAAAAAAAAAC/AgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAHcDAAAAAA==
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: data.upgradeData.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: data.file_cachedStartup
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: data.data_cachedStartup.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: data.cacheStartup
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: showNavGraphs
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: showUnwalkableNodes
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: debugMode
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: debugFloor
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: debugRoof
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: manualDebugFloorRoof
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: showSearchTree
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: unwalkableNodeDebugSize
+    value: 0.3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: logPathResults
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: maxNearestNodeDistance
+    value: 100
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: scanOnStartup
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: fullGetNearestSearch
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: prioritizeGraphs
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: prioritizeGraphsLimit
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._SolidColor.r
+    value: 0.11764706
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._SolidColor.g
+    value: 0.4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._SolidColor.b
+    value: 0.7882353
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._SolidColor.a
+    value: 0.9
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._UnwalkableNode.r
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._UnwalkableNode.g
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._UnwalkableNode.b
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._UnwalkableNode.a
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._BoundsHandles.r
+    value: 0.29
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._BoundsHandles.g
+    value: 0.454
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._BoundsHandles.b
+    value: 0.741
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._BoundsHandles.a
+    value: 0.9
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._ConnectionLowLerp.r
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._ConnectionLowLerp.g
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._ConnectionLowLerp.b
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._ConnectionLowLerp.a
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._ConnectionHighLerp.r
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._ConnectionHighLerp.g
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._ConnectionHighLerp.b
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._ConnectionHighLerp.a
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._MeshEdgeColor.r
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._MeshEdgeColor.g
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._MeshEdgeColor.b
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._MeshEdgeColor.a
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._AreaColors.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._AreaColors.Array.data[0].r
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._AreaColors.Array.data[0].g
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._AreaColors.Array.data[0].b
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: colorSettings._AreaColors.Array.data[0].a
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.size
+    value: 32
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[0]
+    value: Basic Ground
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[1]
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[2]
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[3]
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[4]
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[5]
+    value: 5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[6]
+    value: 6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[7]
+    value: 7
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[8]
+    value: 8
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[9]
+    value: 9
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[10]
+    value: 10
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[11]
+    value: 11
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[12]
+    value: 12
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[13]
+    value: 13
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[14]
+    value: 14
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[15]
+    value: 15
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[16]
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[17]
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[18]
+    value: 18
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[19]
+    value: 19
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[20]
+    value: 20
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[21]
+    value: 21
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[22]
+    value: 22
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[23]
+    value: 23
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[24]
+    value: 24
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[25]
+    value: 25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[26]
+    value: 26
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[27]
+    value: 27
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[28]
+    value: 28
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[29]
+    value: 29
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[30]
+    value: 30
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: tagNames.Array.data[31]
+    value: 31
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: heuristic
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: heuristicScale
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: threadCount
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: maxFrameTime
+    value: 10
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: batchGraphUpdates
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: graphUpdateBatchingInterval
+    value: 0.2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: euclideanEmbedding.mode
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: euclideanEmbedding.seed
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: euclideanEmbedding.pivotPointRoot
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: euclideanEmbedding.spreadOutCount
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: showGraphs
+    value: 1
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []

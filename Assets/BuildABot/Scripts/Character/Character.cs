@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,15 +16,23 @@ namespace BuildABot
         [Header("Events")]
         
         [Tooltip("A dispatcher called whenever this character is killed.")]
-        [SerializeField] private UnityEvent onDeath;
+        [SerializeField] protected UnityEvent onDeath;
+        
+        [Header("References")]
+        
+        [Tooltip("The combat controller used by this character.")]
+        [SerializeField] private CombatController combatController;
 
         /** The attribute set used by this character. */
         public CharacterAttributeSet Attributes => attributes;
 
         /** The character movement component used by this character. */
         public abstract CharacterMovement CharacterMovement { get; }
+
+        /** The combat controller used by this character. */
+        public CombatController CombatController => combatController;
         
-        /** The bounding size of this character. */
+        /** The collider of this character. */
         public Collider2D Collider { get; private set; }
         
         /** The bounding size of this character. */
@@ -31,8 +40,25 @@ namespace BuildABot
         
         /** The inventory of this character. */
         public Inventory Inventory { get; private set; }
+        
+        /** This character's sprite renderer. */
+        public SpriteRenderer SpriteRenderer { get; private set; }
+        
+        /** An event triggered when this character dies. */
+        public event UnityAction OnDeath
+        {
+            add => onDeath.AddListener(value);
+            remove => onDeath.RemoveListener(value);
+        }
 
-        public virtual void Kill()
+        
+        /** The cooling/temperature regeneration coroutine used by this character. */
+        private IEnumerator _coolingTask;
+
+        /**
+         * Kills this character.
+         */
+        protected virtual void Kill()
         {
             onDeath.Invoke();
             Destroy(gameObject);
@@ -43,21 +69,50 @@ namespace BuildABot
             Collider = GetComponent<Collider2D>();
             Bounds = Collider.bounds.size;
             Inventory = GetComponent<Inventory>();
+            SpriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        protected virtual void Start()
+        {
+            
         }
 
         protected virtual void OnEnable()
         {
-            Attributes.Temperature.AddPostValueChangeListener(HandleTemperatureChange);
+            Attributes.Temperature.OnPostValueChange += HandleTemperatureChange;
+            _coolingTask = Utility.RepeatFunction(this, () =>
+            {
+                float currentTemp = Attributes.Temperature.BaseValue;
+                float operatingTemp = Attributes.OperatingTemperature.CurrentValue;
+                float coolingRate = Attributes.CoolDownRate.CurrentValue;
+                
+                if (currentTemp > operatingTemp && coolingRate != 0.0f)
+                {
+                    // Lower character temperature 
+                    Attributes.Temperature.BaseValue = Mathf.Max(currentTemp - coolingRate, operatingTemp);
+                }
+                else if (currentTemp < operatingTemp && coolingRate != 0.0f)
+                {
+                    // Raise character temperature 
+                    Attributes.Temperature.BaseValue = Mathf.Min(currentTemp + coolingRate, operatingTemp);
+                }
+            }, 1.0f);
         }
 
         protected virtual void OnDisable()
         {
-            Attributes.Temperature.RemovePostValueChangeListener(HandleTemperatureChange);
+            Attributes.Temperature.OnPostValueChange -= HandleTemperatureChange;
+            if (_coolingTask != null)
+            {
+                StopCoroutine(_coolingTask);
+                _coolingTask = null;
+            }
         }
 
         private void HandleTemperatureChange(float newTemperature)
         {
             if (newTemperature >= Attributes.MaxTemperature.CurrentValue) Kill();
+            else if (newTemperature <= Attributes.MinTemperature.CurrentValue) Kill();
         }
     }
 }

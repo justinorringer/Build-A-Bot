@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d15d82702c23d4b94ec23e1358083d, type: 3}
+  m_Name: TravelingSalesbot
+  m_EditorClassIdentifier: 
+  characterName: TR4V3L1NG S4L3SM4N
+  speakingSound: {fileID: 8300000, guid: 78d1d26b3c5f2b84dad65de762b918d0, type: 3}
+  defaultCharacterSprite: {fileID: 21300000, guid: df03a8c13998c5147809b3ff3e0070e2, type: 3}
+  expressions:
+  - expressionName: Happy
+    spriteOverride: {fileID: 0}
+    soundOverride: {fileID: 0}
+  - expressionName: Sad
+    spriteOverride: {fileID: 0}
+    soundOverride: {fileID: 0}
+  - expressionName: Angry
+    spriteOverride: {fileID: 0}
+    soundOverride: {fileID: 0}
+  - expressionName: Shocked
+    spriteOverride: {fileID: 0}
+    soundOverride: {fileID: 0}
