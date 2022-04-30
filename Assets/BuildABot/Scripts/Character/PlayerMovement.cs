@@ -58,6 +58,7 @@ namespace BuildABot
             {
                 Animator.SetTrigger(_jumpTriggerHash);
                 source.PlayOneShot(jumpSound);
+                GameManager.GameState.TotalJumps++;
             }
 
             base.Jump();

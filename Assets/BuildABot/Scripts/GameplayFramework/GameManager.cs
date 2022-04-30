@@ -10,6 +10,8 @@ namespace BuildABot
         private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
         private bool _paused;
 
+        private GameState _gameState = new GameState();
+
         [Tooltip("An event triggered whenever the game is paused.")]
         [SerializeField] private UnityEvent onPause;
         
@@ -23,6 +25,9 @@ namespace BuildABot
 
         /** Is the game currently paused? */
         public static bool Paused => Instance != null ? Instance._paused : Time.timeScale == 0.0f;
+
+        /** The state of the current play session. */
+        public static GameState GameState => Instance != null ? Instance._gameState : null;
         
         #endregion
         

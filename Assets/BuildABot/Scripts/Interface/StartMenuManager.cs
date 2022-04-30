@@ -32,6 +32,8 @@ namespace BuildABot
             versionDisplay.gameObject.SetActive(true);
             versionDisplay.text = Application.version;
 #endif
+            AudioManager.RestartBackgroundTrack();
+            AudioManager.EaseBackgroundTrackVolume(1f, AudioManager.DefaultVolume);
         }
     }
 }
