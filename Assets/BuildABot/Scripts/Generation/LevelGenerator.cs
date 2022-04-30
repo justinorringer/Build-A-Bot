@@ -157,6 +157,9 @@ namespace BuildABot {
 
             InstantiateGrid();
 
+            // this function sets the color of the tiles based on GameManager level
+            ChangeColor();
+
             // Let level generate then scan with A*
             Utility.DelayedFunction(this, 0.5f, () => {
                 AstarPath.active.Scan();
@@ -337,6 +340,29 @@ namespace BuildABot {
             GameObject r = (GameObject) Instantiate(room, position, Quaternion.identity);
 
             r.transform.parent = tilemap.transform;
+        }
+
+        private void ChangeColor() {
+            int nextLevel = GameManager.GameState.NextLevelType;
+
+            Color c = Color.white;
+            switch (nextLevel) { //0 for normal, 1 for frozen, 2 for advanced
+            case 0:
+                c = new Color(0.7764706f, 0.7607843f, 1.0f);
+                break;
+            case 1:
+                c = new Color(0.4039216f, 0.7490196f, 0.9058824f);
+                break;
+            case 2:
+                c = new Color(0.6705883f, 0.2f, 0.1882353f);
+                break;
+            default:
+                c = new Color( 0.0f, 0.0f, 0.0f);
+                break;
+            }
+
+            tilemap.GetComponent<Tilemap>().color = c;
+            Debug.Log("Changed color");
         }
     }
 }
