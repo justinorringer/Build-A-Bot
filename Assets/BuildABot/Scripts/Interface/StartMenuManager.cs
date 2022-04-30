@@ -34,6 +34,9 @@ namespace BuildABot
             //quitGameButton.interactable = false;
             versionDisplay.gameObject.SetActive(true);
             versionDisplay.text = "Demo - " + Application.version;
+#elif RELEASE_BUILD
+            versionDisplay.text = Application.version;
+            versionDisplay.gameObject.SetActive(false);
 #else
             versionDisplay.gameObject.SetActive(true);
             versionDisplay.text = Application.version;
