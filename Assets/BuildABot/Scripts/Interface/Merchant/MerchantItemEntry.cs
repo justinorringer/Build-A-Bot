@@ -143,6 +143,7 @@ namespace BuildABot
             if (success && _owner.Merchant.Inventory.TryRemoveCountFromEntry(Entry, 1))
             {
                 _owner.Merchant.Customer.Wallet -= Entry.Item.Value;
+                GameManager.GameState.ItemsBought++;
                 // TODO: Play buy sound
             }
         }
@@ -156,6 +157,7 @@ namespace BuildABot
             if (success && _owner.Merchant.Customer.Inventory.TryRemoveCountFromEntry(Entry, 1))
             {
                 _owner.Merchant.Customer.Wallet += Entry.Item.Value;
+                GameManager.GameState.ItemsSold++;
                 // TODO: Play sell sound
             }
         }

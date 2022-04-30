@@ -20,6 +20,8 @@ namespace BuildABot
 
         public static float CurrentVolume => Initialized ? Instance._currentVolume : 0;
 
+        public static float DefaultVolume => Initialized ? Instance.defaultBackgroundVolume : 0;
+
         protected override void Awake()
         {
             base.Awake();

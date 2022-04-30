@@ -69,7 +69,9 @@ namespace BuildABot
             set
             {
                 int cache = wallet;
+                int delta = value - wallet;
                 wallet = value < 0 ? 0 : value;
+                if (delta > 0) GameManager.GameState.TotalMoneyEarned += delta;
                 onWalletChanged.Invoke(cache, wallet);
             }
         }
@@ -329,6 +331,7 @@ namespace BuildABot
         protected override void Kill()
         {
             onDeath.Invoke();
+            GameManager.GameState.TotalDeaths++;
             // TODO: Play death animation
             FinishGame("Game Over");
         }

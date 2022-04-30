@@ -97,7 +97,7 @@ namespace BuildABot
         /** The number of times to raycast the attack per second. */
         public int RaycastRate => raycastRate;
 
-        public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action<float> onProgress = null, Action onComplete = null)
+        public override IEnumerator Execute(CombatController instigator, List<Character> hits, Action<float> onProgress = null, Action onComplete = null, Action onHit = null)
         {
             if (!AllowMovement) instigator.Character.CharacterMovement.CanMove = false;
             
