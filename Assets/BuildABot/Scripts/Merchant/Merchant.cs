@@ -7,8 +7,8 @@ namespace BuildABot
     public class Merchant : InteractableCharacter
     {
 
-        [Tooltip("The loot table used to generate this merchant's inventory.")]
-        [SerializeField] private LootTable lootTable;
+        [Tooltip("The loot tables used to generate this merchant's inventory.")]
+        [SerializeField] private List<LootTable> lootTables;
         
         /** The inventory of this trader. */
         public Inventory Inventory { get; private set; }
@@ -19,11 +19,14 @@ namespace BuildABot
         protected void Awake()
         {
             Inventory = GetComponent<Inventory>();
-            // Populate with a list of random items
-            List<InventoryEntry> items = lootTable.GenerateItemList();
-            foreach (InventoryEntry entry in items)
+            if (lootTables.Count > 0)
             {
-                Inventory.TryAddEntry(entry, out _);
+                // Populate with a list of random items
+                List<InventoryEntry> items = lootTables[Mathf.Clamp(GameManager.GameState.GameStage, 0, lootTables.Count - 1)].GenerateItemList();
+                foreach (InventoryEntry entry in items)
+                {
+                    Inventory.TryAddEntry(entry, out _);
+                }
             }
         }
         

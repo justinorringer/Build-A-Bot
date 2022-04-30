@@ -279,6 +279,8 @@ namespace BuildABot
         
         protected override void Awake()
         {
+            if (GameManager.Initialized && GameManager.GetPlayer() != null)
+                Destroy(gameObject);
             base.Awake();
             // Register this player
             GameManager.RegisterPlayer(this, index => _playerIndex = index);
@@ -289,6 +291,7 @@ namespace BuildABot
             GameManager.SetPaused(false);
             EnableHUD();
             mainMenu.gameObject.SetActive(false);
+            DontDestroyOnLoad(gameObject);
         }
 
         protected override void OnEnable()

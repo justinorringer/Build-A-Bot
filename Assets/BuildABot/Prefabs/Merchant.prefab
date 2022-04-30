@@ -59,7 +59,10 @@ MonoBehaviour:
   onFinishInteraction:
     m_PersistentCalls:
       m_Calls: []
-  lootTable: {fileID: 0}
+  lootTables:
+  - {fileID: 11400000, guid: 9ce71157f15961847a2180e238699f92, type: 2}
+  - {fileID: 11400000, guid: 1c276e76cfd6e1242b9e9a83e0fcf648, type: 2}
+  - {fileID: 11400000, guid: b79c277ad540f9548bdc73fa357c7550, type: 2}
 --- !u!114 &5404235463652087764
 MonoBehaviour:
   m_ObjectHideFlags: 0

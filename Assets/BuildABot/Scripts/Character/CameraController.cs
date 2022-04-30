@@ -124,7 +124,7 @@ namespace BuildABot
         // When the view distance attribute is changed, this function will be called to update the camera's size
         public void UpdateCameraZoom()
         {
-            float newZoom = _defaultZoom * _player.Attributes.ViewDistance.BaseValue;
+            float newZoom = _defaultZoom * _player.Attributes.ViewDistance.CurrentValue;
             SetCameraSize(newZoom);
             _baseZoom = newZoom;
         }

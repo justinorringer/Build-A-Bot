@@ -59,4 +59,4 @@ MonoBehaviour:
     00000001:
       type: {class: FloatAttributeModifierConstantValueProvider, ns: BuildABot, asm: Assembly-CSharp}
       data:
-        value: 0
+        value: 1

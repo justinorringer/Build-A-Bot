@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,7 +17,14 @@ namespace BuildABot
         {
             Cursor.visible = true;
             if (!GameManager.Initialized)
+            {
                 SceneManager.LoadSceneAsync("PersistentGame", LoadSceneMode.Additive);
+            }
+            else
+            {
+                Player player = GameManager.GetPlayer();
+                if (player != null) Destroy(player.gameObject);
+            }
         }
 
         protected void Start()
@@ -28,6 +34,9 @@ namespace BuildABot
             //quitGameButton.interactable = false;
             versionDisplay.gameObject.SetActive(true);
             versionDisplay.text = "Demo - " + Application.version;
+#elif RELEASE_BUILD
+            versionDisplay.text = Application.version;
+            versionDisplay.gameObject.SetActive(false);
 #else
             versionDisplay.gameObject.SetActive(true);
             versionDisplay.text = Application.version;

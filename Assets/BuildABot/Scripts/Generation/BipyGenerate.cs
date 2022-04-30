@@ -9,16 +9,24 @@ namespace BuildABot {
 
         private LevelGenerator levelGenerator;
 
-        [SerializeField] private int[] pos = new int[2] { 10, 10 };
-
         void Start() {
             levelGenerator = GameObject.Find("Generator").GetComponent<LevelGenerator>();
         }
 
         void Update() {
             if (!levelGenerator.generate) {
-                Vector3 pos = new Vector3(transform.position.x + this.pos[0], transform.position.y + this.pos[1], 0);
-                Instantiate(Bipy, pos, Quaternion.identity);
+                Vector3 position = transform.position;
+                Vector3 p = new Vector3(position.x, position.y, 0);
+                Player player = GameManager.GetPlayer();
+                if (player == null)
+                {
+                    Instantiate(Bipy, p, Quaternion.identity);
+                }
+                else
+                {
+                    player.gameObject.transform.position = p;
+                    player.CharacterMovement.ClearMovement();
+                }
                 Destroy(gameObject);
             }
         }
