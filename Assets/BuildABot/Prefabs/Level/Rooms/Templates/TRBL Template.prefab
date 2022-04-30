@@ -46,5 +46,8 @@ MonoBehaviour:
   type: 4
   rooms:
   - {fileID: 8834028132494181138, guid: ee1ee8b00e4d11a4b864add18abd1313, type: 3}
+  - {fileID: 8834028132494181138, guid: cb8c4b99f5f18db4e8371eb16e7a5287, type: 3}
+  - {fileID: 8834028132494181138, guid: c388630022cd83648ab8af3d161edec3, type: 3}
+  - {fileID: 8834028132494181138, guid: c9b2525f05701244a97ae15941594af4, type: 3}
   - {fileID: 8834028132494181138, guid: b15c92935f7cb8140bc307b7d87ffe8f, type: 3}
   - {fileID: 8834028132494181138, guid: d8dcee1ffd0df5e4baeb2af54c3f6b84, type: 3}
