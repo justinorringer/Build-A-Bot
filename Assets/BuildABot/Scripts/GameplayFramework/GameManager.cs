@@ -112,7 +112,7 @@ namespace BuildABot
          */
         public static Player GetPlayer(int playerIndex = 0)
         {
-            Debug.Assert(Instance != null, "Attempting to use GameManager without properly initializing one in the scene.");
+            if (!Initialized) return null;
             return Instance._players.TryGetValue(playerIndex, out Player player) ? player : null;
         }
 
