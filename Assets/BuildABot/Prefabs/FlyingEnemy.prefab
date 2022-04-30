@@ -670,7 +670,7 @@ MonoBehaviour:
     m_Bits: 128
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 6209
   visionDelay: 0.2
   maxTargets: 10
   visibleTargets: []
