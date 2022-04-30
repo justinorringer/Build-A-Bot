@@ -26,7 +26,7 @@ namespace BuildABot
         [Tooltip("The patrol points to be used by a walking or flying enemy")]
         [SerializeField] private List<Waypoint> patrolPoints;
 
-        private void Awake()
+        private void Start()
         {
             //Logic will be - spawn enemy of game stage before level 4, afterwards do random
             int stage = GameManager.GameState.GameStage;
