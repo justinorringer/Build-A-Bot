@@ -29,16 +29,8 @@ namespace BuildABot
         private void Start()
         {
             //Logic will be - spawn enemy of game stage before level 4, afterwards do random
-            int stage = GameManager.GameState.GameStage;
-            int variant;
-            if (stage >= 3) //4 is post-game
-            {
-                 variant = new Random().Next(0, stage);
-            }
-            else
-            {
-                variant = stage;
-            }
+            int stage = GameManager.GameState.NextLevelType;
+            int variant = stage >= 3 ? new Random().Next(0, stage) : stage;
 
             SpawnEnemy(variant);
         }
@@ -48,17 +40,18 @@ namespace BuildABot
         {
             Debug.Log("Spawning Enemy");
             GameObject g;
+            Transform t = transform;
             switch (enemyToSpawn)
             {
                 case EnemyType.Flying:
-                    g = Instantiate(flyingEnemies[variant], transform.position, transform.rotation);
+                    g = Instantiate(flyingEnemies[variant], t.position, t.rotation);
                     g.GetComponent<EnemyController>().setPatrolPoints(patrolPoints);
                     break;
                 case EnemyType.Turret:
-                    Instantiate(turretEnemies[variant], transform.position, transform.rotation);
+                    Instantiate(turretEnemies[variant], t.position, t.rotation);
                     break;
                 case EnemyType.Walking:
-                    g = Instantiate(walkingEnemies[variant], transform.position, transform.rotation);
+                    g = Instantiate(walkingEnemies[variant], t.position, t.rotation);
                     g.GetComponent<EnemyController>().setPatrolPoints(patrolPoints);
                     break;
             }
