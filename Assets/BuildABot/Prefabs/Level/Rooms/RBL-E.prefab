@@ -483,8 +483,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 860f96a319245b747b8e4caeff27ed4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontal: []
-  vertical: []
+  fillQuadrant: 01010000
+  fillQuadrantS: 00000000
 --- !u!114 &146669256668094571
 MonoBehaviour:
   m_ObjectHideFlags: 0
