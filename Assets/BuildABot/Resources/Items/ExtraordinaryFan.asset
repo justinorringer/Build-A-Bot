@@ -10,20 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db9b1b939c6a4ce98d380593a05f1a20, type: 3}
-  m_Name: AdvancedFan
+  m_Name: ExtraordinaryFan
   m_EditorClassIdentifier: 
-  displayName: Advanced Fan
-  description: A fan that allows the player to double jump and helps with cooling.
+  displayName: Extraordinary Fan
+  description: The absolute greatest in temperature regulation. In addition to allowing
+    BIPY to double jump and cool quicker, this fan allows BIPY to take less heat
+    damage!
   inventorySprite: {fileID: 21300000, guid: fadc2b1b0d35c5746a8b2245c7ea6dc7, type: 3}
   overworldSprite: {fileID: 21300000, guid: fadc2b1b0d35c5746a8b2245c7ea6dc7, type: 3}
-  spriteTint: {r: 0, g: 0.61666656, b: 1, a: 1}
-  value: 200
+  spriteTint: {r: 0.93333334, g: 0.8235294, b: 0, a: 1}
+  value: 500
   partType: 9
-  maxDurability: 125
-  quality: 2
+  maxDurability: 200
+  quality: 3
   effects:
   - effect: {fileID: 11400000, guid: 6c8208eacfeb7eb438c471482bca4644, type: 2}
     magnitude: 2
   - effect: {fileID: 11400000, guid: e713ec3a7b7fc5540b0fbd6c9862bf3e, type: 2}
-    magnitude: 0.75
+    magnitude: 1
+  - effect: {fileID: 11400000, guid: e571f3788811d034a849ff8759192b72, type: 2}
+    magnitude: 5
   attack: {fileID: 0}

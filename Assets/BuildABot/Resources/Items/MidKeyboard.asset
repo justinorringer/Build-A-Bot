@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db9b1b939c6a4ce98d380593a05f1a20, type: 3}
-  m_Name: OldKeyboard
+  m_Name: MidKeyboard
   m_EditorClassIdentifier: 
-  displayName: Old Keyboard
-  description: An old computer keyboard. Maybe it could be used to enter information
-    or even defend yourself?
+  displayName: Standard Keyboard
+  description: A slightly more modern keyboard. A little bit better for typing, and
+    a good bit better for dealing damage!
   inventorySprite: {fileID: 21300000, guid: ee461c7d3e1de9748bbbefb5e2c47fde, type: 3}
   overworldSprite: {fileID: 21300000, guid: ee461c7d3e1de9748bbbefb5e2c47fde, type: 3}
-  spriteTint: {r: 1, g: 1, b: 1, a: 1}
-  value: 100
+  spriteTint: {r: 0, g: 0.61587405, b: 1, a: 1}
+  value: 200
   partType: 11
   maxDurability: 300
-  quality: 1
+  quality: 2
   effects: []
-  attack: {fileID: 11400000, guid: 0e67756bf659c744a81015ab2bf33672, type: 2}
+  attack: {fileID: 11400000, guid: 9b41652db195f214eae7bd184aedfec5, type: 2}
