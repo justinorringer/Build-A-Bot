@@ -105,4 +105,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b3f25795b0e464ea9546226ad73f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicTile: {fileID: 11400000, guid: a805a3d3185104c4f92c06808cca5193, type: 2}
+  basicTile: {fileID: 11400000, guid: 8fbc88159fa0b7c46ba27e26008b2fe4, type: 2}
+  optional: 0

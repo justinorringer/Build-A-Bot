@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486d152304ab4f54a8c6db79dd1a1cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicTile: {fileID: 11400000, guid: a805a3d3185104c4f92c06808cca5193, type: 2}
+  basicTile: {fileID: 11400000, guid: 8fbc88159fa0b7c46ba27e26008b2fe4, type: 2}
 --- !u!1 &2497847171720417412
 GameObject:
   m_ObjectHideFlags: 0
