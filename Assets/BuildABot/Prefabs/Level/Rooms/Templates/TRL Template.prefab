@@ -46,3 +46,4 @@ MonoBehaviour:
   type: 3
   rooms:
   - {fileID: 2497847171560288292, guid: 7321d2230b6ee1f4195b0a0141cd02b3, type: 3}
+  - {fileID: 2497847171560288292, guid: 4099417c66825ee498cae4e57f2a2816, type: 3}
