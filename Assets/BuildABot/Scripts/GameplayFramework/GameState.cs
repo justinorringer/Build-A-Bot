@@ -7,8 +7,8 @@ namespace BuildABot
     public class GameState
     {
         public int GameStage { get; set; } = 0;
-        public int CompletedLevelCount { get; set; } = 0;
-        public List<int> CompletedLevelSeeds { get; private set; } = new List<int>();
+        public int NextLevelType { get; set; } = 0;
+        public int CompletedLevelCount { get; set; }
         public int KillCount { get; set; }
         public int TotalDeaths { get; set; }
         public int TotalMoneyEarned { get; set; }
