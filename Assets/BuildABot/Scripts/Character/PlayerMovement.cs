@@ -9,6 +9,9 @@ namespace BuildABot
     public class PlayerMovement : CharacterMovement
     {
 
+        [SerializeField] private AudioSource source;
+        [SerializeField] private AudioClip jumpSound;
+
         /** The player using this movement component. */
         private Player _player;
 
@@ -54,6 +57,7 @@ namespace BuildABot
             if (CanJump)
             {
                 Animator.SetTrigger(_jumpTriggerHash);
+                source.PlayOneShot(jumpSound);
                 GameManager.GameState.TotalJumps++;
             }
 

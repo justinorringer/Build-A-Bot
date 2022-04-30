@@ -92,6 +92,8 @@ namespace BuildABot
             {
                 InventoryMenu.Player.EquipItem(cp);
             }
+
+            InventoryMenu.PlayEquipSound();
         }
         
         /**
@@ -103,6 +105,8 @@ namespace BuildABot
             {
                 InventoryMenu.Player.UnequipItemSlot(cp.ComputerPartItem.PartType);
             }
+
+            InventoryMenu.PlayUnequipSound();
         }
 
         private void OnEquipped(InventoryEntry entry)

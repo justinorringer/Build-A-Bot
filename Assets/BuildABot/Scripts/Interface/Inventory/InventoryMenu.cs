@@ -36,8 +36,17 @@ namespace BuildABot
         [Tooltip("The size of the slot padding compared to the slots themselves.")]
         [SerializeField] private float paddingRatio = 0.25f;
 
+        [Tooltip("The sound to play when an item is equipped.")]
+        [SerializeField] private AudioClip equipSound;
+
+        [Tooltip("The sound to play when an item is unequipped.")]
+        [SerializeField] private AudioClip unequipSound;
+
         /** The list of inventory slots spawned at runtime. Cleared on disable. */
         private List<InventoryMenuItemSlot> _spawnedSlots;
+
+        /** Audio source used to play inventory sound effects. */
+        private AudioSource _audio;
 
         /** The details panel used to display item information. */
         private InventoryMenuItemDetails DetailsPanel => detailsPanel;
@@ -64,6 +73,11 @@ namespace BuildABot
 
         /** The player instance controlling this menu. */
         public Player Player => player;
+
+        public void Start()
+        {
+            _audio = GetComponent<AudioSource>();
+        }
 
         /**
          * Generates the slots in the UI.
@@ -135,6 +149,18 @@ namespace BuildABot
             {
                 mainMenu.ReturnToLandingPage();
             }
+        }
+
+        public void PlayEquipSound()
+        {
+            if (_audio != null && equipSound != null)
+                _audio.PlayOneShot(equipSound);
+        }
+
+        public void PlayUnequipSound()
+        {
+            if (_audio != null && unequipSound != null)
+                _audio.PlayOneShot(unequipSound);
         }
     }
 }
