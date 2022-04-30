@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56fb26ca70e84eff8b5abbaa86464eaa, type: 3}
+  m_Name: StrongElectricBurst
+  m_EditorClassIdentifier: 
+  effects:
+  - effect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
+    magnitude: 0.8
+  animationTriggerName: Attack
+  startSound: {fileID: 8300000, guid: fe41f631cc9c6974ea2d196cbcaeadd3, type: 3}
+  progressSound: {fileID: 0}
+  offset: {x: 0, y: 0}
+  offsetXCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  offsetYCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  offsetInLookDirection: 1
+  useRelativeSize: 1
+  size: {x: 2, y: 2}
+  canHitSelf: 0
+  allowMultiHit: 1
+  allowMovement: 0
+  canInterrupt: 1
+  shape: 1
+  graphic: {fileID: 4024874312373634100, guid: 0ae6a326ef58b2746a8c5e9244361d3a, type: 3}
+  graphicColorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 0.20784314, b: 0.050980393, a: 0.69803923}
+    key1: {r: 1, g: 0.20784314, b: 0.050980393, a: 0.69803923}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  useRelativeRadius: 1
+  radius: 4
+  areaOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.7633593
+      outSlope: 0.7633593
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25731593
+      value: 0.19642451
+      inSlope: 0.09120591
+      outSlope: 0.09120591
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.46949482
+      outWeight: 0.86978835
+    - serializedVersion: 3
+      time: 0.49488527
+      value: 0.99754333
+      inSlope: -0.18891147
+      outSlope: -0.18891147
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.18383726
+      outWeight: 0.113146886
+    - serializedVersion: 3
+      time: 0.78051436
+      value: 0.19526291
+      inSlope: 0.0000027571566
+      outSlope: 0.0000027571566
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.27704808
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.15759139
+      outSlope: -0.15759139
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13803005
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  angle: 30
+  angleOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  duration: 2
+  raycastRate: 15

@@ -82,6 +82,10 @@ namespace BuildABot
                         {
                             _enemyController.AddTarget(other.transform);
                         }
+                        else if (_enemyController.CanSeek)
+                        {
+                            _enemyController.RefreshTarget();
+                        }
                         AttackCharacter(other);
                     }
 
