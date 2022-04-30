@@ -6,7 +6,8 @@ using UnityEngine.Tilemaps;
 namespace BuildABot {
     public enum RoomType
     {
-        START,
+        LSTART,
+        RSTART,
         RL,
         RBL,
         TRL,

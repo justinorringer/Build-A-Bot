@@ -80,6 +80,9 @@ TextureImporter:
   - first:
       213: -3836514568211256056
     second: GeneralTileMap_25
+  - first:
+      213: -1179421492695352287
+    second: GeneralTileMap_26
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -734,6 +737,27 @@ TextureImporter:
       bones: []
       spriteID: 80d2822b356f1cac0800000000000000
       internalID: -3836514568211256056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_26
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12cbe67b66ad1afe0800000000000000
+      internalID: -1179421492695352287
       vertices: []
       indices: 
       edges: []

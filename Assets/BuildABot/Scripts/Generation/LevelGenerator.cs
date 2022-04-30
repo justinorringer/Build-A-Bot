@@ -65,9 +65,13 @@ namespace BuildABot {
                     isBrick = false;
                 }
 
+                public bool getIsStart() {
+                    return isStart;
+                }
                 public RoomType GetRoomType() {
                     if (isStart) {
-                        return RoomType.START;
+                        if (connections[1]) return RoomType.RSTART; // if path to the right
+                        else return RoomType.LSTART;
                     } else if (isEnd) {
                         return RoomType.END;
                     } else if (isLEnd) {
@@ -112,7 +116,7 @@ namespace BuildABot {
 
         private int[] startingPositions = new int[ ] {0,1,2,3};
 
-        [SerializeField] public GameObject startRoom, endRoom, brickRoom, lEndRoom, rEndRoom;
+        [SerializeField] public GameObject startLeftRoom, startRightRoom, endRoom, brickRoom, lEndRoom, rEndRoom;
 
 
         public GameObject[] roomTemplates; 
@@ -157,6 +161,9 @@ namespace BuildABot {
 
             InstantiateGrid();
 
+            // this function sets the color of the tiles based on GameManager level
+            ChangeColor();
+
             // Let level generate then scan with A*
             Utility.DelayedFunction(this, 0.5f, () => {
                 AstarPath.active.Scan();
@@ -187,7 +194,7 @@ namespace BuildABot {
                         direction = 5;
                     }
                 } else {
-                    if (map.grid[current[0], current[1]].isBrick || map.grid[current[0], current[1]].GetRoomType() == RoomType.START) {
+                    if (map.grid[current[0], current[1]].isBrick || map.grid[current[0], current[1]].getIsStart()) {
                         direction = Random.Range(3, 5);
 
                         return;
@@ -222,7 +229,7 @@ namespace BuildABot {
                         generate = false;
                     }
                 } else {
-                    if (map.grid[current[0], current[1]].GetRoomType() == RoomType.START) { // just in case this happens somehow
+                    if (map.grid[current[0], current[1]].getIsStart()) { // just in case this happens somehow
                         direction = Random.Range(1, 5);
 
                         return;
@@ -312,8 +319,11 @@ namespace BuildABot {
                         case RoomType.TRBL:
                             InstantiateRoom(roomTemplates[3], pos);
                             break;
-                        case RoomType.START:
-                            InstantiateRoom(startRoom, pos);
+                        case RoomType.LSTART:
+                            InstantiateRoom(startLeftRoom, pos);
+                            break;
+                        case RoomType.RSTART:
+                            InstantiateRoom(startRightRoom, pos);
                             break;
                         case RoomType.END:
                             InstantiateRoom(endRoom, pos);
@@ -337,6 +347,29 @@ namespace BuildABot {
             GameObject r = (GameObject) Instantiate(room, position, Quaternion.identity);
 
             r.transform.parent = tilemap.transform;
+        }
+
+        private void ChangeColor() {
+            int nextLevel = GameManager.GameState.NextLevelType;
+
+            Color c = Color.white;
+            switch (nextLevel) { //0 for normal, 1 for frozen, 2 for advanced
+            case 0:
+                c = new Color(0.7764706f, 0.7607843f, 1.0f);
+                break;
+            case 1:
+                c = new Color(0.4039216f, 0.7490196f, 0.9058824f);
+                break;
+            case 2:
+                c = new Color(0.6705883f, 0.2f, 0.1882353f);
+                break;
+            default:
+                c = new Color( 0.0f, 0.0f, 0.0f);
+                break;
+            }
+
+            tilemap.GetComponent<Tilemap>().color = c;
+            Debug.Log("Changed color");
         }
     }
 }
