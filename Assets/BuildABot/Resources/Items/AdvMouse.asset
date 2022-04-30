@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db9b1b939c6a4ce98d380593a05f1a20, type: 3}
   m_Name: AdvMouse
   m_EditorClassIdentifier: 
-  displayName: Old Mouse
-  description: A more modern mouse. The sleek, elegant design will probably be lost
-    on the robots you're going to mercilessly hit with it.
+  displayName: Advanced Mouse
+  description: A beautiful, high-end mouse. The perfect tool for work, gaming, or
+    smacking things!
   inventorySprite: {fileID: 21300000, guid: 4c9f119e55b87fc4e9ec428e39782f3a, type: 3}
   overworldSprite: {fileID: 21300000, guid: 4c9f119e55b87fc4e9ec428e39782f3a, type: 3}
-  spriteTint: {r: 0, g: 0.6156863, b: 1, a: 1}
-  value: 100
+  spriteTint: {r: 0.93333334, g: 0.8235294, b: 0, a: 1}
+  value: 150
   partType: 12
   maxDurability: 200
-  quality: 1
+  quality: 3
   effects: []
-  attack: {fileID: 11400000, guid: b3f1e67f4f7c7f844bf76d5c66838180, type: 2}
+  attack: {fileID: 11400000, guid: e0e65c902d9587b44a98c62f8a7868f9, type: 2}

@@ -55,6 +55,12 @@ MonoBehaviour:
     maxSpawned: 1
     averageDurability: 1
     durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: 9151d98f26ae2764d8c84b93517a05f9, type: 2}
+    dropChance: 0.5
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
   - item: {fileID: 11400000, guid: 2d86180263254054aa1ac7e4beb59d79, type: 2}
     dropChance: 1
     minSpawned: 1
@@ -92,6 +98,12 @@ MonoBehaviour:
     averageDurability: 1
     durabilityDeviation: 0
   - item: {fileID: 11400000, guid: b544b8f51625ba4408666a582e4d525d, type: 2}
+    dropChance: 1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: eac91b37ef2e63b4b898fb70e555a088, type: 2}
     dropChance: 1
     minSpawned: 1
     maxSpawned: 1

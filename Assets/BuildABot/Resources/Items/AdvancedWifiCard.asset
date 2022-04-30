@@ -21,6 +21,6 @@ MonoBehaviour:
   value: 500
   partType: 19
   maxDurability: 300
-  quality: 1
+  quality: 3
   effects: []
   attack: {fileID: 11400000, guid: 68ae06dd1fe676f499a4db786aaeb787, type: 2}
