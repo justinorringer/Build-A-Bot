@@ -17,6 +17,7 @@ namespace BuildABot {
         NPC,
         NONE
     }
+    
     public class RoomTemplate : MonoBehaviour
     {
         // index 0 --> start, 1 --> RL, index 2--> RBL, index 3 --> TRL, index 4 --> TRBL

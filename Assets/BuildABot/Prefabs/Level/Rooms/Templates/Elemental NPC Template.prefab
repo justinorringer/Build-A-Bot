@@ -45,5 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   rooms:
-  - {fileID: 4841826492545132378, guid: 3f65a56c5a2001d4990248a618d47994, type: 3}
-  - {fileID: 7410503422390666813}
+  - {fileID: 4841826492545132378, guid: 84ff7b89dd1097c4592d62e8e27ba0fc, type: 3}
+  - {fileID: 4841826492545132378, guid: 6550cd5aa2c45814c89e630ad8d955d9, type: 3}
