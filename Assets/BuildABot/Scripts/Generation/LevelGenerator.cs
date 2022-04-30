@@ -65,9 +65,13 @@ namespace BuildABot {
                     isBrick = false;
                 }
 
+                public bool getIsStart() {
+                    return isStart;
+                }
                 public RoomType GetRoomType() {
                     if (isStart) {
-                        return RoomType.START;
+                        if (connections[1]) return RoomType.RSTART; // if path to the right
+                        else return RoomType.LSTART;
                     } else if (isEnd) {
                         return RoomType.END;
                     } else if (isLEnd) {
@@ -112,7 +116,7 @@ namespace BuildABot {
 
         private int[] startingPositions = new int[ ] {0,1,2,3};
 
-        [SerializeField] public GameObject startRoom, endRoom, brickRoom, lEndRoom, rEndRoom;
+        [SerializeField] public GameObject startLeftRoom, startRightRoom, endRoom, brickRoom, lEndRoom, rEndRoom;
 
 
         public GameObject[] roomTemplates; 
@@ -190,7 +194,7 @@ namespace BuildABot {
                         direction = 5;
                     }
                 } else {
-                    if (map.grid[current[0], current[1]].isBrick || map.grid[current[0], current[1]].GetRoomType() == RoomType.START) {
+                    if (map.grid[current[0], current[1]].isBrick || map.grid[current[0], current[1]].getIsStart()) {
                         direction = Random.Range(3, 5);
 
                         return;
@@ -225,7 +229,7 @@ namespace BuildABot {
                         generate = false;
                     }
                 } else {
-                    if (map.grid[current[0], current[1]].GetRoomType() == RoomType.START) { // just in case this happens somehow
+                    if (map.grid[current[0], current[1]].getIsStart()) { // just in case this happens somehow
                         direction = Random.Range(1, 5);
 
                         return;
@@ -315,8 +319,11 @@ namespace BuildABot {
                         case RoomType.TRBL:
                             InstantiateRoom(roomTemplates[3], pos);
                             break;
-                        case RoomType.START:
-                            InstantiateRoom(startRoom, pos);
+                        case RoomType.LSTART:
+                            InstantiateRoom(startLeftRoom, pos);
+                            break;
+                        case RoomType.RSTART:
+                            InstantiateRoom(startRightRoom, pos);
                             break;
                         case RoomType.END:
                             InstantiateRoom(endRoom, pos);
