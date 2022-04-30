@@ -82,6 +82,9 @@ namespace BuildABot
         /** The IEnumerator used by the UpdatePath coroutine. */
         private IEnumerator _updatePathCoroutine;
 
+        /** The IEnumerator used to stop seeking an enemy over time */
+        private IEnumerator _stopSeekingCoroutine;
+
         /** The audiosource with which to play sound effects for an enemy */
         private AudioSource _audioSource;
 
@@ -115,9 +118,23 @@ namespace BuildABot
         void UpdatePath()
         {
             if (_seeker.IsDone())
-                _seeker.StartPath(_rigidbody.position, target.position, OnPathComplete);
+            {
+                Vector3 targetPosition = target.position;
+                if (transform.position.x < target.position.x)
+                {
+                    targetPosition -= target.right;
+                }
+                else
+                {
+                    targetPosition += target.right;
+                }
+
+                targetPosition -= target.up;
+                _seeker.StartPath(_rigidbody.position, targetPosition, OnPathComplete);
+            }
         }
 
+        
         void Update()
         {
             switch (enemyMode)
@@ -229,13 +246,14 @@ namespace BuildABot
             
             
             enemyMode = EPathingMode.Seeking;
-            
+
             //Set timer for returning and start pathing to return
-            Utility.DelayedFunction(this, returnDelay, () =>
+            _stopSeekingCoroutine = Utility.DelayedFunction(this, returnDelay, () =>
             {
                 enemyMode = EPathingMode.Returning;
                 target = patrolPoints[CurrentPatrolPoint].transform;
                 _enemyMovement.Animator.SetBool("EnemyAggro", false);
+                _stopSeekingCoroutine = null;
             });
 
             if (_updatePathCoroutine != null) StopCoroutine(_updatePathCoroutine);
@@ -248,6 +266,18 @@ namespace BuildABot
             
             //Play Sound
             _audioSource.PlayOneShot(aggroSound);
+        }
+
+        public void RefreshTarget()
+        {
+            if ((_stopSeekingCoroutine != null)) StopCoroutine(_stopSeekingCoroutine);
+            _stopSeekingCoroutine = Utility.DelayedFunction(this, returnDelay, () =>
+            {
+                enemyMode = EPathingMode.Returning;
+                target = patrolPoints[CurrentPatrolPoint].transform;
+                _enemyMovement.Animator.SetBool("EnemyAggro", false);
+                _stopSeekingCoroutine = null;
+            });
         }
     }
 }
