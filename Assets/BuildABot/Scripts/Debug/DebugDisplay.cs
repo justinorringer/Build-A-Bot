@@ -30,7 +30,7 @@ namespace BuildABot
         
         protected void OnEnable()
         {
-#if DEMO_BUILD
+#if DEMO_BUILD || RELEASE_BUILD
             
 #else
             if (allowCommandConsole)
