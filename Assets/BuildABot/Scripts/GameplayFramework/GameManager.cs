@@ -10,7 +10,7 @@ namespace BuildABot
         private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
         private bool _paused;
 
-        private GameState _gameState = new GameState();
+        private readonly GameState _gameState = new GameState();
 
         [Tooltip("An event triggered whenever the game is paused.")]
         [SerializeField] private UnityEvent onPause;

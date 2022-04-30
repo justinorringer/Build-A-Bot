@@ -142,16 +142,15 @@ namespace BuildABot
 
         protected virtual void Awake()
         {
-            
-        }
-
-        protected virtual void Start()
-        {
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _sprite = GetComponent<SpriteRenderer>();
             _anim = GetComponent<Animator>();
             _audio = GetComponent<AudioSource>();
+        }
+
+        protected virtual void Start()
+        {
 
             _audio.loop = true;
 
