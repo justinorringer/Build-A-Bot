@@ -54,6 +54,7 @@ namespace BuildABot
             if (CanJump)
             {
                 Animator.SetTrigger(_jumpTriggerHash);
+                GameManager.GameState.TotalJumps++;
             }
 
             base.Jump();
