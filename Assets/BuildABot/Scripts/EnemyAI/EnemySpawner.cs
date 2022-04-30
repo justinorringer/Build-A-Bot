@@ -32,7 +32,9 @@ namespace BuildABot
             int stage = GameManager.GameState.NextLevelType;
             int variant = stage >= 3 ? new Random().Next(0, stage) : stage;
 
-            SpawnEnemy(variant);
+            //This is awful but it works :)
+            //Context: enemies were spawning before collision of level was fully spawned
+            Utility.DelayedFunction(this, .2f, () => { SpawnEnemy(variant); }, false);
         }
 
         //0 for normal, 1 for frozen, 2 for advanced

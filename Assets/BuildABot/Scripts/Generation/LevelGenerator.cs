@@ -133,7 +133,7 @@ namespace BuildABot {
 
         public bool hasNPC {get; set;} // boolean used to get at most 1 NPC per map
 
-        void Start()
+        void Awake()
         {
             map = new Map();
             hasNPC = false;
@@ -275,7 +275,7 @@ namespace BuildABot {
 
         private bool checkNPC()
         {
-            if (!hasNPC && Random.Range(0, 10) > 5)
+            if (!hasNPC && Random.Range(0, 10) > 7)
             {
                 hasNPC = true;
 
