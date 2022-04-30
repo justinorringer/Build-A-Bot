@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 5679173744735029750}
   - component: {fileID: 6590296776123437840}
   m_Layer: 11
-  m_Name: Horizontal 1
+  m_Name: Q3 1
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

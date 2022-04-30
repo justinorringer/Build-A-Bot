@@ -30,6 +30,9 @@ namespace BuildABot {
                     tilemap.GetComponent<Tilemap>().SetTile(pos, basicTile);
                 }
             }
+
+            // With the new tilemap, we can now destroy the room
+            // DestroyRoom();
         }
 
         public void DestroyRoom()
