@@ -691,6 +691,7 @@ MonoBehaviour:
   combatController: {fileID: 1126900268717307693}
   deathParticle: {fileID: 4782194156544498198, guid: 6d5b3b662f24a2a40a3e2ee94d20a70f, type: 3}
   currencyToDrop: 30
+  deathClip: {fileID: 8300000, guid: d0d86aa1b014b11458bbcd44415c28b6, type: 3}
 --- !u!114 &1126900268717307683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -803,6 +804,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   meleeCollider: {fileID: 0}
+  audioSource: {fileID: 0}
   onPreHit:
     m_PersistentCalls:
       m_Calls: []
