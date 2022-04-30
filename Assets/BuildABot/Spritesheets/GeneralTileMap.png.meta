@@ -1,103 +1,85 @@
 fileFormatVersion: 2
-guid: b72bbd27d2ea841419fde54ed50649cb
+guid: d0b9ec3e5a4faa5478f4df7fd1b0f755
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4039080125081476144
-    second: GenericTileMap_0
+      213: -764118655283643297
+    second: GeneralTileMap_0
   - first:
-      213: -7609055585102908352
-    second: GenericTileMap_1
+      213: -3427432727148883241
+    second: GeneralTileMap_1
   - first:
-      213: 8862527521844933599
-    second: GenericTileMap_2
+      213: 1890407847080545283
+    second: GeneralTileMap_2
   - first:
-      213: -9187232989708590186
-    second: GenericTileMap_3
+      213: 6268409692291822036
+    second: GeneralTileMap_3
   - first:
-      213: 7074212081173293425
-    second: GenericTileMap_4
+      213: 4769903541323573085
+    second: GeneralTileMap_4
   - first:
-      213: 2215495074349682250
-    second: GenericTileMap_5
+      213: -2092627070691412355
+    second: GeneralTileMap_5
   - first:
-      213: -6763385512761313634
-    second: GenericTileMap_6
+      213: -8502005899858735819
+    second: GeneralTileMap_6
   - first:
-      213: 4757735748184226620
-    second: GenericTileMap_7
+      213: 8314113795306108254
+    second: GeneralTileMap_7
   - first:
-      213: 8327638142847437274
-    second: GenericTileMap_8
+      213: 5702602457174507450
+    second: GeneralTileMap_8
   - first:
-      213: 5122326594072134175
-    second: GenericTileMap_9
+      213: 3176715010882950279
+    second: GeneralTileMap_9
   - first:
-      213: 4126236062731204101
-    second: GenericTileMap_10
+      213: 7544000538776834237
+    second: GeneralTileMap_10
   - first:
-      213: -2972264858719582030
-    second: GenericTileMap_11
+      213: 7838455526128734496
+    second: GeneralTileMap_11
   - first:
-      213: -8164666616371257606
-    second: GenericTileMap_12
+      213: 3810304595802135306
+    second: GeneralTileMap_12
   - first:
-      213: 2371018930038031175
-    second: GenericTileMap_13
+      213: -6310227846168115270
+    second: GeneralTileMap_13
   - first:
-      213: 9041069213524523981
-    second: GenericTileMap_14
+      213: -6795483903577266409
+    second: GeneralTileMap_14
   - first:
-      213: 5507755438356376390
-    second: GenericTileMap_15
+      213: -2259771934295652815
+    second: GeneralTileMap_15
   - first:
-      213: 7814975882563832022
-    second: GenericTileMap_16
+      213: 7017806884716928115
+    second: GeneralTileMap_16
   - first:
-      213: -2955307577220774284
-    second: GenericTileMap_17
+      213: -6497291725837899744
+    second: GeneralTileMap_17
   - first:
-      213: 8661803447278519422
-    second: GenericTileMap_18
+      213: 2984398589239045490
+    second: GeneralTileMap_18
   - first:
-      213: 7075831469639009009
-    second: GenericTileMap_19
+      213: 214352113532115613
+    second: GeneralTileMap_19
   - first:
-      213: 3967318961977878126
-    second: GenericTileMap_20
+      213: 7291613264415504011
+    second: GeneralTileMap_20
   - first:
-      213: 8257463065986968406
-    second: GenericTileMap_21
+      213: -5175842025904403182
+    second: GeneralTileMap_21
   - first:
-      213: -9087856099733355496
-    second: GenericTileMap_22
+      213: -8459078918210653955
+    second: GeneralTileMap_22
   - first:
-      213: 4547402963897380820
-    second: GenericTileMap_23
+      213: -2481386299677934776
+    second: GeneralTileMap_23
   - first:
-      213: -2802450576900366651
-    second: GenericTileMap_24
+      213: 4101300430053075696
+    second: GeneralTileMap_24
   - first:
-      213: 2892321288686111981
-    second: GenericTileMap_25
-  - first:
-      213: 1853856517050125079
-    second: GenericTileMap_26
-  - first:
-      213: 8057406614469897228
-    second: GenericTileMap_27
-  - first:
-      213: -1795707734022922610
-    second: GenericTileMap_28
-  - first:
-      213: 1249699587823329197
-    second: GenericTileMap_29
-  - first:
-      213: -5432622170407415182
-    second: GenericTileMap_30
-  - first:
-      213: 7644143038068844769
-    second: GenericTileMap_31
+      213: -3836514568211256056
+    second: GeneralTileMap_25
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -138,8 +120,8 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
-  spriteMeshType: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
@@ -211,7 +193,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GenericTileMap_0
+      name: GeneralTileMap_0
       rect:
         serializedVersion: 2
         x: 0
@@ -225,14 +207,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d3ad25b60e42f7c0800000000000000
-      internalID: -4039080125081476144
+      spriteID: f5cb199a12e4565f0800000000000000
+      internalID: -764118655283643297
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_1
+      name: GeneralTileMap_1
       rect:
         serializedVersion: 2
         x: 16
@@ -246,14 +228,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0443db58244376690800000000000000
-      internalID: -7609055585102908352
+      spriteID: 7d21ebe08105f60d0800000000000000
+      internalID: -3427432727148883241
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_2
+      name: GeneralTileMap_2
       rect:
         serializedVersion: 2
         x: 32
@@ -267,14 +249,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd3b0bf43d50efa70800000000000000
-      internalID: 8862527521844933599
+      spriteID: 30cc8ddcbe31c3a10800000000000000
+      internalID: 1890407847080545283
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_3
+      name: GeneralTileMap_3
       rect:
         serializedVersion: 2
         x: 48
@@ -288,14 +270,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6936bab9544608080800000000000000
-      internalID: -9187232989708590186
+      spriteID: 4d17ba7576dddf650800000000000000
+      internalID: 6268409692291822036
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_4
+      name: GeneralTileMap_4
       rect:
         serializedVersion: 2
         x: 64
@@ -309,14 +291,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1796c143866ac2260800000000000000
-      internalID: 7074212081173293425
+      spriteID: d572871bff9123240800000000000000
+      internalID: 4769903541323573085
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_5
+      name: GeneralTileMap_5
       rect:
         serializedVersion: 2
         x: 80
@@ -330,14 +312,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a4e8d3c28050fbe10800000000000000
-      internalID: 2215495074349682250
+      spriteID: d76721434ce75f2e0800000000000000
+      internalID: -2092627070691412355
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_6
+      name: GeneralTileMap_6
       rect:
         serializedVersion: 2
         x: 96
@@ -351,14 +333,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e96b6d8c5b0a322a0800000000000000
-      internalID: -6763385512761313634
+      spriteID: 53d05acfdaec20a80800000000000000
+      internalID: -8502005899858735819
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_7
+      name: GeneralTileMap_7
       rect:
         serializedVersion: 2
         x: 112
@@ -372,14 +354,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3bb2b5947fd60240800000000000000
-      internalID: 4757735748184226620
+      spriteID: e55356f527aa16370800000000000000
+      internalID: 8314113795306108254
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_8
+      name: GeneralTileMap_8
       rect:
         serializedVersion: 2
         x: 128
@@ -393,56 +375,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad94a6ae4c6b19370800000000000000
-      internalID: 8327638142847437274
+      spriteID: abff72b98b6b32f40800000000000000
+      internalID: 5702602457174507450
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_9
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f12c437e5e8261740800000000000000
-      internalID: 5122326594072134175
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_10
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 506ff7a56d5534930800000000000000
-      internalID: 4126236062731204101
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_11
+      name: GeneralTileMap_9
       rect:
         serializedVersion: 2
         x: 0
@@ -456,14 +396,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b884a5dbd460c6d0800000000000000
-      internalID: -2972264858719582030
+      spriteID: 7845450b875f51c20800000000000000
+      internalID: 3176715010882950279
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_12
+      name: GeneralTileMap_10
       rect:
         serializedVersion: 2
         x: 16
@@ -477,14 +417,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afe53bd78f641be80800000000000000
-      internalID: -8164666616371257606
+      spriteID: db0162b258ca1b860800000000000000
+      internalID: 7544000538776834237
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_13
+      name: GeneralTileMap_11
       rect:
         serializedVersion: 2
         x: 32
@@ -498,14 +438,287 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 743c4a8972d87e020800000000000000
-      internalID: 2371018930038031175
+      spriteID: 021d99665c9c7cc60800000000000000
+      internalID: 7838455526128734496
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GenericTileMap_14
+      name: GeneralTileMap_12
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0b13de87dbe0e430800000000000000
+      internalID: 3810304595802135306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_13
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab70f59f4319d68a0800000000000000
+      internalID: -6310227846168115270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_14
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 717646ac46791b1a0800000000000000
+      internalID: -6795483903577266409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_15
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13609e6066da3a0e0800000000000000
+      internalID: -2259771934295652815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37cd7d10e22446160800000000000000
+      internalID: 7017806884716928115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_17
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 028e857799bf4d5a0800000000000000
+      internalID: -6497291725837899744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_18
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27d25c374b6ba6920800000000000000
+      internalID: 2984398589239045490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_19
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9a9fef8c1889f200800000000000000
+      internalID: 214352113532115613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_20
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b863301a1a3013560800000000000000
+      internalID: 7291613264415504011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_21
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21d0e68a917bb28b0800000000000000
+      internalID: -5175842025904403182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_22
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df0fe01ca805b9a80800000000000000
+      internalID: -8459078918210653955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_23
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84bfc21be48509dd0800000000000000
+      internalID: -2481386299677934776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_24
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fa6872f20fbae830800000000000000
+      internalID: 4101300430053075696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralTileMap_25
       rect:
         serializedVersion: 2
         x: 48
@@ -519,365 +732,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcb79dd4c84587d70800000000000000
-      internalID: 9041069213524523981
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_15
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 64b25fcc36a7f6c40800000000000000
-      internalID: 5507755438356376390
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_16
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6d84670e82f547c60800000000000000
-      internalID: 7814975882563832022
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_17
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4764cb99a63acf6d0800000000000000
-      internalID: -2955307577220774284
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_18
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e744a45d758e43870800000000000000
-      internalID: 8661803447278519422
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_19
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1f20d567b37623260800000000000000
-      internalID: 7075831469639009009
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_20
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e66ec5f739fbe0730800000000000000
-      internalID: 3967318961977878126
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_21
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 65baf0a98e6689270800000000000000
-      internalID: 8257463065986968406
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_22
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 814c68dd60371e180800000000000000
-      internalID: -9087856099733355496
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_23
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4df69a907ee9b1f30800000000000000
-      internalID: 4547402963897380820
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_24
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5ced34f5c02bb19d0800000000000000
-      internalID: -2802450576900366651
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_25
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dec8f6c43e6932820800000000000000
-      internalID: 2892321288686111981
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_26
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 71bc05b1ea83ab910800000000000000
-      internalID: 1853856517050125079
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_27
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c0c6c5a30a8a1df60800000000000000
-      internalID: 8057406614469897228
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_28
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e8e5429745d5417e0800000000000000
-      internalID: -1795707734022922610
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_29
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: daf59286723d75110800000000000000
-      internalID: 1249699587823329197
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_30
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 27254f55be27b94b0800000000000000
-      internalID: -5432622170407415182
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GenericTileMap_31
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1e86e5cb793751a60800000000000000
-      internalID: 7644143038068844769
+      spriteID: 80d2822b356f1cac0800000000000000
+      internalID: -3836514568211256056
       vertices: []
       indices: 
       edges: []
