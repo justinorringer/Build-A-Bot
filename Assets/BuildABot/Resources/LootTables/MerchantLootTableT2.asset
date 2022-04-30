@@ -133,3 +133,9 @@ MonoBehaviour:
     maxSpawned: 1
     averageDurability: 1
     durabilityDeviation: 0
+  - item: {fileID: 11400000, guid: b544b8f51625ba4408666a582e4d525d, type: 2}
+    dropChance: 0.1
+    minSpawned: 1
+    maxSpawned: 1
+    averageDurability: 1
+    durabilityDeviation: 0
