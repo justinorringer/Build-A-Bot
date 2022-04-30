@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db9b1b939c6a4ce98d380593a05f1a20, type: 3}
-  m_Name: BasicGPU
+  m_Name: AdvancedGPU
   m_EditorClassIdentifier: 
-  displayName: Basic GPU
-  description: A low-end GPU that handles rendering images to a computer's screen.
-    This will let BIPY operate at higher resolutions!
+  displayName: Advanced GPU
+  description: With the power of raytracing, BIPY can now render more realistic graphics
+    than ever before! Of course, these graphics aren't that realistic anyways, so
+    I guess you can just render more stuff.
   inventorySprite: {fileID: 21300000, guid: 1f82606f94b8fd049941ea76a6477f3d, type: 3}
   overworldSprite: {fileID: 21300000, guid: 1f82606f94b8fd049941ea76a6477f3d, type: 3}
-  spriteTint: {r: 1, g: 1, b: 1, a: 1}
-  value: 600
+  spriteTint: {r: 0.93333334, g: 0.8235294, b: 0, a: 1}
+  value: 400
   partType: 2
-  maxDurability: 450
-  quality: 1
+  maxDurability: 500
+  quality: 3
   effects:
   - effect: {fileID: 11400000, guid: e737818c8b816d748b5b99f387667bdb, type: 2}
-    magnitude: 1.25
+    magnitude: 2
   attack: {fileID: 0}
