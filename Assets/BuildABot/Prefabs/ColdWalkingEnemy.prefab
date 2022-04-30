@@ -684,7 +684,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   combatController: {fileID: 2930235710264420345}
-  deathParticle: {fileID: 1536405843065613026, guid: 568e792644c2a1745b045aaaabdf44f9, type: 3}
+  deathParticle: {fileID: 1357251769552491641, guid: 28ade8a5ca5cd8c4fb0bfc326a9883a3, type: 3}
   currencyToDrop: 100
 --- !u!114 &2930235710264420323
 MonoBehaviour:
@@ -898,6 +898,7 @@ MonoBehaviour:
   targetLayers:
     serializedVersion: 2
     m_Bits: 128
+  meleeCollider: {fileID: 0}
   onPreHit:
     m_PersistentCalls:
       m_Calls: []

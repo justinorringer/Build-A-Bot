@@ -689,7 +689,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   combatController: {fileID: 1126900268717307693}
-  deathParticle: {fileID: 214333524792713431, guid: 2a171f49a1c154149b70fcc2c618a3fe, type: 3}
+  deathParticle: {fileID: 4782194156544498198, guid: 6d5b3b662f24a2a40a3e2ee94d20a70f, type: 3}
   currencyToDrop: 30
 --- !u!114 &1126900268717307683
 MonoBehaviour:
