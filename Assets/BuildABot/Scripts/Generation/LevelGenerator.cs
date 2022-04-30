@@ -294,7 +294,7 @@ namespace BuildABot {
                         InstantiateRoom(brickRoom, pos);
 
                         continue;
-                    } 
+                    }
 
                     RoomType type = map.grid[i, j].GetRoomType(); // column is i, row is j
 
