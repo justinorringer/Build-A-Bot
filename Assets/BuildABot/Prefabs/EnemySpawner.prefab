@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1461679748839931451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1461679748839931453}
+  - component: {fileID: 1461679748839931452}
+  m_Layer: 0
+  m_Name: EnemySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1461679748839931453
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461679748839931451}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1461679748839931452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461679748839931451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ab540bd992c8124baf1dda6f00cdafc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flyingEnemies:
+  - {fileID: 2516541654574296534, guid: 41553a8ca5af0dc4a99b0ae572f63daa, type: 3}
+  - {fileID: 1068492960641246351, guid: ffcb7e9307f32aa43acdd466b042063b, type: 3}
+  - {fileID: 4708631846561047134, guid: 0d3acf6d59650f84d8e1983d7bd86810, type: 3}
+  turretEnemies:
+  - {fileID: 1420240959490163653, guid: 15f603aa1605dc1448714fc039eabf29, type: 3}
+  - {fileID: 4669034438795753246, guid: 0f8952d1c318ba0488c83cd665e78c23, type: 3}
+  - {fileID: 1126900268717307685, guid: 8660895e956a3e6439445f6ec27e5f2d, type: 3}
+  walkingEnemies:
+  - {fileID: 929539346526337680, guid: 19357d80d57764c4ca79391cfc603398, type: 3}
+  - {fileID: 2930235710264420324, guid: 50bdcb5c683511f408865b1233133c81, type: 3}
+  - {fileID: 4330448536968162250, guid: 964c22a98f0f43e4b971cf2f7d098e7a, type: 3}
+  enemyToSpawn: 2
+  patrolPoints: []

@@ -279,6 +279,11 @@ namespace BuildABot
                 _stopSeekingCoroutine = null;
             });
         }
+
+        public void setPatrolPoints(List<Waypoint> newPoints)
+        {
+            patrolPoints = newPoints;
+        }
     }
 }
 
