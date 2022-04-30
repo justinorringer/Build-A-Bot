@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db9b1b939c6a4ce98d380593a05f1a20, type: 3}
-  m_Name: OldMouse
+  m_Name: AdvMouse
   m_EditorClassIdentifier: 
   displayName: Old Mouse
-  description: An old computer mouse. It's pretty bulky- maybe you could hit someone
-    with it.
+  description: A more modern mouse. The sleek, elegant design will probably be lost
+    on the robots you're going to mercilessly hit with it.
   inventorySprite: {fileID: 21300000, guid: 4c9f119e55b87fc4e9ec428e39782f3a, type: 3}
   overworldSprite: {fileID: 21300000, guid: 4c9f119e55b87fc4e9ec428e39782f3a, type: 3}
-  spriteTint: {r: 1, g: 1, b: 1, a: 1}
-  value: 50
+  spriteTint: {r: 0, g: 0.6156863, b: 1, a: 1}
+  value: 100
   partType: 12
   maxDurability: 200
   quality: 1
   effects: []
-  attack: {fileID: 11400000, guid: c16e5b7605b9026448da7e17e607dd37, type: 2}
+  attack: {fileID: 11400000, guid: b3f1e67f4f7c7f844bf76d5c66838180, type: 2}
