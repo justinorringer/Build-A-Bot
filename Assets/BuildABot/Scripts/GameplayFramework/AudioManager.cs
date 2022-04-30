@@ -147,7 +147,7 @@ namespace BuildABot
 
         public static void CrossFadeToDefaultTrack(float seconds, Action onFinish = null)
         {
-            CrossFadeToNewTrack(Instance.defaultBackgroundTrack, seconds, onFinish);
+            if (Initialized) CrossFadeToNewTrack(Instance.defaultBackgroundTrack, seconds, onFinish);
         }
         
     }
