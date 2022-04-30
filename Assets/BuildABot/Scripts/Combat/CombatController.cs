@@ -253,6 +253,10 @@ namespace BuildABot
             void OnDeath()
             {
                 instigator.onKill.Invoke(attack, this);
+                if (instigator.Character == GameManager.GetPlayer())
+                {
+                    GameManager.GameState.KillCount++;
+                }
             }
             
             // TODO: Make knockback work
