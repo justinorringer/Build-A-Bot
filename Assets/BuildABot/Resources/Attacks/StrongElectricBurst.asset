@@ -15,9 +15,11 @@ MonoBehaviour:
   effects:
   - effect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
     magnitude: 0.8
-  animationTriggerName: Attack
+  animationTriggerName: EnemyAggro
   startSound: {fileID: 8300000, guid: fe41f631cc9c6974ea2d196cbcaeadd3, type: 3}
   progressSound: {fileID: 0}
+  hitSound: {fileID: 0}
+  frameSound: {fileID: 0}
   offset: {x: 0, y: 0}
   offsetXCurve:
     serializedVersion: 2
