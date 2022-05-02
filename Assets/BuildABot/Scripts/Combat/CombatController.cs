@@ -216,7 +216,10 @@ namespace BuildABot
                 _anim.SetTrigger(attack.AnimationTriggerName);
             // Play the start attack sound
             if (audioSource != null && attack.StartSound != null)
+            {
                 audioSource.PlayOneShot(attack.StartSound);
+            }
+
             return true;
         }
 

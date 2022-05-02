@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effects:
   - effect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
-    magnitude: 2
+    magnitude: 3
   animationTriggerName: Attack
   startSound: {fileID: 8300000, guid: d149b49a9069ce9439affb3e68e29790, type: 3}
   progressSound: {fileID: 0}
-  hitSound: {fileID: 8300000, guid: d149b49a9069ce9439affb3e68e29790, type: 3}
+  hitSound: {fileID: 0}
   frameSound: {fileID: 0}
   offset: {x: 0, y: 0}
   offsetXCurve:
