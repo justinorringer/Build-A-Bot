@@ -642,7 +642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMode: 0
   patrolPoints: []
-  nextPatrolPointDistance: 0.5
+  nextPatrolPointDistance: 0.1
   canSeek: 1
   target: {fileID: 0}
   returnDelay: 5

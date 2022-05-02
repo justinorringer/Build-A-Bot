@@ -563,7 +563,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  nextPatrolPointDistance: 0.5
+  nextPatrolPointDistance: 0.1
   canSeek: 1
   target: {fileID: 0}
   returnDelay: 5
