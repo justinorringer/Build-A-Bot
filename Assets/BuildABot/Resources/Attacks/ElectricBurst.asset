@@ -15,7 +15,7 @@ MonoBehaviour:
   effects:
   - effect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
     magnitude: 0.4
-  animationTriggerName: EnemyAggro
+  animationTriggerName: 
   startSound: {fileID: 8300000, guid: 431e83abfd4a6fb48a6fdfeac679753b, type: 3}
   progressSound: {fileID: 0}
   hitSound: {fileID: 0}
