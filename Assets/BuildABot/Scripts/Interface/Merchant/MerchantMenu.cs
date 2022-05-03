@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace BuildABot
 {
@@ -19,6 +20,9 @@ namespace BuildABot
 
         [Tooltip("The text object used to display the control tips.")]
         [SerializeField] private TMP_Text controlTipText;
+
+        [Tooltip("The scroll area of this menu.")]
+        [SerializeField] private ScrollRect scrollArea;
 
         [Tooltip("The minimum number of digits of currency that should be displayed.")]
         [Min(1)]
@@ -50,7 +54,7 @@ namespace BuildABot
             if (null != Merchant && null != Merchant.Customer)
             {
                 gameObject.SetActive(true);
-                UpdateWallet(Wallet, Wallet);
+                UpdateWalletDisplay(Wallet, Wallet);
 
                 titleText.text = _buying ? "Buy Items" : "Sell Items";
                 controlTipText.text = Merchant.Customer.PerformStandardTokenReplacement(_buying ? 
@@ -79,14 +83,27 @@ namespace BuildABot
 
                 if (_spawnedEntries.Count > 0)
                 {
+                    bool selected = false;
                     foreach (MerchantItemEntry entry in _spawnedEntries)
                     {
                         if (entry.CanPerformTransaction)
                         {
                             entry.Select();
+                            selected = true;
                             break;
                         }
                     }
+
+                    if (!selected)
+                    {
+                        // Select scroll bar
+                        scrollArea.verticalScrollbar.Select();
+                    }
+                }
+                else
+                {
+                    // Select scroll bar
+                    scrollArea.verticalScrollbar.Select();
                 }
             }
             else
@@ -108,6 +125,7 @@ namespace BuildABot
             Merchant.Customer.PlayerController.InputActions.UI.CloseMenu.Disable();
             Merchant.Customer.PlayerController.InputActions.UI.Back.performed += Input_Back;
             gameObject.SetActive(true);
+            Cursor.visible = true;
             Refresh();
         }
 
@@ -120,6 +138,7 @@ namespace BuildABot
             Merchant.Customer.PlayerController.InputActions.UI.CloseMenu.Enable();
             Merchant.Customer.PlayerController.RestoreInputActionsState(_inputStateCache);
             gameObject.SetActive(false);
+            Cursor.visible = false;
             Merchant.Customer.HUD.DialogueDisplay.Resume();
         }
 
@@ -142,11 +161,11 @@ namespace BuildABot
 
         private void BindCustomerEvents()
         {
-            Merchant.Customer.OnWalletChanged += UpdateWallet;
+            Merchant.Customer.OnWalletChanged += HandleWalletChange;
             if (!_buying)
             {
                 Merchant.Customer.Inventory.OnEntryAdded += HandleInventoryChange;
-                //Merchant.Customer.Inventory.OnEntryModified += HandleInventoryChange;
+                Merchant.Customer.Inventory.OnEntryModified += HandleInventoryChange;
                 Merchant.Customer.Inventory.OnEntryRemoved += HandleInventoryChange;
             }
         }
@@ -154,13 +173,13 @@ namespace BuildABot
         private void BindMerchantEvents()
         {
             Merchant.Inventory.OnEntryAdded += HandleInventoryChange;
-            //Merchant.Inventory.OnEntryModified += HandleInventoryChange;
+            Merchant.Inventory.OnEntryModified += HandleInventoryChange;
             Merchant.Inventory.OnEntryRemoved += HandleInventoryChange;
         }
 
         private void UnbindCustomerEvents()
         {
-            Merchant.Customer.OnWalletChanged -= UpdateWallet;
+            Merchant.Customer.OnWalletChanged -= HandleWalletChange;
             if (!_buying)
             {
                 Merchant.Customer.Inventory.OnEntryAdded -= HandleInventoryChange;
@@ -181,7 +200,13 @@ namespace BuildABot
             Refresh();
         }
 
-        private void UpdateWallet(int oldValue, int newValue)
+        private void HandleWalletChange(int oldValue, int newValue)
+        {
+            UpdateWalletDisplay(oldValue, newValue);
+            Refresh();
+        }
+
+        private void UpdateWalletDisplay(int oldValue, int newValue)
         {
             if (walletText == null) return;
             

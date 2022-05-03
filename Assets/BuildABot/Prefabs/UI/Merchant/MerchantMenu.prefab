@@ -362,8 +362,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1904534611433960570}
   m_HandleRect: {fileID: 2304419763945808390}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.11537936
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -690,6 +690,7 @@ MonoBehaviour:
   titleText: {fileID: 2437147078544311767}
   walletText: {fileID: 3640677470719731371}
   controlTipText: {fileID: 2301846154635158523}
+  scrollArea: {fileID: 5297821601786781035}
   minCurrencyDigits: 5
   entriesRoot: {fileID: 8241444797507202208}
   entryPrefab: {fileID: 6529127610281133644, guid: 7c47efd4fad8e264cbcac566562f6e5c, type: 3}
@@ -860,7 +861,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
+  m_fontSize: 28.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1071,7 +1072,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.85
+  m_fontSize: 25.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

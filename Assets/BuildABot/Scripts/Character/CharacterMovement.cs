@@ -133,6 +133,7 @@ namespace BuildABot
         [SerializeField] private float decelerationTime = 0.05f;
 
         private IEnumerator _jumpFunction;
+        private IEnumerator _velocityDamp;
 
         /** Can this character move? */
         public bool CanMove { get; set; } = true;
@@ -232,7 +233,8 @@ namespace BuildABot
 
             if (targetVelocity != _rigidbody.velocity)
             {
-                StartCoroutine(VelocityDamp(targetVelocity, dampTime));
+                _velocityDamp = VelocityDamp(targetVelocity, dampTime);
+                StartCoroutine(_velocityDamp);
             }
             //_rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
 
