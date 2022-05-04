@@ -167,6 +167,7 @@ namespace BuildABot {
             // Let level generate then scan with A*
             Utility.DelayedFunction(this, 0.5f, () => {
                 AstarPath.active.Scan();
+                GameManager.InvokeLevelLoaded();
             });
         }
 
