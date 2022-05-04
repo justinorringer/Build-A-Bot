@@ -42,7 +42,7 @@ namespace BuildABot
 
         private void Input_Back(InputAction.CallbackContext context)
         {
-            mainMenu.Player.ToggleMenu(); // Close main menu
+            mainMenu.Player.CloseMenu(); // Close main menu
         }
     }
 }
