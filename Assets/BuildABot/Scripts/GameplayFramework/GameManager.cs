@@ -253,7 +253,7 @@ namespace BuildABot
                     loadTask.completed += asyncOperation =>
                     {
                         Debug.Log("Finished loading level");
-                        //Instance.onLevelLoaded.Invoke();
+                        Instance.onLevelLoaded.Invoke();
                         Instance._loadingScreenInstance.End(() =>
                         {
                             Debug.Log("Finished closing load screen");
