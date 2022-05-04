@@ -16,11 +16,7 @@ namespace BuildABot
         protected void Awake()
         {
             Cursor.visible = true;
-            if (!GameManager.Initialized)
-            {
-                SceneManager.LoadSceneAsync("PersistentGame", LoadSceneMode.Additive);
-            }
-            else
+            if (GameManager.Initialized)
             {
                 Player player = GameManager.GetPlayer();
                 if (player != null) Destroy(player.gameObject);

@@ -63,7 +63,7 @@ namespace BuildABot {
                             _isFlashed = false;
                             _flashingTempTask = null;
                         });
-                    source.PlayOneShot(criticalTempSound);
+                    source.PlayOneShot(criticalTempSound, 0.15f);
                 }
             }
         }

@@ -18,8 +18,9 @@ namespace BuildABot
         private Action _onFinishOpen;
         private Action _onFinishClose;
         private static readonly int CloseHash = Animator.StringToHash("Close");
+        private static readonly int FinishHash = Animator.StringToHash("Finish");
 
-        public void Awake()
+        private void Awake()
         {
             gameObject.SetActive(false);
         }
@@ -44,13 +45,15 @@ namespace BuildABot
             int count = 0;
             Utility.RepeatFunctionUntil(this, () =>
             {
-                string dots = "";
+                char[] dots = "   ".ToCharArray();
                 for (int i = 0; i < count; i++)
                 {
-                    dots += ".";
+                    dots[i] = '.';
                 }
 
-                loadingText.text = _getProgress == null ? $"Loading{dots}" : $"Loading{dots} {(_getProgress.Invoke() * 100):00}%";
+                loadingText.text = _getProgress == null ?
+                    $"Loading{new string(dots)}" :
+                    $"Loading{new string(dots)} {(_getProgress.Invoke() * 100):00}%";
                 count = (count + 1) % 4;
             }, 0.5f, () => _playing);
         }
@@ -64,10 +67,11 @@ namespace BuildABot
 
         private void FinishClosing()
         {
-            gameObject.SetActive(false);
+            animator.SetTrigger(FinishHash);
             _onFinishClose?.Invoke();
             _onFinishClose = null;
             _getProgress = null;
+            gameObject.SetActive(false);
         }
         
     }

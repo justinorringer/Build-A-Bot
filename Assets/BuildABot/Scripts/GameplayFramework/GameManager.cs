@@ -87,6 +87,13 @@ namespace BuildABot
         
         #endregion
 
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void OnRuntimeInitialization()
+        {
+            SceneManager.LoadScene("PersistentGame", LoadSceneMode.Additive);
+        }
+
         protected override void Awake()
         {
             _paused = false;
@@ -209,9 +216,13 @@ namespace BuildABot
         {
             if (!Initialized)
             {
+                Debug.LogWarning("The game manager has not been initialized. Falling back to built in scene loading.");
                 SceneManager.LoadScene(level, mode);
                 return;
             }
+
+            if (Instance._loadingScreenInstance != null) return;
+            
             Pause();
             Player player = GetPlayer();
             // Force spawn a player so that a camera will be in the scene
@@ -225,6 +236,7 @@ namespace BuildABot
 
             AsyncOperation loadTask = null;
             Instance._loadingScreenInstance = Instantiate(Instance.loadingScreen, Instance.transform);
+            Debug.Log("Showing loading screen");
             Instance._loadingScreenInstance.Begin(() => Mathf.Clamp01((loadTask?.progress ?? 0) / 0.9f),
                 () => {
                     if (player == null)
@@ -235,21 +247,25 @@ namespace BuildABot
                         player.PlayerController.enabled = false;
                         player.CharacterMovement.ClearMovement();
                     }
+                    Debug.Log("Beginning scene load");
                     Instance.onLevelBeginLoad.Invoke();
                     loadTask = SceneManager.LoadSceneAsync(level, mode);
                     loadTask.completed += asyncOperation =>
                     {
+                        Debug.Log("Finished loading level");
                         Instance.onLevelLoaded.Invoke();
                         Instance._loadingScreenInstance.End(() =>
                         {
+                            Debug.Log("Finished closing load screen");
+                            Destroy(Instance._loadingScreenInstance.gameObject);
+                            Instance._loadingScreenInstance = null;
+                            Debug.Log("Resuming gameplay");
+                            Unpause();
                             if (player != null)
                             {
                                 player.EnableHUD();
                                 player.PlayerController.enabled = true;
                             }
-                            Unpause();
-                            Destroy(Instance._loadingScreenInstance);
-                            Instance._loadingScreenInstance = null;
                         });
                     };
                 });
