@@ -270,10 +270,5 @@ namespace BuildABot
                     };
                 });
         }
-
-        public static void InvokeLevelLoaded()
-        {
-            Instance.onLevelLoaded.Invoke();
-        }
     }
 }

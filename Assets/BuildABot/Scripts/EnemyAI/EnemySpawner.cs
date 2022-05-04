@@ -28,19 +28,11 @@ namespace BuildABot
 
         private int variant;
 
-        private void OnEnable()
+        void Awake()
         {
-            //Logic is - spawn enemy of game stage before level 4, afterwards do random
             int stage = GameManager.GameState.NextLevelType;
             variant = stage >= 3 ? new Random().Next(0, stage) : stage;
-            GameManager.OnLevelLoaded += SpawnEnemy;
-            Debug.Log("Subscribing to level loaded event");
-        }
-
-        private void OnDisable()
-        {
-            GameManager.OnLevelLoaded -= SpawnEnemy;
-            Debug.Log("Unsubscribing from level loaded event");
+            SpawnEnemy();
         }
 
         //0 for normal, 1 for frozen, 2 for advanced
