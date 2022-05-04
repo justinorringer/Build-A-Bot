@@ -40,7 +40,6 @@ namespace BuildABot
         //0 for normal, 1 for frozen, 2 for advanced
         private void SpawnEnemy(int variant)
         {
-            Debug.Log("Spawning Enemy");
             GameObject g;
             Transform t = transform;
             switch (enemyToSpawn)

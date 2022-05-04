@@ -132,7 +132,7 @@ namespace BuildABot
         {
             _isAttacking = true;
             _combatController.AttackDirection =
-            ((Vector2)(other.transform.position - transform.position)).normalized;
+                ((Vector2)(other.transform.position - transform.position)).normalized;
             _combatController.TryPerformAttack(attack, HandleAttackProgress, HandleAttackFinish);
             GetComponentInParent<Animator>().SetBool(attack.AnimationTriggerName, true);
         }

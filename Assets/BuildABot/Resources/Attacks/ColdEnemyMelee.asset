@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effects:
   - effect: {fileID: 11400000, guid: a47da673c5144504783348f08112b890, type: 2}
-    magnitude: -4
+    magnitude: -7
   animationTriggerName: Attack
   startSound: {fileID: 8300000, guid: d149b49a9069ce9439affb3e68e29790, type: 3}
   progressSound: {fileID: 0}
+  hitSound: {fileID: 0}
+  frameSound: {fileID: 0}
   offset: {x: 0, y: 0}
   offsetXCurve:
     serializedVersion: 2
@@ -74,7 +76,8 @@ MonoBehaviour:
   allowMultiHit: 0
   allowMovement: 0
   canInterrupt: 1
+  attackType: 0
   distance: 1
   useRelativeDistance: 1
-  duration: 0.5
+  duration: 0.75
   raycastRate: 30
