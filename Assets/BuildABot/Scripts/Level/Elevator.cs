@@ -22,7 +22,7 @@ namespace BuildABot
                 GameManager.GameState.NextLevelType = GameManager.GameState.GameStage >= 3
                     ? Random.Range(0, 3)
                     : GameManager.GameState.GameStage;
-                SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
+                GameManager.OpenLevel(sceneToLoad);
             }
         }
     }

@@ -273,12 +273,12 @@ namespace BuildABot
 
         private void Player_OnOpenMenu(InputAction.CallbackContext context)
         {
-            _player.ToggleMenu();
+            _player.OpenMenu();
         }
 
         private void Player_OnOpenInventory(InputAction.CallbackContext context)
         {
-            _player.ToggleMenu();
+            _player.OpenMenu();
             _player.MainMenu.OpenInventory();
         }
         
@@ -288,7 +288,7 @@ namespace BuildABot
         
         private void UI_OnCloseMenu(InputAction.CallbackContext context)
         {
-            _player.ToggleMenu();
+            _player.CloseMenu();
         }
         
         #endregion

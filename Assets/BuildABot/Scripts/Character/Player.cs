@@ -336,7 +336,10 @@ namespace BuildABot
             onDeath.Invoke();
             GameManager.GameState.TotalDeaths++;
             // TODO: Play death animation
-            FinishGame("Game Over");
+            FinishGame("Game Over"); // TODO: Move to game manager
+            GameManager.GameState.GameStage = 0;
+            GameManager.GameState.NextLevelType = 0;
+            GameManager.GameState.CompletedLevelCount = 0;
         }
 
         public void FinishGame(string message)
@@ -359,26 +362,31 @@ namespace BuildABot
         }
 
         /**
-         * Toggles the main menu for this player.
+         * Opens the main menu for this player.
          */
-        public void ToggleMenu()
+        public void OpenMenu()
         {
             if (!_canToggleMenu) return;
-            bool active = !mainMenu.gameObject.activeSelf;
-            if (active)
-            {
-                PlayerController.InputActions.Player.Disable();
-                PlayerController.InputActions.UI.Enable();
-            }
-            else
-            {
-                PlayerController.InputActions.Player.Enable();
-                PlayerController.InputActions.UI.Disable();
-            }
-            mainMenu.gameObject.SetActive(active);
-            Cursor.visible = active;
-            hud.gameObject.SetActive(!active);
-            GameManager.SetPaused(active);
+            PlayerController.InputActions.Player.Disable();
+            PlayerController.InputActions.UI.Enable();
+            mainMenu.gameObject.SetActive(true);
+            Cursor.visible = true;
+            hud.gameObject.SetActive(false);
+            GameManager.SetPaused(true);
+        }
+
+        /**
+         * Closes the main menu for this player.
+         */
+        public void CloseMenu()
+        {
+            if (!_canToggleMenu) return;
+            PlayerController.InputActions.Player.Enable();
+            PlayerController.InputActions.UI.Disable();
+            mainMenu.gameObject.SetActive(false);
+            Cursor.visible = false;
+            hud.gameObject.SetActive(true);
+            GameManager.SetPaused(false);
         }
 
         public void EnableHUD()
