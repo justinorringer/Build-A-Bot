@@ -8,7 +8,7 @@ namespace BuildABot
 
         [SerializeField] private int levelToSpawn;
 
-        private void Start()
+        private void Awake()
         {
             if (GameManager.GameState.CompletedLevelCount == levelToSpawn - 1)
             {
