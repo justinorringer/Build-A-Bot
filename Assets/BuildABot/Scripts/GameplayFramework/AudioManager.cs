@@ -149,6 +149,11 @@ namespace BuildABot
         {
             if (Initialized) CrossFadeToNewTrack(Instance.defaultBackgroundTrack, seconds, onFinish);
         }
+
+        public static void PlayOneShot(AudioClip track, float volume = 1.0f)
+        {
+            Instance.primaryBackgroundPlayer.PlayOneShot(track, volume);
+        }
         
     }
 }

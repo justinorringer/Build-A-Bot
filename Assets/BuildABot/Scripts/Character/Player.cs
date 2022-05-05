@@ -336,29 +336,7 @@ namespace BuildABot
             onDeath.Invoke();
             GameManager.GameState.TotalDeaths++;
             // TODO: Play death animation
-            FinishGame("Game Over"); // TODO: Move to game manager
-            GameManager.GameState.GameStage = 0;
-            GameManager.GameState.NextLevelType = 0;
-            GameManager.GameState.CompletedLevelCount = 0;
-        }
-
-        public void FinishGame(string message)
-        {
-            // TODO: Replace with a more graceful implementation for winning
-            GameManager.SetPaused(true);
-            DisableHUD();
-            mainMenu.gameObject.SetActive(false);
-            AudioManager.FadeOutBackgroundTrack(5f);
-            StartCoroutine(WaitForGameOver(message));
-        }
-
-        private IEnumerator WaitForGameOver(string message)
-        {
-            gameOverDisplay.Message = message;
-            gameOverDisplay.gameObject.SetActive(true);
-            yield return new WaitUntil(() => gameOverDisplay.IsFinished);
-            // Quit to main menu
-            SceneManager.LoadScene("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
+            GameManager.GameOver(this);
         }
 
         /**
@@ -366,7 +344,7 @@ namespace BuildABot
          */
         public void OpenMenu()
         {
-            if (!_canToggleMenu) return;
+            if (!_canToggleMenu || mainMenu.gameObject.activeSelf) return;
             PlayerController.InputActions.Player.Disable();
             PlayerController.InputActions.UI.Enable();
             mainMenu.gameObject.SetActive(true);
@@ -380,7 +358,7 @@ namespace BuildABot
          */
         public void CloseMenu()
         {
-            if (!_canToggleMenu) return;
+            if (!_canToggleMenu || !mainMenu.gameObject.activeSelf) return;
             PlayerController.InputActions.Player.Enable();
             PlayerController.InputActions.UI.Disable();
             mainMenu.gameObject.SetActive(false);

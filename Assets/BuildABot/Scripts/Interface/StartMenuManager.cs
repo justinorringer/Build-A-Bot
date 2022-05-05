@@ -40,5 +40,10 @@ namespace BuildABot
             AudioManager.RestartBackgroundTrack();
             AudioManager.EaseBackgroundTrackVolume(1f, AudioManager.DefaultVolume);
         }
+
+        public void MarkStartTime()
+        {
+            GameManager.GameState.StartTime = Time.realtimeSinceStartupAsDouble;
+        }
     }
 }
