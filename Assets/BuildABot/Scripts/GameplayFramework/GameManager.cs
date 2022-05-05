@@ -278,6 +278,8 @@ namespace BuildABot
                 GameState.StopTime = Time.realtimeSinceStartupAsDouble;
                 player.DisableHUD();
                 player.CloseMenu();
+                player.PlayerController.InputActions.Player.Disable();
+                player.PlayerController.InputActions.DialogueUI.Enable();
                 Pause();
                 AudioManager.FadeOutBackgroundTrack(5f);
                 GameOverDisplay displayInstance = Instantiate(Instance.gameOverDisplay, Instance.transform);
@@ -288,8 +290,11 @@ namespace BuildABot
                     GameState.GameStage = 0;
                     GameState.NextLevelType = 0;
                     GameState.CompletedLevelCount = 0;
-                    SceneManager.LoadScene("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
-                    Destroy(displayInstance.gameObject);
+                    AsyncOperation loadingTask = SceneManager.LoadSceneAsync("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
+                    loadingTask.completed += operation =>
+                    {
+                        Destroy(displayInstance.gameObject);
+                    };
                 }
                 
                 displayInstance.OnFinish += HandleDisplayFinished;

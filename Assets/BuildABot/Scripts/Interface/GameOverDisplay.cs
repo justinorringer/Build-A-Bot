@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace BuildABot
 {
@@ -11,6 +12,12 @@ namespace BuildABot
         [Tooltip("The text component used to draw the game stats to the screen.")]
         [SerializeField] private TMP_Text statsDisplay;
 
+        [Tooltip("The text component used to draw the game stat labels to the screen.")]
+        [SerializeField] private TMP_Text statsLabels;
+
+        [Tooltip("The display used to prompt the player to exit.")]
+        [SerializeField] private TokenReplacedText exitPrompt;
+
         [Tooltip("An event fired when this display finishes.")]
         [SerializeField] private UnityEvent onFinish;
 
@@ -19,7 +26,10 @@ namespace BuildABot
 
         [Tooltip("The sound played as each stat is displayed.")]
         [SerializeField] private AudioClip statSound;
-        
+
+        private static readonly int ShowButtonHash = Animator.StringToHash("ShowButton");
+        private static readonly int CloseHash = Animator.StringToHash("Close");
+
         public event UnityAction OnFinish
         {
             add => onFinish.AddListener(value);
@@ -36,6 +46,12 @@ namespace BuildABot
             gameObject.SetActive(true);
         }
 
+        private void ReturnToStart(InputAction.CallbackContext obj)
+        {
+            GameManager.GetPlayer().PlayerController.InputActions.DialogueUI.Continue.performed -= ReturnToStart;
+            animator.SetTrigger(CloseHash);
+        }
+
         private void ShowStats()
         {
             float speed = animator.speed;
@@ -46,17 +62,26 @@ namespace BuildABot
             string timeString = $"{timePlayed.Hours + (24 * timePlayed.Days)}h:{timePlayed.Minutes}m:{timePlayed.Seconds}s";
             Utility.RepeatFunction(this, () =>
             {
-                string[] lines = new string[4];
-                lines[0] = i >= 0 ? $"Time Played:<pos=70%>{timeString}" : "";
-                lines[1] = i >= 1 ? $"Levels Completed:<pos=85%>{GameManager.GameState.CompletedLevelCount}" : "";
-                lines[2] = i >= 2 ? $"Total Kills:<pos=85%>{GameManager.GameState.KillCount}" : "";
-                lines[3] = i >= 3 ? $"Money Earned:<pos=85%>{GameManager.GameState.TotalMoneyEarned}" : "";
+                string[] stats = new string[4];
+                stats[0] = i >= 0 ? timeString : "";
+                stats[1] = i >= 1 ? $"{GameManager.GameState.CompletedLevelCount}" : "";
+                stats[2] = i >= 2 ? $"{GameManager.GameState.KillCount}" : "";
+                stats[3] = i >= 3 ? $"{GameManager.GameState.TotalMoneyEarned}" : "";
+                string[] labels = new string[4];
+                labels[0] = i >= 0 ? "Time Played:" : "<color=\"black\">Time Played:</color>";
+                labels[1] = i >= 1 ? "Levels Completed:" : "<color=\"black\">Levels Completed:</color>";
+                labels[2] = i >= 2 ? "Bots Defeated:" : "<color=\"black\">Bots Defeated:</color>";
+                labels[3] = i >= 3 ? "Money Earned:" : "<color=\"black\">Money Earned:</color>";
                 i++;
-                statsDisplay.text = $"{lines[0]}\n{lines[1]}\n{lines[2]}\n{lines[3]}";
+                statsDisplay.text = $"{stats[0]}\n{stats[1]}\n{stats[2]}\n{stats[3]}";
+                statsLabels.text = $"{labels[0]}\n{labels[1]}\n{labels[2]}\n{labels[3]}";
                 AudioManager.PlayOneShot(statSound);
             }, 1.0f, 4, () =>
             {
                 animator.speed = speed;
+                exitPrompt.Refresh();
+                GameManager.GetPlayer().PlayerController.InputActions.DialogueUI.Continue.performed += ReturnToStart;
+                animator.SetTrigger(ShowButtonHash);
             }, true);
         }
 
