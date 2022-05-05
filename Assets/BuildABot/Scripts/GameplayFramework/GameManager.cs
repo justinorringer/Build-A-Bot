@@ -290,6 +290,11 @@ namespace BuildABot
                     GameState.GameStage = 0;
                     GameState.NextLevelType = 0;
                     GameState.CompletedLevelCount = 0;
+                    GameState.KillCount = 0;
+                    GameState.ItemsBought = 0;
+                    GameState.ItemsSold = 0;
+                    GameState.TotalJumps = 0;
+                    GameState.TotalMoneyEarned = 0;
                     AsyncOperation loadingTask = SceneManager.LoadSceneAsync("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
                     loadingTask.completed += operation =>
                     {
