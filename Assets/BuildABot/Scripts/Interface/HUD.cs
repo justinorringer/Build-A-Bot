@@ -13,6 +13,9 @@ namespace BuildABot
         [Tooltip("The input help widget used by this HUD.")]
         [SerializeField] private InputHelpWidget inputHelp;
 
+        [Tooltip("The alert widget used to give notifications to the player.")]
+        [SerializeField] private NotificationDisplay notificationDisplay;
+
         /** The player instance using this HUD. */
         public Player Player => player;
 
@@ -21,5 +24,8 @@ namespace BuildABot
 
         /** The input help widget used by this HUD. */
         public InputHelpWidget InputHelpWidget => inputHelp;
+
+        /** The alert widget used to give notifications to the player. */
+        public NotificationDisplay NotificationDisplay => notificationDisplay;
     }
 }

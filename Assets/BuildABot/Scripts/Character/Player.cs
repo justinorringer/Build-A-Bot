@@ -256,13 +256,14 @@ namespace BuildABot
 
         private void HandleModifiedItem(InventoryEntry entry)
         {
-            if (entry is ComputerPartInstance cp)
+            if (entry is ComputerPartInstance cp && Inventory.ContainsEntry(entry))
             {
                 // Handle losing all durability
                 if (cp.Durability == 0 && cp.MaxDurability != 0)
                 {
                     if (entry.Equipped) UnequipItemSlot(cp.ComputerPartItem.PartType);
-                    Inventory.RemoveEntry(entry, true);
+                    if (null != Inventory.RemoveEntry(entry, true))
+                        PushNotification($"Your {cp.Item.DisplayName} broke!");
                 }
             }
         }
@@ -406,6 +407,15 @@ namespace BuildABot
         public void DismissInputHelp()
         {
             HUD.InputHelpWidget.HideMessage();
+        }
+
+        /**
+         * Pushes a notification to the player.
+         * <param name="message">The notification message to push.</param>
+         */
+        public void PushNotification(string message)
+        {
+            HUD.NotificationDisplay.ShowMessage(PerformStandardTokenReplacement(message));
         }
 
         /**
