@@ -4,11 +4,10 @@ using UnityEngine.UI;
 
 namespace BuildABot
 {
-    public class CurrentFloorDisplay : MonoBehaviour
+    public class FloorBasedBorder : MonoBehaviour
     {
         [SerializeField] private Image background;
         [SerializeField] private Image border;
-        [SerializeField] private TMP_Text floorNumber;
 
         protected void Awake()
         {
@@ -44,10 +43,8 @@ namespace BuildABot
                     break;
             }
 
-            //background.color = backgroundColor;
             background.color = color * 0.75f;
             border.color = color;
-            floorNumber.text = $"{GameManager.GameState.CompletedLevelCount + 1}";
         }
     }
 }
