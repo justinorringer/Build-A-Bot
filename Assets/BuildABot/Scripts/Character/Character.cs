@@ -60,6 +60,11 @@ namespace BuildABot
          */
         protected virtual void Kill()
         {
+            if (_coolingTask != null)
+            {
+                StopCoroutine(_coolingTask);
+                _coolingTask = null;
+            }
             onDeath.Invoke();
             Destroy(gameObject);
         }
@@ -84,6 +89,9 @@ namespace BuildABot
                 float currentTemp = Attributes.Temperature.BaseValue;
                 float operatingTemp = Attributes.OperatingTemperature.CurrentValue;
                 float coolingRate = Attributes.CoolDownRate.CurrentValue;
+
+                if (currentTemp >= Attributes.MaxTemperature.CurrentValue) Kill();
+                else if (currentTemp <= Attributes.MinTemperature.CurrentValue) Kill();
                 
                 if (currentTemp > operatingTemp && coolingRate != 0.0f)
                 {
