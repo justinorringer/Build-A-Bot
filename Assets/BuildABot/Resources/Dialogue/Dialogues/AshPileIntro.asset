@@ -19,7 +19,13 @@ MonoBehaviour:
     expressionOverride: 0
     completionEvents: []
     suspendOnCompletion: 0
-  - content: Don't let the same happen to you...
+  - content: It's dangerous to go alone...
+    nextNode: 2
+    responseOptions: []
+    expressionOverride: 0
+    completionEvents: []
+    suspendOnCompletion: 0
+  - content: Take this... and don't let the same happen to you...
     nextNode: -1
     responseOptions: []
     expressionOverride: 0

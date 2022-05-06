@@ -15,6 +15,8 @@ MonoBehaviour:
   displayName: Advanced Mouse
   description: A beautiful, high-end mouse. The perfect tool for work, gaming, or
     smacking things!
+  pickupTip: Try clicking!
+  pickupTipDismissAction: '{INPUT:Player:LightAttack}'
   inventorySprite: {fileID: 21300000, guid: 4c9f119e55b87fc4e9ec428e39782f3a, type: 3}
   overworldSprite: {fileID: 21300000, guid: 4c9f119e55b87fc4e9ec428e39782f3a, type: 3}
   spriteTint: {r: 0.93333334, g: 0.8235294, b: 0, a: 1}
