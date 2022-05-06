@@ -73,8 +73,9 @@ namespace BuildABot
                 labels[2] = i >= 2 ? "Bots Defeated:" : "<color=\"black\">Bots Defeated:</color>";
                 labels[3] = i >= 3 ? "Money Earned:" : "<color=\"black\">Money Earned:</color>";
                 i++;
-                statsDisplay.text = $"{stats[0]}\n{stats[1]}\n{stats[2]}\n{stats[3]}";
                 statsLabels.text = $"{labels[0]}\n{labels[1]}\n{labels[2]}\n{labels[3]}";
+                statsDisplay.GetComponent<MatchFontSize>().Refresh();
+                statsDisplay.text = $"{stats[0]}\n{stats[1]}\n{stats[2]}\n{stats[3]}";
                 AudioManager.PlayOneShot(statSound);
             }, 1.0f, 4, () =>
             {

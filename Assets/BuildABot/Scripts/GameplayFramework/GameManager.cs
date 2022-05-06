@@ -37,7 +37,9 @@ namespace BuildABot
         
         [Tooltip("An event triggered whenever a level finishes loading.")]
         [SerializeField] private UnityEvent onLevelLoaded;
-        
+
+        private static AsyncOperation _loadingTask;
+
         #region Public Properties
 
         /** Is the game currently paused? */
@@ -273,6 +275,7 @@ namespace BuildABot
 
         public static void GameOver(Player player)
         {
+            if (_loadingTask != null) return;
             if (Initialized)
             {
                 GameState.StopTime = Time.realtimeSinceStartupAsDouble;
@@ -295,8 +298,8 @@ namespace BuildABot
                     GameState.ItemsSold = 0;
                     GameState.TotalJumps = 0;
                     GameState.TotalMoneyEarned = 0;
-                    AsyncOperation loadingTask = SceneManager.LoadSceneAsync("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
-                    loadingTask.completed += operation =>
+                    _loadingTask = SceneManager.LoadSceneAsync("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
+                    _loadingTask.completed += operation =>
                     {
                         Destroy(displayInstance.gameObject);
                     };
