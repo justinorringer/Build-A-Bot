@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1198a324c2c2ee499791277f0f3179f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRoom: {fileID: 3542406863813844319, guid: 97e02df396a88864b9b7a9eaea4a4a18, type: 3}
+  startLeftRoom: {fileID: 3542406863813844319, guid: 97e02df396a88864b9b7a9eaea4a4a18, type: 3}
+  startRightRoom: {fileID: 3542406863813844319, guid: 9f4a784208b252a4191f856ad21de04d, type: 3}
   endRoom: {fileID: 3542406863813844319, guid: fe2e4605be9759b4aa187a4dc558bd60, type: 3}
   brickRoom: {fileID: 1171848507888753109, guid: 3eb044bf7fc313d4188780000e0c4733, type: 3}
   lEndRoom: {fileID: 4841826492545132378, guid: a70faaf812956d049804d609d0799513, type: 3}

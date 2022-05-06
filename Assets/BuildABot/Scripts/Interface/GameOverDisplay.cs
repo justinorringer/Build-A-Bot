@@ -5,8 +5,6 @@ namespace BuildABot
 {
     public class GameOverDisplay : MonoBehaviour
     {
-        [Tooltip("The player that was killed.")]
-        [SerializeField] private Player player;
 
         [Tooltip("the text component drawn to the screen.")]
         [SerializeField] private TMP_Text textDisplay;

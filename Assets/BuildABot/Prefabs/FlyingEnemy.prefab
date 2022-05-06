@@ -623,7 +623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMode: 0
   patrolPoints: []
-  nextPatrolPointDistance: 0.5
+  nextPatrolPointDistance: 0.1
   canSeek: 1
   target: {fileID: 0}
   returnDelay: 5
@@ -1226,7 +1226,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0

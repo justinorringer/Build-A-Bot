@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace BuildABot
 {
@@ -9,8 +10,18 @@ namespace BuildABot
     {
         private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
         private bool _paused;
+        private LoadingScreen _loadingScreenInstance;
 
         private readonly GameState _gameState = new GameState();
+
+        [Tooltip("The player prefab to spawn for new player instances.")]
+        [SerializeField] private Player playerTemplate;
+
+        [Tooltip("The screen to display when a game over occurs.")]
+        [SerializeField] private GameOverDisplay gameOverDisplay;
+
+        [Tooltip("The screen to display when waiting on a level to load.")]
+        [SerializeField] private LoadingScreen loadingScreen;
 
         [Tooltip("An event triggered whenever the game is paused.")]
         [SerializeField] private UnityEvent onPause;
@@ -21,13 +32,19 @@ namespace BuildABot
         [Tooltip("An event triggered whenever the game pause state of the game changes.")]
         [SerializeField] private UnityEvent<bool> onSetPaused;
         
+        [Tooltip("An event triggered whenever a level begins loading.")]
+        [SerializeField] private UnityEvent onLevelBeginLoad;
+        
+        [Tooltip("An event triggered whenever a level finishes loading.")]
+        [SerializeField] private UnityEvent onLevelLoaded;
+        
         #region Public Properties
 
         /** Is the game currently paused? */
         public static bool Paused => Instance != null ? Instance._paused : Time.timeScale == 0.0f;
 
         /** The state of the current play session. */
-        public static GameState GameState => Instance != null ? Instance._gameState : null;
+        public static GameState GameState => Instance != null ? Instance._gameState : null; // TODO: Make a per-player GameState
         
         #endregion
         
@@ -54,7 +71,28 @@ namespace BuildABot
             remove => Instance.onSetPaused.RemoveListener(value);
         }
         
+        /** An event triggered whenever a level begins loading. */
+        public static event UnityAction OnLevelBeginLoad
+        {
+            add => Instance.onLevelBeginLoad.AddListener(value);
+            remove => Instance.onLevelBeginLoad.RemoveListener(value);
+        }
+        
+        /** An event triggered whenever a level finishes loading. */
+        public static event UnityAction OnLevelLoaded
+        {
+            add => Instance.onLevelLoaded.AddListener(value);
+            remove => Instance.onLevelLoaded.RemoveListener(value);
+        }
+        
         #endregion
+
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void OnRuntimeInitialization()
+        {
+            SceneManager.LoadScene("PersistentGame", LoadSceneMode.Additive);
+        }
 
         protected override void Awake()
         {
@@ -167,6 +205,70 @@ namespace BuildABot
             {
                 Time.timeScale = paused ? 0.0f : 1; // Update time scale
             }
+        }
+
+        /**
+         * Opens the specified level. If using a single load scene mode, the current scene will be unloaded.
+         * <param name="level">The level to load.</param>
+         * <param name="mode">The mode to use when loading the level.</param>
+         */
+        public static void OpenLevel(string level, LoadSceneMode mode = LoadSceneMode.Single)
+        {
+            if (!Initialized)
+            {
+                Debug.LogWarning("The game manager has not been initialized. Falling back to built in scene loading.");
+                SceneManager.LoadScene(level, mode);
+                return;
+            }
+
+            if (Instance._loadingScreenInstance != null) return;
+            
+            Pause();
+            Player player = GetPlayer();
+            // Force spawn a player so that a camera will be in the scene
+            if (player != null)
+            {
+                player.DisableHUD();
+                player.CloseMenu();
+                player.PlayerController.enabled = false;
+                player.CharacterMovement.ClearMovement();
+            }
+
+            AsyncOperation loadTask = null;
+            Instance._loadingScreenInstance = Instantiate(Instance.loadingScreen, Instance.transform);
+            Debug.Log("Showing loading screen");
+            Instance._loadingScreenInstance.Begin(() => Mathf.Clamp01((loadTask?.progress ?? 0) / 0.9f),
+                () => {
+                    if (player == null)
+                    {
+                        player = Instantiate(Instance.playerTemplate, Vector3.zero, Quaternion.identity);
+                        player.DisableHUD();
+                        player.CloseMenu();
+                        player.PlayerController.enabled = false;
+                        player.CharacterMovement.ClearMovement();
+                    }
+                    Debug.Log("Beginning scene load");
+                    Instance.onLevelBeginLoad.Invoke();
+                    loadTask = SceneManager.LoadSceneAsync(level, mode);
+                    loadTask.completed += asyncOperation =>
+                    {
+                        Debug.Log("Finished loading level");
+                        Instance.onLevelLoaded.Invoke();
+                        Instance._loadingScreenInstance.End(() =>
+                        {
+                            Debug.Log("Finished closing load screen");
+                            Destroy(Instance._loadingScreenInstance.gameObject);
+                            Instance._loadingScreenInstance = null;
+                            Debug.Log("Resuming gameplay");
+                            Unpause();
+                            if (player != null)
+                            {
+                                player.EnableHUD();
+                                player.PlayerController.enabled = true;
+                            }
+                        });
+                    };
+                });
         }
     }
 }

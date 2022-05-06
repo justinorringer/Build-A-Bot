@@ -31,7 +31,7 @@ namespace BuildABot
             BuildPipeline.BuildPlayer(scenes, $"{path}/{Application.productName}-Demo.exe",
                 EditorUserBuildSettings.selectedStandaloneTarget, BuildOptions.None);
             
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone,
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup,
                 defines);
 
         }
@@ -62,7 +62,7 @@ namespace BuildABot
             BuildPipeline.BuildPlayer(scenes, $"{path}/{Application.productName}.exe",
                 EditorUserBuildSettings.selectedStandaloneTarget, BuildOptions.None);
             
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone,
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup,
                 defines);
 
         }

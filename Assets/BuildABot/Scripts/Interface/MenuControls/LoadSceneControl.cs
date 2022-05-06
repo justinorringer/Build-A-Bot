@@ -10,7 +10,8 @@ namespace BuildABot
         
         public void Execute()
         {
-            SceneManager.LoadScene(scene, LoadSceneMode.Single);
+            //SceneManager.LoadScene(scene, LoadSceneMode.Single);
+            GameManager.OpenLevel(scene);
         }
     }
 }
