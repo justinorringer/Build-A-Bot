@@ -55,16 +55,20 @@ namespace BuildABot
         /** The cooling/temperature regeneration coroutine used by this character. */
         private IEnumerator _coolingTask;
 
-        /**
-         * Kills this character.
-         */
-        protected virtual void Kill()
+        protected void StopCooling()
         {
             if (_coolingTask != null)
             {
                 StopCoroutine(_coolingTask);
                 _coolingTask = null;
             }
+        }
+
+        /**
+         * Kills this character.
+         */
+        protected virtual void Kill()
+        {
             onDeath.Invoke();
             Destroy(gameObject);
         }
@@ -108,11 +112,7 @@ namespace BuildABot
 
         protected virtual void OnDisable()
         {
-            if (_coolingTask != null)
-            {
-                StopCoroutine(_coolingTask);
-                _coolingTask = null;
-            }
+            StopCooling();
         }
 
         protected virtual void OnDestroy()
