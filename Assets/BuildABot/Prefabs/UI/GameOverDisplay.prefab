@@ -65,7 +65,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: '<color="black">Time Played:</color>
+
+    <color="black">Levels Completed:</color>
+
+    <color="black">Bots
+    Defeated:</color>
+
+    <color="black">Money Earned:</color>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5e3db03513cb46c49bc02264076a6ce0, type: 2}
   m_sharedMaterial: {fileID: -1301668893019750164, guid: 5e3db03513cb46c49bc02264076a6ce0, type: 2}
@@ -92,7 +99,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 39.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -227,8 +234,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 39.5
+  m_fontSizeBase: 39.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 9
@@ -730,7 +737,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10.05
+  m_fontSize: 19.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
