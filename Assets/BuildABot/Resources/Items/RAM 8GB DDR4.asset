@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9b1b939c6a4ce98d380593a05f1a20, type: 3}
+  m_Name: RAM 8GB DDR4
+  m_EditorClassIdentifier: 
+  displayName: 8 GB DDR4
+  description: A single 8GB stick of DDR4 RAM. Good for gaming, great for mouse-bonking!
+  inventorySprite: {fileID: 21300000, guid: cc637f2b161105840b2c0f6b19d677b9, type: 3}
+  overworldSprite: {fileID: 21300000, guid: cc637f2b161105840b2c0f6b19d677b9, type: 3}
+  spriteTint: {r: 0, g: 0.6156863, b: 1, a: 1}
+  value: 80
+  partType: 5
+  maxDurability: 100
+  quality: 2
+  effects:
+  - effect: {fileID: 11400000, guid: 9901047f53ad594468350fb84eadc6ca, type: 2}
+    magnitude: 1.67
+  attack: {fileID: 0}
