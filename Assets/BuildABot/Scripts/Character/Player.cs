@@ -317,9 +317,10 @@ namespace BuildABot
             base.OnDisable();
         }
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
             onPlayerDestroyed.Invoke(this);
+            base.OnDestroy();
         }
 
         /**
@@ -338,6 +339,7 @@ namespace BuildABot
 
         protected override void Kill()
         {
+            StopCooling();
             onDeath.Invoke();
             GameManager.GameState.TotalDeaths++;
             // TODO: Play death animation

@@ -38,7 +38,8 @@ namespace BuildABot
         [Tooltip("An event triggered whenever a level finishes loading.")]
         [SerializeField] private UnityEvent onLevelLoaded;
 
-        private static AsyncOperation _loadingTask;
+        private AsyncOperation _loadingTask;
+        private GameOverDisplay _displayInstance;
 
         #region Public Properties
 
@@ -275,7 +276,7 @@ namespace BuildABot
 
         public static void GameOver(Player player)
         {
-            if (_loadingTask != null) return;
+            if (Instance._displayInstance != null || Instance._loadingTask != null) return;
             if (Initialized)
             {
                 GameState.StopTime = Time.realtimeSinceStartupAsDouble;
@@ -285,20 +286,22 @@ namespace BuildABot
                 player.PlayerController.InputActions.DialogueUI.Enable();
                 Pause();
                 AudioManager.FadeOutBackgroundTrack(5f);
-                GameOverDisplay displayInstance = Instantiate(Instance.gameOverDisplay, Instance.transform);
+                Instance._displayInstance = Instantiate(Instance.gameOverDisplay, Instance.transform);
 
                 void HandleDisplayFinished()
                 {
-                    displayInstance.OnFinish -= HandleDisplayFinished;
-                    _loadingTask = SceneManager.LoadSceneAsync("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
-                    _loadingTask.completed += operation =>
+                    Instance._displayInstance.OnFinish -= HandleDisplayFinished;
+                    Instance._loadingTask = SceneManager.LoadSceneAsync("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
+                    Instance._loadingTask.completed += operation =>
                     {
-                        Destroy(displayInstance.gameObject);
+                        Destroy(Instance._displayInstance.gameObject);
+                        Instance._displayInstance = null;
+                        Instance._loadingTask = null;
                     };
                 }
                 
-                displayInstance.OnFinish += HandleDisplayFinished;
-                displayInstance.Show();
+                Instance._displayInstance.OnFinish += HandleDisplayFinished;
+                Instance._displayInstance.Show();
             }
             else
             {
