@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -10,6 +11,9 @@ namespace BuildABot
 
         [SerializeField] private string sceneToLoad;
 
+        [SerializeField] private Animator animator;
+        private static readonly int OpenHash = Animator.StringToHash("Open");
+
         /** The current gamer. */
         public Player Gamer { get; private set; }
 
@@ -17,7 +21,8 @@ namespace BuildABot
         {
             Debug.LogFormat("Elevator: {0}", sceneToLoad);
             Gamer = instigator.Player;
-            GoingUp();
+            GameManager.Pause();
+            animator.SetTrigger(OpenHash);
             base.OnInteract(instigator);
         }
 

@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 2c1aa837d66a8aa48a27a2c1cebf9758, type: 3}
+  m_Sprite: {fileID: 9208482056940587940, guid: 2f3f460a1b738e248924728ddb9bd15c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -103,8 +103,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.4}
+    oldSize: {x: 1, y: 1.25}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -132,6 +132,7 @@ MonoBehaviour:
       m_Calls: []
   Name: Elevator
   sceneToLoad: MapGeneration
+  animator: {fileID: 1351189023280843829}
 --- !u!50 &7084709988631221732
 Rigidbody2D:
   serializedVersion: 4
@@ -163,7 +164,7 @@ Animator:
   m_GameObject: {fileID: 5663229579305658259}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ca371569d65dcb9498cdf7ba6ae6ad6e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 2
   m_ApplyRootMotion: 0
