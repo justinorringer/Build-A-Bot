@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 4912304968154874489}
   - component: {fileID: 2884051079493882025}
   m_Layer: 5
-  m_Name: InventoryOptionText
+  m_Name: RestartLevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1215,7 +1215,7 @@ GameObject:
   - component: {fileID: 4507940864072943}
   - component: {fileID: 3876410869462482255}
   - component: {fileID: 5569185370489023924}
-  - component: {fileID: 393461970897845503}
+  - component: {fileID: 6904214019178070334}
   m_Layer: 5
   m_Name: RestartLevelButton
   m_TagString: Untagged
@@ -1325,8 +1325,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 393461970897845503}
-        m_TargetAssemblyTypeName: BuildABot.LoadSceneControl, Assembly-CSharp
+      - m_Target: {fileID: 6904214019178070334}
+        m_TargetAssemblyTypeName: BuildABot.RestartLevelControl, Assembly-CSharp
         m_MethodName: Execute
         m_Mode: 1
         m_Arguments:
@@ -1350,7 +1350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 3876410869462482255}
---- !u!114 &393461970897845503
+--- !u!114 &6904214019178070334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1359,10 +1359,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6868446688345815310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a012617202a4822bfefb53dc7b5b221, type: 3}
+  m_Script: {fileID: 11500000, guid: 4db0eceace0b4b4f9272b7c175cb2962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   scene: MapGeneration
+  tutorialTargetScene: 
 --- !u!1 &7288006542252827349
 GameObject:
   m_ObjectHideFlags: 0
