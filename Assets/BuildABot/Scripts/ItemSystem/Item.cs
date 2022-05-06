@@ -26,8 +26,11 @@ namespace BuildABot
         [TextArea]
         [SerializeField] private string description;
         
-        [Tooltip("The tip displayed to the player when picking up this item for the first time..")]
-        [SerializeField] private string pickupTip;
+        [Tooltip("The tip displayed to the player when picking up this item for the first time.")]
+        [SerializeField] private string pickupTip = "You found a new item! Check it out in your inventory!";
+        
+        [Tooltip("The action used to dismiss this item's pickup tip")]
+        [SerializeField] private string pickupTipDismissAction = "{INPUT:Player:Interact}";
 
         [Tooltip("The sprite used by the item when displayed in the inventory.")]
         [SerializeField] private Sprite inventorySprite;
@@ -47,6 +50,12 @@ namespace BuildABot
         public string DisplayName => displayName;
         /** The description of this item (read-only). */
         public string Description => description;
+
+        /** The tip you see when you pick up this item */
+        public string PickupTip => pickupTip;
+        
+        /** The action to dismiss this item's pickup tip */
+        public string PickupTipDismissAction => pickupTipDismissAction;
 
         /** The type of this item. */
         public abstract EItemType Type { get; }
