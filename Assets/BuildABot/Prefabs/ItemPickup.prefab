@@ -51,6 +51,7 @@ MonoBehaviour:
   onPickup:
     m_PersistentCalls:
       m_Calls: []
+  tooltipMessage: 
 --- !u!212 &2681680376353605036
 SpriteRenderer:
   m_ObjectHideFlags: 0
