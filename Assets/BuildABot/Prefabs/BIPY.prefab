@@ -494,6 +494,35 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
+    attackSpeed:
+      defaultValue: 1
+      onInitialize:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostBaseValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPreValueChange:
+        m_PersistentCalls:
+          m_Calls: []
+      onPostValueChange:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 609926857222936973}
+            m_TargetAssemblyTypeName: BuildABot.Player, Assembly-CSharp
+            m_MethodName: UpdateAttackSpeed
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -1145,7 +1174,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5544799569382080600}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.85, z: -5}
+  m_LocalPosition: {x: 1, y: 0.8499999, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6011791652379697900}
@@ -1935,7 +1964,7 @@ PrefabInstance:
       objectReference: {fileID: 609926857222936973}
     - target: {fileID: 3360237168033550767, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
       propertyPath: m_fontSize
-      value: 12.7
+      value: 32.15
       objectReference: {fileID: 0}
     - target: {fileID: 5083325040445193608, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2043,11 +2072,11 @@ PrefabInstance:
       objectReference: {fileID: 907860813063632688}
     - target: {fileID: 7297464605415290706, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
       propertyPath: m_fontSize
-      value: 10.65
+      value: 26.95
       objectReference: {fileID: 0}
     - target: {fileID: 8693731640276870713, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 8.500198
+      value: 8.500244
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}

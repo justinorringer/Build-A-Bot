@@ -56,6 +56,8 @@ namespace BuildABot
         /** The main menu used by this player. */
         public MainMenu MainMenu => mainMenu;
 
+        private int _attackSpeedHash;
+
 #region Item and Equipment Handling
 
         /** The amount of currency owned by this player. */
@@ -292,6 +294,8 @@ namespace BuildABot
             EnableHUD();
             mainMenu.gameObject.SetActive(false);
             DontDestroyOnLoad(gameObject);
+
+            _attackSpeedHash = Animator.StringToHash("AttackSpeed");
         }
 
         protected override void OnEnable()
@@ -482,5 +486,9 @@ namespace BuildABot
             return source.ReplaceTokens(_textReplacementTokens);
         }
 
+        public void UpdateAttackSpeed()
+        {
+            playerMovement.Animator.SetFloat(_attackSpeedHash, Attributes.AttackSpeed.CurrentValue);
+        }
     }
 }

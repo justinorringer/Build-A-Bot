@@ -53,6 +53,9 @@ namespace BuildABot
         [Tooltip("The view distance multiplier that is used to zoom the camera in or out.")]
         [SerializeField] private FloatAttributeData viewDistance;
 
+        [Tooltip("The attack speed multiplier applied to the mouse attack.")]
+        [SerializeField] private FloatAttributeData attackSpeed;
+
         /** The temperature of the character, equivalent to health. */
         public FloatAttributeData Temperature => temperature;
         /** The standard operating temperature of the character. */
@@ -96,5 +99,8 @@ namespace BuildABot
 
         /** The view distance multiplier that is used to zoom the camera in or out. */
         public FloatAttributeData ViewDistance => viewDistance;
+
+        /** The attack speed multiplier applied to the mouse attack. */
+        public FloatAttributeData AttackSpeed => attackSpeed;
     }
 }
