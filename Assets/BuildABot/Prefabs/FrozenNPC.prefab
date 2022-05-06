@@ -4877,6 +4877,7 @@ GameObject:
   - component: {fileID: 7043223735353893882}
   - component: {fileID: 7043223735353893883}
   - component: {fileID: 7043223735353893880}
+  - component: {fileID: 5505139029241218836}
   m_Layer: 9
   m_Name: FrozenNPC
   m_TagString: Untagged
@@ -5191,6 +5192,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5505139029241218836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7043223735353893881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d469b17e2c24b758fca05f07d0e8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7043223735732795523
 PrefabInstance:
   m_ObjectHideFlags: 0

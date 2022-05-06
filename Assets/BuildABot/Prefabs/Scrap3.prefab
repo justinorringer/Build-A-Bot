@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 401376542083722891}
   - component: {fileID: 797959071217491430}
   - component: {fileID: 6966269966082009139}
+  - component: {fileID: -8074259518193688127}
   m_Layer: 0
   m_Name: Scrap3
   m_TagString: Untagged
@@ -220,3 +221,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bipy: {fileID: 0}
+--- !u!114 &-8074259518193688127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072250306664900938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d469b17e2c24b758fca05f07d0e8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
