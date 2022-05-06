@@ -79,6 +79,7 @@ namespace BuildABot
             if (interactable != null && interactable.CanInteract)
             {
                 _target = interactable;
+                Debug.Log(hit.transform.name);
                 interactable.DisplayMessage(this);
             }
             else

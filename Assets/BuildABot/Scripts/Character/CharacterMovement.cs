@@ -231,14 +231,14 @@ namespace BuildABot
 
             float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
 
-            if (targetVelocity != _rigidbody.velocity)
+            /*if (targetVelocity != _rigidbody.velocity)
             {
                 _velocityDamp = VelocityDamp(targetVelocity, dampTime);
                 StartCoroutine(_velocityDamp);
-            }
-            //_rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
+            }*/
+            _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime) + _knockback;
 
-            _rigidbody.velocity += _knockback;
+            //_rigidbody.velocity += _knockback;
             _knockback = Vector2.zero;
 
             // Update the direction the character is facing if it has changed

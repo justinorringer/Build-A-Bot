@@ -26,20 +26,19 @@ namespace BuildABot
         [Tooltip("The patrol points to be used by a walking or flying enemy")]
         [SerializeField] private List<Waypoint> patrolPoints;
 
-        private void Start()
-        {
-            //Logic will be - spawn enemy of game stage before level 4, afterwards do random
-            int stage = GameManager.GameState.NextLevelType;
-            int variant = stage >= 3 ? new Random().Next(0, stage) : stage;
+        private int variant;
 
-            //This is awful but it works :)
-            //Context: enemies were spawning before collision of level was fully spawned
-            Utility.DelayedFunction(this, .2f, () => { SpawnEnemy(variant); }, false);
+        void Awake()
+        {
+            int stage = GameManager.GameState.NextLevelType;
+            variant = stage >= 3 ? new Random().Next(0, stage) : stage;
+            SpawnEnemy();
         }
 
         //0 for normal, 1 for frozen, 2 for advanced
-        private void SpawnEnemy(int variant)
+        private void SpawnEnemy()
         {
+            Debug.Log("Spawning Enemy");
             GameObject g;
             Transform t = transform;
             switch (enemyToSpawn)
