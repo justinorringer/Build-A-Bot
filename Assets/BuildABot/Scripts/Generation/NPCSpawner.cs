@@ -10,7 +10,7 @@ namespace BuildABot
 
         private void Awake()
         {
-            if (GameManager.GameState.CompletedLevelCount == levelToSpawn - 1)
+            if (GameManager.GameState.CompletedLevelCount == levelToSpawn)
             {
                 Debug.Log("Spawning NPC");
                 Instantiate(npcToSpawn, transform.position, transform.rotation);
