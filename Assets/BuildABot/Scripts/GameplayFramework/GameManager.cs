@@ -37,7 +37,9 @@ namespace BuildABot
         
         [Tooltip("An event triggered whenever a level finishes loading.")]
         [SerializeField] private UnityEvent onLevelLoaded;
-        
+
+        private static AsyncOperation _loadingTask;
+
         #region Public Properties
 
         /** Is the game currently paused? */
@@ -269,6 +271,48 @@ namespace BuildABot
                         });
                     };
                 });
+        }
+
+        public static void GameOver(Player player)
+        {
+            if (_loadingTask != null) return;
+            if (Initialized)
+            {
+                GameState.StopTime = Time.realtimeSinceStartupAsDouble;
+                player.DisableHUD();
+                player.CloseMenu();
+                player.PlayerController.InputActions.Player.Disable();
+                player.PlayerController.InputActions.DialogueUI.Enable();
+                Pause();
+                AudioManager.FadeOutBackgroundTrack(5f);
+                GameOverDisplay displayInstance = Instantiate(Instance.gameOverDisplay, Instance.transform);
+
+                void HandleDisplayFinished()
+                {
+                    displayInstance.OnFinish -= HandleDisplayFinished;
+                    GameState.GameStage = 0;
+                    GameState.NextLevelType = 0;
+                    GameState.CompletedLevelCount = 0;
+                    GameState.KillCount = 0;
+                    GameState.ItemsBought = 0;
+                    GameState.ItemsSold = 0;
+                    GameState.TotalJumps = 0;
+                    GameState.TotalMoneyEarned = 0;
+                    _loadingTask = SceneManager.LoadSceneAsync("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
+                    _loadingTask.completed += operation =>
+                    {
+                        Destroy(displayInstance.gameObject);
+                    };
+                }
+                
+                displayInstance.OnFinish += HandleDisplayFinished;
+                displayInstance.Show();
+            }
+            else
+            {
+                Debug.LogWarning("Game over occured when GameManager was not initialized.");
+                SceneManager.LoadScene("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
+            }
         }
     }
 }
