@@ -74,12 +74,11 @@ namespace BuildABot
 
         protected virtual void Start()
         {
-            
+            Attributes.Temperature.OnPostValueChange += HandleTemperatureChange;
         }
 
         protected virtual void OnEnable()
         {
-            Attributes.Temperature.OnPostValueChange += HandleTemperatureChange;
             _coolingTask = Utility.RepeatFunction(this, () =>
             {
                 float currentTemp = Attributes.Temperature.BaseValue;
@@ -101,12 +100,16 @@ namespace BuildABot
 
         protected virtual void OnDisable()
         {
-            Attributes.Temperature.OnPostValueChange -= HandleTemperatureChange;
             if (_coolingTask != null)
             {
                 StopCoroutine(_coolingTask);
                 _coolingTask = null;
             }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            Attributes.Temperature.OnPostValueChange -= HandleTemperatureChange;
         }
 
         private void HandleTemperatureChange(float newTemperature)
