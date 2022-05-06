@@ -28,6 +28,9 @@ namespace BuildABot
         /** Hash of "jump peaked" parameter in the animator, stored for optimization */
         private int _jumpPeakedTriggerHash;
 
+        [Tooltip("Particle system to be played when this character lands")]
+        [SerializeField] private ParticleSystem landParticles;
+
         protected override void Awake()
         {
             base.Awake();
@@ -72,10 +75,17 @@ namespace BuildABot
 
         protected override void CheckGrounded()
         {
+            bool wasGrounded = IsGrounded;
+
             base.CheckGrounded();
 
             if (Animator != null && Animator.runtimeAnimatorController != null)
                 Animator.SetBool(_groundedBoolHash, IsGrounded);
+
+            if (!wasGrounded && IsGrounded)
+            {
+                landParticles?.Play();
+            }
         }
     }
 }
