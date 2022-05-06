@@ -122,6 +122,7 @@ MonoBehaviour:
   onHitCombatant:
     m_PersistentCalls:
       m_Calls: []
+  CDShatterParticle: {fileID: 3082527576879063623, guid: 626d1ce8527627e49b24e2fabf00ccbb, type: 3}
 --- !u!50 &419722241216213160
 Rigidbody2D:
   serializedVersion: 4
