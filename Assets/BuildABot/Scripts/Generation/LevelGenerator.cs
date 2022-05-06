@@ -352,23 +352,30 @@ namespace BuildABot {
         private void ChangeColor() {
             int nextLevel = GameManager.GameState.NextLevelType;
 
-            Color c = Color.white;
+            Color c;
+            Color background;
             switch (nextLevel) { //0 for normal, 1 for frozen, 2 for advanced
             case 0:
                 c = new Color(0.7764706f, 0.7607843f, 1.0f);
+                background = new Color(0.40f, 0.42f, 0.47f);
                 break;
             case 1:
                 c = new Color(0.4039216f, 0.7490196f, 0.9058824f);
+                background = new Color(0.30f, 0.45f, 0.57f);
                 break;
             case 2:
                 c = new Color(0.6705883f, 0.2f, 0.1882353f);
+                background = new Color(0.31f, 0.21f, 0.21f);
                 break;
             default:
                 c = new Color( 0.0f, 0.0f, 0.0f);
+                //background = new Color(0.4078431f, 0.4156863f, 0.4745098f);
+                background = new Color(0.40f, 0.42f, 0.47f);
                 break;
             }
 
             tilemap.GetComponent<Tilemap>().color = c;
+            if (Camera.main != null) Camera.main.backgroundColor = background;
             Debug.Log("Changed color");
         }
     }
