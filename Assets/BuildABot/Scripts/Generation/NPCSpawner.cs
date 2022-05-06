@@ -12,7 +12,7 @@ namespace BuildABot
         {
             if (GameManager.GameState.CompletedLevelCount == levelToSpawn)
             {
-                Debug.Log("Spawning NPC");
+                //Debug.Log("Spawning NPC");
                 Instantiate(npcToSpawn, transform.position, transform.rotation);
             }
         }

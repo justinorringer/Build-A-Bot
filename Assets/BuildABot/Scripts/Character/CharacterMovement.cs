@@ -141,9 +141,6 @@ namespace BuildABot
         /** Reference to this character's animator*/
         public Animator Animator => _anim;
 
-        [Tooltip("Particle system to be played when this character lands")]
-        [SerializeField] private ParticleSystem landParticles;
-
         protected virtual void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -208,6 +205,10 @@ namespace BuildABot
                         targetVelocity = _rigidbody.velocity;
                         break;
                 }
+
+                float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
+
+                _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime) + _knockback;
             }
 
             // Play or stop audio based on whether the character is moving in the way their movement mode specifies
@@ -231,15 +232,6 @@ namespace BuildABot
             {
                 _inMotion = false;
             }
-
-            float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
-
-            /*if (targetVelocity != _rigidbody.velocity)
-            {
-                _velocityDamp = VelocityDamp(targetVelocity, dampTime);
-                StartCoroutine(_velocityDamp);
-            }*/
-            _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime) + _knockback;
 
             //_rigidbody.velocity += _knockback;
             _knockback = Vector2.zero;
@@ -398,17 +390,12 @@ namespace BuildABot
          */
         protected virtual void CheckGrounded()
         {
-            bool wasGrounded = _isGrounded;
-
+            
             // Note: Character can only be grounded if in walking mode
             _isGrounded = Physics2D.BoxCast(RootPosition, new Vector2(_extents.x * 2, 0.1f),
                 0, Vector2.down, 0.07f, 
                 Physics2D.AllLayers & ~LayerMask.GetMask("Player", "Ignore Raycast")) && IsWalking;
 
-            if(!wasGrounded && _isGrounded)
-            {
-                landParticles?.Play();
-            }
         }
     }
 }

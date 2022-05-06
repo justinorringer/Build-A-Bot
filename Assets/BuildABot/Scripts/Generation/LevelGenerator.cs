@@ -381,7 +381,6 @@ namespace BuildABot {
 
             tilemap.GetComponent<Tilemap>().color = c;
             if (Camera.main != null) Camera.main.backgroundColor = background;
-            Debug.Log("Changed color");
         }
 
         private void ChangeMusic()

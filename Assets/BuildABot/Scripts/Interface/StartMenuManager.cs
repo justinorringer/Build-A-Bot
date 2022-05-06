@@ -37,8 +37,13 @@ namespace BuildABot
             versionDisplay.gameObject.SetActive(true);
             versionDisplay.text = Application.version;
 #endif
-            AudioManager.RestartBackgroundTrack();
+            if (AudioManager.CurrentBackgroundTrack != AudioManager.DefaultBackgroundTrack)
+            {
+                AudioManager.CrossFadeToDefaultTrack(1f);
+            }
             AudioManager.EaseBackgroundTrackVolume(1f, AudioManager.DefaultVolume);
+            
+            GameManager.ResetGameState();
         }
 
         public void MarkStartTime()

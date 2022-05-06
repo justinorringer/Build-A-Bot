@@ -238,7 +238,7 @@ namespace BuildABot
 
             AsyncOperation loadTask = null;
             Instance._loadingScreenInstance = Instantiate(Instance.loadingScreen, Instance.transform);
-            Debug.Log("Showing loading screen");
+            //Debug.Log("Showing loading screen");
             Instance._loadingScreenInstance.Begin(() => Mathf.Clamp01((loadTask?.progress ?? 0) / 0.9f),
                 () => {
                     if (player == null)
@@ -249,19 +249,19 @@ namespace BuildABot
                         player.PlayerController.enabled = false;
                         player.CharacterMovement.ClearMovement();
                     }
-                    Debug.Log("Beginning scene load");
+                    //Debug.Log("Beginning scene load");
                     Instance.onLevelBeginLoad.Invoke();
                     loadTask = SceneManager.LoadSceneAsync(level, mode);
                     loadTask.completed += asyncOperation =>
                     {
-                        Debug.Log("Finished loading level");
+                        //Debug.Log("Finished loading level");
                         Instance.onLevelLoaded.Invoke();
                         Instance._loadingScreenInstance.End(() =>
                         {
-                            Debug.Log("Finished closing load screen");
+                            //Debug.Log("Finished closing load screen");
                             Destroy(Instance._loadingScreenInstance.gameObject);
                             Instance._loadingScreenInstance = null;
-                            Debug.Log("Resuming gameplay");
+                            //Debug.Log("Resuming gameplay");
                             Unpause();
                             if (player != null)
                             {
@@ -290,14 +290,6 @@ namespace BuildABot
                 void HandleDisplayFinished()
                 {
                     displayInstance.OnFinish -= HandleDisplayFinished;
-                    GameState.GameStage = 0;
-                    GameState.NextLevelType = 0;
-                    GameState.CompletedLevelCount = 0;
-                    GameState.KillCount = 0;
-                    GameState.ItemsBought = 0;
-                    GameState.ItemsSold = 0;
-                    GameState.TotalJumps = 0;
-                    GameState.TotalMoneyEarned = 0;
                     _loadingTask = SceneManager.LoadSceneAsync("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
                     _loadingTask.completed += operation =>
                     {
@@ -313,6 +305,18 @@ namespace BuildABot
                 Debug.LogWarning("Game over occured when GameManager was not initialized.");
                 SceneManager.LoadScene("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
             }
+        }
+
+        public static void ResetGameState()
+        {
+            GameState.GameStage = 0;
+            GameState.NextLevelType = 0;
+            GameState.CompletedLevelCount = 0;
+            GameState.KillCount = 0;
+            GameState.ItemsBought = 0;
+            GameState.ItemsSold = 0;
+            GameState.TotalJumps = 0;
+            GameState.TotalMoneyEarned = 0;
         }
     }
 }
