@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5663229579305658256}
   - component: {fileID: 5663229579305658257}
   - component: {fileID: 5663229579305658258}
-  - component: {fileID: 8362556912416965200}
   m_Layer: 0
   m_Name: Elevator
   m_TagString: Untagged
@@ -131,34 +130,6 @@ MonoBehaviour:
       m_Calls: []
   Name: Elevator
   sceneToLoad: MapGeneration
---- !u!114 &8362556912416965200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5663229579305658259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d151c8363e54a9489dafee9296204f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameplayEvent: {fileID: 11400000, guid: d3ad9434699154e428cb70c2d8b411b1, type: 2}
-  onEventReceived:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: 0120606203be8044090e246c2034a170, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1001 &5791017830652131024
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -236,11 +207,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2562476361582517021, guid: efb4ce798ed723947a1bbd487d70f41a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 41.41
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2562476361582517021, guid: efb4ce798ed723947a1bbd487d70f41a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4.3
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2562476361582517021, guid: efb4ce798ed723947a1bbd487d70f41a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

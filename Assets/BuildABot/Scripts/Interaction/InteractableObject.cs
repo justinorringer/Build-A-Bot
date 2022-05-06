@@ -26,7 +26,7 @@ namespace BuildABot
 
         public void SuppressMessage()
         {
-            // interactionDisplay.Suppress();
+            interactionDisplay.Suppress();
         }
         
         public void DisplayMessage(InteractionController instigator)
