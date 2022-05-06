@@ -290,7 +290,6 @@ namespace BuildABot
                 void HandleDisplayFinished()
                 {
                     displayInstance.OnFinish -= HandleDisplayFinished;
-                    //ResetGameState();
                     _loadingTask = SceneManager.LoadSceneAsync("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
                     _loadingTask.completed += operation =>
                     {
