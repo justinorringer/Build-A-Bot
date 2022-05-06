@@ -137,6 +137,8 @@ namespace BuildABot {
 
         public bool hasNPC {get; set;} // boolean used to get at most 1 NPC per map
 
+        [SerializeField] private AudioClip altBackgroundMusic;
+
         void Awake()
         {
             map = new Map();
@@ -163,6 +165,9 @@ namespace BuildABot {
 
             // this function sets the color of the tiles based on GameManager level
             ChangeColor();
+            
+            // logic for changing music on advanced levels
+            ChangeMusic();
 
             // Let level generate then scan with A*
             Utility.DelayedFunction(this, 0.5f, () => {
@@ -241,10 +246,10 @@ namespace BuildABot {
                     // First, I need to check if the left or right of this room is open
                     if (current[0] + 1 < map.mapSize - 1 && map.grid[current[0] + 1, current[1]].GetRoomType() == RoomType.NONE) {
                         // if so, create a dead end room
-                        if (Random.Range(0, 3) == 0)
+                        if (Random.Range(0, 3) > 0)
                             map.grid[current[0] + 1, current[1]].isLEnd = true; // set the room to be a dead end
                     } else if (current[0] - 1 >= 1 && map.grid[current[0] - 1, current[1]].GetRoomType() == RoomType.NONE) {
-                        if (Random.Range(0, 3) == 0) // if so, create a dead end room
+                        if (Random.Range(0, 3) > 0) // if so, create a dead end room
                             map.grid[current[0] - 1, current[1]].isREnd = true;
                     }
 
@@ -377,6 +382,18 @@ namespace BuildABot {
             tilemap.GetComponent<Tilemap>().color = c;
             if (Camera.main != null) Camera.main.backgroundColor = background;
             Debug.Log("Changed color");
+        }
+
+        private void ChangeMusic()
+        {
+            if (GameManager.GameState.NextLevelType == 2)
+            {
+                if (AudioManager.CurrentBackgroundTrack != altBackgroundMusic)
+                    AudioManager.CrossFadeToNewTrack(altBackgroundMusic, 1f);
+            } else if (AudioManager.CurrentBackgroundTrack == altBackgroundMusic)
+            {
+                AudioManager.CrossFadeToDefaultTrack(1f);
+            }
         }
     }
 }

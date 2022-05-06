@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d151c8363e54a9489dafee9296204f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameplayEvent: {fileID: 11400000, guid: d3ad9434699154e428cb70c2d8b411b1, type: 2}
+  gameplayEvent: {fileID: 11400000, guid: fe41d9c330f088147a383e2d8b953b95, type: 2}
   onEventReceived:
     m_PersistentCalls:
       m_Calls:

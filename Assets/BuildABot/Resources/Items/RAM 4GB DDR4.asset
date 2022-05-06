@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: RAM 4GB DDR4
   m_EditorClassIdentifier: 
   displayName: 4 GB DDR4
-  description: A single 4GB stick of DDR4 RAM.
+  description: A single 4GB stick of DDR4 RAM. This will help run processes much
+    faster. Processes like hitting stuff with your mouse.
   inventorySprite: {fileID: 21300000, guid: cc637f2b161105840b2c0f6b19d677b9, type: 3}
   overworldSprite: {fileID: 21300000, guid: cc637f2b161105840b2c0f6b19d677b9, type: 3}
+  spriteTint: {r: 1, g: 1, b: 1, a: 1}
   value: 80
   partType: 5
   maxDurability: 100
   quality: 1
-  effects: []
+  effects:
+  - effect: {fileID: 11400000, guid: 9901047f53ad594468350fb84eadc6ca, type: 2}
+    magnitude: 1.33
   attack: {fileID: 0}
