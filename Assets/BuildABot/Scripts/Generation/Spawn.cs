@@ -28,6 +28,8 @@ namespace BuildABot {
             pickup.Item = i.Item;
 
             pickup.Count = i.Count;
+
+            //pickup.tooltipMessage = i.Item.TooltipMessage;
         }
     }
 }
