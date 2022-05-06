@@ -768,6 +768,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2698800629643352490, guid: 41553a8ca5af0dc4a99b0ae572f63daa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4205998182262134951, guid: 41553a8ca5af0dc4a99b0ae572f63daa, type: 3}
+      propertyPath: m_SortingOrder
+      value: -100
+      objectReference: {fileID: 0}
     - target: {fileID: 6523358462151101991, guid: 41553a8ca5af0dc4a99b0ae572f63daa, type: 3}
       propertyPath: m_Enabled
       value: 0
