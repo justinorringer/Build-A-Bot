@@ -78,6 +78,20 @@ namespace BuildABot
             _playerInput = GetComponent<PlayerInput>();
             _cameraController = GetComponent<CameraController>();
             InputActions.Player.Enable();
+            
+            // Gather input lookups
+            foreach (InputActionMap actionMap in InputActions.asset.actionMaps)
+            {
+                foreach (InputAction action in actionMap)
+                {
+                    if (action != null)
+                    {
+                        _inputActionLookup.Add($"{{INPUT:{actionMap.name}:{action.name}}}", action);
+                        _inputEventLookup.Add(action, new UnityEvent());
+                        action.performed += HandleInputAction;
+                    }
+                }
+            }
         }
 
         private void HandleInputAction(InputAction.CallbackContext callback)
@@ -105,20 +119,6 @@ namespace BuildABot
             // Bind UI inputs
 
             InputActions.UI.CloseMenu.performed += UI_OnCloseMenu;
-            
-            // Gather input lookups
-            foreach (InputActionMap actionMap in InputActions.asset.actionMaps)
-            {
-                foreach (InputAction action in actionMap)
-                {
-                    if (action != null)
-                    {
-                        _inputActionLookup.Add($"{{INPUT:{actionMap.name}:{action.name}}}", action);
-                        _inputEventLookup.Add(action, new UnityEvent());
-                        action.performed += HandleInputAction;
-                    }
-                }
-            }
         }
 
         protected void OnDisable()
@@ -138,7 +138,10 @@ namespace BuildABot
             // Unbind UI inputs
 
             InputActions.UI.CloseMenu.performed -= UI_OnCloseMenu;
-            
+        }
+
+        private void OnDestroy()
+        {
             // Clear input lookups
             foreach (var entry in _inputEventLookup)
             {
