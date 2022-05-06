@@ -1363,7 +1363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: MapGeneration
-  tutorialTargetScene: 
+  tutorialStartPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &7288006542252827349
 GameObject:
   m_ObjectHideFlags: 0
@@ -2079,7 +2079,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1077974003852238054, guid: aa937ac1727da4b499e9521a0e8cb9a7, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -390.09998
+      value: -391
       objectReference: {fileID: 0}
     - target: {fileID: 1077974003852238054, guid: aa937ac1727da4b499e9521a0e8cb9a7, type: 3}
       propertyPath: m_AnchoredPosition.y

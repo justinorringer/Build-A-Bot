@@ -1,22 +1,28 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace BuildABot
 {
-    public class CurrentFloorDisplay : MonoBehaviour
+    public class WalletDisplay : MonoBehaviour
     {
+        [SerializeField] private HUD hud;
         [SerializeField] private Image background;
         [SerializeField] private Image border;
-        [SerializeField] private TMP_Text floorNumber;
+        [SerializeField] private TMP_Text walletNumber;
 
         protected void Awake()
         {
             GameManager.OnLevelLoaded += OnNewLevel;
+            hud.Player.OnWalletChanged += OnWalletUpdate;
             OnNewLevel();
+            OnWalletUpdate(0, 0);
         }
+
         protected void OnDestroy()
         {
+            hud.Player.OnWalletChanged -= OnWalletUpdate;
             if (GameManager.Initialized) GameManager.OnLevelLoaded -= OnNewLevel;
         }
 
@@ -47,7 +53,11 @@ namespace BuildABot
             //background.color = backgroundColor;
             background.color = color * 0.75f;
             border.color = color;
-            floorNumber.text = $"{GameManager.GameState.CompletedLevelCount + 1}";
+        }
+
+        private void OnWalletUpdate(int oldValue, int newValue)
+        {
+            walletNumber.text = $"${newValue}";
         }
     }
 }
