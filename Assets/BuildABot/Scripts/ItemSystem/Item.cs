@@ -25,6 +25,9 @@ namespace BuildABot
         [Tooltip("The description of this item that is displayed in-game.")]
         [TextArea]
         [SerializeField] private string description;
+        
+        [Tooltip("The tip displayed to the player when picking up this item for the first time..")]
+        [SerializeField] private string pickupTip;
 
         [Tooltip("The sprite used by the item when displayed in the inventory.")]
         [SerializeField] private Sprite inventorySprite;
