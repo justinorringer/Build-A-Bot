@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5146844625953360832}
   - component: {fileID: 5146844625953360833}
   - component: {fileID: 5146844625953360834}
+  - component: {fileID: -7601519098946446329}
   m_Layer: 9
   m_Name: AshPileNPC
   m_TagString: Untagged
@@ -329,6 +330,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-7601519098946446329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5146844625953360891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d469b17e2c24b758fca05f07d0e8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5146844626901278646
 GameObject:
   m_ObjectHideFlags: 0

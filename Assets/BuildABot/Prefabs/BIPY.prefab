@@ -4960,6 +4960,7 @@ GameObject:
   - component: {fileID: 6603460009920814674}
   - component: {fileID: 7920212850124570677}
   - component: {fileID: 9011553247723987832}
+  - component: {fileID: 8687223430673050616}
   m_Layer: 7
   m_Name: BIPY
   m_TagString: Player
@@ -5441,9 +5442,9 @@ MonoBehaviour:
   downArcGravity: 1.7
   accelerationTime: 0.1
   decelerationTime: 0.01
-  landParticles: {fileID: 9117780246028777829}
   source: {fileID: 907860813063632688}
   jumpSound: {fileID: 8300000, guid: bb99ef8d404037643a65ae790e3efcfc, type: 3}
+  landParticles: {fileID: 9117780246028777829}
 --- !u!114 &878766306424404202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5803,6 +5804,18 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &8687223430673050616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609926857222936980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d469b17e2c24b758fca05f07d0e8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3162087834383454061
 GameObject:
   m_ObjectHideFlags: 0
@@ -6038,7 +6051,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5544799569382080600}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.8499999, z: -5}
+  m_LocalPosition: {x: 1, y: 0.85, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6011791652379697900}
@@ -6826,6 +6839,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 609926857222936973}
+    - target: {fileID: 2170401158759618656, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
+      propertyPath: m_fontSize
+      value: 54.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2374657008795149269, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
+      propertyPath: m_fontSize
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 3360237168033550767, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
       propertyPath: m_fontSize
       value: 32.15
@@ -6836,6 +6857,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5083325040445193608, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507495168168962685, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7288006542252827345, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
@@ -6936,7 +6961,15 @@ PrefabInstance:
       objectReference: {fileID: 907860813063632688}
     - target: {fileID: 7297464605415290706, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
       propertyPath: m_fontSize
-      value: 26.95
+      value: 27.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432322922878974361, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
+      propertyPath: m_fontSize
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432322922878974361, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 8693731640276870713, guid: 2f893a51f3595b34485ffa08d66f19f1, type: 3}
       propertyPath: m_AnchoredPosition.x
