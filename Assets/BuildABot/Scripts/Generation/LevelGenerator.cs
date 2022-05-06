@@ -349,7 +349,7 @@ namespace BuildABot {
             r.transform.parent = tilemap.transform;
         }
 
-        private void ChangeColor() {
+        public void ChangeColor() {
             int nextLevel = GameManager.GameState.NextLevelType;
 
             Color c;
