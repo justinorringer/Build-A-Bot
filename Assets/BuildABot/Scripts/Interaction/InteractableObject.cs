@@ -31,6 +31,7 @@ namespace BuildABot
         
         public void DisplayMessage(InteractionController instigator)
         {
+            Debug.Log("HERE");
             interactionDisplay.DisplayMessage(instigator.Player, "{INPUT:Player:Interact} Enter the " + Name);
         }
 
