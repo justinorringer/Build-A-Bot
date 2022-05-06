@@ -495,7 +495,7 @@ MonoBehaviour:
               m_BoolArgument: 0
             m_CallState: 2
     attackSpeed:
-      defaultValue: 0
+      defaultValue: 1
       onInitialize:
         m_PersistentCalls:
           m_Calls: []
