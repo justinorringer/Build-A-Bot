@@ -126,8 +126,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -6, y: 6}
-  m_SizeDelta: {x: 12, y: 12}
+  m_AnchoredPosition: {x: -8, y: 6}
+  m_SizeDelta: {x: 16, y: 12}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8122686479592616173
 CanvasRenderer:
@@ -439,7 +439,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497299506186235681}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1091,7 +1091,7 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &4212078846684931758
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1154,7 +1154,7 @@ MonoBehaviour:
   m_fontSizeMin: 4
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1477,7 +1477,7 @@ MonoBehaviour:
   player: {fileID: 0}
   dialogueDisplay: {fileID: 1476272353634760046}
   inputHelp: {fileID: 774072760095371465}
-  notificationDisplay: {fileID: 0}
+  notificationDisplay: {fileID: 2324303955207871028}
 --- !u!82 &8413230338899718958
 AudioSource:
   m_ObjectHideFlags: 0
