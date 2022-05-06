@@ -208,6 +208,10 @@ namespace BuildABot
                         targetVelocity = _rigidbody.velocity;
                         break;
                 }
+
+                float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
+
+                _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime) + _knockback;
             }
 
             // Play or stop audio based on whether the character is moving in the way their movement mode specifies
@@ -231,15 +235,6 @@ namespace BuildABot
             {
                 _inMotion = false;
             }
-
-            float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
-
-            /*if (targetVelocity != _rigidbody.velocity)
-            {
-                _velocityDamp = VelocityDamp(targetVelocity, dampTime);
-                StartCoroutine(_velocityDamp);
-            }*/
-            _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime) + _knockback;
 
             //_rigidbody.velocity += _knockback;
             _knockback = Vector2.zero;
