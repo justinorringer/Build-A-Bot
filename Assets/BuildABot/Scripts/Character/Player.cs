@@ -409,6 +409,15 @@ namespace BuildABot
         }
 
         /**
+         * Pushes a notification to the player.
+         * <param name="message">The notification message to push.</param>
+         */
+        public void PushNotification(string message)
+        {
+            HUD.NotificationDisplay.ShowMessage(PerformStandardTokenReplacement(message));
+        }
+
+        /**
          * Show a help menu to the player.
          * <param name="message">The message to display.</param>
          * <param name="title">The title of the alert.</param>
