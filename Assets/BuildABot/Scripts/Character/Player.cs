@@ -331,7 +331,7 @@ namespace BuildABot
             if (target.Character is Enemy enemy)
             {
                 Wallet += enemy.DroppedCurrency;
-                Debug.Log($"Wallet has {Wallet} coins");
+                //Debug.Log($"Wallet has {Wallet} coins");
             }
         }
 

@@ -49,7 +49,7 @@ namespace BuildABot
             {
                 DisplayNextRequest();
             }
-            else Debug.Log("Already enabled");
+            //else Debug.Log("Already enabled");
         }
 
         /**

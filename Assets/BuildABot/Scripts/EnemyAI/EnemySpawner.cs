@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
@@ -26,32 +25,32 @@ namespace BuildABot
         [Tooltip("The patrol points to be used by a walking or flying enemy")]
         [SerializeField] private List<Waypoint> patrolPoints;
 
-        private int variant;
+        private int _variant;
 
         void Awake()
         {
             int stage = GameManager.GameState.NextLevelType;
-            variant = stage >= 3 ? new Random().Next(0, stage) : stage;
+            _variant = stage >= 3 ? new Random().Next(0, stage) : stage;
             SpawnEnemy();
         }
 
         //0 for normal, 1 for frozen, 2 for advanced
         private void SpawnEnemy()
         {
-            Debug.Log("Spawning Enemy");
+            //Debug.Log("Spawning Enemy");
             GameObject g;
             Transform t = transform;
             switch (enemyToSpawn)
             {
                 case EnemyType.Flying:
-                    g = Instantiate(flyingEnemies[variant], t.position, t.rotation);
+                    g = Instantiate(flyingEnemies[_variant], t.position, t.rotation);
                     g.GetComponent<EnemyController>().setPatrolPoints(patrolPoints);
                     break;
                 case EnemyType.Turret:
-                    Instantiate(turretEnemies[variant], t.position, t.rotation);
+                    Instantiate(turretEnemies[_variant], t.position, t.rotation);
                     break;
                 case EnemyType.Walking:
-                    g = Instantiate(walkingEnemies[variant], t.position, t.rotation);
+                    g = Instantiate(walkingEnemies[_variant], t.position, t.rotation);
                     g.GetComponent<EnemyController>().setPatrolPoints(patrolPoints);
                     break;
             }
