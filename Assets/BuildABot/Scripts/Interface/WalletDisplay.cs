@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ namespace BuildABot
         [SerializeField] private Image background;
         [SerializeField] private Image border;
         [SerializeField] private TMP_Text walletNumber;
+        private IEnumerator _displayTask;
 
         protected void Awake()
         {
@@ -57,7 +59,25 @@ namespace BuildABot
 
         private void OnWalletUpdate(int oldValue, int newValue)
         {
-            walletNumber.text = $"${newValue}";
+            //walletNumber.text = $"$ {newValue}";
+            int delta = newValue - oldValue;
+            int interval = delta / 20;
+
+            int i = 0;
+            if (_displayTask != null)
+            {
+                walletNumber.text = $"$ {oldValue}";
+                StopCoroutine(_displayTask);
+            }
+            _displayTask = Utility.RepeatFunction(this, () =>
+            {
+                walletNumber.text = $"$ {oldValue + (i * interval)}";
+                i++;
+            }, 0.05f, 20, () =>
+            {
+                _displayTask = null;
+                walletNumber.text = $"$ {newValue}";
+            });
         }
     }
 }
