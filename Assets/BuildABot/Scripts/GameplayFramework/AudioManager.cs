@@ -23,6 +23,8 @@ namespace BuildABot
         public static float DefaultVolume => Initialized ? Instance.defaultBackgroundVolume : 0;
         public static AudioClip CurrentBackgroundTrack => Initialized ? Instance.primaryBackgroundPlayer.clip : null;
 
+        public static AudioClip DefaultBackgroundTrack => Initialized ? Instance.defaultBackgroundTrack : null;
+
         protected override void Awake()
         {
             base.Awake();
