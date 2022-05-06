@@ -561,6 +561,12 @@ MonoBehaviour:
     m_Scale: 1
     m_Name: 9
     m_HashCode: 57
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 30
+    m_Scale: 1
+    m_Name: delta
+    m_HashCode: 115079512
   m_SpriteGlyphTable:
   - m_Index: 0
     m_Metrics:
