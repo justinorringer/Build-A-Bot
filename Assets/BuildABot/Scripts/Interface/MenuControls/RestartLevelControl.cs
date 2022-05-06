@@ -8,15 +8,15 @@ namespace BuildABot
         [Tooltip("The name of the scene to load.")]
         [SerializeField] private string scene; // TODO: Create or use a scene selection tool
         
-        [Tooltip("The name of the scene to load when in the tutorial level.")]
-        [SerializeField] private string tutorialTargetScene;
+        [Tooltip("The position in the scene to put the player at in the tutorial level.")]
+        [SerializeField] private Vector3 tutorialStartPosition;
         
         public void Execute()
         {
             if (!GameManager.Initialized) GameManager.OpenLevel(scene);
             else
             {
-                if (GameManager.GameState.CompletedLevelCount == 0) GameManager.OpenLevel(tutorialTargetScene);
+                if (GameManager.GameState.CompletedLevelCount == 0) GameManager.GetPlayer().transform.position = tutorialStartPosition;
                 else GameManager.OpenLevel(scene);
             }
         }
