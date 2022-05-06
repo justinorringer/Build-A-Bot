@@ -398,6 +398,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackgroundAudioOverrideVolume
       objectReference: {fileID: 0}
+    - target: {fileID: 3187341423574852795, guid: 198e44c07977d9e4bb0cda7a9496852c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4636599165663538134, guid: 198e44c07977d9e4bb0cda7a9496852c, type: 3}
       propertyPath: m_Size.x
       value: 8
