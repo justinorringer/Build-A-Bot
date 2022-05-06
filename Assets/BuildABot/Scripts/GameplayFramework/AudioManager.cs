@@ -21,6 +21,7 @@ namespace BuildABot
         public static float CurrentVolume => Initialized ? Instance._currentVolume : 0;
 
         public static float DefaultVolume => Initialized ? Instance.defaultBackgroundVolume : 0;
+        public static AudioClip CurrentBackgroundTrack => Initialized ? Instance.primaryBackgroundPlayer.clip : null;
 
         protected override void Awake()
         {
