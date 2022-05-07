@@ -999,6 +999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: CreditsScene
+  suppressPlayerSpawn: 1
 --- !u!1 &973467889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,6 +1863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: TutorialScene
+  suppressPlayerSpawn: 0
 --- !u!114 &1934316335
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -214,8 +214,9 @@ namespace BuildABot
          * Opens the specified level. If using a single load scene mode, the current scene will be unloaded.
          * <param name="level">The level to load.</param>
          * <param name="mode">The mode to use when loading the level.</param>
+         * <param name="suppressPlayerSpawn">Should the spawning of a player instance be suppressed for this load?</param>
          */
-        public static void OpenLevel(string level, LoadSceneMode mode = LoadSceneMode.Single)
+        public static void OpenLevel(string level, LoadSceneMode mode = LoadSceneMode.Single, bool suppressPlayerSpawn = false)
         {
             if (!Initialized)
             {
@@ -242,7 +243,7 @@ namespace BuildABot
             //Debug.Log("Showing loading screen");
             Instance._loadingScreenInstance.Begin(() => Mathf.Clamp01((loadTask?.progress ?? 0) / 0.9f),
                 () => {
-                    if (player == null)
+                    if (player == null && !suppressPlayerSpawn)
                     {
                         player = Instantiate(Instance.playerTemplate, Vector3.zero, Quaternion.identity);
                         player.DisableHUD();
