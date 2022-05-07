@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9b1b939c6a4ce98d380593a05f1a20, type: 3}
+  m_Name: MidWifiCard
+  m_EditorClassIdentifier: 
+  displayName: Standard Wireless Card
+  description: A more modern card for sending out wireless signals. Make sure your
+    connection is secure!
+  pickupTip: Try sending out a signal!
+  pickupTipDismissAction: '{INPUT:Player:AoeAttack}'
+  inventorySprite: {fileID: 21300000, guid: 8d512a5cfaf8ee243a1192003ea9c2c7, type: 3}
+  overworldSprite: {fileID: 21300000, guid: 8d512a5cfaf8ee243a1192003ea9c2c7, type: 3}
+  spriteTint: {r: 0, g: 0.6156863, b: 1, a: 1}
+  value: 450
+  partType: 19
+  maxDurability: 300
+  quality: 2
+  effects: []
+  attack: {fileID: 11400000, guid: e1949feddc7275a43a3e3c2465811163, type: 2}

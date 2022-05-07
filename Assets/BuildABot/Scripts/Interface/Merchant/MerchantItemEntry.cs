@@ -91,7 +91,7 @@ namespace BuildABot
                 descriptionText.text = entry.Item.Description;
                 priceText.text = (_buying ? "Buy $" : "Sell $") + entry.Item.Value;
                 
-                CanPerformTransaction = !_buying || entry.Item.Value < _owner.Wallet;
+                CanPerformTransaction = !_buying || entry.Item.Value <= _owner.Wallet;
                 buyButton.interactable = CanPerformTransaction;
                 // Strikethrough options that are not valid
                 if (CanPerformTransaction) priceText.fontStyle &= ~FontStyles.Strikethrough;

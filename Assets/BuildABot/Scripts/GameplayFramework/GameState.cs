@@ -15,5 +15,7 @@ namespace BuildABot
         public int TotalJumps { get; set; }
         public int ItemsBought { get; set; }
         public int ItemsSold { get; set; }
+        public double StartTime { get; set; }
+        public double StopTime { get; set; }
     }
 }

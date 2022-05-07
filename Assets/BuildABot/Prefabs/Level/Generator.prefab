@@ -43,17 +43,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1198a324c2c2ee499791277f0f3179f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRoom: {fileID: 3542406863813844319, guid: 97e02df396a88864b9b7a9eaea4a4a18, type: 3}
+  startLeftRoom: {fileID: 3542406863813844319, guid: 97e02df396a88864b9b7a9eaea4a4a18, type: 3}
+  startRightRoom: {fileID: 3542406863813844319, guid: 9f4a784208b252a4191f856ad21de04d, type: 3}
   endRoom: {fileID: 3542406863813844319, guid: fe2e4605be9759b4aa187a4dc558bd60, type: 3}
   brickRoom: {fileID: 1171848507888753109, guid: 3eb044bf7fc313d4188780000e0c4733, type: 3}
-  lEndRoom: {fileID: 4841826492545132378, guid: a70faaf812956d049804d609d0799513, type: 3}
-  rEndRoom: {fileID: 4841826492545132378, guid: 1d27ae0bf6ca13f4099ed0f42deb6774, type: 3}
+  lEndRoom: {fileID: 7410503422390666813, guid: 7b5e816188c958f4fa2295bf81d1d554, type: 3}
+  rEndRoom: {fileID: 7410503422390666813, guid: f8d9a91624dbd864696032affd8fa8fe, type: 3}
   roomTemplates:
   - {fileID: 5458056088764377394, guid: 608eb0db44f6e784f94913220f006c10, type: 3}
   - {fileID: 4821458244901240838, guid: d95e6f505ed34b445ac8171cb12e10dc, type: 3}
   - {fileID: 7410503422390666813, guid: 50569aef56db252479f17974917b5e2e, type: 3}
   - {fileID: 8605746387740781414, guid: 97c3467563d630340809af3b8cb9e903, type: 3}
-  - {fileID: 7410503422390666813, guid: 62f349556b5f52e4f8fd55d6822a514b, type: 3}
+  - {fileID: 7410503422390666813, guid: 32d034dc720043b4b861417a1f305341, type: 3}
   tilemap: {fileID: 0}
   moveAmount: 8
   generate: 1
+  altBackgroundMusic: {fileID: 0}

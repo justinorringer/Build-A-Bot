@@ -13,7 +13,7 @@ namespace BuildABot
         [Min(0f)]
         [SerializeField] private float scale = 1.0f;
 
-        private void Apply()
+        public void Refresh()
         {
             if (TryGetComponent(out TMP_Text target) && relativeReference != null)
             {
@@ -25,13 +25,13 @@ namespace BuildABot
         #if UNITY_EDITOR
         private void OnValidate()
         {
-            Apply();
+            Refresh();
         }
         #endif
 
         private void Start()
         {
-            Apply();
+            Refresh();
         }
     }
 }

@@ -133,6 +133,7 @@ namespace BuildABot
         [SerializeField] private float decelerationTime = 0.05f;
 
         private IEnumerator _jumpFunction;
+        private IEnumerator _velocityDamp;
 
         /** Can this character move? */
         public bool CanMove { get; set; } = true;
@@ -204,6 +205,10 @@ namespace BuildABot
                         targetVelocity = _rigidbody.velocity;
                         break;
                 }
+
+                float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
+
+                _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime) + _knockback;
             }
 
             // Play or stop audio based on whether the character is moving in the way their movement mode specifies
@@ -228,15 +233,7 @@ namespace BuildABot
                 _inMotion = false;
             }
 
-            float dampTime = _rigidbody.velocity.magnitude < targetVelocity.magnitude ? accelerationTime : decelerationTime;
-
-            if (targetVelocity != _rigidbody.velocity)
-            {
-                StartCoroutine(VelocityDamp(targetVelocity, dampTime));
-            }
-            //_rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref _tempVelocity, dampTime);
-
-            _rigidbody.velocity += _knockback;
+            //_rigidbody.velocity += _knockback;
             _knockback = Vector2.zero;
 
             // Update the direction the character is facing if it has changed
@@ -393,10 +390,12 @@ namespace BuildABot
          */
         protected virtual void CheckGrounded()
         {
+            
             // Note: Character can only be grounded if in walking mode
             _isGrounded = Physics2D.BoxCast(RootPosition, new Vector2(_extents.x * 2, 0.1f),
                 0, Vector2.down, 0.07f, 
                 Physics2D.AllLayers & ~LayerMask.GetMask("Player", "Ignore Raycast")) && IsWalking;
+
         }
     }
 }

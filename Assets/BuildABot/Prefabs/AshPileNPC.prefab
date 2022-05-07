@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5146844625953360832}
   - component: {fileID: 5146844625953360833}
   - component: {fileID: 5146844625953360834}
+  - component: {fileID: -7601519098946446329}
   m_Layer: 9
   m_Name: AshPileNPC
   m_TagString: Untagged
@@ -30,8 +31,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5146844625953360891}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.6, y: 4.055, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 7269651234199553051}
   - {fileID: 5146844626901278647}
@@ -77,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -5673706460005992799, guid: 26391b6bf27617940b242aa96cf2eefd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -174,6 +175,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5146844625953360833}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody2D, UnityEngine
+        m_MethodName: set_gravityScale
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &5146844625953360832
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -212,7 +225,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 200
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -220,7 +233,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!82 &5146844625953360834
 AudioSource:
   m_ObjectHideFlags: 0
@@ -317,6 +330,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-7601519098946446329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5146844625953360891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d469b17e2c24b758fca05f07d0e8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5146844626901278646
 GameObject:
   m_ObjectHideFlags: 0
@@ -983,7 +1008,7 @@ ParticleSystem:
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: -0.15, z: -0.33}
-    m_Rotation: {x: -16.7, y: 0, z: 0}
+    m_Rotation: {x: 200, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -5158,11 +5183,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2562476361582517021, guid: efb4ce798ed723947a1bbd487d70f41a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 3
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2562476361582517021, guid: efb4ce798ed723947a1bbd487d70f41a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2562476361582517021, guid: efb4ce798ed723947a1bbd487d70f41a, type: 3}
       propertyPath: m_LocalPosition.x

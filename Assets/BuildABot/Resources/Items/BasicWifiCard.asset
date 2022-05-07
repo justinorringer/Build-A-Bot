@@ -15,11 +15,14 @@ MonoBehaviour:
   displayName: Basic Wireless Card
   description: A simple card that allows for wireless connections using Wi-Fi and
     bluetooth. This will let BIPY send out signals!
+  pickupTip: Try sending out a signal!
+  pickupTipDismissAction: '{INPUT:Player:AoeAttack}'
   inventorySprite: {fileID: 21300000, guid: 8d512a5cfaf8ee243a1192003ea9c2c7, type: 3}
   overworldSprite: {fileID: 21300000, guid: 8d512a5cfaf8ee243a1192003ea9c2c7, type: 3}
+  spriteTint: {r: 1, g: 1, b: 1, a: 1}
   value: 400
   partType: 19
   maxDurability: 300
   quality: 1
   effects: []
-  attack: {fileID: 11400000, guid: e0ddff33f159325449ed740abafd02a5, type: 2}
+  attack: {fileID: 11400000, guid: 86aaa027f7d483a4ea89f35476ab6850, type: 2}

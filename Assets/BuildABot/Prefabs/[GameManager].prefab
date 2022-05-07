@@ -49,6 +49,9 @@ MonoBehaviour:
   onInitialized:
     m_PersistentCalls:
       m_Calls: []
+  playerTemplate: {fileID: 609926857222936973, guid: 831dc42954592cb4199bbe46e8c132ba, type: 3}
+  gameOverDisplay: {fileID: 362336176340845377, guid: d74b3d5415b563344935bb567f060e4b, type: 3}
+  loadingScreen: {fileID: 5534775302464584394, guid: 2acafd18384def0449f7a866b1b75552, type: 3}
   onPause:
     m_PersistentCalls:
       m_Calls: []
@@ -56,6 +59,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onSetPaused:
+    m_PersistentCalls:
+      m_Calls: []
+  onLevelBeginUnload:
+    m_PersistentCalls:
+      m_Calls: []
+  onLevelUnloaded:
+    m_PersistentCalls:
+      m_Calls: []
+  onLevelBeginLoad:
+    m_PersistentCalls:
+      m_Calls: []
+  onLevelLoaded:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &4077070228582725019

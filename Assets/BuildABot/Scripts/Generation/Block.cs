@@ -8,7 +8,7 @@ namespace BuildABot {
     {
         private GameObject tilemap;
 
-        public Tile basicTile;
+        public RuleTile basicTile;
 
         [SerializeField] private bool optional = false;
 

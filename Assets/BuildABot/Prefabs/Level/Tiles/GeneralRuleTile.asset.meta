@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/BuildABot/Prefabs/Level/Tiles/GeneralRuleTile.asset.meta
+guid: 8fbc88159fa0b7c46ba27e26008b2fe4
+NativeFormatImporter:
+========
+guid: ce34b508d5d4e25429390a561c278de3
+PrefabImporter:
+>>>>>>>> dev:Assets/BuildABot/Prefabs/Level/NPCSpawner.prefab.meta
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

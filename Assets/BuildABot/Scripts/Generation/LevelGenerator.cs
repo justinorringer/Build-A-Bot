@@ -65,9 +65,13 @@ namespace BuildABot {
                     isBrick = false;
                 }
 
+                public bool getIsStart() {
+                    return isStart;
+                }
                 public RoomType GetRoomType() {
                     if (isStart) {
-                        return RoomType.START;
+                        if (connections[1]) return RoomType.RSTART; // if path to the right
+                        else return RoomType.LSTART;
                     } else if (isEnd) {
                         return RoomType.END;
                     } else if (isLEnd) {
@@ -112,7 +116,7 @@ namespace BuildABot {
 
         private int[] startingPositions = new int[ ] {0,1,2,3};
 
-        [SerializeField] public GameObject startRoom, endRoom, brickRoom, lEndRoom, rEndRoom;
+        [SerializeField] public GameObject startLeftRoom, startRightRoom, endRoom, brickRoom, lEndRoom, rEndRoom;
 
 
         public GameObject[] roomTemplates; 
@@ -133,7 +137,9 @@ namespace BuildABot {
 
         public bool hasNPC {get; set;} // boolean used to get at most 1 NPC per map
 
-        void Start()
+        [SerializeField] private AudioClip altBackgroundMusic;
+
+        void Awake()
         {
             map = new Map();
             hasNPC = false;
@@ -156,6 +162,12 @@ namespace BuildABot {
             }
 
             InstantiateGrid();
+
+            // this function sets the color of the tiles based on GameManager level
+            ChangeColor();
+            
+            // logic for changing music on advanced levels
+            ChangeMusic();
 
             // Let level generate then scan with A*
             Utility.DelayedFunction(this, 0.5f, () => {
@@ -187,7 +199,7 @@ namespace BuildABot {
                         direction = 5;
                     }
                 } else {
-                    if (map.grid[current[0], current[1]].isBrick || map.grid[current[0], current[1]].GetRoomType() == RoomType.START) {
+                    if (map.grid[current[0], current[1]].isBrick || map.grid[current[0], current[1]].getIsStart()) {
                         direction = Random.Range(3, 5);
 
                         return;
@@ -222,7 +234,7 @@ namespace BuildABot {
                         generate = false;
                     }
                 } else {
-                    if (map.grid[current[0], current[1]].GetRoomType() == RoomType.START) { // just in case this happens somehow
+                    if (map.grid[current[0], current[1]].getIsStart()) { // just in case this happens somehow
                         direction = Random.Range(1, 5);
 
                         return;
@@ -234,10 +246,10 @@ namespace BuildABot {
                     // First, I need to check if the left or right of this room is open
                     if (current[0] + 1 < map.mapSize - 1 && map.grid[current[0] + 1, current[1]].GetRoomType() == RoomType.NONE) {
                         // if so, create a dead end room
-                        if (Random.Range(0, 3) == 0)
+                        if (Random.Range(0, 3) > 0)
                             map.grid[current[0] + 1, current[1]].isLEnd = true; // set the room to be a dead end
                     } else if (current[0] - 1 >= 1 && map.grid[current[0] - 1, current[1]].GetRoomType() == RoomType.NONE) {
-                        if (Random.Range(0, 3) == 0) // if so, create a dead end room
+                        if (Random.Range(0, 3) > 0) // if so, create a dead end room
                             map.grid[current[0] - 1, current[1]].isREnd = true;
                     }
 
@@ -275,7 +287,7 @@ namespace BuildABot {
 
         private bool checkNPC()
         {
-            if (!hasNPC && Random.Range(0, 10) > 5)
+            if (!hasNPC && Random.Range(0, 10) > 7)
             {
                 hasNPC = true;
 
@@ -312,8 +324,11 @@ namespace BuildABot {
                         case RoomType.TRBL:
                             InstantiateRoom(roomTemplates[3], pos);
                             break;
-                        case RoomType.START:
-                            InstantiateRoom(startRoom, pos);
+                        case RoomType.LSTART:
+                            InstantiateRoom(startLeftRoom, pos);
+                            break;
+                        case RoomType.RSTART:
+                            InstantiateRoom(startRightRoom, pos);
                             break;
                         case RoomType.END:
                             InstantiateRoom(endRoom, pos);
@@ -337,6 +352,47 @@ namespace BuildABot {
             GameObject r = (GameObject) Instantiate(room, position, Quaternion.identity);
 
             r.transform.parent = tilemap.transform;
+        }
+
+        public void ChangeColor() {
+            int nextLevel = GameManager.GameState.NextLevelType;
+
+            Color c;
+            Color background;
+            switch (nextLevel) { //0 for normal, 1 for frozen, 2 for advanced
+            case 0:
+                c = new Color(0.7764706f, 0.7607843f, 1.0f);
+                background = new Color(0.40f, 0.42f, 0.47f);
+                break;
+            case 1:
+                c = new Color(0.4039216f, 0.7490196f, 0.9058824f);
+                background = new Color(0.30f, 0.45f, 0.57f);
+                break;
+            case 2:
+                c = new Color(0.6705883f, 0.2f, 0.1882353f);
+                background = new Color(0.31f, 0.21f, 0.21f);
+                break;
+            default:
+                c = new Color( 0.0f, 0.0f, 0.0f);
+                //background = new Color(0.4078431f, 0.4156863f, 0.4745098f);
+                background = new Color(0.40f, 0.42f, 0.47f);
+                break;
+            }
+
+            tilemap.GetComponent<Tilemap>().color = c;
+            if (Camera.main != null) Camera.main.backgroundColor = background;
+        }
+
+        private void ChangeMusic()
+        {
+            if (GameManager.GameState.NextLevelType == 2)
+            {
+                if (AudioManager.CurrentBackgroundTrack != altBackgroundMusic)
+                    AudioManager.CrossFadeToNewTrack(altBackgroundMusic, 1f);
+            } else if (AudioManager.CurrentBackgroundTrack == altBackgroundMusic)
+            {
+                AudioManager.CrossFadeToDefaultTrack(1f);
+            }
         }
     }
 }

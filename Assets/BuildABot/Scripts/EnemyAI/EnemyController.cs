@@ -128,8 +128,6 @@ namespace BuildABot
                 {
                     targetPosition += target.right;
                 }
-
-                targetPosition -= target.up;
                 _seeker.StartPath(_rigidbody.position, targetPosition, OnPathComplete);
             }
         }

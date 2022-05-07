@@ -55,6 +55,15 @@ namespace BuildABot
         /** The cooling/temperature regeneration coroutine used by this character. */
         private IEnumerator _coolingTask;
 
+        protected void StopCooling()
+        {
+            if (_coolingTask != null)
+            {
+                StopCoroutine(_coolingTask);
+                _coolingTask = null;
+            }
+        }
+
         /**
          * Kills this character.
          */
@@ -74,17 +83,19 @@ namespace BuildABot
 
         protected virtual void Start()
         {
-            
+            Attributes.Temperature.OnPostValueChange += HandleTemperatureChange;
         }
 
         protected virtual void OnEnable()
         {
-            Attributes.Temperature.OnPostValueChange += HandleTemperatureChange;
             _coolingTask = Utility.RepeatFunction(this, () =>
             {
                 float currentTemp = Attributes.Temperature.BaseValue;
                 float operatingTemp = Attributes.OperatingTemperature.CurrentValue;
                 float coolingRate = Attributes.CoolDownRate.CurrentValue;
+
+                if (currentTemp >= Attributes.MaxTemperature.CurrentValue) Kill();
+                else if (currentTemp <= Attributes.MinTemperature.CurrentValue) Kill();
                 
                 if (currentTemp > operatingTemp && coolingRate != 0.0f)
                 {
@@ -101,12 +112,12 @@ namespace BuildABot
 
         protected virtual void OnDisable()
         {
+            StopCooling();
+        }
+
+        protected virtual void OnDestroy()
+        {
             Attributes.Temperature.OnPostValueChange -= HandleTemperatureChange;
-            if (_coolingTask != null)
-            {
-                StopCoroutine(_coolingTask);
-                _coolingTask = null;
-            }
         }
 
         private void HandleTemperatureChange(float newTemperature)

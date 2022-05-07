@@ -4877,6 +4877,7 @@ GameObject:
   - component: {fileID: 7043223735353893882}
   - component: {fileID: 7043223735353893883}
   - component: {fileID: 7043223735353893880}
+  - component: {fileID: 5505139029241218836}
   m_Layer: 9
   m_Name: FrozenNPC
   m_TagString: Untagged
@@ -5036,6 +5037,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7043223735353893883}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody2D, UnityEngine
+        m_MethodName: set_gravityScale
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &7043223735353893882
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5074,7 +5087,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 200
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -5082,7 +5095,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!82 &7043223735353893880
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5179,6 +5192,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5505139029241218836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7043223735353893881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d469b17e2c24b758fca05f07d0e8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7043223735732795523
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5216,11 +5241,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2562476361582517021, guid: efb4ce798ed723947a1bbd487d70f41a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 3
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 2562476361582517021, guid: efb4ce798ed723947a1bbd487d70f41a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1.5
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 2562476361582517021, guid: efb4ce798ed723947a1bbd487d70f41a, type: 3}
       propertyPath: m_LocalPosition.x

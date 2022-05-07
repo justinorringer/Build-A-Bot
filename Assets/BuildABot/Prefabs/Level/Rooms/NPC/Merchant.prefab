@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4841826492545132381}
   - component: {fileID: 2111239751797352606}
+  - component: {fileID: 818817514674459825}
   m_Layer: 11
   m_Name: Merchant
   m_TagString: Untagged
@@ -143,7 +144,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486d152304ab4f54a8c6db79dd1a1cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicTile: {fileID: 11400000, guid: a805a3d3185104c4f92c06808cca5193, type: 2}
+  basicTile: {fileID: 11400000, guid: 8fbc88159fa0b7c46ba27e26008b2fe4, type: 2}
+--- !u!114 &818817514674459825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4841826492545132378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 860f96a319245b747b8e4caeff27ed4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillQuadrant: 01010000
+  fillQuadrantS: 01010000
 --- !u!1 &4841826492637132177
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,6 +397,10 @@ PrefabInstance:
     - target: {fileID: 3187341423574852795, guid: 198e44c07977d9e4bb0cda7a9496852c, type: 3}
       propertyPath: m_Name
       value: BackgroundAudioOverrideVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 3187341423574852795, guid: 198e44c07977d9e4bb0cda7a9496852c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4636599165663538134, guid: 198e44c07977d9e4bb0cda7a9496852c, type: 3}
       propertyPath: m_Size.x

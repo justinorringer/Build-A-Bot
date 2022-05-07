@@ -18,7 +18,7 @@ namespace BuildABot
 
         /** Has this tip been triggered? */
         private bool _hasTriggered;
-        
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!_hasTriggered || !playOnce)

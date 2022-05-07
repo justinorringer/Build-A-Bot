@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
@@ -26,32 +25,32 @@ namespace BuildABot
         [Tooltip("The patrol points to be used by a walking or flying enemy")]
         [SerializeField] private List<Waypoint> patrolPoints;
 
-        private void Start()
-        {
-            //Logic will be - spawn enemy of game stage before level 4, afterwards do random
-            int stage = GameManager.GameState.NextLevelType;
-            int variant = stage >= 3 ? new Random().Next(0, stage) : stage;
+        private int _variant;
 
-            SpawnEnemy(variant);
+        void Awake()
+        {
+            int stage = GameManager.GameState.NextLevelType;
+            _variant = stage >= 3 ? new Random().Next(0, stage) : stage;
+            SpawnEnemy();
         }
 
         //0 for normal, 1 for frozen, 2 for advanced
-        private void SpawnEnemy(int variant)
+        private void SpawnEnemy()
         {
-            Debug.Log("Spawning Enemy");
+            //Debug.Log("Spawning Enemy");
             GameObject g;
             Transform t = transform;
             switch (enemyToSpawn)
             {
                 case EnemyType.Flying:
-                    g = Instantiate(flyingEnemies[variant], t.position, t.rotation);
+                    g = Instantiate(flyingEnemies[_variant], t.position, t.rotation);
                     g.GetComponent<EnemyController>().setPatrolPoints(patrolPoints);
                     break;
                 case EnemyType.Turret:
-                    Instantiate(turretEnemies[variant], t.position, t.rotation);
+                    Instantiate(turretEnemies[_variant], t.position, t.rotation);
                     break;
                 case EnemyType.Walking:
-                    g = Instantiate(walkingEnemies[variant], t.position, t.rotation);
+                    g = Instantiate(walkingEnemies[_variant], t.position, t.rotation);
                     g.GetComponent<EnemyController>().setPatrolPoints(patrolPoints);
                     break;
             }

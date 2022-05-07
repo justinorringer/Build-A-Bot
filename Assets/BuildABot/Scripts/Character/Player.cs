@@ -56,6 +56,8 @@ namespace BuildABot
         /** The main menu used by this player. */
         public MainMenu MainMenu => mainMenu;
 
+        private int _attackSpeedHash;
+
 #region Item and Equipment Handling
 
         /** The amount of currency owned by this player. */
@@ -254,13 +256,14 @@ namespace BuildABot
 
         private void HandleModifiedItem(InventoryEntry entry)
         {
-            if (entry is ComputerPartInstance cp)
+            if (entry is ComputerPartInstance cp && Inventory.ContainsEntry(entry))
             {
                 // Handle losing all durability
                 if (cp.Durability == 0 && cp.MaxDurability != 0)
                 {
                     if (entry.Equipped) UnequipItemSlot(cp.ComputerPartItem.PartType);
-                    Inventory.RemoveEntry(entry, true);
+                    if (null != Inventory.RemoveEntry(entry, true))
+                        PushNotification($"Your {cp.Item.DisplayName} broke!");
                 }
             }
         }
@@ -279,6 +282,8 @@ namespace BuildABot
         
         protected override void Awake()
         {
+            if (GameManager.Initialized && GameManager.GetPlayer() != null)
+                Destroy(gameObject);
             base.Awake();
             // Register this player
             GameManager.RegisterPlayer(this, index => _playerIndex = index);
@@ -289,6 +294,9 @@ namespace BuildABot
             GameManager.SetPaused(false);
             EnableHUD();
             mainMenu.gameObject.SetActive(false);
+            DontDestroyOnLoad(gameObject);
+
+            _attackSpeedHash = Animator.StringToHash("AttackSpeed");
         }
 
         protected override void OnEnable()
@@ -309,9 +317,10 @@ namespace BuildABot
             base.OnDisable();
         }
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
             onPlayerDestroyed.Invoke(this);
+            base.OnDestroy();
         }
 
         /**
@@ -324,58 +333,45 @@ namespace BuildABot
             if (target.Character is Enemy enemy)
             {
                 Wallet += enemy.DroppedCurrency;
-                Debug.Log($"Wallet has {Wallet} coins");
+                //Debug.Log($"Wallet has {Wallet} coins");
             }
         }
 
         protected override void Kill()
         {
+            StopCooling();
             onDeath.Invoke();
             GameManager.GameState.TotalDeaths++;
             // TODO: Play death animation
-            FinishGame("Game Over");
-        }
-
-        public void FinishGame(string message)
-        {
-            // TODO: Replace with a more graceful implementation for winning
-            GameManager.SetPaused(true);
-            DisableHUD();
-            mainMenu.gameObject.SetActive(false);
-            AudioManager.FadeOutBackgroundTrack(5f);
-            StartCoroutine(WaitForGameOver(message));
-        }
-
-        private IEnumerator WaitForGameOver(string message)
-        {
-            gameOverDisplay.Message = message;
-            gameOverDisplay.gameObject.SetActive(true);
-            yield return new WaitUntil(() => gameOverDisplay.IsFinished);
-            // Quit to main menu
-            SceneManager.LoadScene("BuildABot/Scenes/StartMenuScene", LoadSceneMode.Single);
+            GameManager.GameOver(this);
         }
 
         /**
-         * Toggles the main menu for this player.
+         * Opens the main menu for this player.
          */
-        public void ToggleMenu()
+        public void OpenMenu()
         {
-            if (!_canToggleMenu) return;
-            bool active = !mainMenu.gameObject.activeSelf;
-            if (active)
-            {
-                PlayerController.InputActions.Player.Disable();
-                PlayerController.InputActions.UI.Enable();
-            }
-            else
-            {
-                PlayerController.InputActions.Player.Enable();
-                PlayerController.InputActions.UI.Disable();
-            }
-            mainMenu.gameObject.SetActive(active);
-            Cursor.visible = active;
-            hud.gameObject.SetActive(!active);
-            GameManager.SetPaused(active);
+            if (!_canToggleMenu || mainMenu.gameObject.activeSelf) return;
+            PlayerController.InputActions.Player.Disable();
+            PlayerController.InputActions.UI.Enable();
+            mainMenu.gameObject.SetActive(true);
+            Cursor.visible = true;
+            hud.gameObject.SetActive(false);
+            GameManager.SetPaused(true);
+        }
+
+        /**
+         * Closes the main menu for this player.
+         */
+        public void CloseMenu()
+        {
+            if (!_canToggleMenu || !mainMenu.gameObject.activeSelf) return;
+            PlayerController.InputActions.Player.Enable();
+            PlayerController.InputActions.UI.Disable();
+            mainMenu.gameObject.SetActive(false);
+            Cursor.visible = false;
+            hud.gameObject.SetActive(true);
+            GameManager.SetPaused(false);
         }
 
         public void EnableHUD()
@@ -413,6 +409,15 @@ namespace BuildABot
         public void DismissInputHelp()
         {
             HUD.InputHelpWidget.HideMessage();
+        }
+
+        /**
+         * Pushes a notification to the player.
+         * <param name="message">The notification message to push.</param>
+         */
+        public void PushNotification(string message)
+        {
+            HUD.NotificationDisplay.ShowMessage(PerformStandardTokenReplacement(message));
         }
 
         /**
@@ -493,5 +498,9 @@ namespace BuildABot
             return source.ReplaceTokens(_textReplacementTokens);
         }
 
+        public void UpdateAttackSpeed()
+        {
+            playerMovement.Animator.SetFloat(_attackSpeedHash, Attributes.AttackSpeed.CurrentValue);
+        }
     }
 }

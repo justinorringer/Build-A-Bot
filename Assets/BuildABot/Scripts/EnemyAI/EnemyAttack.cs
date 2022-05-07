@@ -34,6 +34,12 @@ namespace BuildABot
         /** The field of view component for the associated enemy */
         private FieldOfView _fov;
 
+        /** The animator used by this object. */
+        private Animator _anim;
+
+        /** The set of valid parameters for the associated animator. */
+        private HashSet<string> _animValidParameters;
+
         void Awake()
         {
             //Initialize fields
@@ -44,24 +50,48 @@ namespace BuildABot
             _enemySprite = GetComponentInParent<SpriteRenderer>();
             _flipXInitial = _enemySprite.flipX;
             _fov = GetComponentInParent<FieldOfView>();
+
+            _anim = GetComponentInParent<Animator>();
+
+            _animValidParameters = new HashSet<string>();
+            if (_anim != null && _anim.runtimeAnimatorController != null)
+            {
+                // Cache the parameters that the animator has for later checks
+                foreach (AnimatorControllerParameter param in _anim.parameters)
+                {
+                    _animValidParameters.Add(param.name);
+                }
+            }
         }
 
         void Update()
         {
             //Flip offset on melee box
-            if (attack is MeleeAttackData melee)
+            if (attack is MeleeAttackData)
             {
                 BoxCollider2D box = _collider as BoxCollider2D;
-                if (_enemyMovement.Facing.x <= -0.2f)
+                if (box != null)
                 {
-                    box.offset = new Vector2(-0.5f, 0);
+                    if (_enemyMovement.Facing.x <= -0.2f)
+                    {
+                        box.offset = new Vector2(-0.5f, 0);
+                    }
+                    else if (_enemyMovement.Facing.x >= 0.2f)
+                    {
+                        box.offset = new Vector2(0.5f, 0);
+                    }
                 }
-                else if (_enemyMovement.Facing.x >= 0.2f)
-                {
-                    box.offset = new Vector2(0.5f, 0);
-                }
-
             }
+        }
+
+        /**
+         * Checks whether the animator parameter cache contains the provided parameter.
+         * <param name="parameter">The parameter name to check for.</param>
+         * <returns>True if the parameter exists.</returns>
+         */
+        protected bool AnimatorHasParameter(string parameter)
+        {
+            return _animValidParameters?.Contains(parameter) ?? false;
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -70,7 +100,7 @@ namespace BuildABot
             {
                 if (!_isAttacking)
                 {
-                    if (attack is MeleeAttackData melee)
+                    if (attack is MeleeAttackData)
                     {
                         AttackCharacter(other);
                     }
@@ -122,7 +152,9 @@ namespace BuildABot
                         _combatController.AttackDirection =
                             ((Vector2)(other.transform.position - transform.position)).normalized;
                         _combatController.TryPerformAttack(attack, HandleAttackProgress, HandleAttackFinish);
-                        GetComponentInParent<Animator>().SetBool(attack.AnimationTriggerName, true);
+                        // Play the animation if there is an animator attached that supports the trigger
+                        if (_anim != null && _anim.runtimeAnimatorController != null && AnimatorHasParameter(attack.AnimationTriggerName))
+                            _anim.SetBool(attack.AnimationTriggerName, true);
                     }
                 }
             }
@@ -132,9 +164,11 @@ namespace BuildABot
         {
             _isAttacking = true;
             _combatController.AttackDirection =
-            ((Vector2)(other.transform.position - transform.position)).normalized;
+                ((Vector2)(other.transform.position - transform.position)).normalized;
             _combatController.TryPerformAttack(attack, HandleAttackProgress, HandleAttackFinish);
-            GetComponentInParent<Animator>().SetBool(attack.AnimationTriggerName, true);
+            // Play the animation if there is an animator attached that supports the trigger
+            if (_anim != null && _anim.runtimeAnimatorController != null && AnimatorHasParameter(attack.AnimationTriggerName))
+                _anim.SetBool(attack.AnimationTriggerName, true);
         }
 
         private void OnTriggerExit2D(Collider2D other)
@@ -157,7 +191,9 @@ namespace BuildABot
         void HandleAttackFinish(List<Character> characters)
         {
             _isAttacking = false;
-            GetComponentInParent<Animator>().SetBool(attack.AnimationTriggerName, false);
+            // Play the animation if there is an animator attached that supports the trigger
+            if (_anim != null && _anim.runtimeAnimatorController != null && AnimatorHasParameter(attack.AnimationTriggerName))
+                _anim.SetBool(attack.AnimationTriggerName, false);
         }
     }
 }

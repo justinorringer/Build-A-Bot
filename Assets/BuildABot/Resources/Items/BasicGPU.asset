@@ -24,5 +24,5 @@ MonoBehaviour:
   quality: 1
   effects:
   - effect: {fileID: 11400000, guid: e737818c8b816d748b5b99f387667bdb, type: 2}
-    magnitude: 0
+    magnitude: 1.25
   attack: {fileID: 0}

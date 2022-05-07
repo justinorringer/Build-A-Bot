@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,6 +18,10 @@ namespace BuildABot
         
         [Tooltip("An event fired when this item is picked up.")]
         [SerializeField] private UnityEvent<Player> onPickup;
+
+        [Tooltip("Tooltip message to display when this item is picked up.")]
+        [SerializeField] public string tooltipMessage;
+
 
         /** The item being picked up. */
         public Item Item
@@ -60,8 +65,10 @@ namespace BuildABot
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
             {
+                bool hasItem = player.Inventory.HasItem(Item);
                 if (player.Inventory.TryAddItem(Item, Count, out int overflow))
                 {
+                    if (!hasItem && !string.IsNullOrEmpty(tooltipMessage)) player.ShowInputHelp(tooltipMessage, item.PickupTipDismissAction);
                     onPickup.Invoke(player);
                     Destroy(gameObject);
                 }

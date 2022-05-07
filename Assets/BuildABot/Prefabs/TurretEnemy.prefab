@@ -841,7 +841,7 @@ MonoBehaviour:
       m_Calls: []
   combatController: {fileID: 1420240959490163661}
   deathParticle: {fileID: 214333524792713431, guid: 2a171f49a1c154149b70fcc2c618a3fe, type: 3}
-  currencyToDrop: 30
+  currencyToDrop: 60
   deathClip: {fileID: 8300000, guid: d0d86aa1b014b11458bbcd44415c28b6, type: 3}
 --- !u!114 &1420240959490163651
 MonoBehaviour:
@@ -1174,7 +1174,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -21,6 +21,9 @@ namespace BuildABot
         public static float CurrentVolume => Initialized ? Instance._currentVolume : 0;
 
         public static float DefaultVolume => Initialized ? Instance.defaultBackgroundVolume : 0;
+        public static AudioClip CurrentBackgroundTrack => Initialized ? Instance.primaryBackgroundPlayer.clip : null;
+
+        public static AudioClip DefaultBackgroundTrack => Initialized ? Instance.defaultBackgroundTrack : null;
 
         protected override void Awake()
         {
@@ -148,6 +151,11 @@ namespace BuildABot
         public static void CrossFadeToDefaultTrack(float seconds, Action onFinish = null)
         {
             if (Initialized) CrossFadeToNewTrack(Instance.defaultBackgroundTrack, seconds, onFinish);
+        }
+
+        public static void PlayOneShot(AudioClip track, float volume = 1.0f)
+        {
+            Instance.primaryBackgroundPlayer.PlayOneShot(track, volume);
         }
         
     }
